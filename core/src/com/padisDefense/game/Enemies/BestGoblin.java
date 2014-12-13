@@ -1,7 +1,3 @@
-/**
- * Author: Xeng Vang
- * */
-
 package com.padisDefense.game.Enemies;
 
 
@@ -12,5 +8,6 @@ public class BestGoblin extends Enemy{
     public BestGoblin(){
 
         super(10, 10, new Vector2(20f,20f));
+        setName("bestgoblin");
     }
 }

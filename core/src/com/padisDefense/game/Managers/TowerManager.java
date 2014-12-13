@@ -45,6 +45,7 @@ public class TowerManager implements InputProcessor {
      * @param 'batch'
      * */
     public void startTowers(SpriteBatch batch){
+
         for(int x = 0; x < buildableArray.size; x++){
             buildableArray.get(x).draw(batch);
 

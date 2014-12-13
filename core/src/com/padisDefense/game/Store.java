@@ -5,12 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
@@ -23,11 +25,14 @@ public class Store extends ScreenAdapter{
     private Array<Image> imagelist;
 
     private Label money;
-
+    private TextButton menu;
     @Override public void show() {
 
         stage = new Stage();
         imagelist = new Array<Image>();
+        menu = new TextButton("Menu", padi.skin);
+
+
 
         //array of images.
         for(int x = 0; x < size; x++)
@@ -55,13 +60,22 @@ public class Store extends ScreenAdapter{
         final Image background = new Image(new Texture("test9.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        //display user's money
+        //display user's money and menu button
         money = new Label(String.valueOf((int)padi.player.getMoney()) + " credits", padi.skin);
         money.setPosition(Gdx.graphics.getWidth() - 100f,Gdx.graphics.getHeight()*3 / 4);
+        menu.setSize(80f, 50f);
+        menu.setPosition(money.getX(), money.getY() - (menu.getHeight() + 20f));
+        menu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                padi.setScreen(padi.main_menu);
+            }
+        });
 
 
         stage.addActor(background);
         stage.addActor(money);
+        stage.addActor(menu);
         stage.addActor(t);
 
         Gdx.input.setInputProcessor(stage);

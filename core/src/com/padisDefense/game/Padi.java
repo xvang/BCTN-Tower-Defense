@@ -2,13 +2,20 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.padisDefense.game.TransitionScreens.FadeActor;
 import com.padisDefense.game.TransitionScreens.Splash;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 
 /**
  *
@@ -37,7 +44,7 @@ public class Padi extends Game implements ApplicationListener{
     public SpriteBatch batch;
     public Skin skin;
     public Sprite background;
-
+    public TweenManager tweenManager;
 
 
     //When I need to test something, I'll set the screen
@@ -62,6 +69,7 @@ public class Padi extends Game implements ApplicationListener{
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         background = new Sprite(new Texture("test1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        tweenManager = new TweenManager();
 
 
 
@@ -69,6 +77,8 @@ public class Padi extends Game implements ApplicationListener{
        //this.setScreen(test);
 
     }
+
+
 
     @Override
     public void render(){

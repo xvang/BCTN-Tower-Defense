@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Enemy;
@@ -30,12 +31,15 @@ public class EnemyManager {
     private Vector2 position;
 
 
+    int oldSpawnCounter = 0;
+    int spawnCounter = 0;//TODO: delete this later.
+
 
     private int enemyAmount;
     private int deadEnemyCounter = 0;
     ImmediateModeRenderer20 renderer;
 
-    private Array<Enemy>  enemyArray;
+    protected Array<Enemy>  activeEnemy;
 
 
     public float time = 0;
@@ -43,8 +47,12 @@ public class EnemyManager {
     /**CONSTRUCTOR**/
     public EnemyManager(){
         renderer = new ImmediateModeRenderer20(false, false, 0);
-        enemyArray = new Array<Enemy>();
+        activeEnemy = new Array<Enemy>();
+
+
         storage = new PathStorage();
+
+
     }
 
 
@@ -75,7 +83,7 @@ public class EnemyManager {
      * Loops through every enemy and moves them along the path.
      *
      *
-     * @param 'batch'
+     * param 'batch'
      * */
     public void startEnemy(SpriteBatch batch){
 
@@ -85,20 +93,20 @@ public class EnemyManager {
 
 
         //Makes enemy travel along path.
-        for(int x = 0; x < enemyArray.size; x++){
+        for(int x = 0; x < activeEnemy.size; x++){
 
-            if (!enemyArray.get(x).isDead()) {
-                time = enemyArray.get(x).getRate() + enemyArray.get(x).getTime();
-                enemyArray.get(x).setTime(time);
+            if (!activeEnemy.get(x).isDead()) {
+                time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
+                activeEnemy.get(x).setTime(time);
 
                 //System.out.println(enemyArray.get(x).getChosenPath());
-                path.getPath().get(enemyArray.get(x).getChosenPath()).valueAt(position, time);
-                enemyArray.get(x).goTo(new Vector2(position.x, position.y));
-                enemyArray.get(x).draw(batch);
+                path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
+                activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
+                activeEnemy.get(x).draw(batch);
 
                 //If enemy reached end, it starts path over.
-                if(enemyArray.get(x).getTime() >= 1f)
-                    enemyArray.get(x).setTime(0f);
+                if(activeEnemy.get(x).getTime() >= 1f)
+                    activeEnemy.get(x).setTime(0f);
             }
             /**NOTE: To see the enemy objects loop, set each object's time variable to zero.
              * I think the best way to reset is in GameScreen.**/
@@ -109,10 +117,13 @@ public class EnemyManager {
 
         //int old = enemyAmount;
 
+        System.out.println("Enemy size = " + activeEnemy.size);
         //Calculating if spawning is necessary.
-        if(enemyArray.size < 25 && enemyAmount > 0){
+        if(activeEnemy.size < 25 && enemyAmount > 0){
             enemyAmount --;
+
             spawnEnemy();
+
         }
 
 
@@ -139,7 +150,7 @@ public class EnemyManager {
         }
 
     }
-    public Array<Enemy> getEnemyArray(){return enemyArray;}
+    public Array<Enemy> getActiveEnemy(){return activeEnemy;}
 
 
 
@@ -152,23 +163,20 @@ public class EnemyManager {
      * **/
     public void spawnEnemy(){
 
-        //TODO THIS IS WHERE THE ENEMY CHOOSES WHAT PATH TO TAKE. IT'S HARDCODED. CHANGE ITTTTT.
-        /**Creates new enemy, and assigns it a path.**/
-
-        Enemy newEnemy;
-
-        //TODO don't make spawning enemy random. Have a set amount for each kind?
+        System.out.println("in spawn");
         //This is more for testing purposes.
         //0 for goblin ,1 for bigger goblin, 2 for bestgoblin
         int rand = (int)(Math.random()*3);
-
+        Enemy newEnemy;
         if(rand == 0){
 
             //create object, set path, set texture, add to enemy array.
             newEnemy = new Goblin();
             newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test3.png"));
-            enemyArray.add(newEnemy);
+
+
+
         }
 
         else if (rand == 1){
@@ -176,36 +184,36 @@ public class EnemyManager {
             newEnemy = new BiggerGoblin();
             newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test1.png"));
-            enemyArray.add(newEnemy);
+            activeEnemy.add(newEnemy);
+
         }
 
         else if(rand == 2){
 
+
+
             newEnemy = new BestGoblin();
             newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test8.png"));
-            enemyArray.add(newEnemy);
+            activeEnemy.add(newEnemy);
         }
-
-
-
-
     }
 
     public int getEnemyAmount(){return enemyAmount;}
-    public Boolean noMoreEnemy(){return (enemyAmount == 0 && enemyArray.size == 0);}
+    public Boolean noMoreEnemy(){return (enemyAmount == 0 && activeEnemy.size == 0);}
 
 
 
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
 
-        for(int x = 0; x < enemyArray.size; x++){
+        Enemy enemy;
+        for(int x = 0; x < activeEnemy.size; x++){
 
-            if(enemyArray.get(x).isDead()){
+            if(activeEnemy.get(x).isDead()){
                 deadEnemyCounter++;
-                enemyArray.get(x).dispose();
-                enemyArray.removeIndex(x);
+                activeEnemy.get(x).dispose();
+                activeEnemy.removeIndex(x);
             }
         }
     }
@@ -218,11 +226,11 @@ public class EnemyManager {
      * */
     public void removeReachedEnd(){
 
-        for(int x = 0; x < enemyArray.size; x++){
+        for(int x = 0; x < activeEnemy.size; x++){
 
-            if(enemyArray.get(x).getTime() > 1f){
-                enemyArray.get(x).dispose();
-                enemyArray.removeIndex(x);
+            if(activeEnemy.get(x).getTime() > 1f){
+                activeEnemy.get(x).dispose();
+                activeEnemy.removeIndex(x);
             }
         }
     }
@@ -236,8 +244,8 @@ public class EnemyManager {
      * */
     public void toZero(){
 
-        for(int x = 0; x < enemyArray.size; x++){
-            enemyArray.get(x).setTime(0f);
+        for(int x = 0; x < activeEnemy.size; x++){
+            activeEnemy.get(x).setTime(0f);
         }
     }
 

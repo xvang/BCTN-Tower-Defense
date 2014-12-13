@@ -8,6 +8,7 @@ public class Goblin extends Enemy{
     public Goblin(){
 
         super(3,3, new Vector2(10f, 10f));
+        setName("goblin");
     }
 
 }

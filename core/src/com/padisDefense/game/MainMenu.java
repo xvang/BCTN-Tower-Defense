@@ -212,9 +212,10 @@ public class MainMenu extends ScreenAdapter {
 
         //Fading Animation
         aurelienribon.tweenengine.Timeline.createSequence().beginSequence()
-                .push(Tween.from(padi.background, FadeActor.ALPHA, 3f).target(0))
-                //.push(Tween.from(foreground, FadeActor.ALPHA, 2f).target(0))
+                //.push(Tween.from(padi.background, FadeActor.ALPHA, 3f).target(0))
+                .push(Tween.from(foreground, FadeActor.ALPHA, 2f).target(0))
                 .start(tweenManager);
+
 
 
         //Table fade-in

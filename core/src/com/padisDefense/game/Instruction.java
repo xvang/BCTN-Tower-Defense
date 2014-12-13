@@ -12,9 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.TransitionScreens.FadeActor;
 
 
 import java.util.LinkedList;
+
+import aurelienribon.tweenengine.Tween;
 
 
 /**
@@ -73,6 +76,7 @@ public class Instruction extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 padi.setScreen(padi.main_menu);
             }
 
@@ -88,6 +92,7 @@ public class Instruction extends ScreenAdapter {
                     currentPage++;
                     stage.clear();
                     currentSlide = slides.get(currentPage);
+
                     stage.addActor(currentSlide);
                     stage.addActor(buttons);
                 }

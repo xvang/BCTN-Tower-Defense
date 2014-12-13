@@ -54,6 +54,11 @@ public class Bullet extends Sprite implements Pool.Poolable {
         alive = false;
     }
 
+    public boolean isOutOfScreen() {
+        return (this.getX() > 0 && this.getX() < Gdx.graphics.getWidth() &&
+                this.getY() < Gdx.graphics.getHeight() && this.getY() > 0);
+    }
+
     public void goTo(Vector2 p){
         this.setPosition(p.x, p.y);
     }
@@ -65,12 +70,8 @@ public class Bullet extends Sprite implements Pool.Poolable {
     }
 
 
-    public boolean isOutOfScreen(){
-        return (this.getX() > 0 && this.getX() < Gdx.graphics.getWidth() &&
-                this.getY() < Gdx.graphics.getHeight() && this.getY() > 0);
 
 
-    }
 
 
     public void setTime(float t){time = t;}

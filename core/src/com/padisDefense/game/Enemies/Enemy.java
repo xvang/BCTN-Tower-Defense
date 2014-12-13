@@ -1,6 +1,7 @@
 package com.padisDefense.game.Enemies;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
  * */
 public class Enemy extends Sprite{
 
+    private String name;
     private float health;
 
     private float armor;
@@ -51,38 +53,36 @@ public class Enemy extends Sprite{
     }
 
     public void setChosenPath(int p){chosenPath = p;}
+    public void setName(String n){name = n;}
+    public void setArmor(int newArmor){armor = newArmor;}
+    public void setRate(float r){rate = r;}
+    public void setAlive(Boolean newAlive){alive = newAlive;}
+    public void setTime(float t){time = t;}
+
+
     public int getChosenPath(){return chosenPath;}
-
-
+    public String getName(){return name;}
     public float getHealth(){return health;}
+    public float getArmor(){return armor;}
+    public float  getRate(){return rate;}
+    public float getTime(){return time;}
+    public Boolean getAlive(){return alive;}
+    public Vector2 getLocation(){
+        return new Vector2(getX(), getY());
+    }
+    public Vector2 getBulletLocation(){
+        return new Vector2(getX() + (getWidth()/2), getY() + (getHeight()/2));
+    }
+
 
     public void updateHealth(float damage){
         health -= (damage / armor);
     }
     public Boolean isDead(){alive = (health > 0); return (health < 0);}
 
-    public float getArmor(){return armor;}
-    public void setArmor(int newArmor){armor = newArmor;}
 
 
 
-    public float  getRate(){return rate;}
-    public void setRate(float r){rate = r;}
-
-    public float getTime(){return time;}
-    public void setTime(float t){time = t;}
-
-
-    public Boolean getAlive(){return alive;}
-    public void setAlive(Boolean newAlive){alive = newAlive;}
-
-
-    public Vector2 getBulletLocation(){
-        return new Vector2(getX() + (getWidth()/2), getY() + (getHeight()/2));
-    }
-    public Vector2 getLocation(){
-        return new Vector2(getX(), getY());
-    }
 
     public void dispose(){
         getTexture().dispose();

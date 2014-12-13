@@ -41,11 +41,11 @@ public class LevelManager {
                 break;
             case (3):
                 path = 3;
-                enemyAmount = 100;
+                enemyAmount = 200;
                 break;
             case (4):
                 path = 4;
-                enemyAmount = 100;
+                enemyAmount = 200;
                 break;
             case (5):
                 path = 5;

@@ -6,12 +6,18 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.EnemyManager;
 import com.padisDefense.game.Managers.LevelManager;
 import com.padisDefense.game.Managers.TowerManager;
 import com.padisDefense.game.Padi;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 /**
@@ -29,15 +35,13 @@ public class GameScreen extends ScreenAdapter {
 
     Padi padi;
 
-
     public EnemyManager enemy;
     public TowerManager tower;
     public BulletManager bullet;
     public LevelManager level;
 
-    //I believe an InputMultiplexer is needed to allow input
-    // from all the towers. Not sure if that's what it really does,
-    // but it seems to work.
+    //maybe right now a multi is not needed,
+    //but it never hurts to have,  right?
     InputMultiplexer multi;
 
     //Used to calculate money.
@@ -45,32 +49,44 @@ public class GameScreen extends ScreenAdapter {
     int money = 0;
 
 
+    private float TIMER = 0;
+    private Label message;
+    Table popup;
+
+    Stage stage;
+
     int whatLevel;
     public GameScreen(Padi p, int l){
-        
         padi = p;
         whatLevel = l;
-
     }
 
     @Override
     public void show(){
 
-
-        //Creating managers.
         enemy = new EnemyManager();
         tower = new TowerManager();
         bullet = new BulletManager();
         level = new LevelManager();
         level.setLevel(whatLevel);
         level.determineLevel();
-
-        money = 0;
+        stage = new Stage();
 
         //Setting the enemy amount and getting the path
         // for the level.
         enemy.setEnemyAmount(level.getEnemyAmount());
         enemy.setPath(level.getPath());
+
+        money = 0;
+        message = new Label("Total time: " + String.valueOf(TIMER), padi.skin);
+        popup = new Table();
+        popup.add(message);
+        popup.setSize(400f, 150f);
+        popup.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        popup.setVisible(false);
+
+
+
 
 
         //For testing purposes only.
@@ -84,6 +100,8 @@ public class GameScreen extends ScreenAdapter {
         //Setting up the inputs.
         multi = new InputMultiplexer();
         multi.addProcessor(tower);
+        multi.addProcessor(stage);
+
 
         Gdx.input.setInputProcessor(multi);
 
@@ -100,6 +118,8 @@ public class GameScreen extends ScreenAdapter {
         //getting the enemy count before a render
         oldEnemyLeft = enemy.getDeadEnemyCounter();
 
+
+        TIMER += Gdx.graphics.getDeltaTime();
 
         padi.batch.begin();
         enemy.startEnemy(padi.batch);
@@ -118,6 +138,10 @@ public class GameScreen extends ScreenAdapter {
 
         //if needed, assigns new targets.
         assignTargets();
+
+        message.setText("Total time: " + String.valueOf(round(TIMER, 2)));
+
+        popup.draw(padi.batch, 1);
         //enemy.drawPath(padi.batch);
         //to see the path, uncomment.
         //But the bullets become invisible.
@@ -132,8 +156,9 @@ public class GameScreen extends ScreenAdapter {
         //If game ended
         if(enemy.noMoreEnemy()){
 
+
             System.out.println("You win!");
-            padi.setScreen(padi.worldmap);
+            //padi.setScreen(padi.worldmap);
         }
     }
 
@@ -186,15 +211,15 @@ public class GameScreen extends ScreenAdapter {
 
             if(!tower.getTowerArray().get(x).getHasTarget()){//hasTarget == false
 
-                for(int y = 0; y < enemy.getEnemyArray().size; y++){
+                for(int y = 0; y < enemy.getActiveEnemy().size; y++){
 
                     //finding distance between tower and enemy.
                     currentMin = findDistance(new Vector2(tower.getTowerArray().get(x).getLocation()),
-                                              new Vector2(enemy.getEnemyArray().get(y).getLocation()));
+                                              new Vector2(enemy.getActiveEnemy().get(y).getLocation()));
 
                     //Within range, possible target.
                     if(currentMin < tower.getTowerArray().get(x).getRange()){
-                        temp = enemy.getEnemyArray().get(y);
+                        temp = enemy.getActiveEnemy().get(y);
                     }
 
                 }
@@ -220,6 +245,15 @@ public class GameScreen extends ScreenAdapter {
         double x2x1 = a.x - b.x;
         double y2y1 = a.y - b.y;
         return Math.sqrt((x2x1*x2x1) + (y2y1*y2y1));
+    }
+
+
+    public static double round(float value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     @Override
