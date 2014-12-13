@@ -13,6 +13,6 @@ public class TowerB extends MainTower {
         setPosition(position.x, position.y);
         setTexture(new Texture("test8.png"));
         setSize(30f, 30f);
+        setBulletLimit(10);
     }
-
 }

@@ -25,10 +25,6 @@ import com.padisDefense.game.Pathing.PathStorage;
 * **/
 public class EnemyManager {
 
-
-
-    //'path' is the path where every enemy will traverse this level.
-    //It consists of multiple Path that the enemy should randomly choose to travel on.
     private MainPath path;
     private PathStorage storage;
     private Vector2 position;

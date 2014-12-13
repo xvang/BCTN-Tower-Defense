@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Path;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
@@ -23,30 +25,14 @@ import com.padisDefense.game.Towers.MainTower;
  * **/
 public class BulletManager {
 
-    private final Array<Bullet> activeBullets;
-    private final Pool<Bullet> bulletPool;
+
     private float spawnTimer = 0;
-
-
-    //TODO: make different towers have different maxBullets.
-    //Currently, towerManager and bulletManager do not communicate. Probably.
-    private final int maxBullets = 10;
 
 
     //stores path of current level.
     private Path<Vector2> path;
 
     public BulletManager(){
-
-        activeBullets = new Array<Bullet>();
-        bulletPool = new Pool<Bullet>() {
-            @Override
-            protected Bullet newObject() {
-                //TODO make bullet spawn where tower is. Must find out why this is working.
-                return new Bullet(new Vector2());
-            }
-        };
-
     }
 
 
@@ -74,22 +60,19 @@ public class BulletManager {
             Vector2 out = new Vector2();
             Bullet item;
 
-            //if max amount of bullet has not been produced,
-            //AND spawn timer has gone on long enough,
-            //get more bullets.
-            if(activeBullets.size < maxBullets && spawnTimer > 1f) {
-                item = bulletPool.obtain();
-                item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
-                activeBullets.add(item);
-                spawnTimer = 0;
 
+            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > 1f){
+                item = t.getPool().obtain();
+                item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
+                t.getActiveBullets().add(item);
+                spawnTimer = 0;
             }
 
 
-            for(int x = 0;x < activeBullets.size; x++){
+            for(int x = 0;x < t.getActiveBullets().size; x++){
 
                 //time is from the bullet
-                float time = (activeBullets.get(x).getTime() + 0.02f);
+                float time = (t.getActiveBullets().get(x).getTime() + 0.01f);
 
                 //calculates the bullet's location on the path
                 //using the bullet's time.
@@ -97,33 +80,37 @@ public class BulletManager {
                 if(time < 1f)
                     path.valueAt(out, time);
 
-                //update new time
-                //goTo new position.
-                //draw
-                activeBullets.get(x).setTime(time);
-                activeBullets.get(x).goTo(new Vector2(out.x, out.y));
-                activeBullets.get(x).draw(batch);
+                //update new time, go to new position, draw
+                t.getActiveBullets().get(x).setTime(time);
+                t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
+                t.getActiveBullets().get(x).draw(batch);
 
-                //Bullet hits the enemy.
-                if (reachedEnemy(new Vector2(activeBullets.get(x).getLocation()), enemy)){
+
+
+                /**2 different ways to determine if bullet hit enemy.
+                 * not sure which one is better yet.
+                 * One uses Rectangles, the other uses Vector2.*/
+            //Bullet hits the enemy.
+                if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)){
                     e.updateHealth(t.getAttack());
                 }
+                /*if(hitEnemy(t.getActiveBullets().get(x), e)){
+                    e.updateHealth(t.getAttack());
+                }*/
 
                 //not sure what this is for
                 if (time < 1f){
-                    item = activeBullets.get(x);
-                    bulletPool.free(item);
+                    item = t.getActiveBullets().get(x);
+                    t.getPool().free(item);
 
                 }
 
                 //this is to return bullet back to the beginning.
                 if (time >= 1f)
-                    activeBullets.get(x).setTime(0);
+                    t.getActiveBullets().get(x).setTime(0);
 
 
             }
-
-
 
         }
 
@@ -150,143 +137,23 @@ public class BulletManager {
     }
 
 
+    //Create rectangles around tower and enemy to see if they overlap.
+    public Boolean hitEnemy(Bullet b, Enemy e){
+
+        Rectangle t_rec = new Rectangle();
+        t_rec.setSize(b.getWidth(), b.getHeight());
+        t_rec.setPosition(b.getLocation());
+
+        Rectangle e_rec = new Rectangle();
+        e_rec.setSize(e.getWidth(), e.getHeight());
+        e_rec.setPosition(e.getLocation());
+
+        return t_rec.overlaps(e_rec);
+    }
+
+
     public void dispose(){
 
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-*
-    public BulletManager() {
-    }
-
-    public void run(Array<MainTower> t,  SpriteBatch batch) {
-
-
-        fire(t,  batch);
-    }
-
-
-    private float fireCounter = 0;
-    public void fire(Array<MainTower> t, SpriteBatch batch) {
-
-
-
-        //System.out.println(t.getX() + "  " + t.getY());
-        Enemy closest;
-
-        for(int x = 0; x < t.size; x++){
-            fireCounter += Gdx.graphics.getDeltaTime();
-            if (t.get(x).getActiveBullet().size < 20 && fireCounter >= t.get(x).getFireRate()){
-
-                Bullet newBullet;
-                newBullet = t.get(x).getBulletPool().obtain();
-                newBullet.init(t.get(x).getX(), t.get(x).getY());
-                t.get(x).getActiveBullet().add(newBullet);
-
-                fireCounter = 0;
-            }
-
-            //deleting
-            Bullet item;
-            int len = t.get(x).getActiveBullet().size;
-            for (int s = len; --s >= 0; ) {
-                item = t.get(x).getActiveBullet().get(s);
-                if (!item.alive) {
-                    System.out.println("Bounding box lapped.");
-                    t.get(x).getActiveBullet().removeIndex(s);
-                    //t.get(x).getBulletPool().free(item);
-                }
-            }
-
-
-            System.out.println("size: " + t.get(x).getActiveBullet().size);
-        }
-
-
-        for(int x = 0; x < t.size; x++){
-            //drawing.
-            Bullet item;
-            int len;
-            len = t.get(x).getActiveBullet().size;
-            for (int s = len; --s >= 0; ) {
-                item = t.get(x).getActiveBullet().get(s);
-                if (item.alive && inRange(t.get(x),t.get(x).getTarget(), item)) {
-                    item.fire(t.get(x).getTarget().getBoundingRectangle());
-                    item.draw(batch);
-                }
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-    }
-
-    public Boolean inRange(MainTower tower, Enemy e, Bullet item){
-
-
-        if(Math.abs(tower.getX() - e.getX()) <= tower.getRange() &&
-           Math.abs(tower.getY() - e.getY()) <= tower.getRange()){
-
-            return true;
-        }
-
-
-        return false;
-    }
-
-
-
-* */

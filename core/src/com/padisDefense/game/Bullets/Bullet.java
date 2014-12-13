@@ -24,15 +24,13 @@ import com.badlogic.gdx.utils.Pool;
  * */
 public class Bullet extends Sprite implements Pool.Poolable {
 
-
-    public float damage;
     public Vector2 position;
     public boolean alive;
     private float time;
 
     public Bullet (Vector2 p){
 
-        damage  = 5;
+
         this.setTexture(new Texture("test9.png"));
         this.setSize(5f, 5f);
         this.setPosition(p.x, p.y);
