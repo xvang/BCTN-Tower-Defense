@@ -90,7 +90,6 @@ public class BulletManager {
                 /**2 different ways to determine if bullet hit enemy.
                  * not sure which one is better yet.
                  * One uses Rectangles, the other uses Vector2.*/
-            //Bullet hits the enemy.
                 if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)){
                     e.updateHealth(t.getAttack());
                 }

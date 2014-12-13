@@ -29,13 +29,13 @@ public class Enemy extends Sprite{
         armor = a;
         alive = true;
 
-        rate = (float)(Math.random() % 0.002f + 0.0015f);
+        rate = (float)(Math.random() % 0.002f + 0.001f);
         time = 0;
     }
 
     public Enemy(){
        // rate = (float)(Math.random() / (double)50);
-        rate = (float)(Math.random() % 0.002f + 0.0015f);
+        rate = (float)(Math.random() % 0.002f + 0.001f);
         time = 0;
         health = 1;
         alive = true;

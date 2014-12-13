@@ -136,8 +136,8 @@ public class TowerManager implements InputProcessor {
         //if 'true' then nothing is built there. yet.
         if(t.emptyCurrentTower()){
             System.out.println("Upgrading to A!");
-            TowerA newTower = new TowerA(new Vector2(t.getX() + (t.getWidth() / 2),
-                                                     t.getY() + (t.getHeight() / 2)));
+            TowerA newTower = new TowerA(new Vector2(t.getX(),
+                                                     t.getY()));
             towerArray.add(newTower);
             t.setCurrentTower(newTower);//points to the tower.
         }
@@ -146,8 +146,8 @@ public class TowerManager implements InputProcessor {
         else if(t.getCurrentTower().getID().equals("A")) {
             System.out.println("Upgrading to B!");
             towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
-            TowerB newTower = new TowerB(new Vector2(t.getX() + (t.getWidth() / 2),
-                                                     t.getY() + (t.getHeight() / 2))); //Create TowerB
+            TowerB newTower = new TowerB(new Vector2(t.getX(),
+                                                     t.getY())); //Create TowerB
             t.setCurrentTower(newTower);//buildableSpot points to new TowerB
             towerArray.add(newTower);//add TowerB to towerArray.
         }

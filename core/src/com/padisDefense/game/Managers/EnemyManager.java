@@ -44,7 +44,6 @@ public class EnemyManager {
     public EnemyManager(){
         renderer = new ImmediateModeRenderer20(false, false, 0);
         enemyArray = new Array<Enemy>();
-        spawnEnemy();
         storage = new PathStorage();
     }
 
@@ -92,6 +91,7 @@ public class EnemyManager {
                 time = enemyArray.get(x).getRate() + enemyArray.get(x).getTime();
                 enemyArray.get(x).setTime(time);
 
+                //System.out.println(enemyArray.get(x).getChosenPath());
                 path.getPath().get(enemyArray.get(x).getChosenPath()).valueAt(position, time);
                 enemyArray.get(x).goTo(new Vector2(position.x, position.y));
                 enemyArray.get(x).draw(batch);
@@ -114,6 +114,7 @@ public class EnemyManager {
             enemyAmount --;
             spawnEnemy();
         }
+
 
         //if (old != enemyAmount)
          //   System.out.println("Enemies left: " + enemyAmount);
@@ -165,7 +166,7 @@ public class EnemyManager {
 
             //create object, set path, set texture, add to enemy array.
             newEnemy = new Goblin();
-            newEnemy.setChosenPath((int)Math.random()*100 % 5);
+            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test3.png"));
             enemyArray.add(newEnemy);
         }
@@ -173,7 +174,7 @@ public class EnemyManager {
         else if (rand == 1){
 
             newEnemy = new BiggerGoblin();
-            newEnemy.setChosenPath((int)Math.random()*100 %5);
+            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test1.png"));
             enemyArray.add(newEnemy);
         }
@@ -181,8 +182,8 @@ public class EnemyManager {
         else if(rand == 2){
 
             newEnemy = new BestGoblin();
-            newEnemy.setChosenPath((int)Math.random()*100 %5);
-            newEnemy.setTexture(new Texture("test7.png"));
+            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
+            newEnemy.setTexture(new Texture("test8.png"));
             enemyArray.add(newEnemy);
         }
 

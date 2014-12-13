@@ -32,16 +32,10 @@ public class PathStorage {
         path4 = new Array<Path<Vector2>>();
         path5 = new Array<Path<Vector2>>();
 
-        /*path1.add(new Bezier<Vector2>(new Vector2(-60f, 5f), new Vector2(w - 10f, 30f), new Vector2(15f, h - 40f), new Vector2(w + 80f, h -  50f)));
+        path1.add(new Bezier<Vector2>(new Vector2(-60f, 5f), new Vector2(w - 10f, 30f), new Vector2(15f, h - 40f), new Vector2(w + 80f, h -  50f)));
         path1.add(new Bezier<Vector2>(new Vector2(-60f, 30f), new Vector2(w - 30f, 35f), new Vector2(30f, h - 50f), new Vector2(w + 80f, h -  60f)));
         path1.add(new Bezier<Vector2>(new Vector2(-60f, 40f), new Vector2(w - 40f, 50f), new Vector2(25f, h - 10f), new Vector2(w + 80f, h -  100f)));
         path1.add(new Bezier<Vector2>(new Vector2(-60f, 65f), new Vector2(w - 20f, 25f), new Vector2(30f, h - 25f), new Vector2(w + 80f, h -  70f)));
-        path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
-*/
-        path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
-        path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
-        path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
-        path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
         path1.add(new Bezier<Vector2>(new Vector2(-60f, 85f), new Vector2(w - 25f, 45f), new Vector2(30f, h - 35f), new Vector2(w + 80f, h -  65f)));
 
         path2.add(new Bezier<Vector2>(new Vector2(30f, h + 20f),new Vector2(w / 5, h/5), new Vector2(w + 40f, 40f)));

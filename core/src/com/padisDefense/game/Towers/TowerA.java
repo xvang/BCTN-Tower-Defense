@@ -11,8 +11,9 @@ public class TowerA extends MainTower{
     public TowerA(Vector2 position){
         super(2,100f,3,4,true,0.1f, "A");
         setPosition(position.x, position.y);
-        setTexture(new Texture("test9.png"));
+        setTexture(new Texture("test8.png"));
         setSize(30f, 30f);
+        setBulletLimit(2);
     }
 
 
