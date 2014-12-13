@@ -92,9 +92,6 @@ public class MainMenu extends ScreenAdapter {
         table.setWidth(Gdx.graphics.getWidth() / 3);
         table.setHeight(Gdx.graphics.getHeight() / 3);
 
-        //System.out.println("width = " + Gdx.graphics.getWidth() / 3);
-        //System.out.println("height = " + Gdx.graphics.getHeight() / 3);
-
         Sprite spritey = new Sprite(new Texture((String)padi.assets.getRandomPic()));
 
         SpriteDrawable sd = new SpriteDrawable();
@@ -125,11 +122,7 @@ public class MainMenu extends ScreenAdapter {
         button5.pad(20f, 20f, 20f, 20f);
 
 
-        /*button.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 + 70f);
-        button1.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 0f);
-        button2.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 70f);
-        button3.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 140f);
-        button4.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 210f);*/
+
         table.setPosition(Gdx.graphics.getWidth() / 3 - 30, Gdx.graphics.getHeight() / 6);
 
 
@@ -161,7 +154,8 @@ public class MainMenu extends ScreenAdapter {
 
            @Override
             public void clicked(InputEvent event, float x, float y) {
-                button2.setText("Store");
+               button2.setText("Store");
+               padi.setScreen(padi.store);
 
             }
         });
@@ -204,12 +198,6 @@ public class MainMenu extends ScreenAdapter {
 
         stage.addActor(foreground);
 
-
-       /* foreground.addActor(button);
-        foreground.addActor(button1);
-        foreground.addActor(button2);
-        foreground.addActor(button3);
-        foreground.addActor(button4);*/
         foreground.addActor(table);
 
         foreground.addActor(button5);

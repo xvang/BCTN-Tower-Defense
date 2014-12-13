@@ -3,253 +3,101 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
-/**
- * This class won't stay for long like this.
- * This is suppose to be the store class
- * User can view and unlock items.
- *
- * @author Xeng
- * @param 'padi'
- * */
-public class Store extends ScreenAdapter {
-
-    static final float item_width = 150f;
-    static final float item_height = 150f;
-    static final float padd = 20f;
-    boolean toTheTopOnce = false;
+public class Store extends ScreenAdapter{
     Padi padi;
-    SpriteBatch spritebatch, HUDbatch;
-    Stage stage, HUDstage;
-    Texture texture;
-    Skin skin;
+    public Store(Padi p){padi = p;}
+    private Stage stage;
 
-    Image image, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10;
-    Group background, foreground;
+    private final int size = 11;
+    private Array<Image> imagelist;
 
-    Table table;
+    private Label money;
 
-    //For table background.
-    Sprite s;
-    SpriteDrawable sd;
+    @Override public void show() {
 
-    //Textbox for User's money.
-    Label label_money;
-
-
-    Store(Padi p){
-        padi = p;
-    }
-
-
-    @Override
-    public void show() {
-
-        spritebatch = new SpriteBatch();
-        HUDbatch = new SpriteBatch();
         stage = new Stage();
-        HUDstage = new Stage();
-        background = new Group();
-        foreground = new Group();
-        texture = new Texture("test1.png");
-        table = new Table();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        imagelist = new Array<Image>();
+
+        //array of images.
+        for(int x = 0; x < size; x++)
+            imagelist.add(new Image(new Texture("badlogic.jpg")));
+
+        //adding clicklisteners to images.
+        //It is in another function to avoid cluttering.
+        addListeners();
+
+        final Table imageTable = new Table();
+        for(int x = 0; x < size; x++){
+            imageTable.add(imagelist.get(x)).pad(20f);
+            if(x % 3 == 0)
+                imageTable.row();
+        }
 
 
+        //making the scroll thing, and adding it to table.
+        final ScrollPane scrollPane = new ScrollPane(imageTable);
+        final Table t = new Table();
+        t.setFillParent(true);
+        t.add(scrollPane).padRight(150f);
 
-        s = new  Sprite(new Texture("test5.png"));
-        sd = new SpriteDrawable(s);
+        //background image.
+        final Image background = new Image(new Texture("test9.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        //all the images
-        image = new Image(texture);
-        item1 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item2 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item3 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item4 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item5 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item6 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item7 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item8 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item9 = new Image(new Texture((String)padi.assets.getRandomPic()));
-        item10 = new Image(new Texture((String)padi.assets.getRandomPic()));
+        //display user's money
+        money = new Label(String.valueOf((int)padi.player.getMoney()) + " credits", padi.skin);
+        money.setPosition(Gdx.graphics.getWidth() - 100f,Gdx.graphics.getHeight()*3 / 4);
 
 
-        //Adding items to table.
-        table.add(item1).width(item_width).height(item_height).pad(padd);
-        table.add(item2).width(item_width).height(item_height).pad(padd);
-        table.add(item3).width(item_width).height(item_height).pad(padd); table.row();
-        table.add(item4).width(item_width).height(item_height).pad(padd);
-        table.add(item5).width(item_width).height(item_height).pad(padd);
-        table.add(item6).width(item_width).height(item_height).pad(padd);table.row();
-        table.add(item7).width(item_width).height(item_height).pad(padd);
-        table.add(item8).width(item_width).height(item_height).pad(padd);
-        table.add(item9).width(item_width).height(item_height).pad(padd); table.row();
-        table.add(item10).width(item_width).height(item_height).pad(padd);
-
-
-        //Setting background of table.
-        table.setBackground(sd, true);
-
-        table.setWidth(Gdx.graphics.getWidth());
-        table.setHeight(Gdx.graphics.getHeight()*2);
-
-
-
-
-        image.setHeight(Gdx.graphics.getHeight()*2);
-        image.setWidth(Gdx.graphics.getWidth());
-
-
-        //Building background/foreground.
-        background.addActor(image);
-
-        //Building foreground.
-        foreground.addActor(table);
-        //foreground.addActor(label_money);
-
-        //Adding to stage.
-        // stage.addActor(background);
-        stage.addActor(foreground);
-
-
-
-
-        //Now for the second screen(?)
-        label_money = new Label("$ " + padi.player.getMoney(), skin);
-        label_money.setPosition(table.getWidth() - label_money.getWidth(), 200);
-        label_money.setColor(new Color(210,0, 0, 200));
-        label_money.setSize(400f, 400f);
-
-        HUDstage.addActor(label_money);
-
-
-
-        stage.addListener(new ActorGestureListener() {
-
-
-            @Override
-            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-
-                stage.getCamera().translate(0, -deltaY/2, 0);
-                stage.getCamera().update();
-
-                //System.out.println(x + ", " + y + ", " + "      " + deltaX + ", " + deltaY);
-
-                scrollLimit(y);
-            }
-
-
-            @Override
-            public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-               // System.out.println("Touchdown: " + x + ", " + y);
-                //System.out.println("stage.getCamera() = " + stage.getCamera().position.x + ", " +
-               // stage.getCamera().position.y);
-                scrollLimit(y);
-            }
-        });
-
+        stage.addActor(background);
+        stage.addActor(money);
+        stage.addActor(t);
 
         Gdx.input.setInputProcessor(stage);
-
-
-        System.out.println("First stage.camera.y = " + stage.getCamera().position.y);
     }
 
-
-    public void toTheTop(){
-
-        while(stage.getCamera().position.y < 899 && !toTheTopOnce){
-            stage.getCamera().translate(0,1,0);
-            stage.getCamera().update();
-
-        }
-        toTheTopOnce = true;
-    }
-
-    public void scrollLimit(float y){
-
-        if (y <= 301){
-            while(stage.getCamera().position.y <= 301){
-                stage.getCamera().translate(0, 1, 0);
-                stage.getCamera().update();
-            }
-        }
-
-        else if(y >= 899){
-            while(stage.getCamera().position.y >= 899){
-                stage.getCamera().translate(0, - 1, 0);
-                stage.getCamera().update();
-            }
-
-        }
-    }
-
-    @Override
-    public void render(float delta){
-
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+    @Override public void render(float delta) {
+        this.stage.act();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        spritebatch.setProjectionMatrix(stage.getCamera().combined);
-        //spritebatch.setProjectionMatrix(HUDstage.getCamera().combined);
-        toTheTop();
-
-        //Gdx.gl.glViewport(0,0,(Gdx.graphics.getWidth()/4)*3, Gdx.graphics.getHeight());
-
-        spritebatch.begin();
-        stage.draw();
-        HUDstage.draw();
-        spritebatch.end();
-
-        //Gdx.gl.glViewport((Gdx.graphics.getWidth()/4)*3, 0, Gdx.graphics.getWidth(), 0);
-
-        HUDbatch.begin();
-        HUDstage.draw();
-        HUDbatch.end();
-
-
-
-
-
-
-        scrollLimit(stage.getCamera().position.y);
+        this.stage.draw();
     }
+
+
+    //adding the popup box to the images.
+    //popup box shows a short description
+    //and option to unlock.
+    public void addListeners(){
+
+        for(int x = 0; x < size; x ++){
+
+            imagelist.get(x).addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent e, float x, float y){
+
+                }
+            });
+
+        }
+    }
+
+
+
 
     @Override
-    public void resize(int width, int height){
-
-        //System.out.println("resize() executed.");
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose(){
-
-        stage.dispose();
-        texture.dispose();
-        spritebatch.dispose();
-    }
-
-    @Override
-    public void pause(){
-
-    }
-
-    @Override
-    public void hide(){
-    }
-
+    public void dispose(){}
 }
+
+/**
+ * http://stackoverflow.com/questions/15484077/libgdx-and-scrollpane-with-multiple-widgets
+ * */

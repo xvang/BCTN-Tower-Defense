@@ -29,7 +29,7 @@ public class Padi extends Game implements ApplicationListener{
     public WorldMap worldmap;
     public Player player;
     public Store store;
-    public LogIn login;
+    //public LogIn login;
 
 
     //These are global variables?
@@ -56,6 +56,7 @@ public class Padi extends Game implements ApplicationListener{
         player = new Player();
         store = new Store(this);
         TEST2 = new TEST2(this);
+        instruction = new Instruction(this);
 
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("uiskin.json"));

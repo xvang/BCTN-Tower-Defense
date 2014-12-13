@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 
 
 import java.util.LinkedList;
@@ -24,15 +25,15 @@ import java.util.LinkedList;
 public class Instruction extends ScreenAdapter {
 
 
-    private int PAGE = 0;
-    Padi padi;
-
-    Image page1, page2, page3, page4;
-
-    LinkedList<Image> imageLinkedList;
+    private int pages = 5;//total slides
+    private Padi padi;
 
 
-    Group foreground, background;
+    Array<Image> slides;//contains all images.
+    Image currentSlide;//points to current image.
+    int currentPage = 0;//index of current page.
+
+    Group buttons;
     Stage stage;
 
 
@@ -45,41 +46,28 @@ public class Instruction extends ScreenAdapter {
     @Override
     public void show(){
 
-        foreground = new Group();
-        background = new Group();
+
+        slides = new Array<Image>();
+        buttons = new Group();
         stage = new Stage();
 
+        for(int x = 0; x < pages; x++){
+            slides.add(new Image(new Texture(Gdx.files.internal((String)padi.assets.getRandomPic()))));
+            slides.get(x).setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
 
-        page1 = new Image(new Texture(Gdx.files.internal((String)padi.assets.getRandomPic())));
-        page2 = new Image(new Texture(Gdx.files.internal((String)padi.assets.getRandomPic())));
-        page3 = new Image(new Texture(Gdx.files.internal((String)padi.assets.getRandomPic())));
-        page4 = new Image(new Texture(Gdx.files.internal((String)padi.assets.getRandomPic())));
-        imageLinkedList = new LinkedList<Image>();
-
-        imageLinkedList.add(0, page1);
-        imageLinkedList.add(1, page2);
-        imageLinkedList.add(2, page3);
-        imageLinkedList.add(3, page4);
-
-        page1.setHeight(Gdx.graphics.getHeight());
-        page2.setHeight(Gdx.graphics.getHeight());
-        page3.setHeight(Gdx.graphics.getHeight());
-        page4.setHeight(Gdx.graphics.getHeight());
-
-
-        page1.setWidth(Gdx.graphics.getWidth());
-        page2.setWidth(Gdx.graphics.getWidth());
-        page3.setWidth(Gdx.graphics.getWidth());
-        page4.setWidth(Gdx.graphics.getWidth());
-
-
+        currentSlide = slides.get(0);
         next = new TextButton("Next", padi.skin, "default");
         back = new TextButton("Back", padi.skin, "default");
         menu = new TextButton("Menu", padi.skin, "default");
+        buttons.addActor(next);
+        buttons.addActor(back);
+        buttons.addActor(menu);
 
-        menu.setPosition(Gdx.graphics.getWidth() / 2, 10f);
-        next.setPosition(Gdx.graphics.getWidth() - (next.getWidth() + 10f), 10f);
-        back.setPosition(10f, 10f);
+
+        menu.setPosition(Gdx.graphics.getWidth() / 2, 20f);
+        next.setPosition(Gdx.graphics.getWidth() - (next.getWidth() + 20f), 20f);
+        back.setPosition(20f, 20f);
 
         menu.addListener(new ClickListener() {
 
@@ -90,62 +78,44 @@ public class Instruction extends ScreenAdapter {
 
         });
 
+
+        //When button is clicked, stage is cleared and repopulated.
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                changeSlide("Next");
+                if(currentPage < pages - 1){
+                    currentPage++;
+                    stage.clear();
+                    currentSlide = slides.get(currentPage);
+                    stage.addActor(currentSlide);
+                    stage.addActor(buttons);
+                }
             }
 
         });
 
         back.addListener(new ClickListener() {
-
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                changeSlide("Back");
+                if(currentPage > 0){
+                    currentPage--;
+                    stage.clear();
+                    currentSlide = slides.get(currentPage);
+                    stage.addActor(currentSlide);
+                    stage.addActor(buttons);
+                }
             }
 
         });
 
 
-        background.addActor(page1);
 
-        foreground.addActor(back);
-        foreground.addActor(next);
-        foreground.addActor(menu);
-
-        stage.addActor(background);
-        stage.addActor(foreground);
-
-
+        stage.addActor(currentSlide);
+        stage.addActor(buttons);
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void changeSlide(String button_pressed){
-
-        //"Next" was chosen
-        if(button_pressed == "Next"){
-            background.clear();
-            PAGE++;
-            if(PAGE > 3)
-                PAGE = 3;
-            background.addActor(imageLinkedList.get(PAGE));
-
-        }
-
-        //"Back" was chosen.
-        else{
-            background.clear();
-            PAGE--;
-
-            if(PAGE < 0)
-                PAGE = 0;
-            background.addActor(imageLinkedList.get(PAGE));
-
-        }
-
-    }
 
     @Override
     public void render(float delta){

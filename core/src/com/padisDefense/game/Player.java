@@ -43,6 +43,7 @@ public class Player {
     public void addItemsUnlocked(MainItem i){items.add(i);}
     public void setLevelsUnlocked(int l){levels[l - 1] = true;}
     public void setPassword(String p){password = p;}
+    public void addMoney(float m){money += m;}
 
     //GET functions.
     public String get_Name(){return name;}
