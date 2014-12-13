@@ -14,8 +14,8 @@ public class Assets {
     Padi padi;
     public static Texture background;
 
-    public static final int screen_width = 900;
-    public static final int screen_height = 600;
+    public  static final int w = 1200;
+    public static final int h = 800;
 
     public static int SOUND_LEVEL = 20;
     public static int DIFFICULTY = 20;
@@ -71,8 +71,8 @@ public class Assets {
 
 
 
-    public int getScreenWidth(){return screen_width;}
-    public int getScreenHeight(){return screen_height;}
+    public float getScreenWidth(){return w;}
+    public float getScreenHeight(){return h;}
     public int getSound(){return SOUND_LEVEL;}
     public int getDifficulty(){return DIFFICULTY;}
 

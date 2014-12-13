@@ -9,8 +9,8 @@ public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Padi's Defense";
-        config.width = Assets.screen_width;
-        config.height = Assets.screen_height;
+        config.width = Assets.w;
+        config.height = Assets.h;
         config.vSyncEnabled = true;
         new LwjglApplication(new Padi(), config);
     }

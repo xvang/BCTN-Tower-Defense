@@ -27,7 +27,6 @@ import aurelienribon.tweenengine.TweenManager;
  * **/
 public class Padi extends Game implements ApplicationListener{
 
-
     //Declaring the Screens.
     public MainMenu main_menu;
     public Instruction instruction;

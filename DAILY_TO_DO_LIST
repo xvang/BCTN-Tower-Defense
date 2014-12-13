@@ -1,0 +1,9 @@
+- update how things are sized. no hardcoding.
+
+- UI for game screen.
+
+- SpawnTowermanager will manage spawning buildable spots
+
+- drag towers from UI to build.
+
+- add some more pathing.
