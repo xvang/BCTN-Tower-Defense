@@ -20,7 +20,6 @@ public class BuildableSpot extends MainTower{
 
     //Currently, Vector p is unused.
     public BuildableSpot(Vector2 p){
-
         setTexture(new Texture("test3.png"));
         setSize(30f, 30f);
 

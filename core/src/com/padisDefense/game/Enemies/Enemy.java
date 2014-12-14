@@ -31,13 +31,13 @@ public class Enemy extends Sprite{
         armor = a;
         alive = true;
 
-        rate = (float)(Math.random() % 0.002f + 0.001f);
+        rate = (float)(Math.random() % 0.001f);
         time = 0;
     }
 
     public Enemy(){
        // rate = (float)(Math.random() / (double)50);
-        rate = (float)(Math.random() % 0.002f + 0.001f);
+        rate = (float)(Math.random() % 0.001f );
         time = 0;
         health = 1;
         alive = true;
@@ -46,6 +46,8 @@ public class Enemy extends Sprite{
     public Enemy(Vector2 p){
         setPosition(p.x, p.y);
         health = 1;
+        rate = (float)(Math.random() % 0.001f );
+
     }
 
     public void goTo(Vector2 p){
@@ -68,7 +70,8 @@ public class Enemy extends Sprite{
     public float getTime(){return time;}
     public Boolean getAlive(){return alive;}
     public Vector2 getLocation(){
-        return new Vector2(getX(), getY());
+
+        return new Vector2(getX()+(getWidth() / 2), getY() + (getHeight()/2));
     }
     public Vector2 getBulletLocation(){
         return new Vector2(getX() + (getWidth()/2), getY() + (getHeight()/2));

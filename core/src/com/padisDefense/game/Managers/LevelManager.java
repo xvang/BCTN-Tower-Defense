@@ -33,7 +33,7 @@ public class LevelManager {
 
             case (1):
                 path = 1;
-                enemyAmount = 100;
+                enemyAmount = 1000;
                 break;
             case (2):
                 path = 2;

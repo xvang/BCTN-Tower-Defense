@@ -30,9 +30,12 @@ import aurelienribon.*;
  * */
 public class MainMenu extends ScreenAdapter {
 
-    final float BUTTON_WIDTH = Gdx.graphics.getWidth() / 3 - 40f;
-    final float BUTTON_HEIGHT = 80f;
-    final float BUTTON_PAD = 10f;
+    final float w = Gdx.graphics.getWidth();
+    final float h = Gdx.graphics.getHeight();
+
+    final float BUTTON_WIDTH = w / 3 - 50f;
+    final float BUTTON_HEIGHT = h / 8;
+    final float BUTTON_PAD = w / 80;
 
     private  Padi padi;
 
@@ -102,8 +105,8 @@ public class MainMenu extends ScreenAdapter {
 
         table.setBackground(sd, true);
 
-        table.background(sd).setHeight(table.getHeight() + 200);
-        table.background(sd).setWidth(table.getWidth() + 70);
+        table.background(sd).setHeight(table.getHeight() + 200f);
+        table.background(sd).setWidth(table.getWidth() + 70f);
         /*
         button.setWidth(Gdx.graphics.getWidth() / 3);
         button.setHeight(40f);

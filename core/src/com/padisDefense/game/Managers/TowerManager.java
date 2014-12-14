@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.BuildableSpot;
@@ -26,10 +29,10 @@ import com.padisDefense.game.Towers.TowerB;
 public class TowerManager implements InputProcessor {
 
 
-
     private Array<MainTower> towerArray;
     private Array<BuildableSpot> buildableArray;
 
+    private int inGameMoney = 100;
 
     public TowerManager(){
         towerArray = new Array<MainTower>();
@@ -46,6 +49,7 @@ public class TowerManager implements InputProcessor {
      * */
     public void startTowers(SpriteBatch batch){
 
+
         for(int x = 0; x < buildableArray.size; x++){
             buildableArray.get(x).draw(batch);
 
@@ -58,6 +62,7 @@ public class TowerManager implements InputProcessor {
 
             checkRange();
             checkForDead(towerArray.get(x));
+
         }
 
 
@@ -136,24 +141,35 @@ public class TowerManager implements InputProcessor {
 
         //if 'true' then nothing is built there. yet.
         if(t.emptyCurrentTower()){
-            System.out.println("Upgrading to A!");
             TowerA newTower = new TowerA(new Vector2(t.getX(),
                                                      t.getY()));
-            towerArray.add(newTower);
-            t.setCurrentTower(newTower);//points to the tower.
+            if(inGameMoney >= newTower.getCost()){
+                towerArray.add(newTower);
+                t.setCurrentTower(newTower);//points the buildablspot to the tower.
+                inGameMoney -= newTower.getCost();
+
+
+
+
+            }
+
         }
 
         //TowerA is currently there. Will delete and build Tower B.
         else if(t.getCurrentTower().getID().equals("A")) {
-            System.out.println("Upgrading to B!");
             towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
             TowerB newTower = new TowerB(new Vector2(t.getX(),
                                                      t.getY())); //Create TowerB
-            t.setCurrentTower(newTower);//buildableSpot points to new TowerB
-            towerArray.add(newTower);//add TowerB to towerArray.
+            if(inGameMoney >= newTower.getCost()){
+                towerArray.add(newTower);
+                t.setCurrentTower(newTower);//points to the tower.
+                inGameMoney -= newTower.getCost();
+            }
         }
     }
 
+    public void updateInGameMoney(int m){inGameMoney += m;}
+    public int getInGameMoney(){return inGameMoney;}
     @Override
     public boolean keyDown(int keycode) {
         return false;
@@ -178,10 +194,8 @@ public class TowerManager implements InputProcessor {
      * will check back for updates
      *
      * **/
-
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-
         //Retrieves where user click, and checks if it is a buildableSpot
         Rectangle rec = new Rectangle();
         rec.setCenter(new Vector2(x,Gdx.graphics.getHeight() - y));
@@ -221,8 +235,8 @@ public class TowerManager implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
-    public void dispose(){
-        for(int x = 0; x < towerArray.size; x++){
+    public void dispose() {
+        for (int x = 0; x < towerArray.size; x++) {
             towerArray.get(x).getTexture().dispose();
         }
     }

@@ -27,6 +27,8 @@ import aurelienribon.tweenengine.Tween;
  * */
 public class Instruction extends ScreenAdapter {
 
+    private final float w = Gdx.graphics.getWidth();
+    private final float h = Gdx.graphics.getHeight();
 
     private int pages = 5;//total slides
     private Padi padi;
@@ -68,9 +70,9 @@ public class Instruction extends ScreenAdapter {
         buttons.addActor(menu);
 
 
-        menu.setPosition(Gdx.graphics.getWidth() / 2, 20f);
-        next.setPosition(Gdx.graphics.getWidth() - (next.getWidth() + 20f), 20f);
-        back.setPosition(20f, 20f);
+        menu.setPosition(w / 2, h/40);
+        next.setPosition(w - (next.getWidth() + 20f), 20f);
+        back.setPosition(w/45, h/40);
 
         menu.addListener(new ClickListener() {
 

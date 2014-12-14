@@ -7,7 +7,9 @@ public class BestGoblin extends Enemy{
 
     public BestGoblin(){
 
-        super(10, 10, new Vector2(20f,20f));
+        //health, armor, location
+        super(40, 80, new Vector2(20f,20f));
         setName("bestgoblin");
+        setRate(0.0006f);
     }
 }

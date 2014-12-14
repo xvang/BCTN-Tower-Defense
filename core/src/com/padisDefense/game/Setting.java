@@ -28,6 +28,8 @@ import com.badlogic.gdx.utils.Array;
  * */
 public class Setting extends ScreenAdapter {
 
+    final float w = Gdx.graphics.getWidth();
+    final float h = Gdx.graphics.getHeight();
 
     final Padi padi;
     private Stage stage;
@@ -67,15 +69,15 @@ public class Setting extends ScreenAdapter {
         left = new Rectangle();
         right = new Rectangle();
 
-        top.setSize(Gdx.graphics.getWidth(), 10f);
-        bottom.setSize(Gdx.graphics.getWidth(), 10f);
-        left.setSize(10f, Gdx.graphics.getHeight());
-        right.setSize(10f, Gdx.graphics.getHeight());
+        top.setSize(w, 10f);
+        bottom.setSize(w, 10f);
+        left.setSize(10f, h);
+        right.setSize(10f, h);
 
-        top.setPosition(0, Gdx.graphics.getHeight());
+        top.setPosition(0, h);
         bottom.setPosition(0, 0-bottom.getHeight());
         left.setPosition(0-left.getWidth(), 0);
-        right.setPosition(Gdx.graphics.getWidth()+right.getWidth(),0);
+        right.setPosition(w + right.getWidth(),0);
 
 
 
@@ -250,6 +252,7 @@ public class Setting extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height){
+        //System.out.println(width + "   " + height);
     }
 
     @Override

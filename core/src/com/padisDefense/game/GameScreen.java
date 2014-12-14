@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,7 +13,7 @@ import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.EnemyManager;
 import com.padisDefense.game.Managers.LevelManager;
 import com.padisDefense.game.Managers.TowerManager;
-import com.padisDefense.game.Padi;
+import com.padisDefense.game.Managers.UIManager;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,26 +33,25 @@ import java.math.RoundingMode;
 public class GameScreen extends ScreenAdapter {
 
     Padi padi;
+    private boolean  END_GAME = false;
 
     public EnemyManager enemy;
     public TowerManager tower;
     public BulletManager bullet;
     public LevelManager level;
 
+    //stuff for the UI
+    public UIManager UI;
+    private float oldEnemyCount = 0;
+    private float newEnemyCount = 0;
+
+
     //maybe right now a multi is not needed,
     //but it never hurts to have,  right?
     InputMultiplexer multi;
 
-    //Used to calculate money.
-    int oldEnemyLeft = 0;
-    int money = 0;
 
 
-    private float TIMER = 0;
-    private Label message;
-    Table popup;
-
-    Stage stage;
 
     int whatLevel;
     public GameScreen(Padi p, int l){
@@ -68,22 +66,17 @@ public class GameScreen extends ScreenAdapter {
         tower = new TowerManager();
         bullet = new BulletManager();
         level = new LevelManager();
+        UI = new UIManager();
+
         level.setLevel(whatLevel);
         level.determineLevel();
-        stage = new Stage();
 
         //Setting the enemy amount and getting the path
         // for the level.
         enemy.setEnemyAmount(level.getEnemyAmount());
         enemy.setPath(level.getPath());
 
-        money = 0;
-        message = new Label("Total time: " + String.valueOf(TIMER), padi.skin);
-        popup = new Table();
-        popup.add(message);
-        popup.setSize(400f, 150f);
-        popup.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        popup.setVisible(false);
+
 
 
 
@@ -96,11 +89,15 @@ public class GameScreen extends ScreenAdapter {
         tower.addBuildableSpots(new Vector2(500f, 400f));
         tower.addBuildableSpots(new Vector2(400f, 500f));
         tower.addBuildableSpots(new Vector2(500f, 350f));
+        tower.addBuildableSpots(new Vector2(550f, 500f));
+        tower.addBuildableSpots(new Vector2(660f, 400f));
 
         //Setting up the inputs.
         multi = new InputMultiplexer();
+
+
+        multi.addProcessor(UI.getStage());
         multi.addProcessor(tower);
-        multi.addProcessor(stage);
 
 
         Gdx.input.setInputProcessor(multi);
@@ -108,55 +105,51 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
+    //TODO: mess with the GDX.clearcolor() to make NUKE animations.
     @Override
     public void render(float delta){
-        //Gdx.gl.glClearColor(2f,.5f,0.88f,6);
-        Gdx.gl.glClearColor(0,0,0,0);
+        Gdx.gl.glClearColor(2f,.5f,0.88f,6);
+        //Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        //getting the enemy count before a render
-        oldEnemyLeft = enemy.getDeadEnemyCounter();
 
-
-        TIMER += Gdx.graphics.getDeltaTime();
 
         padi.batch.begin();
+        oldEnemyCount = enemy.getEnemyCounter();
         enemy.startEnemy(padi.batch);
         tower.startTowers(padi.batch);
 
 
-        //For every tower, update every tower's target.
-        //It doesn't sound quite right, but I think it's close.
-        //shooting() takes in a tower and a tower's target.
-        for(int x = 0; x < tower.getTowerArray().size; x++) {
-            updateTargets();
-            bullet.shooting(padi.batch, tower.getTowerArray().get(x),
-                    tower.getTowerArray().get(x).getTarget());
+        if(!END_GAME) {
 
+            for (int x = 0; x < tower.getTowerArray().size; x++) {
+                updateTargets();
+                bullet.shooting(padi.batch, tower.getTowerArray().get(x),
+                        tower.getTowerArray().get(x).getTarget());
+            }
+
+
+            //if needed, assigns new targets.
+            assignTargets();
+
+            UI.updateTimer(Gdx.graphics.getDeltaTime());
+            UI.updateTimerMessage();
         }
 
-        //if needed, assigns new targets.
-        assignTargets();
+        newEnemyCount = enemy.getEnemyCounter();
 
-        message.setText("Total time: " + String.valueOf(round(TIMER, 2)));
+        calcMoney();
+        updateUIStuff();
 
-        popup.draw(padi.batch, 1);
-        //enemy.drawPath(padi.batch);
-        //to see the path, uncomment.
-        //But the bullets become invisible.
-        //I guess SpriteBatches can only draw 1 thing at a time?
+        //}
         padi.batch.end();
 
+        UI.getStage().draw();
 
-
-        addMoney();
-
-        //TODO make a transition screen after game ends.
-        //If game ended
-        if(enemy.noMoreEnemy()){
-
-
+        //checks if game ended.
+        END_GAME = enemy.noMoreEnemy();
+        if(END_GAME){
             System.out.println("You win!");
             //padi.setScreen(padi.worldmap);
         }
@@ -165,27 +158,21 @@ public class GameScreen extends ScreenAdapter {
 
 
 
-    public void addMoney(){
-
-        //'oldEnemyLeft' stores the original/previous amount of enemy.
-        //If enemy died, then oldEnemyLeft != enemyArray.size
-        int newMoney = Math.abs(oldEnemyLeft - enemy.getDeadEnemyCounter());
-
-        if(newMoney > 0){
-
-            oldEnemyLeft = enemy.getDeadEnemyCounter();
-            money += newMoney*10;
-        }
+    public void updateUIStuff(){
+        UI.updateEnemyMessage(enemy.getEnemyCounter());
+        UI.updateMoneyMessage(tower.getInGameMoney());
 
 
     }
 
 
-    /**
-     * Uses the distance formula to calculate the distance between tower
-     * and tower's target. If it is out of tower's range,
-     * hasTarget = false.
-     * */
+    //TODO: make different types of enemies worth differently.
+    public void calcMoney(){
+        tower.updateInGameMoney((int)(Math.abs(oldEnemyCount - newEnemyCount)*10));
+        oldEnemyCount = newEnemyCount;
+    }
+
+
     public void updateTargets(){
         double currentDistance;
         for(int x = 0; x < tower.getTowerArray().size; x++) {
@@ -199,12 +186,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
 
-    /**
-     * Assigns new targets to towers without a target.
-     * */
     public void assignTargets(){
 
-        double currentMin;
+        double currentMin, previousMin = 1000;
         Enemy temp = new Enemy(new Vector2(-1,-1));//dummy enemy.
 
         for(int x = 0; x < tower.getTowerArray().size; x++){
@@ -217,8 +201,10 @@ public class GameScreen extends ScreenAdapter {
                     currentMin = findDistance(new Vector2(tower.getTowerArray().get(x).getLocation()),
                                               new Vector2(enemy.getActiveEnemy().get(y).getLocation()));
 
-                    //Within range, possible target.
-                    if(currentMin < tower.getTowerArray().get(x).getRange()){
+                    //Within range, closest target so far.
+                    if(currentMin < tower.getTowerArray().get(x).getRange() &&
+                            currentMin < previousMin){
+                        previousMin = currentMin;
                         temp = enemy.getActiveEnemy().get(y);
                     }
 
@@ -234,12 +220,6 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    /**
-     * Uses distance formula to find distance between the parameters.
-     *
-     * @param 'a'
-     * @param 'b'
-     * */
     public double findDistance(Vector2 a, Vector2 b){
 
         double x2x1 = a.x - b.x;
@@ -247,14 +227,6 @@ public class GameScreen extends ScreenAdapter {
         return Math.sqrt((x2x1*x2x1) + (y2y1*y2y1));
     }
 
-
-    public static double round(float value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
 
     @Override
     public void dispose(){

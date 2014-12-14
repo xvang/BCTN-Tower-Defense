@@ -7,8 +7,10 @@ public class Goblin extends Enemy{
 
     public Goblin(){
 
-        super(3,3, new Vector2(10f, 10f));
+        //health, armor, location.
+        super(50,2, new Vector2(10f, 10f));
         setName("goblin");
+        setRate(0.001f);
     }
 
 }

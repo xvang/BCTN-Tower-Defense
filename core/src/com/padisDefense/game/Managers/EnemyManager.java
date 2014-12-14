@@ -35,8 +35,8 @@ public class EnemyManager {
     int spawnCounter = 0;//TODO: delete this later.
 
 
-    private int enemyAmount;
-    private int deadEnemyCounter = 0;
+    private int spawnsLeft;
+    private int enemyCounter = 0;
     ImmediateModeRenderer20 renderer;
 
     protected Array<Enemy>  activeEnemy;
@@ -56,7 +56,7 @@ public class EnemyManager {
     }
 
 
-    public void setEnemyAmount(int newEA){enemyAmount = newEA;}
+    public void setEnemyAmount(int newEA){spawnsLeft = newEA;enemyCounter = newEA;}
 
     public void setPath(int p){
         switch(p){
@@ -117,11 +117,10 @@ public class EnemyManager {
 
         //int old = enemyAmount;
 
-        System.out.println("Enemy size = " + activeEnemy.size);
+        //System.out.println("Enemy size = " + activeEnemy.size);
         //Calculating if spawning is necessary.
-        if(activeEnemy.size < 25 && enemyAmount > 0){
-            enemyAmount --;
-
+        if(activeEnemy.size < 25 && spawnsLeft > 0){
+            spawnsLeft--;
             spawnEnemy();
 
         }
@@ -163,7 +162,7 @@ public class EnemyManager {
      * **/
     public void spawnEnemy(){
 
-        System.out.println("in spawn");
+
         //This is more for testing purposes.
         //0 for goblin ,1 for bigger goblin, 2 for bestgoblin
         int rand = (int)(Math.random()*3);
@@ -174,8 +173,7 @@ public class EnemyManager {
             newEnemy = new Goblin();
             newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test3.png"));
-
-
+            activeEnemy.add(newEnemy);
 
         }
 
@@ -190,8 +188,6 @@ public class EnemyManager {
 
         else if(rand == 2){
 
-
-
             newEnemy = new BestGoblin();
             newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
             newEnemy.setTexture(new Texture("test8.png"));
@@ -199,19 +195,19 @@ public class EnemyManager {
         }
     }
 
-    public int getEnemyAmount(){return enemyAmount;}
-    public Boolean noMoreEnemy(){return (enemyAmount == 0 && activeEnemy.size == 0);}
+    public int getSpawnsLeft(){return spawnsLeft;}
+    public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
 
 
 
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
 
-        Enemy enemy;
         for(int x = 0; x < activeEnemy.size; x++){
 
+
             if(activeEnemy.get(x).isDead()){
-                deadEnemyCounter++;
+                enemyCounter--;
                 activeEnemy.get(x).dispose();
                 activeEnemy.removeIndex(x);
             }
@@ -224,7 +220,20 @@ public class EnemyManager {
      * End of path should be off the screen.
      * Currently, I don't want the enemy to die at the end of the path.
      * */
-    public void removeReachedEnd(){
+
+    public int getEnemyCounter(){return enemyCounter;}
+
+
+
+    public void dispose(){
+        renderer.dispose();
+        path.dispose();
+    }
+}
+
+
+/***************************************************************************/
+/* public void removeReachedEnd(){
 
         for(int x = 0; x < activeEnemy.size; x++){
 
@@ -233,24 +242,17 @@ public class EnemyManager {
                 activeEnemy.removeIndex(x);
             }
         }
+    }*/
+
+
+
+/**
+ * This sets every enemy's time to zero.
+ * every enemy will respawn at the beginning at the same time.
+ * */
+/*public void toZero(){
+
+    for(int x = 0; x < activeEnemy.size; x++){
+        activeEnemy.get(x).setTime(0f);
     }
-
-    public int getDeadEnemyCounter(){return deadEnemyCounter;}
-
-
-    /**
-     * This sets every enemy's time to zero.
-     * every enemy will respawn at the beginning at the same time.
-     * */
-    public void toZero(){
-
-        for(int x = 0; x < activeEnemy.size; x++){
-            activeEnemy.get(x).setTime(0f);
-        }
-    }
-
-    public void dispose(){
-        renderer.dispose();
-        path.dispose();
-    }
-}
+}*/

@@ -61,7 +61,7 @@ public class Padi extends Game implements ApplicationListener{
         worldmap = new WorldMap(this);
         player = new Player();
         store = new Store(this);
-        TEST2 = new TEST2(this);
+        TEST2 = new TEST2();
         instruction = new Instruction(this);
 
         batch = new SpriteBatch();
@@ -73,7 +73,7 @@ public class Padi extends Game implements ApplicationListener{
 
 
         this.setScreen(new Splash(this));
-       //this.setScreen(test);
+       //this.setScreen(TEST2);
 
     }
 

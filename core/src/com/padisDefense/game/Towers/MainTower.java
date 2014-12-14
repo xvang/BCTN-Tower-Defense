@@ -1,13 +1,18 @@
 package com.padisDefense.game.Towers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 
+import javafx.scene.text.TextBoundsType;
 
 
 /**
@@ -39,41 +44,10 @@ public class MainTower extends Sprite {
     private Array<Bullet> activeBullets;
 
 
-
-
-    public MainTower(float a, float r, float cr, float ir, Boolean s, float fr, String id){
-
-        attack = a;
-        range = r;
-        chargeRate = cr;
-        incomeRate = ir;
-        state = s;
-        fireRate = fr;
-        hasTarget = false;
-        ID = id;
-
-        target = new Enemy();
-        this.setTexture(new Texture("badlogic.jpg"));
-        this.setSize(50f, 50f);
-
-
-        activeBullets = new Array<Bullet>();
-        pool = new Pool<Bullet>() {
-            @Override
-            protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()));
-            }
-        };
-
-
-    }
-
-
     //Empty Constructor
     public MainTower(){
         hasTarget = false;
         ID = "";
-
         activeBullets = new Array<Bullet>();
         pool = new Pool<Bullet>() {
             @Override
@@ -81,11 +55,13 @@ public class MainTower extends Sprite {
                 return new Bullet(new Vector2(getLocation()));
             }
         };
+
+
     }
 
     public void setCost(int newCost){cost = newCost;}
-    public void setAttack(int newAttack){attack = newAttack; }
-    public void setRange(int newRange){range = newRange;}
+    public void setAttack(float newAttack){attack = newAttack; }
+    public void setRange(float newRange){range = newRange;}
     public void setChargeRate(float newCharge){chargeRate = newCharge;}
     public void setIncomeRate(float newIncome) {incomeRate = newIncome;}
     public void setState(Boolean newState){state = newState;}
@@ -110,18 +86,12 @@ public class MainTower extends Sprite {
     public Pool<Bullet> getPool(){return pool;}
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
+    public String getID(){return ID;}
 
     //The bullet will spawn where this function returns..?
     public Vector2 getLocation(){
         return new Vector2(getX(), getY());
     }
-
-
-
-    public String getID(){return ID;}
-
-
-
 
     public void dispose(){
         getTexture().dispose();

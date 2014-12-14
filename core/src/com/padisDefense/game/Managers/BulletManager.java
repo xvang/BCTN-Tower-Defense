@@ -62,6 +62,7 @@ public class BulletManager {
 
 
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > 1f){
+
                 item = t.getPool().obtain();
                 item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
                 t.getActiveBullets().add(item);
