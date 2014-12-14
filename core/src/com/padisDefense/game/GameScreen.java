@@ -94,7 +94,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         optionTable.add(sell);
         optionTable.setSize(50f, 50f);
         optionTable.setVisible(false);
-        
+
         charge.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -118,6 +118,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             public void clicked(InputEvent e, float x, float y){
                 b = !b;
                 optionTable.setVisible(b);
+                tower.clearBuildable(currentBS);
 
             }
         });
@@ -232,10 +233,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         for(int s = 0; s < tower.getBuildableArray().size; s++){
             if(rec1.overlaps(tower.getBuildableArray().get(s).getBoundingRectangle())){
                 b = !b;
+                //setting the optiontable's location to where clicked tower is.
                 optionTable.setPosition(tower.getBuildableArray().get(s).getX() - (optionTable.getWidth()/2),
                         tower.getBuildableArray().get(s).getY() - (optionTable.getHeight() - 5f));
                 optionTable.setVisible(b);
-                System.out.println("clicked tower #" + s);
                 currentBS = tower.getBuildableArray().get(s);
             }
         }

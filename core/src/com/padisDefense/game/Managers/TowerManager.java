@@ -164,8 +164,16 @@ public class TowerManager implements InputProcessor {
                 inGameMoney -= newTower.getCost();
             }
         }
+
+        //System.out.println("towerArray size = " + towerArray.size);
     }
 
+    public void clearBuildable(BuildableSpot t){
+
+        towerArray.removeValue(t.getCurrentTower(), false);
+        t.setCurrentTower(null);
+        //System.out.println("towerArray size = " + towerArray.size);
+    }
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
     @Override
