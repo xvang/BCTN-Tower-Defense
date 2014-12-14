@@ -2,35 +2,38 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.EnemyManager;
 import com.padisDefense.game.Managers.LevelManager;
 import com.padisDefense.game.Managers.TowerManager;
 import com.padisDefense.game.Managers.UIManager;
+import com.padisDefense.game.Towers.BuildableSpot;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 
 /**
- * This class runs the game play.
- * Note: the game ends directly after all the enemies are dead.
- * There are no transitions nor messages yet.
+ * There are three levels to the GUI here.
+ * UIManager, the towers/paths/enemies, and the stage in this class.
  *
- * @author Xeng.
- *
- * @param 'level'
- * @param 'padi'
  *
  * */
-public class GameScreen extends ScreenAdapter {
+public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     Padi padi;
     private boolean  END_GAME = false;
@@ -50,6 +53,12 @@ public class GameScreen extends ScreenAdapter {
     //but it never hurts to have,  right?
     InputMultiplexer multi;
 
+    private Stage stage;
+    private Skin skin;
+    private Table optionTable;
+    private TextButton charge, upgrade, sell;
+    private BuildableSpot currentBS;//points to the clicked buildableSpot.
+
 
 
 
@@ -59,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
         whatLevel = l;
     }
 
+
     @Override
     public void show(){
 
@@ -66,10 +76,56 @@ public class GameScreen extends ScreenAdapter {
         tower = new TowerManager();
         bullet = new BulletManager();
         level = new LevelManager();
+        stage = new Stage();
         UI = new UIManager();
 
         level.setLevel(whatLevel);
         level.determineLevel();
+
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        optionTable = new Table();
+        charge = new TextButton("Charge", skin, "default");
+        upgrade = new TextButton("Upgrade", skin, "default");
+        sell = new TextButton("Sell", skin, "default");
+        optionTable.add(charge);
+        optionTable.add(upgrade);
+        optionTable.add(sell);
+        optionTable.setSize(50f, 50f);
+        optionTable.setVisible(false);
+        
+        charge.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                b = !b;
+                optionTable.setVisible(b);
+
+            }
+        });
+
+        upgrade.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                b = !b;
+                optionTable.setVisible(b);
+                tower.clickedBuildable(currentBS);
+            }
+        });
+
+        sell.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                b = !b;
+                optionTable.setVisible(b);
+
+            }
+        });
+
+
+
+
+        stage.addActor(optionTable);
 
         //Setting the enemy amount and getting the path
         // for the level.
@@ -97,7 +153,9 @@ public class GameScreen extends ScreenAdapter {
 
 
         multi.addProcessor(UI.getStage());
-        multi.addProcessor(tower);
+        multi.addProcessor(stage);
+        multi.addProcessor(this);
+        //multi.addProcessor(tower);
 
 
         Gdx.input.setInputProcessor(multi);
@@ -146,6 +204,7 @@ public class GameScreen extends ScreenAdapter {
         padi.batch.end();
 
         UI.getStage().draw();
+        stage.draw();
 
         //checks if game ended.
         END_GAME = enemy.noMoreEnemy();
@@ -155,6 +214,32 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+
+
+    /**Takes the coord of a click, and the coord of a tower
+     * if their respective rectangles overlap, then user has
+     * "clicked" a tower.  Towers actually take no direct user input.
+     * The optionsTable will be located at where the clicked tower is.
+     * 'b' boolean below toggles the option table.
+     * 'currentBS' points to the clicked BuildableSpot
+     * it will be passed into clickedBuildableSpot() in towerManager.
+     * */
+    boolean b = false;
+    public void clickedTower(int x, int y){
+        Rectangle rec1 = new Rectangle();
+        rec1.setSize(2f, 2f);
+        rec1.setPosition(x, Gdx.graphics.getHeight() - y);
+        for(int s = 0; s < tower.getBuildableArray().size; s++){
+            if(rec1.overlaps(tower.getBuildableArray().get(s).getBoundingRectangle())){
+                b = !b;
+                optionTable.setPosition(tower.getBuildableArray().get(s).getX() - (optionTable.getWidth()/2),
+                        tower.getBuildableArray().get(s).getY() - (optionTable.getHeight() - 5f));
+                optionTable.setVisible(b);
+                System.out.println("clicked tower #" + s);
+                currentBS = tower.getBuildableArray().get(s);
+            }
+        }
+    }
 
 
 
@@ -168,8 +253,9 @@ public class GameScreen extends ScreenAdapter {
 
     //TODO: make different types of enemies worth differently.
     public void calcMoney(){
-        tower.updateInGameMoney((int)(Math.abs(oldEnemyCount - newEnemyCount)*10));
+        tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 10));
         oldEnemyCount = newEnemyCount;
+       tower.updateInGameMoney(UI.getFakeMoney());
     }
 
 
@@ -224,7 +310,7 @@ public class GameScreen extends ScreenAdapter {
 
         double x2x1 = a.x - b.x;
         double y2y1 = a.y - b.y;
-        return Math.sqrt((x2x1*x2x1) + (y2y1*y2y1));
+        return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
     }
 
 
@@ -248,6 +334,48 @@ public class GameScreen extends ScreenAdapter {
     public void pause(){
 
     }
+
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        clickedTower(x,y);
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
 }
 
 

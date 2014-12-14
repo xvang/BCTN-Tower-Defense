@@ -32,7 +32,7 @@ public class TowerManager implements InputProcessor {
     private Array<MainTower> towerArray;
     private Array<BuildableSpot> buildableArray;
 
-    private int inGameMoney = 100;
+    private int inGameMoney = 300;
 
     public TowerManager(){
         towerArray = new Array<MainTower>();
@@ -100,6 +100,7 @@ public class TowerManager implements InputProcessor {
     }
 
     public Array<MainTower> getTowerArray(){return towerArray;}
+    public Array<BuildableSpot> getBuildableArray(){return buildableArray;}
 
 
     public void addBuildableSpots(Vector2 position){
@@ -137,8 +138,6 @@ public class TowerManager implements InputProcessor {
      * @param 't'
      * */
     public void clickedBuildable(BuildableSpot t){
-        Vector2 oldPosition = new Vector2(t.getLocation());
-
         //if 'true' then nothing is built there. yet.
         if(t.emptyCurrentTower()){
             TowerA newTower = new TowerA(new Vector2(t.getX(),
@@ -147,20 +146,19 @@ public class TowerManager implements InputProcessor {
                 towerArray.add(newTower);
                 t.setCurrentTower(newTower);//points the buildablspot to the tower.
                 inGameMoney -= newTower.getCost();
-
-
-
-
             }
 
         }
 
         //TowerA is currently there. Will delete and build Tower B.
         else if(t.getCurrentTower().getID().equals("A")) {
-            towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
+
             TowerB newTower = new TowerB(new Vector2(t.getX(),
                                                      t.getY())); //Create TowerB
             if(inGameMoney >= newTower.getCost()){
+
+
+                towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
                 towerArray.add(newTower);
                 t.setCurrentTower(newTower);//points to the tower.
                 inGameMoney -= newTower.getCost();

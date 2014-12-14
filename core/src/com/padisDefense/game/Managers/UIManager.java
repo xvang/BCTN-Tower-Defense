@@ -3,11 +3,15 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 
 import java.math.BigDecimal;
@@ -31,6 +35,10 @@ public class UIManager {
     private Label timeMessage;
     Table popup;
 
+    int fakeMoney;
+
+    private TextButton button;
+
     public UIManager(){
         this.init();
     }
@@ -42,6 +50,9 @@ public class UIManager {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         moneyMessage = new Label("$ ", skin);
         enemyMessage = new Label("Enemies left: ", skin);
+        button = new TextButton("WTF", skin, "default");
+        button.setSize(40f, 20f);
+        button.setPosition(Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
 
 
 
@@ -54,6 +65,12 @@ public class UIManager {
 
         background.setSize(200f, Gdx.graphics.getHeight());
         background.setPosition(Gdx.graphics.getWidth() - background.getWidth(), 0);
+        background.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                fakeMoney++;
+            }
+        });
         table.setSize(200f, Gdx.graphics.getHeight());
         table.setPosition(Gdx.graphics.getWidth() - 200f, 0);
 
@@ -62,12 +79,16 @@ public class UIManager {
         table.add(enemyMessage).row().row();
         table.add(moneyMessage).row().row();
         table.add(background).row();
-        table.add(timeMessage);
+        table.add(timeMessage).row();
+        //table.add(button);
 
         stage.addActor(table);
         stage.addActor(popup);
+        //stage.addActor(button);
     }
 
+
+    public int getFakeMoney(){if(fakeMoney > 0)return fakeMoney--;return 0;}
 
     public Stage getStage(){return stage;}
     public Table getTable(){return table;}

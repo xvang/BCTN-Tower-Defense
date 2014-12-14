@@ -22,6 +22,7 @@ public class BuildableSpot extends MainTower{
     public BuildableSpot(Vector2 p){
         setTexture(new Texture("test3.png"));
         setSize(30f, 30f);
+        setID("BS");
 
     }
 
@@ -34,13 +35,18 @@ public class BuildableSpot extends MainTower{
     }
 
 
+    //If is is a null pointer, then setAttack should throw an error, right?
+    //side note: i don't think 'if(currentTower == null)' works.
+    //further test required.
     public boolean emptyCurrentTower(){
 
-        if(currentTower == null){
-            return true;
+        try{
+            currentTower.setAttack(1);
+            return false;//false, currentTower is NOT empty.
+        }catch(Exception e){
+            return true;//true, it IS empty.
         }
 
-        return false;
     }
 
 
