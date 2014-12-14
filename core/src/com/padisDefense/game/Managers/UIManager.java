@@ -2,17 +2,18 @@ package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -36,8 +37,15 @@ public class UIManager {
     Table popup;
 
     int fakeMoney;
-
     private TextButton button;
+
+
+    //charging meter.
+    private Image loadingHidden;
+    private Image loadingFrame;
+    private Actor loadingBar;
+    private float startX, endX, percent;
+
 
     public UIManager(){
         this.init();
@@ -51,10 +59,22 @@ public class UIManager {
         moneyMessage = new Label("$ ", skin);
         enemyMessage = new Label("Enemies left: ", skin);
         button = new TextButton("WTF", skin, "default");
-        button.setSize(40f, 20f);
+
+        loadingHidden = new Image(new Texture("progressbarempty.png"));
+        loadingFrame = new Image(new Texture("progressbarbackground.png"));
+        loadingBar = new Image(new Texture("progressbar.png"));
+
+        loadingFrame.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - (loadingFrame.getHeight() / 2 + 10f));
+        loadingBar.setPosition(loadingFrame.getX() + 10f, loadingFrame.getY() + 10f);
+        loadingBar.setSize(0, 0);
+        loadingHidden.setPosition(loadingBar.getX(), loadingBar.getY());
+        startX = loadingHidden.getX();
+        endX = loadingHidden.getX() + loadingHidden.getWidth();
+
+
+
+        button.setSize(100f, 20f);
         button.setPosition(Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
-
-
 
         timeMessage = new Label("Total time: " + String.valueOf(TIMER), skin);
         popup = new Table();
@@ -84,8 +104,14 @@ public class UIManager {
 
         stage.addActor(table);
         stage.addActor(popup);
+        stage.addActor(loadingFrame);
+        stage.addActor(loadingHidden);
+        stage.addActor(loadingBar);
+
         //stage.addActor(button);
     }
+
+
 
 
     public int getFakeMoney(){if(fakeMoney > 0)return fakeMoney--;return 0;}
@@ -111,6 +137,22 @@ public class UIManager {
         timeMessage.setText("Timer: " + String.valueOf(round(TIMER, 1)));
     }
 
+    float a = 0;
+    public void updateChargeMeter(float d){
+
+        if(loadingBar.getWidth() < loadingHidden.getWidth()){
+            a += d;
+            loadingBar.setSize(a, loadingHidden.getHeight());
+            stage.act();
+        }
+
+    }
+
+    public boolean fullChargeMeter(){
+        return (loadingHidden.getWidth() == loadingFrame.getWidth());
+    }
+
+
     public static double round(float value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
@@ -118,4 +160,16 @@ public class UIManager {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+    public void dispose(){
+        stage.dispose();
+        skin.dispose();
+    }
 }
+
+
+
+/**
+ *
+ * https://github.com/Matsemann/libgdx-loading-screen/blob/master/Main/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java
+ * **/

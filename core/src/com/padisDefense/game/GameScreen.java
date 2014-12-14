@@ -28,7 +28,7 @@ import java.math.RoundingMode;
 
 
 /**
- * There are three levels to the GUI here.
+ * There are three levels to the GUI control here.
  * UIManager, the towers/paths/enemies, and the stage in this class.
  *
  *
@@ -247,7 +247,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public void updateUIStuff(){
         UI.updateEnemyMessage(enemy.getEnemyCounter());
         UI.updateMoneyMessage(tower.getInGameMoney());
-
+        UI.updateChargeMeter(0.1f);
 
     }
 
@@ -320,21 +320,15 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         enemy.dispose();
         tower.dispose();
         bullet.dispose();
-
-
-
+        UI.dispose();
     }
 
 
 
     @Override
-    public void hide(){
-
-    }
+    public void hide(){}
     @Override
-    public void pause(){
-
-    }
+    public void pause(){}
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
@@ -343,39 +337,25 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
+    public boolean touchDragged(int screenX, int screenY, int pointer) {return false;}
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
+    public boolean mouseMoved(int screenX, int screenY) {return false;}
 
     @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
+    public boolean scrolled(int amount) {return false;}
 
     @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
+    public boolean keyDown(int keycode) {return false;}
 
     @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
+    public boolean keyUp(int keycode) {return false;}
 
     @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
+    public boolean keyTyped(char character) {return false;}
 
 }
 
