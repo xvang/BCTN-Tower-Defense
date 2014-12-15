@@ -33,6 +33,7 @@ public class MainTower extends Sprite {
     private float chargeRate;
     private float incomeRate;
     private Boolean state;//TRUE is shooting. FALSE is charging.
+    private String message;//for the optionTable buttons. In GameScren.
     private float fireRate;
     private Boolean hasTarget;
     private Enemy target;
@@ -73,6 +74,7 @@ public class MainTower extends Sprite {
         ID = id;
     }
     public void setBulletLimit(int b){bulletLimit = b;}
+    public void setMessage(String m){message = m;}
 
 
     public float getCost(){return cost;}
@@ -88,6 +90,13 @@ public class MainTower extends Sprite {
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
+    public String getMessage(){
+        if(state)
+            return "Charge";
+
+        return "Attack";
+    }
+
 
     //The bullet will spawn where this function returns..?
     public Vector2 getLocation(){

@@ -22,6 +22,7 @@ import com.padisDefense.game.Managers.LevelManager;
 import com.padisDefense.game.Managers.TowerManager;
 import com.padisDefense.game.Managers.UIManager;
 import com.padisDefense.game.Towers.BuildableSpot;
+import com.padisDefense.game.Towers.MainTower;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -53,11 +54,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //but it never hurts to have,  right?
     InputMultiplexer multi;
 
+
     private Stage stage;
     private Skin skin;
     private Table optionTable;
     private TextButton charge, upgrade, sell;
-    private BuildableSpot currentBS;//points to the clicked buildableSpot.
+    private BuildableSpot currentBS = null;//points to the clicked buildableSpot.
+
 
 
 
@@ -89,27 +92,68 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         charge = new TextButton("Charge", skin, "default");
         upgrade = new TextButton("Upgrade", skin, "default");
         sell = new TextButton("Sell", skin, "default");
-        optionTable.add(charge);
-        optionTable.add(upgrade);
-        optionTable.add(sell);
+        optionTable.add(charge).pad(5f);
+        optionTable.add(upgrade).pad(5f);
+        optionTable.add(sell).pad(5f);
         optionTable.setSize(50f, 50f);
         optionTable.setVisible(false);
 
+        //CurrentBS is a 'MainTower' pointer located in a BuildableSpot
+        //it points to the tower  that was clicked.
+        //changing it will change the state of the desired tower. At least it should.
+        //the button's text also toggles between 'charge' and 'attack'.
+        //here we are only changing the state.
+        //the effects of the change is calculated in gatherCharge();
         charge.addListener(new ClickListener(){
+
             @Override
             public void clicked(InputEvent e, float x, float y){
+                System.out.println("clickedCharge");
                 b = !b;
                 optionTable.setVisible(b);
 
+                try{
+                    if(currentBS.getCurrentTower().getState()) {
+                        currentBS.getCurrentTower().setState(false);
+                        charge.setText(currentBS.getCurrentTower().getMessage());
+                    }
+
+                    else if(!currentBS.getCurrentTower().getState()){
+                        currentBS.getCurrentTower().setState(true);
+                        charge.setText(currentBS.getCurrentTower().getMessage());
+                    }
+                }catch(Exception a){
+                    //do nothing.
+                }
             }
         });
 
+        //upgrades the tower, and keeps the old state of the tower.
+        //Exaple: tower was charging, got upgraded, should still be charging.
         upgrade.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
                 b = !b;
                 optionTable.setVisible(b);
+                boolean oldState = true;
+                try{
+                    oldState = currentBS.getCurrentTower().getState();
+
+
+                }catch(Exception t){
+                    //do nothing.
+                }
+
                 tower.clickedBuildable(currentBS);
+                try{
+                    currentBS.getCurrentTower().setState(oldState);
+                    charge.setText(currentBS.getCurrentTower().getMessage());
+                }catch(NullPointerException n){
+                    System.out.println("NOT ENOUGH MONEY");
+                }
+
+
+
             }
         });
 
@@ -153,11 +197,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         multi = new InputMultiplexer();
 
 
-        multi.addProcessor(UI.getStage());
+
         multi.addProcessor(stage);
         multi.addProcessor(this);
-        //multi.addProcessor(tower);
-
+        multi.addProcessor(UI.getStage());
 
         Gdx.input.setInputProcessor(multi);
 
@@ -167,8 +210,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //TODO: mess with the GDX.clearcolor() to make NUKE animations.
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(2f,.5f,0.88f,6);
+        //Gdx.gl.glClearColor(2f,.5f,0.88f,6);
         //Gdx.gl.glClearColor(0,0,0,0);
+        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(1,1,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
@@ -191,6 +236,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
             //if needed, assigns new targets.
             assignTargets();
+            gatherCharge();
 
             UI.updateTimer(Gdx.graphics.getDeltaTime());
             UI.updateTimerMessage();
@@ -208,9 +254,11 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         stage.draw();
 
         //checks if game ended.
-        END_GAME = enemy.noMoreEnemy();
-        if(END_GAME){
+
+        if(enemy.noMoreEnemy() || UI.fullChargeMeter()){
+            END_GAME = true;
             System.out.println("You win!");
+            enemy.destroyAllEnemy();
             //padi.setScreen(padi.worldmap);
         }
     }
@@ -233,11 +281,21 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         for(int s = 0; s < tower.getBuildableArray().size; s++){
             if(rec1.overlaps(tower.getBuildableArray().get(s).getBoundingRectangle())){
                 b = !b;
+
+                //updating the 'charge' button message.
+                try{
+                    charge.setText(tower.getBuildableArray().get(s).getCurrentTower().getMessage());
+                }catch(Exception e){
+
+                    charge.setText(tower.getBuildableArray().get(s).getMessage());
+                }
+
                 //setting the optiontable's location to where clicked tower is.
                 optionTable.setPosition(tower.getBuildableArray().get(s).getX() - (optionTable.getWidth()/2),
                         tower.getBuildableArray().get(s).getY() - (optionTable.getHeight() - 5f));
                 optionTable.setVisible(b);
                 currentBS = tower.getBuildableArray().get(s);
+
             }
         }
     }
@@ -247,7 +305,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public void updateUIStuff(){
         UI.updateEnemyMessage(enemy.getEnemyCounter());
         UI.updateMoneyMessage(tower.getInGameMoney());
-        UI.updateChargeMeter(0.1f);
+
 
     }
 
@@ -315,6 +373,18 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     }
 
 
+    //if getState() returns 'false', then it must be in charging mode.
+    //its chargRate is retrieved and added to temp.
+    //temp is passed to UIManager to update charging meter.
+    public void gatherCharge(){
+        float temp = 0;
+        for(int x = 0; x < tower.getTowerArray().size; x++){
+            if(!tower.getTowerArray().get(x).getState())
+                temp += tower.getTowerArray().get(x).getChargeRate();
+
+        }
+        UI.updateChargeMeter(temp);
+    }
     @Override
     public void dispose(){
         enemy.dispose();
@@ -340,7 +410,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {return false;}
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+
+        System.out.println(screenX + "  :  " + screenY);
+        return false;
+    }
+
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {return false;}

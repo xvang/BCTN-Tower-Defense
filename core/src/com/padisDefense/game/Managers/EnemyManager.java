@@ -224,6 +224,14 @@ public class EnemyManager {
     public int getEnemyCounter(){return enemyCounter;}
 
 
+    //if winning condition is met,
+    //destroys remaining enemy.
+    public void destroyAllEnemy(){
+        spawnsLeft = 0;
+        enemyCounter = 0;
+        activeEnemy.clear();
+
+    }
 
     public void dispose(){
         renderer.dispose();

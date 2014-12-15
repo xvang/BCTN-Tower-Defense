@@ -15,7 +15,7 @@ public class BuildableSpot extends MainTower{
 
 
     //'currentTower' points to what is currently built on a buildableSpot.
-    private MainTower currentTower;
+    private MainTower currentTower = null;
 
 
     //Currently, Vector p is unused.
@@ -23,7 +23,8 @@ public class BuildableSpot extends MainTower{
         setTexture(new Texture("test3.png"));
         setSize(30f, 30f);
         setID("BS");
-
+        setState(false);
+        //setMessage("Attack");
     }
 
 

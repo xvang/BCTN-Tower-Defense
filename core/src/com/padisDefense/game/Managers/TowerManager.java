@@ -26,7 +26,7 @@ import com.padisDefense.game.Towers.TowerB;
  *
  * @author  Xeng
 * **/
-public class TowerManager implements InputProcessor {
+public class TowerManager {
 
 
     private Array<MainTower> towerArray;
@@ -181,71 +181,7 @@ public class TowerManager implements InputProcessor {
     }
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    /**
-     * TODO fix touchDown().
-     *
-     * the y-axis seems to be upside down. Or was it always that way?
-     * top left is (0,0)
-     * BOTTOM left should be (0,0)/?
-     * will check back for updates
-     *
-     * **/
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        //Retrieves where user click, and checks if it is a buildableSpot
-        Rectangle rec = new Rectangle();
-        rec.setCenter(new Vector2(x,Gdx.graphics.getHeight() - y));
-
-        rec.setSize(5f, 5f);
-
-        //System.out.println("tower.size = " + towerArray.size);
-        //System.out.println("buildable.size = " + buildableArray.size);
-        for(int s = 0; s < buildableArray.size; s++){
-
-            if(buildableArray.get(s).getBoundingRectangle().overlaps(rec)){
-
-                clickedBuildable(buildableArray.get(s));
-            }
-
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
     public void dispose() {
         for (int x = 0; x < towerArray.size; x++) {
             towerArray.get(x).getTexture().dispose();

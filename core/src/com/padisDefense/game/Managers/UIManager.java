@@ -1,6 +1,7 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 
-public class UIManager {
+public class UIManager implements InputProcessor{
 
 
     Image background;
@@ -44,7 +45,6 @@ public class UIManager {
     private Image loadingHidden;
     private Image loadingFrame;
     private Actor loadingBar;
-    private float startX, endX, percent;
 
 
     public UIManager(){
@@ -68,9 +68,6 @@ public class UIManager {
         loadingBar.setPosition(loadingFrame.getX() + 10f, loadingFrame.getY() + 10f);
         loadingBar.setSize(0, 0);
         loadingHidden.setPosition(loadingBar.getX(), loadingBar.getY());
-        startX = loadingHidden.getX();
-        endX = loadingHidden.getX() + loadingHidden.getWidth();
-
 
 
         button.setSize(100f, 20f);
@@ -119,8 +116,6 @@ public class UIManager {
     public Stage getStage(){return stage;}
     public Table getTable(){return table;}
     public float getTimer(){return TIMER;}
-
-
     public void setBackground(Image s){background = s;}
     public void updateTimer(float d){TIMER += d;}
 
@@ -138,18 +133,27 @@ public class UIManager {
     }
 
     float a = 0;
+    boolean stopUpdating = false;
     public void updateChargeMeter(float d){
 
-        if(loadingBar.getWidth() < loadingHidden.getWidth()){
-            a += d;
-            loadingBar.setSize(a, loadingHidden.getHeight());
-            stage.act();
+
+        if(!stopUpdating) {
+            if (loadingBar.getWidth() < loadingHidden.getWidth()) {
+                a += d;
+                loadingBar.setSize(a, loadingHidden.getHeight());
+                stage.act();
+            }
+        }
+
+        if(loadingBar.getWidth() >= loadingHidden.getWidth()) {
+            stopUpdating = true;
+            loadingBar.setWidth(loadingHidden.getWidth());
         }
 
     }
 
     public boolean fullChargeMeter(){
-        return (loadingHidden.getWidth() == loadingFrame.getWidth());
+        return (loadingBar.getWidth() == loadingHidden.getWidth());
     }
 
 
@@ -165,6 +169,40 @@ public class UIManager {
         stage.dispose();
         skin.dispose();
     }
+
+
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button) {
+
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+
+
+        System.out.println(screenX + "  :  " + screenY);
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {return false;}
+
+    @Override
+    public boolean scrolled(int amount) {return false;}
+
+    @Override
+    public boolean keyDown(int keycode) {return false;}
+
+    @Override
+    public boolean keyUp(int keycode) {return false;}
+
+    @Override
+    public boolean keyTyped(char character) {return false;}
+
 }
 
 

@@ -17,8 +17,8 @@ public class TowerA extends MainTower{
         setBulletLimit(20);
         setCost(50);
         setAttack(2f);
-        setRange(100f);
-        setChargeRate(3f);
+        setRange(150f);
+        setChargeRate(0.1f);
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.1f);
