@@ -37,6 +37,7 @@ public class MainTower extends Sprite {
     private float fireRate;
     private Boolean hasTarget;
     private Enemy target;
+    private String bulletTexture;
 
 
     //Creating a pool method thing.
@@ -50,6 +51,7 @@ public class MainTower extends Sprite {
     public MainTower(){
         hasTarget = false;
         ID = "";
+        bulletTexture = "test2.png";
         activeBullets = new Array<Bullet>();
         pool = new Pool<Bullet>() {
             @Override
@@ -75,6 +77,7 @@ public class MainTower extends Sprite {
     }
     public void setBulletLimit(int b){bulletLimit = b;}
     public void setMessage(String m){message = m;}
+    public void setBulletTexture(String t){bulletTexture = t;}
 
 
     public float getCost(){return cost;}
@@ -90,6 +93,8 @@ public class MainTower extends Sprite {
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
+    public Texture getBulletTexture(){return new Texture(bulletTexture);}
+
     public String getMessage(){
         if(state)
             return "Charge";
@@ -105,6 +110,8 @@ public class MainTower extends Sprite {
 
     public void dispose(){
         getTexture().dispose();
+        activeBullets.clear();
+        pool.clear();
     }
 
 

@@ -65,6 +65,7 @@ public class BulletManager {
 
                 item = t.getPool().obtain();
                 item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
+                item.setTexture(t.getBulletTexture());
                 t.getActiveBullets().add(item);
                 spawnTimer = 0;
             }

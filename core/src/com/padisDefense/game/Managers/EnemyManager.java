@@ -113,8 +113,6 @@ public class EnemyManager {
         }
 
         checkForDead();
-        //removeReachedEnd();//If looping, we don't want this.
-
         //int old = enemyAmount;
 
         //System.out.println("Enemy size = " + activeEnemy.size);

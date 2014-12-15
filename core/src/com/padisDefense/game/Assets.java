@@ -23,7 +23,7 @@ public class Assets {
     public Vector splash_Pages;
 
 
-    Assets(Padi p){
+    public Assets(Padi p){
 
         padi = p;
         background = new Texture("test3.png");
@@ -51,6 +51,31 @@ public class Assets {
 
     }
 
+    public Assets(){
+        background = new Texture("test3.png");
+
+        //test_comment
+        splash_Pages = new Vector();
+
+        //ADD MORE SPLASH SCREENS HERE
+
+
+        splash_Pages.add("limegreen.png");
+
+        splash_Pages.add("test10.png");
+        splash_Pages.add("test9.png");
+        splash_Pages.add("test8.png");
+        splash_Pages.add("test7.png");
+        splash_Pages.add("test6.png");
+        splash_Pages.add("test5.png");
+        splash_Pages.add("test4.png");
+        splash_Pages.add("test3.png");
+        splash_Pages.add("test2.png");
+        splash_Pages.add("test1.png");
+        splash_Pages.add("badlogic.jpg");
+
+
+    }
 
 
     //Returns a random picture to be used as Splash screen, or background.

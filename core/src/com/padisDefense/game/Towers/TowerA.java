@@ -14,7 +14,7 @@ public class TowerA extends MainTower{
         setPosition(position.x, position.y);
         setTexture(new Texture("test2.png"));
         setSize(30f, 30f);
-        setBulletLimit(20);
+        setBulletLimit(15);
         setCost(50);
         setAttack(2f);
         setRange(150f);
@@ -23,8 +23,10 @@ public class TowerA extends MainTower{
         setState(true);
         setFireRate(0.1f);
         setID("A");
+        setBulletTexture("test5.png");
 
     }
+
 
 
 

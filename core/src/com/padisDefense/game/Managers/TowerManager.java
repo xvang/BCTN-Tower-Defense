@@ -15,6 +15,7 @@ import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.MainTower;
 import com.padisDefense.game.Towers.TowerA;
 import com.padisDefense.game.Towers.TowerB;
+import com.padisDefense.game.Towers.TowerC;
 
 /**
  *
@@ -125,6 +126,8 @@ public class TowerManager {
     }
 
 
+
+
     //TODO change HOW tower upgrading works. Currently, the code is just stuff to see if everything work.
 
 
@@ -157,6 +160,18 @@ public class TowerManager {
                                                      t.getY())); //Create TowerB
             if(inGameMoney >= newTower.getCost()){
 
+                towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
+                towerArray.add(newTower);
+                t.setCurrentTower(newTower);//points to the tower.
+                inGameMoney -= newTower.getCost();
+            }
+        }
+
+        else if(t.getCurrentTower().getID().equals("B")) {
+
+            TowerC newTower = new TowerC(new Vector2(t.getX(),
+                    t.getY())); //Create TowerB
+            if(inGameMoney >= newTower.getCost()){
 
                 towerArray.removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
                 towerArray.add(newTower);
@@ -164,6 +179,8 @@ public class TowerManager {
                 inGameMoney -= newTower.getCost();
             }
         }
+
+
 
         //System.out.println("towerArray size = " + towerArray.size);
     }
@@ -181,6 +198,58 @@ public class TowerManager {
     }
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
+
+    public void updateTargets(){
+        double currentDistance;
+        for(int x = 0; x < towerArray.size; x++) {
+            currentDistance = findDistance(towerArray.get(x).getLocation(),
+                    towerArray.get(x).getTarget().getLocation());
+
+            if(currentDistance >= towerArray.get(x).getRange()){
+                towerArray.get(x).setHasTarget(false);
+            }
+        }
+    }
+
+    public void assignTargets(EnemyManager enemy){
+        double currentMin, previousMin = 1000;
+        Enemy temp = new Enemy(new Vector2(-1,-1));//dummy enemy.
+
+        for(int x = 0; x < towerArray.size; x++){
+
+            if(!towerArray.get(x).getHasTarget()){//hasTarget == false
+
+                for(int y = 0; y < enemy.getActiveEnemy().size; y++){
+
+                    //finding distance between tower and enemy.
+                    currentMin = findDistance(new Vector2(towerArray.get(x).getLocation()),
+                            new Vector2(enemy.getActiveEnemy().get(y).getLocation()));
+
+                    //Within range, closest target so far.
+                    if(currentMin < towerArray.get(x).getRange() &&
+                            currentMin < previousMin){
+                        previousMin = currentMin;
+                        temp = enemy.getActiveEnemy().get(y);
+                    }
+
+                }
+            }
+
+            //temp was initialized to be at (-1, -1). If it is no longer there,
+            //then it had to have changed above.
+            if(temp.getX() != -1){
+                towerArray.get(x).setTarget(temp);
+                towerArray.get(x).setHasTarget(true);
+            }
+        }
+    }
+
+    public double findDistance(Vector2 a, Vector2 b){
+
+        double x2x1 = a.x - b.x;
+        double y2y1 = a.y - b.y;
+        return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
+    }
 
     public void dispose() {
         for (int x = 0; x < towerArray.size; x++) {

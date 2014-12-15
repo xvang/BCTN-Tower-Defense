@@ -22,5 +22,6 @@ public class TowerB extends MainTower {
         setState(true);
         setFireRate(0.05f);
         setID("B");
+        setBulletTexture("test7.png");
     }
 }

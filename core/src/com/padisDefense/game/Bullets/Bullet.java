@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Bezier;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.padisDefense.game.Assets;
 
 
 /**
@@ -28,10 +29,12 @@ public class Bullet extends Sprite implements Pool.Poolable {
     public boolean alive;
     private float time;
 
+    private Assets assets;
+
     public Bullet (Vector2 p){
 
-
-        this.setTexture(new Texture("test9.png"));
+        assets = new Assets();
+        this.setTexture(new Texture("test7.png"));
         this.setSize(5f, 5f);
         this.setPosition(p.x, p.y);
         this.alive = false;
