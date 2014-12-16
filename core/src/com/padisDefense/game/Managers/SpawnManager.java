@@ -3,15 +3,18 @@ package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
+import com.padisDefense.game.Towers.AOETower;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.TowerA;
-import com.padisDefense.game.Towers.TowerB;
-import com.padisDefense.game.Towers.TowerC;
+import com.padisDefense.game.Towers.GhostTower;
+import com.padisDefense.game.Towers.IceTower;
+import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.SpeedTower;
+import com.padisDefense.game.Towers.StrengthTower;
 
 public class SpawnManager {
 
@@ -82,43 +85,54 @@ public class SpawnManager {
      * */
     public void clickedBuildable(BuildableSpot t, String type){
 
-        //if 'true' then nothing is built there. yet.
-        if(t.emptyCurrentTower()){
-            TowerA newTower = new TowerA(new Vector2(t.getX() + (t.getWidth() / 8),
-                    t.getY() + (t.getHeight() / 8)));
-            if(tower.getInGameMoney() >= newTower.getCost()){
-                tower.getTowerArray().add(newTower);
-                t.setCurrentTower(newTower);//points the buildablspot to the tower.
-                tower.updateInGameMoney(-(int)newTower.getCost());
-            }
+        System.out.println("Making: " + type);
 
+
+        MainTower newTower = null;
+        Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
+                t.getY() + (t.getHeight() / 8));
+
+        //Create SpeedTower
+        if(type.equals("speed")){
+            newTower = new SpeedTower(spawnPosition);
         }
 
-        //TowerA is currently there. Will delete and build Tower B.
-        else if(t.getCurrentTower().getID().equals("A")) {
+        //Create StrengthTower
+        else if(type.equals("strength")) {
+            newTower = new StrengthTower(spawnPosition); //Create StrengthTower
+        }
 
-            TowerB newTower = new TowerB(new Vector2(t.getX() + (t.getWidth() / 8),
-                    t.getY() + (t.getHeight() / 8))); //Create TowerB
-            if(tower.getInGameMoney()  >= newTower.getCost()){
+        //Create IceTower
+        else if(type.equals("ice")) {
+            newTower = new IceTower(spawnPosition);
+        }
 
-                tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
+        else if(type.equals("rogue")){
+            newTower = new RogueTower(spawnPosition);
+        }
+
+        else if(type.equals("aoe")){
+            newTower = new AOETower(spawnPosition);
+        }
+
+        else if(type.equals("ghost")){
+            newTower = new GhostTower(spawnPosition);
+        }
+
+
+        try{
+            if(tower.getInGameMoney() >= newTower.getCost()){
+                tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
                 tower.getTowerArray().add(newTower);
                 t.setCurrentTower(newTower);//points to the tower.
                 tower.updateInGameMoney(-(int)newTower.getCost());
             }
-        }
 
-        else if(t.getCurrentTower().getID().equals("B")) {
-
-            TowerC newTower = new TowerC(new Vector2(t.getX() + (t.getWidth() / 8),
-                    t.getY() + (t.getHeight() / 8))); //Create TowerB
-            if(tower.getInGameMoney() >= newTower.getCost()){
-
-                tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes TowerA from towerArray.
-                tower.getTowerArray().add(newTower);
-                t.setCurrentTower(newTower);//points to the tower.
-                tower.updateInGameMoney(-(int)newTower.getCost());
-            }
+        }catch(Exception e){
+            //If user clicks 'upgrade' then that message will be sent here,
+            //and there's nothing for upgrade yet, so that will make a
+            //NullpointerException pop up.
+            //Hence the temporary try-catch.
         }
 
 

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Managers.BulletManager;
+import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
 import com.padisDefense.game.Managers.LevelManager;
 import com.padisDefense.game.Managers.SpawnManager;
@@ -45,6 +46,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public BulletManager bullet;
     public LevelManager level;
     public SpawnManager spawn;
+    public DamageManager damage;
 
     //stuff for the UI
     public UIManager UI;
@@ -69,10 +71,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         enemy = new EnemyManager();
         tower = new TowerManager();
-        bullet = new BulletManager();
+
         level = new LevelManager();
         spawn = new SpawnManager(tower);
         UI = new UIManager(spawn);
+        damage = new DamageManager(enemy);
+        bullet = new BulletManager(damage);
 
 
 
@@ -121,7 +125,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         padi.batch.begin();
         oldEnemyCount = enemy.getEnemyCounter();
         enemy.startEnemy(padi.batch, spawn);
-        tower.startTowers(padi.batch);
+        tower.startTowers(padi.batch, enemy);
 
 
         if(!END_GAME) {
@@ -132,9 +136,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                         tower.getTowerArray().get(x).getTarget());
             }
 
-
+           // tower.checkRange();
             //if needed, assigns new targets.
-            tower.assignTargets(enemy);
+            //tower.assignTargets(enemy);
             gatherCharge();
 
             UI.updateTimer(Gdx.graphics.getDeltaTime());
@@ -197,11 +201,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void pause(){}
 
-    int counter = 0;
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        counter++;
-        System.out.println(counter);
         UI.clickedTower(x, y, tower);
         return false;
     }

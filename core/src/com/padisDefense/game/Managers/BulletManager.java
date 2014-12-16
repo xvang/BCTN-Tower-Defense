@@ -28,11 +28,14 @@ public class BulletManager {
 
     private float spawnTimer = 0;
 
+    DamageManager damage;
+
 
     //stores path of current level.
     private Path<Vector2> path;
 
-    public BulletManager(){
+    public BulletManager(DamageManager d){
+        damage = d;
     }
 
 
@@ -61,7 +64,7 @@ public class BulletManager {
             Bullet item;
 
 
-            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > 1f){
+            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()){
 
                 item = t.getPool().obtain();
                 item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
@@ -74,7 +77,7 @@ public class BulletManager {
             for(int x = 0;x < t.getActiveBullets().size; x++){
 
                 //time is from the bullet
-                float time = (t.getActiveBullets().get(x).getTime() + 0.01f);
+                float time = (t.getActiveBullets().get(x).getTime() + t.getBulletRate());
 
                 //calculates the bullet's location on the path
                 //using the bullet's time.
@@ -93,7 +96,10 @@ public class BulletManager {
                  * not sure which one is better yet.
                  * One uses Rectangles, the other uses Vector2.*/
                 if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)){
-                    e.updateHealth(t.getAttack());
+
+                    damage.hit(t, e);
+
+
                 }
                 /*if(hitEnemy(t.getActiveBullets().get(x), e)){
                     e.updateHealth(t.getAttack());

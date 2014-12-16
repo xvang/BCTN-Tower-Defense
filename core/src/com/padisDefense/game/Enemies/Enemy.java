@@ -19,7 +19,9 @@ public class Enemy extends Sprite{
     private float armor;
     private int chosenPath;//Path where specific enemy will travel. MainPath has 5 paths in it.
 
-    private float rate;//Every type of enemy should have a different rate.
+    //finalRate is original rate, rate is current rate,
+    //rateTimer is how long altered rates stay.
+    private float rate, finalRate, rateTimer;//How fast enemy travels
     private float time;//Used to determine position along the path.
 
     private Boolean alive;
@@ -57,7 +59,7 @@ public class Enemy extends Sprite{
     public void setChosenPath(int p){chosenPath = p;}
     public void setName(String n){name = n;}
     public void setArmor(int newArmor){armor = newArmor;}
-    public void setRate(float r){rate = r;}
+    public void setRate(float r){rate = r;finalRate = r;}
     public void setAlive(Boolean newAlive){alive = newAlive;}
     public void setTime(float t){time = t;}
 
@@ -81,9 +83,31 @@ public class Enemy extends Sprite{
     public void updateHealth(float damage){
         health -= (damage / armor);
     }
+    public void affectRate(float newRate, float time){
+        rateTimer = time;
+
+        //if rate was already lowered to less than half,
+        //no further decrease should take place.
+        if(rate > finalRate / 2)
+            rate = newRate;
+    }
     public Boolean isDead(){alive = (health > 0); return (health < 0);}
 
+    //
+    public void updateAlteredStats(){
+        //if rate==oldRate, then no rate was not changed.
+        //no need to enter if-statement.
+        if(rate != finalRate){
+            rateTimer -= Gdx.graphics.getDeltaTime();
+            if(rateTimer <= 0f){
+                rate = finalRate;
+                rateTimer = 0;
+            }
+        }
 
+
+
+    }
 
 
 

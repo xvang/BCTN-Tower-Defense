@@ -4,27 +4,25 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
-/**
- * Created by Toog on 12/14/2014.
- */
-public class TowerC extends MainTower {
 
+public class GhostTower extends MainTower{
 
-    public TowerC(Vector2 position){
+    public GhostTower(Vector2 position){
         super();
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setTexture(new Texture("test5.png"));
         setSize(30f, 30f);
-        setBulletLimit(40);
-        setCost(70);
-        setAttack(3f);
-        setRange(180f);
-        setChargeRate(0.01f);
+        setTexture(new Texture("ghosttower.png"));
+        setBulletLimit(2);
+        setCost(100);
+        setAttack(80);
+        setRange(250f);
+        setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.2f);
-        setID("C");
+        setFireRate(2f);
+        setID("ghost");
         setBulletTexture("test2.png");
+        setBulletRate(0.01f);
     }
 }

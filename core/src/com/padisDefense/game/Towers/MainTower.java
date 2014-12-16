@@ -27,16 +27,17 @@ public class MainTower extends Sprite{
 
 
     private String ID;
-    private float cost;
-    private float attack;
-    private float range;
-    private float chargeRate;
-    private float incomeRate;
-    private Boolean state;//TRUE is shooting. FALSE is charging.
-    private float fireRate;
-    private Boolean hasTarget;
+    private float cost = 1;
+    private float attack = 1;
+    private float range = 1;
+    private float chargeRate = 1;//Used in gameScreen. gatherCharge().
+    private float incomeRate = 1;
+    private Boolean state = true;//TRUE is shooting. FALSE is charging.
+    private float fireRate = 1;//Used in bulletManager. shooting().
+    private Boolean hasTarget = false;
     private Enemy target;
     private String bulletTexture;
+    private float bulletRate;
 
 
     //Creating a pool method thing.
@@ -76,6 +77,7 @@ public class MainTower extends Sprite{
     }
     public void setBulletLimit(int b){bulletLimit = b;}
     public void setBulletTexture(String t){bulletTexture = t;}
+    public void setBulletRate(float r){bulletRate = r;}
 
 
     public float getCost(){return cost;}
@@ -92,6 +94,7 @@ public class MainTower extends Sprite{
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
     public Texture getBulletTexture(){return new Texture(bulletTexture);}
+    public float getBulletRate(){return bulletRate;}
 
     public String getMessage(){
         if(state)

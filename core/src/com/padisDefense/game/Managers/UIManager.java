@@ -71,7 +71,6 @@ public class UIManager implements InputProcessor{
     private Array<TextButton> towerOptions;
 
 
-
     public UIManager(SpawnManager s){
         spawn = s;
         this.init();
@@ -349,19 +348,24 @@ public class UIManager implements InputProcessor{
     }
 
 
-
+    /**
+     * Creates a tower option that user sees when they click a buildablespot.
+     * Calls the UIManager screen to create the appropriate tower.
+     * **/
     public void createTowerTable(){
         //tower option table. it shows up with all the towers the user can make.
         towerTable = new Table();
         towerOptions = new Array<TextButton>();
 
+        String[] names = {"speed", "strength", "ice", "rogue", "aoe", "ghost"};
 
-        towerOptions.add(new TextButton("speed",skin, "default"));
-        towerOptions.add(new TextButton("power",skin, "default"));
-        towerOptions.add(new TextButton("ice",skin, "default"));
-        towerOptions.add(new TextButton("rogue",skin, "default"));
-        towerOptions.add(new TextButton("aoe",skin, "default"));
-        towerOptions.add(new TextButton("ghost",skin, "default"));
+        for(int x = 0; x < names.length; x++){
+            final TextButton t = new TextButton(names[x], skin, "default");
+            t.setSize(25f, 15f);
+            t.setName(names[x]);
+            towerOptions.add(t);
+        }
+
 
 
         //adding listeners to the towers.

@@ -1,23 +1,13 @@
 package com.padisDefense.game.Managers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.MainTower;
-import com.padisDefense.game.Towers.TowerA;
-import com.padisDefense.game.Towers.TowerB;
-import com.padisDefense.game.Towers.TowerC;
+import com.padisDefense.game.Towers.SpeedTower;
 
 /**
  *
@@ -51,7 +41,7 @@ public class TowerManager{
      *
      * @param 'batch'
      * */
-    public void startTowers(SpriteBatch batch){
+    public void startTowers(SpriteBatch batch, EnemyManager enemy){
 
         for(int x = 0; x < buildableArray.size; x++){
             buildableArray.get(x).draw(batch, 1);
@@ -66,6 +56,7 @@ public class TowerManager{
             //TODO: test to see if these two function calls are needed!!!
             checkRange();
             checkForDead(towerArray.get(x));
+            assignTargets(enemy);
 
         }
 
@@ -96,7 +87,7 @@ public class TowerManager{
         //I know it's kind of funky how I am disposing
         //and setting a texture here. Will look into it
         //in the future if I have time. But it works.
-        TowerA tower = new TowerA(position);
+        SpeedTower tower = new SpeedTower(position);
         tower.getTexture().dispose();
 
         tower.setTexture(new Texture("test2.png"));
@@ -149,10 +140,10 @@ public class TowerManager{
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
 
-
     public void updateTargets(){
         double currentDistance;
         for(int x = 0; x < towerArray.size; x++) {
+
             currentDistance = findDistance(towerArray.get(x).getLocation(),
                     towerArray.get(x).getTarget().getLocation());
 
