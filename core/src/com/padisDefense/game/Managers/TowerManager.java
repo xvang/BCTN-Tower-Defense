@@ -33,7 +33,7 @@ public class TowerManager {
     private Array<MainTower> towerArray;
     private Array<BuildableSpot> buildableArray;
 
-    private int inGameMoney = 300;
+    private int inGameMoney = 3000;
 
     public TowerManager(){
         towerArray = new Array<MainTower>();
@@ -140,7 +140,8 @@ public class TowerManager {
      *
      * @param 't'
      * */
-    public void clickedBuildable(BuildableSpot t){
+    public void clickedBuildable(BuildableSpot t, String type){
+
         //if 'true' then nothing is built there. yet.
         if(t.emptyCurrentTower()){
             TowerA newTower = new TowerA(new Vector2(t.getX(),
@@ -191,6 +192,7 @@ public class TowerManager {
             inGameMoney += (int)(t.getCurrentTower().getCost()*0.6);
             towerArray.removeValue(t.getCurrentTower(), false);
             t.setCurrentTower(null);
+            t.setHasTower(false);
         }
 
 

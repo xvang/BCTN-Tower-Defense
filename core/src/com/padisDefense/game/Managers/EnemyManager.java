@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Enemy;
@@ -85,7 +84,7 @@ public class EnemyManager {
      *
      * param 'batch'
      * */
-    public void startEnemy(SpriteBatch batch){
+    public void startEnemy(SpriteBatch batch, SpawnManager spawn){
 
 
 
@@ -119,7 +118,7 @@ public class EnemyManager {
         //Calculating if spawning is necessary.
         if(activeEnemy.size < 25 && spawnsLeft > 0){
             spawnsLeft--;
-            spawnEnemy();
+            spawn.spawnEnemy(this);
 
         }
 
@@ -148,6 +147,7 @@ public class EnemyManager {
 
     }
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
+    public MainPath getPath(){return path;}
 
 
 
@@ -158,8 +158,7 @@ public class EnemyManager {
      * This function spawns enemies.
      *
      * **/
-    public void spawnEnemy(){
-
+    /*public void spawnEnemy(Array<Enemy> activeEnemy){
 
         //This is more for testing purposes.
         //0 for goblin ,1 for bigger goblin, 2 for bestgoblin
@@ -191,7 +190,7 @@ public class EnemyManager {
             newEnemy.setTexture(new Texture("test8.png"));
             activeEnemy.add(newEnemy);
         }
-    }
+    }*/
 
     public int getSpawnsLeft(){return spawnsLeft;}
     public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}

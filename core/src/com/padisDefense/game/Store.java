@@ -30,7 +30,7 @@ public class Store extends ScreenAdapter{
 
         stage = new Stage();
         imagelist = new Array<Image>();
-        menu = new TextButton("Menu", padi.skin);
+        menu = new TextButton("Back to Menu", padi.skin);
 
 
 

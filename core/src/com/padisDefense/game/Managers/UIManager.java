@@ -5,8 +5,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Towers.BuildableSpot;
 
 
@@ -25,22 +31,23 @@ import java.math.RoundingMode;
 public class UIManager implements InputProcessor{
 
 
-    Image background;
+
     Stage stage;
-    Table table;
+    Table masterTable;
     Skin skin;
 
+
     //prints money and enemy left.
+    Table messageTable;
     Label moneyMessage;
     Label enemyMessage;
 
     //prints time in float.
     private float TIMER = 0;
     private Label timeMessage;
-    Table popup;
 
-    //if user clicks on that image thing on the right.
-    int fakeMoney;
+
+
 
 
 
@@ -54,8 +61,14 @@ public class UIManager implements InputProcessor{
     private Table optionTable;
     private TextButton charge, upgrade, sell;
     private BuildableSpot currentBS = null;//points to the clicked buildableSpot.
-    private boolean b = false;
+    private boolean b = false;// to hide the option popup after a change has been made.
     private TowerManager UITower;
+
+    //
+    private Table towerTable;
+    private Array<TextButton> towerOptions;
+
+
 
     public UIManager(){
         this.init();
@@ -63,15 +76,30 @@ public class UIManager implements InputProcessor{
 
     public void init(){
 
-
-        background = new Image(new Texture("test3.png"));
         stage = new Stage();
-        table = new Table();
+
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+
+
+        createTowerTable();
+
+
+        //option Table
+        createOptionTable();//creates option table.
+        //It's moved to a function because of the clutter
 
         //messages
         moneyMessage = new Label("$ ", skin);
         enemyMessage = new Label("Enemies left: ", skin);
+
+        //making table for messages.
+        messageTable = new Table();
+        timeMessage = new Label("Total time: " + String.valueOf(TIMER), skin);
+
+
+
+
 
 
         //charging meter
@@ -85,129 +113,37 @@ public class UIManager implements InputProcessor{
         loadingBar.setSize(0, 0);
         loadingHidden.setPosition(loadingBar.getX(), loadingBar.getY());
 
-        //option Table
-        optionTable = new Table();
-        charge = new TextButton("Charge", skin, "default");
-        upgrade = new TextButton("Upgrade", skin, "default");
-        sell = new TextButton("Sell", skin, "default");
-        optionTable.add(charge).pad(5f);
-        optionTable.add(upgrade).pad(5f);
-        optionTable.add(sell).pad(5f);
-        optionTable.setSize(50f, 50f);
-        optionTable.setVisible(false);
-
-        //adding clicklisteners for option table.
-        charge.addListener(new ClickListener(){
-
-            @Override
-            public void clicked(InputEvent e, float x, float y){
-                System.out.println("clickedCharge");
-                b = !b;
-                optionTable.setVisible(b);
-
-                try{
-                    if(currentBS.getCurrentTower().getState()) {
-                        currentBS.getCurrentTower().setState(false);
-                        charge.setText(currentBS.getCurrentTower().getMessage());
-                    }
-
-                    else if(!currentBS.getCurrentTower().getState()){
-                        currentBS.getCurrentTower().setState(true);
-                        charge.setText(currentBS.getCurrentTower().getMessage());
-                    }
-                }catch(Exception a){
-                    //do nothing.
-                }
-            }
-        });
-
-        //upgrades the tower, and keeps the old state of the tower.
-        //Exaple: tower was charging, got upgraded, should still be charging.
-        upgrade.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent e, float x, float y){
-                b = !b;
-                optionTable.setVisible(b);
-                boolean oldState = true;
-                try{
-                    oldState = currentBS.getCurrentTower().getState();
-
-
-                }catch(Exception t){
-                    //do nothing.
-                }
-
-                UITower.clickedBuildable(currentBS);
-                try{
-                    currentBS.getCurrentTower().setState(oldState);
-                    charge.setText(currentBS.getCurrentTower().getMessage());
-                }catch(NullPointerException n){
-                    System.out.println("NOT ENOUGH MONEY");
-                }
+        messageTable.setSize(200f, Gdx.graphics.getHeight());
+        messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
+        messageTable.add(enemyMessage).pad(20f).row();
+        messageTable.add(moneyMessage).pad(20f).row();
+        messageTable.add(timeMessage).row();
 
 
 
-            }
-        });
+        masterTable = new Table();
+        masterTable.setSize(200f, Gdx.graphics.getHeight());
+        masterTable.setPosition(Gdx.graphics.getWidth() - 250f,0);
 
-        sell.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent e, float x, float y){
-                b = !b;
-                optionTable.setVisible(b);
-                UITower.clearBuildable(currentBS);
-
-            }
-        });
-
-
-        //UI thing on the right.
-        timeMessage = new Label("Total time: " + String.valueOf(TIMER), skin);
-        popup = new Table();
-        popup.add(timeMessage);
-        popup.setSize(400f, 150f);
-        popup.setCenterPosition(Gdx.graphics.getWidth() - timeMessage.getWidth(), 20f);
-        popup.setVisible(false);
-
-        background.setSize(200f, Gdx.graphics.getHeight());
-        background.setPosition(Gdx.graphics.getWidth() - background.getWidth(), 0);
-
-        background.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent e, float x, float y){
-                fakeMoney++;
-            }
-        });
-        table.setSize(200f, Gdx.graphics.getHeight());
-        table.setPosition(Gdx.graphics.getWidth() - 200f, 0);
+        masterTable.add(messageTable).padBottom(20f).row();
 
 
 
-        table.add(enemyMessage).row().row();
-        table.add(moneyMessage).row().row();
-        table.add(background).row();
-        table.add(timeMessage).row();
 
-
-        stage.addActor(table);
-        stage.addActor(popup);
         stage.addActor(loadingFrame);
         stage.addActor(loadingHidden);
         stage.addActor(loadingBar);
         stage.addActor(optionTable);
+        stage.addActor(masterTable);
+        stage.addActor(towerTable);
+
+
 
         //stage.addActor(button);
     }
 
-
-
-
-    public int getFakeMoney(){if(fakeMoney > 0)return fakeMoney--;return 0;}
-
     public Stage getStage(){return stage;}
-    public Table getTable(){return table;}
     public float getTimer(){return TIMER;}
-    public void setBackground(Image s){background = s;}
     public void updateTimer(float d){TIMER += d;}
 
 
@@ -226,8 +162,6 @@ public class UIManager implements InputProcessor{
     float a = 0;
     boolean stopUpdating = false;
     public void updateChargeMeter(float d){
-
-
         if(!stopUpdating) {
             if (loadingBar.getWidth() < loadingHidden.getWidth()) {
                 a += d;
@@ -249,6 +183,7 @@ public class UIManager implements InputProcessor{
 
 
     }
+
     public boolean fullChargeMeter(){
         return (loadingBar.getWidth() == loadingHidden.getWidth());
     }
@@ -263,7 +198,8 @@ public class UIManager implements InputProcessor{
     }
 
 
-    /**Takes the coord of a click, and the coord of a tower
+    /**CALLED BY touchDown() in GAMESCREEN.
+     * Takes the coord of a click, and the coord of a tower
      * if their respective rectangles overlap, then user has
      * "clicked" a tower.  Towers actually take no direct user input.
      * The optionsTable will be located at where the clicked tower is.
@@ -272,6 +208,7 @@ public class UIManager implements InputProcessor{
      * it will be passed into clickedBuildableSpot() in towerManager.
      * */
     public void clickedTower(int x, int y, TowerManager tower){
+
         UITower = tower;
         Rectangle rec1 = new Rectangle();
         rec1.setSize(2f, 2f);
@@ -291,35 +228,180 @@ public class UIManager implements InputProcessor{
                 //setting the optiontable's location to where clicked tower is.
                 optionTable.setPosition(tower.getBuildableArray().get(s).getX() - (optionTable.getWidth()/2),
                         tower.getBuildableArray().get(s).getY() - (optionTable.getHeight() - 5f));
-                optionTable.setVisible(b);
-                currentBS = tower.getBuildableArray().get(s);
 
+                //setting the towerTable's location.
+                towerTable.setPosition(tower.getBuildableArray().get(s).getX() - (towerTable.getWidth()/2),
+                        tower.getBuildableArray().get(s).getY() +
+                                tower.getBuildableArray().get(s).getHeight() + 40f);
+
+
+                currentBS = tower.getBuildableArray().get(s);//pointer to clicked buildablespot.
+
+                //if buildable is empty, choices of towers to build should pop up.
+                if(currentBS.emptyCurrentTower()){
+                    towerTable.setVisible(b);
+                }
+                //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
+                else
+                    optionTable.setVisible(b);
+
+                break;//breaks the forloop.
+                // if clicked buildablespot is found, no need to keep checking
             }
         }
     }
 
 
-    public void dispose(){
-        stage.dispose();
-        skin.dispose();
+
+    public void createOptionTable(){
+        optionTable = new Table();
+        charge = new TextButton("Charge", skin, "default");
+        upgrade = new TextButton("Upgrade", skin, "default");
+        sell = new TextButton("Sell", skin, "default");
+        optionTable.add(charge).pad(5f);
+        optionTable.add(upgrade).pad(5f);
+        optionTable.add(sell).pad(5f);
+        optionTable.setSize(50f, 50f);
+        optionTable.setVisible(false);
+        //adding clicklisteners for option table.
+
+        //'currentBS' points to the BuildableSpot that was clicked.
+        charge.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+
+                b = !b;
+                optionTable.setVisible(b);
+                towerTable.setVisible(b);
+
+                //emtyCurrentTower() returns true if
+                //nothing is built on the buildablespot.
+                if(!currentBS.emptyCurrentTower()) {
+
+                    //getState() returns true if in shooting mode.
+                    //changes the state, and the button message.
+                    if (currentBS.getCurrentTower().getState()) {
+                        currentBS.getCurrentTower().setState(false);
+                        charge.setText(currentBS.getCurrentTower().getMessage());
+                    } else if (!currentBS.getCurrentTower().getState()) {
+                        currentBS.getCurrentTower().setState(true);
+                        charge.setText(currentBS.getCurrentTower().getMessage());
+                    }
+
+                }
+            }
+        });
+
+        //upgrades the tower, and keeps the old state of the tower.
+        //Example: tower was charging, got upgraded, should still be charging.
+        upgrade.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                b = !b;
+                optionTable.setVisible(b);
+
+                //If the button says "build" then we want it to
+                //open up the option of choosing towers.
+                if(String.valueOf(upgrade.getText()).equals("Build")){
+
+                    towerTable.setVisible(true);
+                    optionTable.setVisible(true);
+                }
+
+                else{
+                    //stores old state of the tower: charge or shoot.
+                    //default is shoot.
+                    boolean oldState = true;
+
+                    //if buildablespot has a tower built on it
+                    //that tower's state is saved.
+                    if(!currentBS.emptyCurrentTower()){
+                        oldState = currentBS.getCurrentTower().getState();
+                    }
+                    UITower.clickedBuildable(currentBS, "upgrade");
+                    currentBS.getCurrentTower().setState(oldState);
+
+
+                }
+
+
+
+            }//end click()
+        });//end clicklistener
+
+        sell.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                b = !b;
+                optionTable.setVisible(b);
+                towerTable.setVisible(b);
+                UITower.clearBuildable(currentBS);
+
+
+            }
+        });
     }
 
 
-    @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        System.out.println("touch UI");
 
-        return false;
+    public void createTowerTable(){
+        //tower option table. it shows up with all the towers the user can make.
+        towerTable = new Table();
+        towerOptions = new Array<TextButton>();
+
+
+        towerOptions.add(new TextButton("speed",skin, "default"));
+        towerOptions.add(new TextButton("power",skin, "default"));
+        towerOptions.add(new TextButton("ice",skin, "default"));
+        towerOptions.add(new TextButton("rogue",skin, "default"));
+        towerOptions.add(new TextButton("aoe",skin, "default"));
+        towerOptions.add(new TextButton("ghost",skin, "default"));
+
+
+        //adding listeners to the towers.
+        for(int x = 0; x < towerOptions.size; x++){
+            final int xx = x;
+            towerOptions.get(x).addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent e, float x, float y){
+                    UITower.clickedBuildable(currentBS, towerOptions.get(xx).getName());
+                }
+            });
+        }
+
+        //creating the images and adding them to the table.
+        //table should be 3 to a row.
+        for(int x = 0; x < 6; x++) {
+
+            if(x % 3 == 0 && x != 0) towerTable.row();
+
+            towerTable.add(towerOptions.get(x)).pad(8f);
+            towerTable.pad(5f);
+        }
+
+
+
+        //towerTable.setSize(100f, 100f);
+        towerTable.setVisible(false);
+
+
+        //adding listeners.
+        for(int x = 0; x < towerOptions.size; x++){
+            towerOptions.get(x).addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent e, float x, float y){
+
+
+                    towerTable.setVisible(false);
+                    optionTable.setVisible(false);
+                }
+            });
+        }
     }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-
-
-        System.out.println("UI   " + screenX + "  :  " + screenY);
         return false;
     }
 
@@ -338,11 +420,33 @@ public class UIManager implements InputProcessor{
     @Override
     public boolean keyTyped(char character) {return false;}
 
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        optionTable.setVisible(false);
+        towerTable.setVisible(false);
+        return false;}
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
+        return false;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void dispose(){
+        stage.dispose();
+        skin.dispose();
+    }
 }
 
 
-
-/**
- *
- * https://github.com/Matsemann/libgdx-loading-screen/blob/master/Main/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java
- * **/

@@ -33,7 +33,6 @@ public class MainTower extends Sprite {
     private float chargeRate;
     private float incomeRate;
     private Boolean state;//TRUE is shooting. FALSE is charging.
-    private String message;//for the optionTable buttons. In GameScren.
     private float fireRate;
     private Boolean hasTarget;
     private Enemy target;
@@ -76,7 +75,6 @@ public class MainTower extends Sprite {
         ID = id;
     }
     public void setBulletLimit(int b){bulletLimit = b;}
-    public void setMessage(String m){message = m;}
     public void setBulletTexture(String t){bulletTexture = t;}
 
 

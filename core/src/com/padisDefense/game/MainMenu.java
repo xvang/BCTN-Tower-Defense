@@ -86,6 +86,7 @@ public class MainMenu extends ScreenAdapter {
         final TextButton button5 = new TextButton("Log in", padi.skin, "default");
 
 
+
         table.add(button).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button2).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
@@ -235,6 +236,9 @@ public class MainMenu extends ScreenAdapter {
         //Table fade-in
         Tween.from(table, FadeActor.ALPHA, 0.1f).target(0).start(tweenManager);
         Tween.from(table, FadeActor.Y, 1f).target(Gdx.graphics.getHeight()).start(tweenManager);
+
+
+        Gdx.input.setInputProcessor(stage);
     }
 
 
@@ -243,7 +247,7 @@ public class MainMenu extends ScreenAdapter {
 
         Gdx.gl.glClearColor(2f,.5f,0.88f,6);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.input.setInputProcessor(stage);
+
 
         tweenManager.update(delta);
         padi.batch.begin();

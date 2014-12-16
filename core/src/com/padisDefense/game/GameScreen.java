@@ -30,9 +30,9 @@ import java.math.RoundingMode;
 
 
 /**
- * There are three levels to the GUI control here.
- * UIManager, the towers/paths/enemies, and the stage in this class.
  *
+ * There are three levels to the GUI control here.
+ * UI, UI's stage, and this.
  *
  * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
@@ -57,11 +57,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     InputMultiplexer multi;
 
 
-
-
-
-
-
     int whatLevel;
     public GameScreen(Padi p, int l){
         padi = p;
@@ -77,8 +72,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         bullet = new BulletManager();
         level = new LevelManager();
         spawn = new SpawnManager();
-
         UI = new UIManager();
+
+
 
         level.setLevel(whatLevel);
         level.determineLevel();
@@ -90,20 +86,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         enemy.setPath(level.getPath());
 
 
+        spawn.spawnBuildableSpots(tower);
 
 
-
-
-
-        //For testing purposes only.
-        //BuildableSpots are manually spawned here.
-        tower.addBuildableSpots(new Vector2(320f, 180f));
-        tower.addBuildableSpots(new Vector2(500f, 240f));
-        tower.addBuildableSpots(new Vector2(500f, 400f));
-        tower.addBuildableSpots(new Vector2(400f, 500f));
-        tower.addBuildableSpots(new Vector2(500f, 350f));
-        tower.addBuildableSpots(new Vector2(550f, 500f));
-        tower.addBuildableSpots(new Vector2(660f, 400f));
 
         //Setting up the inputs.
         multi = new InputMultiplexer();
@@ -123,9 +108,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void render(float delta){
         //Gdx.gl.glClearColor(2f,.5f,0.88f,6);
-        //Gdx.gl.glClearColor(0,0,0,0);
-        Gdx.gl.glClearColor(1,0,0,1);
-        Gdx.gl.glClearColor(0.9f,0.9f,0f,1);
+        Gdx.gl.glClearColor(0,0,0,0);
+        //Gdx.gl.glClearColor(1,0,0,1);
+        //Gdx.gl.glClearColor(0.9f,0.9f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
@@ -133,7 +118,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         padi.batch.begin();
         oldEnemyCount = enemy.getEnemyCounter();
-        enemy.startEnemy(padi.batch);
+        enemy.startEnemy(padi.batch, spawn);
         tower.startTowers(padi.batch);
 
 
@@ -159,19 +144,17 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         calcMoney();
         UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
-
-        //}
         padi.batch.end();
+
 
         UI.getStage().draw();
 
         //checks if game ended.
-
         if(enemy.noMoreEnemy() || UI.fullChargeMeter()){
             END_GAME = true;
             System.out.println("You win!");
             enemy.destroyAllEnemy();
-            //padi.setScreen(padi.worldmap);
+
         }
     }
 
@@ -182,7 +165,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public void calcMoney(){
         tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 10));
         oldEnemyCount = newEnemyCount;
-       tower.updateInGameMoney(UI.getFakeMoney());
     }
 
 
@@ -215,7 +197,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        System.out.println("touch GAMESCREEN");
         UI.clickedTower(x, y, tower);
         return false;
     }
@@ -226,7 +207,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-        System.out.println(screenX + "  :  " + screenY);
+        //System.out.println(screenX + "  :  " + screenY);
         return false;
     }
 

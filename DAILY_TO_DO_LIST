@@ -1,7 +1,32 @@
--FIX CHARGE
-https://www.youtube.com/watch?v=2T6Le21bzBU&index=10&list=PL01xSWTdm0TfcT3h085ELcKmA0qxL4ZE_
-- SpawnTowermanager will manage spawning buildable spots
+https://www.youtube.com/watch?v=HJLE4so-Lyw&index=16&list=PL01xSWTdm0TfcT3h085ELcKmA0qxL4ZE_
 
-- drag towers from UI to build.
 
-- add some more pathing.
+
+
+
+
+figure out dragging
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for future reference:
+        towerOptions.add(new TextButton(" speed ",skin, "default"));
+        towerOptions.add(new TextButton(" strong ",skin, "default"));
+        towerOptions.add(new TextButton(" ice ",skin, "default"));
+        towerOptions.add(new TextButton(" rogue ",skin, "default"));
+        towerOptions.add(new TextButton(" AOE ",skin, "default"));
+        towerOptions.add(new TextButton(" Ghost ",skin, "default"));
