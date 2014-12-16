@@ -71,8 +71,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         tower = new TowerManager();
         bullet = new BulletManager();
         level = new LevelManager();
-        spawn = new SpawnManager();
-        UI = new UIManager();
+        spawn = new SpawnManager(tower);
+        UI = new UIManager(spawn);
 
 
 
@@ -99,6 +99,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         multi.addProcessor(UI);
         multi.addProcessor(this);
 
+
         Gdx.input.setInputProcessor(multi);
 
     }
@@ -112,6 +113,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         //Gdx.gl.glClearColor(1,0,0,1);
         //Gdx.gl.glClearColor(0.9f,0.9f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
 
 
@@ -195,8 +197,11 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void pause(){}
 
+    int counter = 0;
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        counter++;
+        System.out.println(counter);
         UI.clickedTower(x, y, tower);
         return false;
     }

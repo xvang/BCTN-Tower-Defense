@@ -1,12 +1,17 @@
 package com.padisDefense.game.Towers;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 /**
@@ -15,9 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
  * @author Xeng
  *
  * */
-public class BuildableSpot extends MainTower{
-
-
+public class BuildableSpot extends MainTower {
 
 
     //'currentTower' points to what is currently built on a buildableSpot.
@@ -28,10 +31,8 @@ public class BuildableSpot extends MainTower{
 
     //Currently, Vector p is unused.
     public BuildableSpot(Vector2 p){
-        setTexture(new Texture("test3.png"));
-        setSize(30f, 30f);
-        setID("BS");
-        setState(false);
+        setTexture(new Texture("limegreen.png"));
+        setSize(40f, 40f);
 
     }
 
@@ -56,8 +57,6 @@ public class BuildableSpot extends MainTower{
     public boolean emptyCurrentTower(){
         return !hasTower;
     }
-
-
 
 
 

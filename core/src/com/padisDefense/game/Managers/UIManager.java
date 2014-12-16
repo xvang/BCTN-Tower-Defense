@@ -31,6 +31,8 @@ import java.math.RoundingMode;
 public class UIManager implements InputProcessor{
 
 
+    //Used to create/upgrade towers.
+    SpawnManager spawn;
 
     Stage stage;
     Table masterTable;
@@ -62,7 +64,7 @@ public class UIManager implements InputProcessor{
     private TextButton charge, upgrade, sell;
     private BuildableSpot currentBS = null;//points to the clicked buildableSpot.
     private boolean b = false;// to hide the option popup after a change has been made.
-    private TowerManager UITower;
+    private TowerManager UITowerManager;
 
     //
     private Table towerTable;
@@ -70,7 +72,8 @@ public class UIManager implements InputProcessor{
 
 
 
-    public UIManager(){
+    public UIManager(SpawnManager s){
+        spawn = s;
         this.init();
     }
 
@@ -209,7 +212,7 @@ public class UIManager implements InputProcessor{
      * */
     public void clickedTower(int x, int y, TowerManager tower){
 
-        UITower = tower;
+        UITowerManager = tower;
         Rectangle rec1 = new Rectangle();
         rec1.setSize(2f, 2f);
         rec1.setPosition(x, Gdx.graphics.getHeight() - y);
@@ -222,7 +225,7 @@ public class UIManager implements InputProcessor{
                     charge.setText(tower.getBuildableArray().get(s).getCurrentTower().getMessage());
                 }catch(Exception e){
 
-                    charge.setText(tower.getBuildableArray().get(s).getMessage());
+                    //charge.setText(tower.getBuildableArray().get(s).getMessage());
                 }
 
                 //setting the optiontable's location to where clicked tower is.
@@ -239,11 +242,11 @@ public class UIManager implements InputProcessor{
 
                 //if buildable is empty, choices of towers to build should pop up.
                 if(currentBS.emptyCurrentTower()){
-                    towerTable.setVisible(b);
+                    towerTable.setVisible(true);
                 }
                 //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
                 else
-                    optionTable.setVisible(b);
+                    optionTable.setVisible(true);
 
                 break;//breaks the forloop.
                 // if clicked buildablespot is found, no need to keep checking
@@ -289,6 +292,8 @@ public class UIManager implements InputProcessor{
                         charge.setText(currentBS.getCurrentTower().getMessage());
                     }
 
+                    optionTable.setVisible(false);
+                    towerTable.setVisible(false);
                 }
             }
         });
@@ -319,10 +324,10 @@ public class UIManager implements InputProcessor{
                     if(!currentBS.emptyCurrentTower()){
                         oldState = currentBS.getCurrentTower().getState();
                     }
-                    UITower.clickedBuildable(currentBS, "upgrade");
+                    spawn.clickedBuildable(currentBS, "upgrade");
                     currentBS.getCurrentTower().setState(oldState);
 
-
+                    optionTable.setVisible(false);
                 }
 
 
@@ -334,9 +339,9 @@ public class UIManager implements InputProcessor{
             @Override
             public void clicked(InputEvent e, float x, float y){
                 b = !b;
-                optionTable.setVisible(b);
-                towerTable.setVisible(b);
-                UITower.clearBuildable(currentBS);
+                optionTable.setVisible(false);
+                towerTable.setVisible(false);
+                UITowerManager.clearBuildable(currentBS);
 
 
             }
@@ -365,7 +370,7 @@ public class UIManager implements InputProcessor{
             towerOptions.get(x).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent e, float x, float y){
-                    UITower.clickedBuildable(currentBS, towerOptions.get(xx).getName());
+                    spawn.clickedBuildable(currentBS, towerOptions.get(xx).getName());
                 }
             });
         }
@@ -401,17 +406,6 @@ public class UIManager implements InputProcessor{
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {return false;}
-
-    @Override
-    public boolean scrolled(int amount) {return false;}
-
-    @Override
     public boolean keyDown(int keycode) {return false;}
 
     @Override
@@ -432,6 +426,17 @@ public class UIManager implements InputProcessor{
         return false;}
 
 
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {return false;}
+
+    @Override
+    public boolean scrolled(int amount) {return false;}
 
 
 

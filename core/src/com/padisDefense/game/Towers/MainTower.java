@@ -22,7 +22,7 @@ import javafx.scene.text.TextBoundsType;
  * @author Xeng
  *
  * */
-public class MainTower extends Sprite {
+public class MainTower extends Sprite{
 
 
 

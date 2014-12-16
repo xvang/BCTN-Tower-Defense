@@ -5,28 +5,9 @@ https://www.youtube.com/watch?v=HJLE4so-Lyw&index=16&list=PL01xSWTdm0TfcT3h085EL
 
 
 
-figure out dragging
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-for future reference:
-        towerOptions.add(new TextButton(" speed ",skin, "default"));
-        towerOptions.add(new TextButton(" strong ",skin, "default"));
-        towerOptions.add(new TextButton(" ice ",skin, "default"));
-        towerOptions.add(new TextButton(" rogue ",skin, "default"));
-        towerOptions.add(new TextButton(" AOE ",skin, "default"));
-        towerOptions.add(new TextButton(" Ghost ",skin, "default"));
