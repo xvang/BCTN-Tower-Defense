@@ -14,17 +14,17 @@ public class AOETower extends MainTower {
         setPosition(position.x, position.y);
         setSize(30f, 30f);
         setTexture(new Texture("aoetower.png"));
-        setBulletLimit(1);
+        setBulletLimit(2);
         setCost(80);
         setAttack(150);
         setRange(150f);
         setChargeRate(0.14f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(5f);
+        setFireRate(0.05f);
         setID("aoe");
         setBulletTexture("test4.png");
-        setBulletRate(0.005f);
+        setBulletRate(0.02f);
     }
 
     public float getRangeAOE(){return rangeAOE;}

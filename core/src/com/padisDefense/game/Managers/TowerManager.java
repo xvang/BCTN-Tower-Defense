@@ -1,7 +1,11 @@
 package com.padisDefense.game.Managers;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
@@ -27,9 +31,12 @@ public class TowerManager{
 
     private int inGameMoney = 3000;
 
+    ShapeRenderer renderer;
+
     public TowerManager(){
         towerArray = new Array<MainTower>();
         buildableArray = new Array<BuildableSpot>();
+        renderer = new ShapeRenderer();
 
 
     }
@@ -52,10 +59,9 @@ public class TowerManager{
             //towerArray.get(x).spinning();
             towerArray.get(x).draw(batch);
 
-
             //TODO: test to see if these two function calls are needed!!!
             checkRange();
-            checkForDead(towerArray.get(x));
+            checkForDead();
             assignTargets(enemy);
 
         }
@@ -78,26 +84,13 @@ public class TowerManager{
 
             if (distance > towerArray.get(x).getRange()){
                 towerArray.get(x).setHasTarget(false);
+                resetBullets(towerArray.get(x));
             }
         }
     }
 
-    public void addTower(Vector2 position){
-
-        //I know it's kind of funky how I am disposing
-        //and setting a texture here. Will look into it
-        //in the future if I have time. But it works.
-        SpeedTower tower = new SpeedTower(position);
-        tower.getTexture().dispose();
-
-        tower.setTexture(new Texture("test2.png"));
-        towerArray.add(tower);
-    }
-
     public Array<MainTower> getTowerArray(){return towerArray;}
     public Array<BuildableSpot> getBuildableArray(){return buildableArray;}
-
-
     public void addBuildableSpots(Vector2 position){
 
         BuildableSpot build = new BuildableSpot(position);
@@ -105,26 +98,14 @@ public class TowerManager{
         buildableArray.add(build);
     }
 
+    public void checkForDead(){
 
-
-    /**
-     * checks for dead targets.
-     * dead enemy object is deleted in EnemyManager
-     * Here we are removing the pointer to the deleted object. I think.
-     *
-     * @param 't'
-     */
-    public void checkForDead(MainTower t){
-
-        if (t.getTarget().isDead()){
-            t.setTarget(new Enemy());
+        for(int x = 0; x < towerArray.size; x++)
+        if (towerArray.get(x).getTarget().isDead()){
+            towerArray.get(x).setTarget(new Enemy());
         }
 
     }
-
-
-
-
     public void clearBuildable(BuildableSpot t){
 
         if(t.getCurrentTower() != null){
@@ -149,6 +130,7 @@ public class TowerManager{
 
             if(currentDistance >= towerArray.get(x).getRange()){
                 towerArray.get(x).setHasTarget(false);
+                resetBullets(towerArray.get(x));
             }
         }
     }
@@ -182,8 +164,14 @@ public class TowerManager{
             if(temp.getX() != -1){
                 towerArray.get(x).setTarget(temp);
                 towerArray.get(x).setHasTarget(true);
+                resetBullets(towerArray.get(x));
             }
         }
+    }
+
+    public void resetBullets(MainTower t){
+        for(int x = 0; x < t.getActiveBullets().size; x++)
+            t.getActiveBullets().get(x).alive = false;
     }
 
     public double findDistance(Vector2 a, Vector2 b){

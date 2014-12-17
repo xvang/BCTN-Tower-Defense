@@ -37,7 +37,7 @@ public class DamageManager {
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
     public void iceHit(IceTower t, Enemy e){
-        e.affectRate(e.getRate()*0.5f, 4f);
+        e.affectRate(e.getRate()*0.4f, 6f);
 
         double distance;
         Enemy temp;
@@ -47,11 +47,15 @@ public class DamageManager {
             distance = findDistance(new Vector2(e.getX(), e.getY()),
                     new Vector2(temp.getX(),temp.getY()));
 
-            //the further away, the less effects.
-            if (distance < t.getRangeAOE()){
-                float z = (float)distance / t.getRangeAOE();
-                temp.affectRate(temp.getRate()*z, 5f);
+
+            if(!temp.equals(e)){//don't want to affect target twice
+                //the further away, the less effects.
+                if (distance < t.getRangeAOE()){
+                    float z = (float)distance / t.getRangeAOE();
+                    temp.affectRate(temp.getRate()*z, 6f);
+                }
             }
+
         }
 
 

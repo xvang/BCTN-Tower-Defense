@@ -16,14 +16,14 @@ public class IceTower extends MainTower {
         setSize(30f, 30f);
         setTexture(new Texture("icetower.png"));
 
-        setBulletLimit(40);
+        setBulletLimit(2);
         setCost(70);
         setAttack(1f);
         setRange(180f);
         setChargeRate(0.01f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(8f);
+        setFireRate(0.01f);
         setID("ice");
         setBulletTexture("test3.png");
         setBulletRate(0.02f);

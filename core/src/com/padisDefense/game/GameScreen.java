@@ -136,7 +136,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                         tower.getTowerArray().get(x).getTarget());
             }
 
-           // tower.checkRange();
+            //tower.checkRange();
             //if needed, assigns new targets.
             //tower.assignTargets(enemy);
             gatherCharge();

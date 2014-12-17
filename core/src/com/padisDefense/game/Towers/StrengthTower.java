@@ -20,7 +20,7 @@ public class StrengthTower extends MainTower {
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(4f);
+        setFireRate(0.1f);
         setID("strength");
         setBulletTexture("test7.png");
         setBulletRate(0.007f);

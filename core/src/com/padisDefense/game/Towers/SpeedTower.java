@@ -15,17 +15,17 @@ public class SpeedTower extends MainTower{
         setTexture(new Texture("speedtower.png"));
         setSize(30f, 30f);
 
-        setBulletLimit(20);
+        setBulletLimit(5);
         setCost(25);
         setAttack(5f);
         setRange(140f);
         setChargeRate(0.11f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.01f);
+        setFireRate(0.005f);
         setID("speed");
         setBulletTexture("test5.png");
-        setBulletRate(0.03f);
+        setBulletRate(0.02f);
     }
 
 

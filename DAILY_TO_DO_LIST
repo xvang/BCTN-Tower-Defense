@@ -1,7 +1,5 @@
-https://www.youtube.com/watch?v=HJLE4so-Lyw&index=16&list=PL01xSWTdm0TfcT3h085ELcKmA0qxL4ZE_
-
-
 - fix targetting.  bullet must stay on course until impact, regardless of range.
+- bullet doesn't retreat when setTarget is set to false.
 
 
 
