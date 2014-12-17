@@ -10,7 +10,7 @@ import com.padisDefense.game.Towers.MainTower;
  * Created by Toog on 12/16/2014.
  */
 public class DamageManager {
-
+    int x = 0;
     EnemyManager enemy;
 
     public DamageManager(EnemyManager e){
