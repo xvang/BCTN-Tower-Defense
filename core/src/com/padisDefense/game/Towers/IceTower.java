@@ -10,12 +10,10 @@ public class IceTower extends MainTower {
 
     private float rangeAOE = 20f;
     public IceTower(Vector2 position){
-        super();
+        super("icetower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(30f, 30f);
-        setTexture(new Texture("icetower.png"));
-
+        setSize(50f, 60f);
         setBulletLimit(2);
         setCost(70);
         setAttack(1f);
@@ -25,8 +23,10 @@ public class IceTower extends MainTower {
         setState(true);
         setFireRate(0.01f);
         setID("ice");
-        setBulletTexture("test3.png");
+        setBulletTexture(new Texture("snowball.png"));
         setBulletRate(0.02f);
+        setCustomArc(50f);
+
     }
 
     public float getRangeAOE(){return rangeAOE;}

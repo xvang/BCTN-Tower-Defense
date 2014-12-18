@@ -23,7 +23,7 @@ public class AOETower extends MainTower {
         setState(true);
         setFireRate(0.05f);
         setID("aoe");
-        setBulletTexture("test4.png");
+        setBulletTexture(new Texture("test4.png"));
         setBulletRate(0.02f);
     }
 

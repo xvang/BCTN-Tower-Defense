@@ -8,11 +8,10 @@ import com.padisDefense.game.Enemies.Enemy;
 public class GhostTower extends MainTower{
 
     public GhostTower(Vector2 position){
-        super();
+        super("ghosttower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(30f, 30f);
-        setTexture(new Texture("ghosttower.png"));
+        setSize(50f, 70f);
         setBulletLimit(2);
         setCost(100);
         setAttack(80);
@@ -20,9 +19,10 @@ public class GhostTower extends MainTower{
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(2f);
+        setFireRate(1f);
         setID("ghost");
-        setBulletTexture("test2.png");
-        setBulletRate(0.01f);
+        setBulletTexture(new Texture("ghostbullet.png"));
+        setBulletRate(0.015f);
+        setCustomArc(40f);
     }
 }

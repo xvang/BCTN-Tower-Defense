@@ -1,19 +1,12 @@
 package com.padisDefense.game.Towers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
-
-import javafx.scene.text.TextBoundsType;
 
 
 /**
@@ -36,8 +29,9 @@ public class MainTower extends Sprite{
     private float fireRate = 1;//Used in bulletManager. shooting().
     private Boolean hasTarget = false;
     private Enemy target;
-    private String bulletTexture;
+    private Texture bulletTexture;
     private float bulletRate;
+    public float pause = 3f;
 
 
     //Creating a pool method thing.
@@ -47,16 +41,35 @@ public class MainTower extends Sprite{
     private Array<Bullet> activeBullets;
 
 
-    //Empty Constructor
-    public MainTower(){
+    private float customArc;// used in bulletManager. It makes the bullet trajectory arc.
+                           //Each tower should have a different arc.
+
+
+    public MainTower(String name){
+        super(new Texture(name));
         hasTarget = false;
         ID = "";
-        bulletTexture = "test2.png";
+        customArc = 25f;
         activeBullets = new Array<Bullet>();
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()));
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
+            }
+        };
+    }
+
+    //Empty Constructor
+    public MainTower(){
+
+        hasTarget = false;
+        ID = "";
+        activeBullets = new Array<Bullet>();
+        customArc = 25f;
+        pool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
 
@@ -76,8 +89,9 @@ public class MainTower extends Sprite{
         ID = id;
     }
     public void setBulletLimit(int b){bulletLimit = b;}
-    public void setBulletTexture(String t){bulletTexture = t;}
+    public void setBulletTexture(Texture t){bulletTexture = t;}
     public void setBulletRate(float r){bulletRate = r;}
+    public void setCustomArc(float c){customArc = c;}
 
 
     public float getCost(){return cost;}
@@ -93,8 +107,9 @@ public class MainTower extends Sprite{
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
-    public Texture getBulletTexture(){return new Texture(bulletTexture);}
+    public Texture getBulletTexture(){return bulletTexture;}
     public float getBulletRate(){return bulletRate;}
+    public float getCustomArc(){return customArc;}
 
     public String getMessage(){
         if(state)
@@ -106,13 +121,17 @@ public class MainTower extends Sprite{
 
     //The bullet will spawn where this function returns..?
     public Vector2 getLocation(){
-        return new Vector2(getX(), getY());
+        return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
 
     public void dispose(){
         getTexture().dispose();
         activeBullets.clear();
         pool.clear();
+    }
+
+    public void userSetTexture(Texture t){
+        this.setTexture(t);
     }
 
 

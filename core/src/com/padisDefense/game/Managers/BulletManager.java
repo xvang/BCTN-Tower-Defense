@@ -1,16 +1,11 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.collision.BoundingBox;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.MainTower;
@@ -57,9 +52,12 @@ public class BulletManager {
 
             Vector2 tower = new Vector2(t.getLocation());
             Vector2 enemy = new Vector2(e.getLocation());
+            Vector2 midpoint = almostMidPoint(tower, enemy, t.getCustomArc());
+
+
 
             //Creating path between the two points.
-            path = new Bezier<Vector2>(new Vector2(tower), new Vector2(enemy));
+            path = new Bezier<Vector2>(tower,midpoint,  enemy);
             Vector2 out = new Vector2();
             Bullet item;
 
@@ -67,7 +65,7 @@ public class BulletManager {
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()){
 
                 item = t.getPool().obtain();
-                item.init(out.x + (t.getWidth() / 2), out.y + (t.getHeight() / 2));
+                item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
                 item.setTexture(t.getBulletTexture());
                 t.getActiveBullets().add(item);
                 spawnTimer = 0;
@@ -85,46 +83,46 @@ public class BulletManager {
                 if(time < 1f)
                     path.valueAt(out, time);
 
-                //update new time, go to new position, draw
-                t.getActiveBullets().get(x).setTime(time);
-                t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
-                t.getActiveBullets().get(x).draw(batch);
+                System.out.println(out.x + "  " + out.y);
+
+                //This little bugger here gave me the most difficult time.
+                //There is a moment where path.valueAt() returns (0,0) for 'out'.
+                //That made the bullets briefly spawn at (0,0).
+                if(out.x != 0f && out.y != 0f){
+                    //update new time, go to new position, draw
+                    t.getActiveBullets().get(x).setTime(time);
+                    t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
+                    t.getActiveBullets().get(x).draw(batch);
+                }
+
 
 
 
                 /**2 different ways to determine if bullet hit enemy.
                  * not sure which one is better yet.
                  * One uses Rectangles, the other uses Vector2.*/
-                if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)){
-
+                if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)) {
                     damage.hit(t, e);
-
-
                 }
-                /*if(hitEnemy(t.getActiveBullets().get(x), e)){
-                    e.updateHealth(t.getAttack());
-                }*/
 
                 //not sure what this is for
-                if (time < 1f){
+                if (time >= 1f){
+                    t.getActiveBullets().get(x).setTime(0f);
                     item = t.getActiveBullets().get(x);
                     t.getPool().free(item);
-
                 }
-
-                //this is to return bullet back to the beginning.
-                if (time >= 1f)
-                    t.getActiveBullets().get(x).setTime(0);
-
-
             }
 
         }
 
+    }// end shooting();
 
-
-
-
+    //midpoint formula.
+    //something about private access prevents me from just putting
+    //Vector2 mid = new Vector2((t.x + 10f + e.x)/2, (t.y + 10f + e.y)/2);
+    //It can be worked around, but...this is already here.
+    public Vector2 almostMidPoint(Vector2 t, Vector2 e, float arc){
+        return new Vector2((t.x+ 50f + e.x)/2, (t.y + 50f + e.y)/2);
     }
 
     /**Takes the location of the bullet and location of the enemy.

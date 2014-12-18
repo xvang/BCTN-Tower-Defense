@@ -9,11 +9,11 @@ import com.padisDefense.game.Enemies.Enemy;
 public class SpeedTower extends MainTower{
 
     public SpeedTower(Vector2 position){
-        super();
+        super("speedtower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setTexture(new Texture("speedtower.png"));
-        setSize(30f, 30f);
+
+        setSize(50f, 70f);
 
         setBulletLimit(5);
         setCost(25);
@@ -24,8 +24,9 @@ public class SpeedTower extends MainTower{
         setState(true);
         setFireRate(0.005f);
         setID("speed");
-        setBulletTexture("test5.png");
-        setBulletRate(0.02f);
+        setBulletTexture(new Texture("redbullet.png"));
+        setBulletRate(0.07f);
+        setCustomArc(70f);
     }
 
 

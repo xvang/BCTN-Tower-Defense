@@ -1,17 +1,14 @@
 package com.padisDefense.game.Managers;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.MainTower;
-import com.padisDefense.game.Towers.SpeedTower;
+import com.padisDefense.game.Towers.RogueTower;
 
 /**
  *
@@ -58,6 +55,13 @@ public class TowerManager{
 
             //towerArray.get(x).spinning();
             towerArray.get(x).draw(batch);
+
+            RogueTower t;
+            if(towerArray.get(x).getID().equals("rogue")){
+                t = (RogueTower)towerArray.get(x);
+                t.spin(batch);
+            }
+
 
             //TODO: test to see if these two function calls are needed!!!
             checkRange();
@@ -141,23 +145,32 @@ public class TowerManager{
 
         for(int x = 0; x < towerArray.size; x++){
 
-            if(!towerArray.get(x).getHasTarget()){//hasTarget == false
+            //the pause is there so tower doesn't assign target too quickly.
+            if(towerArray.get(x).pause < 0f){
+                if(!towerArray.get(x).getHasTarget()){//hasTarget == false
 
-                for(int y = 0; y < enemy.getActiveEnemy().size; y++){
+                    for(int y = 0; y < enemy.getActiveEnemy().size; y++){
 
-                    //finding distance between tower and enemy.
-                    currentMin = findDistance(new Vector2(towerArray.get(x).getLocation()),
-                            new Vector2(enemy.getActiveEnemy().get(y).getLocation()));
+                        //finding distance between tower and enemy.
+                        currentMin = findDistance(new Vector2(towerArray.get(x).getLocation()),
+                                new Vector2(enemy.getActiveEnemy().get(y).getLocation()));
 
-                    //Within range, closest target so far.
-                    if(currentMin < towerArray.get(x).getRange() &&
-                            currentMin < previousMin){
-                        previousMin = currentMin;
-                        temp = enemy.getActiveEnemy().get(y);
+                        //Within range, closest target so far.
+                        if(currentMin < towerArray.get(x).getRange() &&
+                                currentMin < previousMin){
+                            previousMin = currentMin;
+                            temp = enemy.getActiveEnemy().get(y);
+                        }
+
                     }
-
                 }
+                towerArray.get(x).pause = 1f;
             }
+
+            else{
+               towerArray.get(x).pause -= Gdx.graphics.getDeltaTime();
+            }
+
 
             //temp was initialized to be at (-1, -1). If it is no longer there,
             //then it had to have changed above.
@@ -170,8 +183,11 @@ public class TowerManager{
     }
 
     public void resetBullets(MainTower t){
-        for(int x = 0; x < t.getActiveBullets().size; x++)
+        for(int x = 0; x < t.getActiveBullets().size; x++){
             t.getActiveBullets().get(x).alive = false;
+            t.getActiveBullets().get(x).setTime(0f);
+        }
+
     }
 
     public double findDistance(Vector2 a, Vector2 b){

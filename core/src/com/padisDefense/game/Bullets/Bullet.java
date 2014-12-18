@@ -10,11 +10,8 @@ package com.padisDefense.game.Bullets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Bezier;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
-import com.padisDefense.game.Assets;
 
 
 /**
@@ -29,31 +26,30 @@ public class Bullet extends Sprite implements Pool.Poolable {
     public boolean alive;
     private float time;
 
-    private Assets assets;
 
-    public Bullet (Vector2 p){
+    public Bullet (Vector2 p, Texture t){
 
-        assets = new Assets();
-        this.setTexture(new Texture("test7.png"));
-        this.setSize(5f, 5f);
+        super(t);
+        this.setSize(16f, 16f);
         this.setPosition(p.x, p.y);
         this.alive = false;
         position = new Vector2();
-        time = 0;
+        time = 0f;
 
     }
 
     public void init(float x, float y){
-        //position.set(x, y);
-        setPosition(x,y);
+        position.x = x;
+        position.y = y;
+        this.setPosition(x,y);
         alive = true;
     }
 
 
     @Override
     public void reset(){
-        //position.set(0,0);
-        setPosition(position.x, position.y);
+        ///position.set(0,0);
+        this.setPosition(position.x, position.y);
         alive = false;
     }
 
