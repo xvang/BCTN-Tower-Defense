@@ -1,15 +1,11 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Enemies.BestGoblin;
-import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.Goblin;
 import com.padisDefense.game.Pathing.MainPath;
 import com.padisDefense.game.Pathing.PathStorage;
 
@@ -28,6 +24,7 @@ public class EnemyManager {
     private MainPath path;
     private PathStorage storage;
     private Vector2 position;
+    private TowerManager tower;
 
 
     int oldSpawnCounter = 0;
@@ -50,8 +47,11 @@ public class EnemyManager {
 
 
         storage = new PathStorage();
+    }
 
-
+    //setting pointer to towerManager.
+    public void setTowerManager(TowerManager t){
+        tower = t;
     }
 
 
@@ -148,50 +148,6 @@ public class EnemyManager {
     }
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
     public MainPath getPath(){return path;}
-
-
-
-
-    /**
-     * TODO: Allow to different types of enemy to be generated.
-     *
-     * This function spawns enemies.
-     *
-     * **/
-    /*public void spawnEnemy(Array<Enemy> activeEnemy){
-
-        //This is more for testing purposes.
-        //0 for goblin ,1 for bigger goblin, 2 for bestgoblin
-        int rand = (int)(Math.random()*3);
-        Enemy newEnemy;
-        if(rand == 0){
-
-            //create object, set path, set texture, add to enemy array.
-            newEnemy = new Goblin();
-            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
-            newEnemy.setTexture(new Texture("test3.png"));
-            activeEnemy.add(newEnemy);
-
-        }
-
-        else if (rand == 1){
-
-            newEnemy = new BiggerGoblin();
-            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
-            newEnemy.setTexture(new Texture("test1.png"));
-            activeEnemy.add(newEnemy);
-
-        }
-
-        else if(rand == 2){
-
-            newEnemy = new BestGoblin();
-            newEnemy.setChosenPath((int)(Math.random()*100) % path.getPath().size);
-            newEnemy.setTexture(new Texture("test8.png"));
-            activeEnemy.add(newEnemy);
-        }
-    }*/
-
     public int getSpawnsLeft(){return spawnsLeft;}
     public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
 
@@ -203,11 +159,30 @@ public class EnemyManager {
         for(int x = 0; x < activeEnemy.size; x++){
 
 
-            if(activeEnemy.get(x).isDead()){
+            if(activeEnemy.get(x).isDead()) {
+
+                //if enemy is dead, the tower that targeted it will have 'hasTarget' set to false.
+                for(int s = 0; s < tower.getTowerArray().size;s++){
+                    if(tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
+                        tower.getTowerArray().get(s).setHasTarget(false);
+                    }
+                }
                 enemyCounter--;
                 activeEnemy.get(x).dispose();
                 activeEnemy.removeIndex(x);
             }
+
+            else{//else, update the tower's oldTargetPosition.
+                for(int s = 0; s < tower.getTowerArray().size;s++){
+                    if(tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
+                        tower.getTowerArray().get(s).setOldTargetPosition(activeEnemy.get(x).getLocation());
+                    }
+                }
+            }
+
+
+
+
         }
     }
 

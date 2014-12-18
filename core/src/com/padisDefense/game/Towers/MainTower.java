@@ -29,9 +29,10 @@ public class MainTower extends Sprite{
     private float fireRate = 1;//Used in bulletManager. shooting().
     private Boolean hasTarget = false;
     private Enemy target;
+
     private Texture bulletTexture;
     private float bulletRate;
-    public float pause = 3f;
+    public float pause = 0.5f;
 
 
     //Creating a pool method thing.
@@ -45,11 +46,17 @@ public class MainTower extends Sprite{
                            //Each tower should have a different arc.
 
 
+    private Vector2 oldTargetPosition;//If enemy dies or goes out of range while bullet is traveling
+    //remaining bullets will target this before resetting.
+    //hopefully this prevent bullet "transporting" on path from one target to the next.
+
+
     public MainTower(String name){
         super(new Texture(name));
         hasTarget = false;
         ID = "";
         customArc = 25f;
+        oldTargetPosition = new Vector2();
         activeBullets = new Array<Bullet>();
         pool = new Pool<Bullet>() {
             @Override
@@ -66,6 +73,7 @@ public class MainTower extends Sprite{
         ID = "";
         activeBullets = new Array<Bullet>();
         customArc = 25f;
+        oldTargetPosition = new Vector2();
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
@@ -92,6 +100,7 @@ public class MainTower extends Sprite{
     public void setBulletTexture(Texture t){bulletTexture = t;}
     public void setBulletRate(float r){bulletRate = r;}
     public void setCustomArc(float c){customArc = c;}
+    public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
 
 
     public float getCost(){return cost;}
@@ -110,6 +119,7 @@ public class MainTower extends Sprite{
     public Texture getBulletTexture(){return bulletTexture;}
     public float getBulletRate(){return bulletRate;}
     public float getCustomArc(){return customArc;}
+    public Vector2 getOldTargetPosition(){return oldTargetPosition;}
 
     public String getMessage(){
         if(state)
@@ -124,14 +134,24 @@ public class MainTower extends Sprite{
         return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
 
+
+    public void update() {
+        // if you want to free dead bullets, returning them to the pool:
+        Bullet item;
+        int len = activeBullets.size;
+        for (int i = len; --i >= 0;) {
+            item = activeBullets.get(i);
+            if (item.alive == false) {
+                activeBullets.removeIndex(i);
+                pool.free(item);
+            }
+        }
+    }
+
     public void dispose(){
         getTexture().dispose();
         activeBullets.clear();
         pool.clear();
-    }
-
-    public void userSetTexture(Texture t){
-        this.setTexture(t);
     }
 
 

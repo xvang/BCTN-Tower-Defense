@@ -53,14 +53,17 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        enemy = new EnemyManager();
         tower = new TowerManager();
+        enemy = new EnemyManager();
+        enemy.setTowerManager(tower);
+
 
         level = new LevelManager();
         spawn = new SpawnManager(tower);
         UI = new UIManager(spawn);
         damage = new DamageManager(enemy);
         bullet = new BulletManager(damage);
+        tower.setBulletManager(bullet);
 
 
 
@@ -111,17 +114,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         if(!END_GAME) {
 
-            for (int x = 0; x < tower.getTowerArray().size; x++) {
-                tower.updateTargets();
-                bullet.shooting(padi.batch, tower.getTowerArray().get(x),
-                        tower.getTowerArray().get(x).getTarget());
-            }
-
-            //tower.checkRange();
-            //if needed, assigns new targets.
-            //tower.assignTargets(enemy);
             gatherCharge();
-
             UI.updateTimer(Gdx.graphics.getDeltaTime());
             UI.updateTimerMessage();
         }

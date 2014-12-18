@@ -15,9 +15,9 @@ public class SpeedTower extends MainTower{
 
         setSize(50f, 70f);
 
-        setBulletLimit(5);
+        setBulletLimit(3);
         setCost(25);
-        setAttack(5f);
+        setAttack(25f);
         setRange(140f);
         setChargeRate(0.11f);
         setIncomeRate(4f);
@@ -25,7 +25,7 @@ public class SpeedTower extends MainTower{
         setFireRate(0.005f);
         setID("speed");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.07f);
+        setBulletRate(0.06f);
         setCustomArc(70f);
     }
 

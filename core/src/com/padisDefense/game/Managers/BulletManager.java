@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Path;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
@@ -48,10 +47,19 @@ public class BulletManager {
         spawnTimer += Gdx.graphics.getDeltaTime();
 
         //If tower has target AND tower is in shoot mode.
-        if(t.getHasTarget() && t.getState()){
+        if(t.getState()){
 
             Vector2 tower = new Vector2(t.getLocation());
-            Vector2 enemy = new Vector2(e.getLocation());
+            Vector2 enemy;
+
+            if(t.getHasTarget())
+                enemy = new Vector2(e.getLocation());
+            else
+                enemy = new Vector2(t.getOldTargetPosition());
+
+
+
+           // System.out.println("Enemy = " + enemy + "TARGET: " + t.getHasTarget()  + "  OldPosition: " + t.getOldTargetPosition());
             Vector2 midpoint = almostMidPoint(tower, enemy, t.getCustomArc());
 
 
@@ -62,7 +70,8 @@ public class BulletManager {
             Bullet item;
 
 
-            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()){
+            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
+                    &&t.getHasTarget()){
 
                 item = t.getPool().obtain();
                 item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
@@ -74,16 +83,19 @@ public class BulletManager {
 
             for(int x = 0;x < t.getActiveBullets().size; x++){
 
+                //System.out.println("Time: " + t.getActiveBullets().get(x).getTime() + "  Alive: " + t.getActiveBullets().get(x).alive
+                // + "   Target: " + enemy);
                 //time is from the bullet
                 float time = (t.getActiveBullets().get(x).getTime() + t.getBulletRate());
 
                 //calculates the bullet's location on the path
                 //using the bullet's time.
                 //stores the bullet's location in a Vector2 'out'
-                if(time < 1f)
-                    path.valueAt(out, time);
 
-                System.out.println(out.x + "  " + out.y);
+                //if(time <= 1f)
+                path.valueAt(out, time);
+
+
 
                 //This little bugger here gave me the most difficult time.
                 //There is a moment where path.valueAt() returns (0,0) for 'out'.
@@ -94,22 +106,27 @@ public class BulletManager {
                     t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
                     t.getActiveBullets().get(x).draw(batch);
                 }
-
-
-
-
                 /**2 different ways to determine if bullet hit enemy.
                  * not sure which one is better yet.
                  * One uses Rectangles, the other uses Vector2.*/
                 if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)) {
                     damage.hit(t, e);
+
                 }
+
 
                 //not sure what this is for
                 if (time >= 1f){
-                    t.getActiveBullets().get(x).setTime(0f);
+                    if(t.getHasTarget())//if no target, no need for bullet to restart.
+                        t.getActiveBullets().get(x).setTime(0f);
+
                     item = t.getActiveBullets().get(x);
-                    t.getPool().free(item);
+                    if(item.alive == false || item.getTime() > 1f){
+                        item.setTime(0f);
+                        t.getActiveBullets().removeIndex(x);
+                        t.getPool().free(item);
+                    }
+
                 }
             }
 
@@ -135,26 +152,12 @@ public class BulletManager {
         double x1x2, y1y2, distance;
         x1x2 = location.x - enemy.x;
         y1y2 = location.y - enemy.y;
-
         distance = Math.sqrt((x1x2 * x1x2) + (y1y2 * y1y2));
-
         return (distance < 1f);
     }
 
 
-    //Create rectangles around tower and enemy to see if they overlap.
-    public Boolean hitEnemy(Bullet b, Enemy e){
 
-        Rectangle t_rec = new Rectangle();
-        t_rec.setSize(b.getWidth(), b.getHeight());
-        t_rec.setPosition(b.getLocation());
-
-        Rectangle e_rec = new Rectangle();
-        e_rec.setSize(e.getWidth(), e.getHeight());
-        e_rec.setPosition(e.getLocation());
-
-        return t_rec.overlaps(e_rec);
-    }
 
 
     public void dispose(){
@@ -162,3 +165,22 @@ public class BulletManager {
     }
 
 }
+
+
+
+//MAY NOT NEED THIS. JUST KEEPING FOR BECAUSE.
+/**
+ *  //Create rectangles around tower and enemy to see if they overlap.
+ public Boolean hitEnemy(Bullet b, Enemy e){
+
+ Rectangle t_rec = new Rectangle();
+ t_rec.setSize(b.getWidth(), b.getHeight());
+ t_rec.setPosition(b.getLocation());
+
+ Rectangle e_rec = new Rectangle();
+ e_rec.setSize(e.getWidth(), e.getHeight());
+ e_rec.setPosition(e.getLocation());
+
+ return t_rec.overlaps(e_rec);
+ }
+ * */
