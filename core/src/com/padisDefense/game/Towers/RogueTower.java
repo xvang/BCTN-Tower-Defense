@@ -21,21 +21,21 @@ public class RogueTower extends MainTower{
         setBulletLimit(3);
         setCost(100);
         setRange(250f);
+        setAttack(10f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
         setFireRate(1f);
         setID("rogue");
-        setBulletTexture(new Texture("test6.png"));
-        setBulletRate(0.010f);
+        setBulletTexture(new Texture("ghostbullet.png"));
+        setBulletRate(0.03f);
     }
 
     @Override
     //rogue tower has a chance of healing the enemy
-    //15% chance of healing by 50% of its attack.
+    //50% chance of healing by 50% of its attack.
     public float getAttack(){
-        System.out.println("We in roguetower");
-        if(Math.random()*100 > 85f){
+        if(Math.random()*100f > 50f){
             return -attack/2;
         }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Path;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
@@ -59,7 +60,7 @@ public class BulletManager {
 
 
 
-           // System.out.println("Enemy = " + enemy + "TARGET: " + t.getHasTarget()  + "  OldPosition: " + t.getOldTargetPosition());
+
             Vector2 midpoint = almostMidPoint(tower, enemy, t.getCustomArc());
 
 
@@ -83,15 +84,12 @@ public class BulletManager {
 
             for(int x = 0;x < t.getActiveBullets().size; x++){
 
-                //System.out.println("Time: " + t.getActiveBullets().get(x).getTime() + "  Alive: " + t.getActiveBullets().get(x).alive
-                // + "   Target: " + enemy);
                 //time is from the bullet
                 float time = (t.getActiveBullets().get(x).getTime() + t.getBulletRate());
 
                 //calculates the bullet's location on the path
                 //using the bullet's time.
                 //stores the bullet's location in a Vector2 'out'
-
                 //if(time <= 1f)
                 path.valueAt(out, time);
 
@@ -106,12 +104,9 @@ public class BulletManager {
                     t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
                     t.getActiveBullets().get(x).draw(batch);
                 }
-                /**2 different ways to determine if bullet hit enemy.
-                 * not sure which one is better yet.
-                 * One uses Rectangles, the other uses Vector2.*/
-                if (reachedEnemy(new Vector2(t.getActiveBullets().get(x).getLocation()), enemy)) {
-                    damage.hit(t, e);
 
+                if(hitEnemy(t.getActiveBullets().get(x), e)){
+                    damage.hit(t, e);
                 }
 
 
@@ -148,15 +143,19 @@ public class BulletManager {
      * @param 'location'
      * @param 'enemy'
      * */
-    public Boolean reachedEnemy(Vector2 location, Vector2 enemy){
-        double x1x2, y1y2, distance;
-        x1x2 = location.x - enemy.x;
-        y1y2 = location.y - enemy.y;
-        distance = Math.sqrt((x1x2 * x1x2) + (y1y2 * y1y2));
-        return (distance < 1f);
+
+
+    public Boolean hitEnemy(Bullet b, Enemy e){
+
+        Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+        Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+
+        if(b_rec.overlaps(e_rec))
+            return true;
+
+
+        return false;
     }
-
-
 
 
 

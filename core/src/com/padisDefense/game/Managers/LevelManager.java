@@ -18,22 +18,21 @@ public class LevelManager {
     private int path = 0;
     private int enemyAmount = 0;
     private int level = 0;
+    public LevelManager(){}
 
-    public LevelManager(){
 
-    }
+    //for determining spawn
+
 
     public int getEnemyAmount(){return enemyAmount;}
     public int getPath(){return path;}
 
-
     /**'level' is set by the game screen before this function runs.*/
     public void determineLevel(){
         switch(level) {
-
             case (1):
                 path = 1;
-                enemyAmount = 100;
+                enemyAmount = 500;
                 break;
             case (2):
                 path = 2;
@@ -60,7 +59,32 @@ public class LevelManager {
     }
 
 
+
+
     public void setLevel(int l){level = l;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void dispose(){
 

@@ -3,26 +3,18 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Towers.BuildableSpot;
-
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -395,7 +387,7 @@ public class UIManager implements InputProcessor{
         towerTable.setVisible(false);
 
 
-        //adding listeners.
+        //adding listeners. hiding the tables.
         for(int x = 0; x < towerOptions.size; x++){
             towerOptions.get(x).addListener(new ClickListener(){
                 @Override

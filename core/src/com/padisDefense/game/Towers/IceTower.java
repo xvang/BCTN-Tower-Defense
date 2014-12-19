@@ -8,7 +8,7 @@ import com.padisDefense.game.Enemies.Enemy;
 public class IceTower extends MainTower {
 
 
-    private float rangeAOE = 20f;
+    private float rangeAOE = 50f;
     public IceTower(Vector2 position){
         super("icetower.png");
         setTarget(new Enemy());
@@ -16,7 +16,7 @@ public class IceTower extends MainTower {
         setSize(50f, 60f);
         setBulletLimit(2);
         setCost(70);
-        setAttack(1f);
+        setAttack(5f);
         setRange(180f);
         setChargeRate(0.01f);
         setIncomeRate(4f);
@@ -24,7 +24,7 @@ public class IceTower extends MainTower {
         setFireRate(0.01f);
         setID("ice");
         setBulletTexture(new Texture("snowball.png"));
-        setBulletRate(0.02f);
+        setBulletRate(0.04f);
         setCustomArc(50f);
 
     }

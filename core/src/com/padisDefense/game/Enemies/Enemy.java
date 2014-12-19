@@ -2,6 +2,7 @@ package com.padisDefense.game.Enemies;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -26,9 +27,8 @@ public class Enemy extends Sprite{
 
     private Boolean alive;
 
-    public Enemy(float h, float a, Vector2 size){
-
-        this.setSize(size.x, size.y);
+    public Enemy(float h, float a, String picture){
+        super(new Texture(picture));
         health = h;
         armor = a;
         alive = true;
@@ -62,6 +62,7 @@ public class Enemy extends Sprite{
     public void setRate(float r){rate = r;finalRate = r;}
     public void setAlive(Boolean newAlive){alive = newAlive;}
     public void setTime(float t){time = t;}
+    public void userSetSize(Vector2 size){this.setSize(size.x, size.y);}
 
 
     public int getChosenPath(){return chosenPath;}
@@ -108,7 +109,6 @@ public class Enemy extends Sprite{
 
 
     }
-
 
 
     public void dispose(){

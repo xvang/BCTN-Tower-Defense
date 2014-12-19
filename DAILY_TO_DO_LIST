@@ -1,6 +1,3 @@
-- fix targetting.  bullet must stay on course until impact, regardless of range.
-- bullet doesn't retreat when setTarget is set to false.
-
 
 
 

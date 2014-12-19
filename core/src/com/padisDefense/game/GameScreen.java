@@ -59,7 +59,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 
         level = new LevelManager();
-        spawn = new SpawnManager(tower);
+        spawn = new SpawnManager(tower, enemy, padi.assets);
         UI = new UIManager(spawn);
         damage = new DamageManager(enemy);
         bullet = new BulletManager(damage);

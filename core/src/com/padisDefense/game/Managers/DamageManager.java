@@ -10,7 +10,6 @@ import com.padisDefense.game.Towers.MainTower;
  * Created by Toog on 12/16/2014.
  */
 public class DamageManager {
-    int x = 0;
     EnemyManager enemy;
 
     public DamageManager(EnemyManager e){
@@ -37,32 +36,29 @@ public class DamageManager {
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
     public void iceHit(IceTower t, Enemy e){
-        e.affectRate(e.getRate()*0.4f, 6f);
+        e.affectRate(e.getRate()*0.4f, 3f);
 
         double distance;
         Enemy temp;
         for(int x = 0;x < enemy.getActiveEnemy().size; x++){
             temp = enemy.getActiveEnemy().get(x);
 
-            distance = findDistance(new Vector2(e.getX(), e.getY()),
-                    new Vector2(temp.getX(),temp.getY()));
+            if(!temp.equals(e)){
+                distance = findDistance(new Vector2(e.getX(), e.getY()),
+                        new Vector2(temp.getX(),temp.getY()));
 
-
-            if(!temp.equals(e)){//don't want to affect target twice
                 //the further away, the less effects.
                 if (distance < t.getRangeAOE()){
                     float z = (float)distance / t.getRangeAOE();
-                    temp.affectRate(temp.getRate()*z, 6f);
+                    temp.affectRate(temp.getRate()*z, 3f);
                 }
             }
-
         }
 
 
-
-
-
     }
+
+
 
 
     //All enemies within a certain range will take damage.
@@ -82,7 +78,7 @@ public class DamageManager {
                 //the further away, the less effects.
                 //Example: enemyX was 15f away from targeted enemy.
                 //z = 15f / 20f; z = 0.75f
-                //damage = (tower's attack)*(1-0.75)
+                //damage = (tower's attack)*(1-0.75), enemyX takes 25% of damage from tower.
                 //if enemyX was closer, 'z' decreases, 'damage' increases.
                 if (distance < t.getRangeAOE()) {
                     float z = (float) distance / t.getRangeAOE();

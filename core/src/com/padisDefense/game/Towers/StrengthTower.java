@@ -8,7 +8,7 @@ import com.padisDefense.game.Enemies.Enemy;
 public class StrengthTower extends MainTower {
 
     public StrengthTower(Vector2 position){
-        super("uptower.png");
+        super("strengthtower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
@@ -22,7 +22,7 @@ public class StrengthTower extends MainTower {
         setState(true);
         setFireRate(0.1f);
         setID("strength");
-        setBulletTexture(new Texture("test7.png"));
-        setBulletRate(0.007f);
+        setBulletTexture(new Texture("snowball.png"));
+        setBulletRate(0.07f);
     }
 }

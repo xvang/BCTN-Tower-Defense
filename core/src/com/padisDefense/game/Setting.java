@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -45,6 +46,7 @@ public class Setting extends ScreenAdapter {
     public Array<Slider> slider;
     public Array<Texture> textures;//SOUND, DIFFICULTY, SPEED.
     public Array<Image> images;//SOUND, DIFFICULTY, SPEED.
+    public Array<Label> values;
 
 
     //These rectangles form a boundary around screen.
@@ -94,6 +96,7 @@ public class Setting extends ScreenAdapter {
         slider = new Array<Slider>();
         textures = new Array<Texture>();
         images = new Array<Image>();
+        values = new Array<Label>();
 
 
         //slider[0] corresponds with texture[0] and images[0], etc.
@@ -101,10 +104,12 @@ public class Setting extends ScreenAdapter {
             slider.add(new Slider(1,100,1,false,padi.skin));
             textures.add(new Texture((String)padi.assets.getRandomPic()));
             images.add(new Image(textures.get(x)));
+            values.add(new Label("stuff", padi.skin));
 
             slider.get(x).setSize(250f,60f);
-            slider.get(x).setValue(10);
+            slider.get(x).setValue(50);
             images.get(x).setSize(150f,60f);
+            values.get(x).setSize(50f, 30f);
         }
 
 
@@ -124,15 +129,17 @@ public class Setting extends ScreenAdapter {
 
         //First slider is at set position. Proceeding sliders are located based on previous one.
         for(int x = 0; x < 3; x++){
-            if (x == 0) {//first one
+            if (x == 0) {//first one. image is to the left. value output is to the right.
                 slider.get(x).setPosition(Gdx.graphics.getWidth() / 2 - 75f, Gdx.graphics.getHeight()*2 / 3);
                 images.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
+                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
             }
             else {//the other two.
                 slider.get(x).setPosition(slider.get(x - 1).getX(),
                         slider.get(x - 1).getY() - slider.get(x - 1).getHeight() - 40f);
 
                 images.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
+                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
 
             }
         }
@@ -150,6 +157,7 @@ public class Setting extends ScreenAdapter {
         for(int x = 0; x < 3; x++){
             foreground.addActor(slider.get(x));
             foreground.addActor(images.get(x));
+            foreground.addActor(values.get(x));
         }
 
         foreground.addActor(back_button);
@@ -166,20 +174,26 @@ public class Setting extends ScreenAdapter {
     public void saveSettings(){
         padi.assets.setDifficulty((int)slider.get(2).getVisualValue());
         padi.assets.setSoundLevel((int)slider.get(0).getVisualValue());
+    }
 
+    public void updateValues(){
+        for(int x = 0; x < values.size; x++){
+            values.get(x).setText(String.valueOf((int)slider.get(x).getVisualValue()));
+        }
     }
 
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(0,0,0.8f,1);
+        Gdx.gl.glClearColor(0,0,0.4f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
 
 
         saveSettings();
+        updateValues();
 
-        wander();
+        //wander();
         padi.batch.begin();
         //padi.background.draw(padi.batch);
         stage.draw();
@@ -204,23 +218,25 @@ public class Setting extends ScreenAdapter {
             int temp = touched(covers.get(x));
 
             //touched nothing.
-            if(temp == 0){slider.get(x).moveBy(((float)Math.random()*2) - 1f, ((float)Math.random()*2) - 1f);}
+            if(temp == 0){slider.get(x).moveBy(((float)Math.random()*1) - 0.5f, ((float)Math.random()*1) - 0.5f);}
 
             //touched top
-            if (temp == 1){slider.get(x).moveBy(((float)Math.random()*2) - 1f, -(((float)Math.random()*2 + 1f)));}
+            if (temp == 1){slider.get(x).moveBy(((float)Math.random()*1) - 0.5f, -(((float)Math.random()*1) + 0.5f));}
 
             //touched bottom
-            if (temp == 2){slider.get(x).moveBy(((float)Math.random()*2) - 1f, ((float)(Math.random()*2)) + 1f);}
+            if (temp == 2){slider.get(x).moveBy(((float)Math.random()*1) - 0.5f, ((float)(Math.random()*1)) + 0.5f);}
 
             //touched left
-            if (temp == 3){slider.get(x).moveBy((float)(Math.random()*2) + 1f, (float)(Math.random()*2) - 1f);}
+            if (temp == 3){slider.get(x).moveBy((float)(Math.random()*1) + 0.5f, (float)(Math.random()*1) - 0.5f);}
 
             //touched right
-            if (temp == 4){slider.get(x).moveBy(-((float)(Math.random()*2 + 1f)), ((float)(Math.random()*2)) - 1f);}
+            if (temp == 4){slider.get(x).moveBy(-((float)(Math.random()*1 + 0.5f)), ((float)(Math.random()*1)) - 0.5f);}
 
             //Wherever sliders are, corresponding images should be 50f to the left.
             images.get(x).setPosition(slider.get(x).getX() - 50f - images.get(x).getWidth(),
                     slider.get(x).getY());
+
+            values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
 
         }//End for-loop.
 

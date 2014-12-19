@@ -48,7 +48,7 @@ public class MainTower extends Sprite{
 
     private Vector2 oldTargetPosition;//If enemy dies or goes out of range while bullet is traveling
     //remaining bullets will target this before resetting.
-    //hopefully this prevent bullet "transporting" on path from one target to the next.
+    //It is updated in TowerManager [checkRange(), checkForDead()] and EnemyManager [isDead()]
 
 
     public MainTower(String name){

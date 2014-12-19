@@ -25,12 +25,6 @@ public class EnemyManager {
     private PathStorage storage;
     private Vector2 position;
     private TowerManager tower;
-
-
-    int oldSpawnCounter = 0;
-    int spawnCounter = 0;//TODO: delete this later.
-
-
     private int spawnsLeft;
     private int enemyCounter = 0;
     ImmediateModeRenderer20 renderer;
@@ -86,11 +80,7 @@ public class EnemyManager {
      * */
     public void startEnemy(SpriteBatch batch, SpawnManager spawn){
 
-
-
         position = new Vector2();
-
-
         //Makes enemy travel along path.
         for(int x = 0; x < activeEnemy.size; x++){
 
@@ -98,7 +88,6 @@ public class EnemyManager {
                 time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
                 activeEnemy.get(x).setTime(time);
 
-                //System.out.println(enemyArray.get(x).getChosenPath());
                 path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
                 activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
                 activeEnemy.get(x).draw(batch);
@@ -112,19 +101,15 @@ public class EnemyManager {
         }
 
         checkForDead();
-        //int old = enemyAmount;
 
-        //System.out.println("Enemy size = " + activeEnemy.size);
         //Calculating if spawning is necessary.
         if(activeEnemy.size < 25 && spawnsLeft > 0){
+
             spawnsLeft--;
             spawn.spawnEnemy(this);
 
         }
 
-
-        //if (old != enemyAmount)
-         //   System.out.println("Enemies left: " + enemyAmount);
 
     }
 
@@ -157,7 +142,6 @@ public class EnemyManager {
     public void  checkForDead(){
 
         for(int x = 0; x < activeEnemy.size; x++){
-
 
             if(activeEnemy.get(x).isDead()) {
 

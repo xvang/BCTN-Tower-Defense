@@ -15,8 +15,6 @@ import com.padisDefense.game.Towers.RogueTower;
  * Upgrades, Charges, Create, Destroy, etc.
  *
  *
- *
- *
  * @author  Xeng
 * **/
 public class TowerManager{
@@ -53,12 +51,13 @@ public class TowerManager{
             //towerArray.get(x).spinning();
             towerArray.get(x).draw(batch);
 
-            //for the spinning thing.
+            //for the spinning thing for rogue towers.
             RogueTower t;
             if(towerArray.get(x).getID().equals("rogue")){
                 t = (RogueTower)towerArray.get(x);
                 t.spin(batch);
             }
+
 
             checkRange(towerArray.get(x));
             checkForDead(towerArray.get(x));
@@ -68,20 +67,15 @@ public class TowerManager{
 
             bullet.shooting(batch, towerArray.get(x),
                     towerArray.get(x).getTarget());
-
         }
 
 
 
     }
 
-
-
     //Checks to see if target enemy object is out of range.
     public void checkRange(MainTower t){
-        double distance, y2y1, x2x1;
-
-        distance = findDistance(t.getLocation(), t.getTarget().getLocation());
+        double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
 
         if(distance > t.getRange()){
             t.setHasTarget(false);
@@ -103,13 +97,13 @@ public class TowerManager{
                 t.setOldTargetPosition(t.getTarget().getLocation());
             }
         }
-    }// checkforDead();
+    }// end checkforDead();
 
 
     public void assignTargets(EnemyManager enemy, MainTower t){
         double currentMin, previousMin = 1000;
         Enemy temp = null;
-        //System.out.println(stillActiveBullets(t));
+
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
         }
@@ -133,8 +127,6 @@ public class TowerManager{
 
     }
 
-
-
     public Array<MainTower> getTowerArray(){return towerArray;}
     public Array<BuildableSpot> getBuildableArray(){return buildableArray;}
     public void addBuildableSpots(Vector2 position){
@@ -153,19 +145,13 @@ public class TowerManager{
             t.setCurrentTower(null);
             t.setHasTower(false);
         }
-
-
-        //System.out.println("towerArray size = " + towerArray.size);
     }
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
 
     public boolean stillActiveBullets(MainTower t){
-        //System.out.println("checking stillActiveBullets()      bulletSize: " + t.getActiveBullets().size);
         for(int x = 0; x < t.getActiveBullets().size; x++){
-            System.out.print(t.getActiveBullets().get(x).alive);
             if(t.getActiveBullets().get(x).alive){
-                System.out.print('\n');
                 return true;
             }
         }

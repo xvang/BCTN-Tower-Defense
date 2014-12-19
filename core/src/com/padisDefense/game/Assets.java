@@ -18,7 +18,7 @@ public class Assets {
     public static final int h = 800;
 
     public static int SOUND_LEVEL = 20;
-    public static int DIFFICULTY = 20;
+    public static int DIFFICULTY = 50;
 
     public Vector splash_Pages;
 

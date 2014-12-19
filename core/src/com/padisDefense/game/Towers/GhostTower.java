@@ -14,7 +14,7 @@ public class GhostTower extends MainTower{
         setSize(50f, 70f);
         setBulletLimit(2);
         setCost(100);
-        setAttack(80);
+        setAttack(80f);
         setRange(250f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
@@ -22,7 +22,7 @@ public class GhostTower extends MainTower{
         setFireRate(1f);
         setID("ghost");
         setBulletTexture(new Texture("ghostbullet.png"));
-        setBulletRate(0.015f);
+        setBulletRate(0.04f);
         setCustomArc(40f);
     }
 }
