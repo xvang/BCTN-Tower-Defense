@@ -29,6 +29,8 @@ public class MainTower extends Sprite{
     private float fireRate = 1;//Used in bulletManager. shooting().
     private Boolean hasTarget = false;
     private Enemy target;
+    private Array<String> weakAgainst;
+    private Array<String> strongAgainst;
 
     private Texture bulletTexture;
     private float bulletRate;
@@ -58,6 +60,10 @@ public class MainTower extends Sprite{
         customArc = 25f;
         oldTargetPosition = new Vector2();
         activeBullets = new Array<Bullet>();
+
+        weakAgainst = new Array<String>();
+        strongAgainst = new Array<String>();
+
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
@@ -101,6 +107,18 @@ public class MainTower extends Sprite{
     public void setBulletRate(float r){bulletRate = r;}
     public void setCustomArc(float c){customArc = c;}
     public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
+    public void setWeakAgainst(String... s){
+        for(int x = 0; x <s.length; x++)
+            weakAgainst.add(s[x]);
+    }
+    public void setStrongAgainst(String... s){
+        for(int x = 0; x <s.length; x++)
+            strongAgainst.add(s[x]);
+    }
+
+
+
+
 
 
     public float getCost(){return cost;}
@@ -120,6 +138,8 @@ public class MainTower extends Sprite{
     public float getBulletRate(){return bulletRate;}
     public float getCustomArc(){return customArc;}
     public Vector2 getOldTargetPosition(){return oldTargetPosition;}
+    public Array<String> getWeakAgainst(){return weakAgainst;}
+    public Array<String> getStrongAgainst(){return strongAgainst;}
 
     public String getMessage(){
         if(state)
@@ -148,11 +168,19 @@ public class MainTower extends Sprite{
         }
     }
 
+
+
+
+
+
+
     public void dispose(){
         getTexture().dispose();
         activeBullets.clear();
         pool.clear();
     }
+
+
 
 
 }

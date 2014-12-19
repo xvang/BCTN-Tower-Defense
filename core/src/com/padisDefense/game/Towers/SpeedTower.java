@@ -27,6 +27,8 @@ public class SpeedTower extends MainTower{
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);
         setCustomArc(70f);
+        setWeakAgainst("bestgoblin", "biggergoblin");
+        setStrongAgainst("goblin");
     }
 
 

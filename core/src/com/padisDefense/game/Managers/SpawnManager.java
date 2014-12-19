@@ -2,6 +2,7 @@ package com.padisDefense.game.Managers;
 
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
@@ -17,8 +18,10 @@ import com.padisDefense.game.Towers.RogueTower;
 import com.padisDefense.game.Towers.SpeedTower;
 import com.padisDefense.game.Towers.StrengthTower;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * Example: User builds 10 towers: 8 speed towers, 1 ghost tower, 1 rogue tower.
  * that means there is an 80% chance of spawning an enemy that counters speed towers.
@@ -41,6 +44,7 @@ public class SpawnManager {
 
     private Assets assets;
     private SpawnStorage storage;
+    private boolean bullRushing = false; //TODO: bullrushing.
 
 
     public SpawnManager(TowerManager t, EnemyManager e, Assets a ){
@@ -94,6 +98,7 @@ public class SpawnManager {
     // Counts how many of each  tower there are.
     public void gatherTowerData(){
 
+        //TODO: check the case where user has no towers.
         for(int x = 0; x < tower.getTowerArray().size; x++){
             String temp = tower.getTowerArray().get(x).getID();
 
@@ -117,23 +122,29 @@ public class SpawnManager {
 
     public void spawnResponse(){
 
+        Integer mostValue = Collections.max(data.values());//gets the max value.
+        Array<String> mostType = new Array<String>();//this is an array because the "most" type could be more than one
+                               //there could be 2 speed towers and 2 rogue towers.
+                               //They store the name of towers.
+
+        Integer leastValue = Collections.min(data.values());//same as above, but for min.
+        Array<String> leastType = new Array<String>();
+
+        for(Map.Entry<String, Integer> k: data.entrySet()){
+            if(k.getValue() == mostValue) mostType.add(k.getKey());
+
+            else if(k.getValue() == leastValue) leastType.add(k.getKey());
+        }
+
         Enemy newEnemy;
-        if(assets.getDifficulty() >= 45 && assets.getDifficulty() <= 55){System.out.println("neutral()");
-            newEnemy = neutral();
-        }
+        if(assets.getDifficulty() >= 45 && assets.getDifficulty() <= 55) newEnemy = neutral();
 
-        else if(assets.getDifficulty() <= 10){System.out.println("easy()");
-            newEnemy = easy();
-        }
+        else if(assets.getDifficulty() <= 10) newEnemy = easy();
 
-        else if(assets.getDifficulty() >= 90){System.out.println("hard()");
-            newEnemy = hard();
-        }
+        else if(assets.getDifficulty() >= 90) newEnemy = hard(mostType, leastType);
 
-        else{System.out.println("custom()");
-            newEnemy = custom();
+        else newEnemy = custom();
 
-        }
 
         enemy.getActiveEnemy().add(newEnemy);
 
@@ -147,36 +158,106 @@ public class SpawnManager {
         Enemy newEnemy;
 
         if(x == 0) newEnemy = new Goblin();
-
         else if(x == 1) newEnemy = new BiggerGoblin();
-
         else if(x == 2) newEnemy = new BestGoblin();
-
         else newEnemy = new BestGoblin(); //Should never reach this statement.
-                                      //Just here to make the warning go away.
+                                      //Just here to make the null pointer warning go away.
 
-        System.out.println("Spawn type: " + newEnemy.getName() + "  " + x);
         newEnemy.setChosenPath((int) (Math.random() * 100) % enemy.getPath().getPath().size);
         return newEnemy;
     }
 
+
+
+
+    //If 8/10 towers are speed, then 80% chance spawn will be goblin.
+    //speed towers are great against goblins.
     public Enemy easy(){
 
 
         return null;
     }
 
-    public Enemy hard(){
+    //TODO: try to move the stuff in hard() into spawnResponse()
+    //TODO: it will eliminate a lot of the repetitiveness. I think.
+    //If 8/10 towers are speed, then 80% chance spawn will be bestGoblin.
+    //speed towers are terrible against bestGoblins.
+    //'least' is the least built tower(s). we want to spawn enemies that are weak against those.
+    //'most' is the most build tower(s). we want to spawn enemies that are strong against those.
+    public Enemy hard(Array<String> most, Array<String> least){
 
-        return null;
+        if(most.size < 3){bullRushing = true;}
 
+        else{//Gather list of enemies that are bad against the 'least', and good against the 'most'.
 
+            MainTower temp;
+            Array<String> enemyList = new Array<String>();
+
+            for(int x = 0; x < least.size; x++){    //TODO: find a way around converting to towers.
+                temp = convertToTower(least.get(x));//need to convert to tower, so we can access list of enemies weak against.
+
+                for(int y = 0; y < temp.getWeakAgainst().size; y++){
+                    enemyList.add(temp.getWeakAgainst().get(y));
+                }
+            }
+            for(int x = 0; x < most.size; x++){
+                temp = convertToTower(most.get(x));
+
+                for(int y = 0;y < temp.getStrongAgainst().size; y++){
+                    enemyList.add(temp.getStrongAgainst().get(y));
+                }
+            }
+
+            //enemyList should now contain a list of enemies that are weak against
+            //the least built towers, and great against the most built towers.
+
+            String chosen;
+            if(enemyList.size == 1)
+                chosen = enemyList.get(0);
+            else
+                chosen = enemyList.get((int)(Math.random()*enemyList.size));
+
+            return convertToEnemy(chosen);
+        }
+        return new Goblin();// TODO: return the duck here?
     }
+
+
 
     public Enemy custom(){
 
 
         return null;
+    }
+
+    public MainTower convertToTower(String type){
+
+        if(type.equals("speed"))
+            return new SpeedTower(new Vector2());
+        else if(type.equals("rogue"))
+            return new RogueTower(new Vector2());
+        else if(type.equals("strength"))
+            return new StrengthTower(new Vector2());
+        else if(type.equals("aoe"))
+            return new AOETower(new Vector2());
+        else if(type.equals("ghost"))
+            return new GhostTower(new Vector2());
+        else if(type.equals("ice"))
+            return new IceTower(new Vector2());
+        else
+            return null;
+
+    }
+
+    public Enemy convertToEnemy(String type){
+        if(type.equals("goblin"))
+            return new Goblin();
+        else if (type.equals("biggergoblin"))
+            return new BiggerGoblin();
+        else if (type.equals("bestgoblin"))
+            return new BestGoblin();
+        else
+            return new Goblin();
     }
 /************FOR BUILDABLE SPOTS***********************************************************/
     public void spawnBuildableSpots(TowerManager tower){
