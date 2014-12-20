@@ -35,6 +35,17 @@ import java.util.Map;
  *
  *
  *
+ * enemyManager calls spawnEnemy();
+ * spawnEnemy() randomly spawns 25 initial enemy.
+ * After that, it gathers tower data.
+ * If no tower is built, it keeps spawning random until it exceeds enemy limit.(at the moment, limit is 25)
+ * spawnEnemy() calls on spawnResponse();
+ * spawnResponse() creates an array of enemies that would be strong against the user's towers.
+ * if no dominant tower, spawnResponse() will pick one type of enemy and keep spawning it until user reacts.
+ * once a dominant tower is established, based on difficulty settings,
+ * spawn will be 'random' or 'custom' to counter the user's towers.
+ * For example, if the difficulty setting is 40, then there is a 40% chance of a 'custom' spawn, and a 60% chance of 'random' spawn.
+ *
  * **/
 public class SpawnManager {
 
@@ -97,21 +108,30 @@ public class SpawnManager {
             first25++;
 
         }
-        else{
+        else{//initial 25 enemies have spawned.
 
             gatherTowerData();
-            Enemy e = spawnResponse();
+            if(data.size() == 0){
+                //System.out.println("no towers built.");
+                Enemy e = spawnRandom();
+                e.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
+                enemy.getActiveEnemy().add(e);
+                //System.out.println("Spawned " + e.getName());
+            }
+            else{
+                Enemy e = spawnResponse();
 
-            e.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
-            enemy.getActiveEnemy().add(e);
+                e.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
+                enemy.getActiveEnemy().add(e);
 
+                //System.out.println("Spawned " + e.getName());
+
+            }
 
             /*for(Map.Entry<MainTower, Integer> k: data.entrySet()){
                 System.out.print(k.getKey().getID() + "  " + k.getValue() + " ___ " );
             }
             System.out.print("  Total" + "  " + data.size() + "\n");*/
-
-            System.out.println("Spawned " + e.getName());
         }
 
         data.clear();
@@ -148,9 +168,18 @@ public class SpawnManager {
 
     public Enemy spawnResponse(){
         Enemy newEnemy;
-        Integer mostValue = Collections.max(data.values());//gets the max value.
 
-        Integer leastValue;//no need to assign these a value unless mostValue < 4
+        Integer mostValue = Collections.max(data.values());//gets the max value.
+        Integer leastValue = Collections.min(data.values());
+
+        //If least value equals most value,
+        //then that means user only built 1 type of tower.
+        if(leastValue.equals(mostValue)){
+            leastValue = 0;
+        }
+
+
+        //no need to assign these a value unless mostValue < 4
         Array<MainTower> mostType;//Array of least and most frequent type towers.
         Array<MainTower> leastType;
         //System.out.println("Most: " + mostValue);
@@ -162,7 +191,7 @@ public class SpawnManager {
                 newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 duckTime = false;
                 chosenEnemyType = (int)(Math.random()*allEnemies.size);
-                System.out.println("DUCK TIME!" + " ... Chosen enemy: " + allEnemies.get(chosenEnemyType));
+                //System.out.println("DUCK TIME!" + " ... Chosen enemy: " + allEnemies.get(chosenEnemyType));
                 return newEnemy;
             }
             else return spawnBullRush();
@@ -170,8 +199,8 @@ public class SpawnManager {
         }
         else{
             duckTime = true;
-            System.out.println("duck time over...");
-            leastValue = Collections.min(data.values());
+            //System.out.println("duck time over...");
+
             mostType = new Array<MainTower>();
             leastType = new Array<MainTower>();
 
@@ -186,11 +215,11 @@ public class SpawnManager {
             //55% chance the enemy spawn will counter the user's towers.
             if(x >= assets.getDifficulty()){
                 newEnemy = spawnRandom();
-                System.out.println("spawn Random()");
+                //System.out.println("spawn Random()");
             }
             else{
                 newEnemy = spawnCustom(mostType, leastType);
-                System.out.println("spawn Custom()");
+                //System.out.println("spawn Custom()");
             }
         }
 

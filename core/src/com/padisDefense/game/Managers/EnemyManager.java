@@ -106,6 +106,8 @@ public class EnemyManager {
         if(activeEnemy.size < 25 && spawnsLeft > 0){
 
             int amount = (int)(Math.random()* 5 + 1);
+            if(spawnsLeft <= 5)
+                amount = spawnsLeft;
 
             for(int x = 0; x < amount; x++){
                 spawnsLeft--;
@@ -113,7 +115,7 @@ public class EnemyManager {
             }
 
 
-
+            //System.out.println("Size: " + activeEnemy.size);
         }
 
 
