@@ -105,8 +105,14 @@ public class EnemyManager {
         //Calculating if spawning is necessary.
         if(activeEnemy.size < 25 && spawnsLeft > 0){
 
-            spawnsLeft--;
-            spawn.spawnEnemy(this);
+            int amount = (int)(Math.random()* 5 + 1);
+
+            for(int x = 0; x < amount; x++){
+                spawnsLeft--;
+                spawn.spawnEnemy(this);
+            }
+
+
 
         }
 

@@ -170,7 +170,9 @@ public class MainTower extends Sprite{
 
 
 
-
+    public void print(){
+        System.out.print(ID);
+    }
 
 
 

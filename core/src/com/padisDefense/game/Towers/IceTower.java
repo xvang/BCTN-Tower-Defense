@@ -26,6 +26,8 @@ public class IceTower extends MainTower {
         setBulletTexture(new Texture("snowball.png"));
         setBulletRate(0.04f);
         setCustomArc(50f);
+        setWeakAgainst("goblin");
+        setStrongAgainst("bestgoblin", "biggergoblin");
 
     }
 
