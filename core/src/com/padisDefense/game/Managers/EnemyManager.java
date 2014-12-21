@@ -117,8 +117,6 @@ public class EnemyManager {
 
             //System.out.println("Size: " + activeEnemy.size);
         }
-
-
     }
 
 

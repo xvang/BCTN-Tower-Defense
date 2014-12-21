@@ -24,5 +24,7 @@ public class StrengthTower extends MainTower {
         setID("strength");
         setBulletTexture(new Texture("snowball.png"));
         setBulletRate(0.07f);
+        setWeakAgainst("bestgoblin");
+        setStrongAgainst("goblin");
     }
 }

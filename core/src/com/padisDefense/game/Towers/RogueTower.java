@@ -29,6 +29,8 @@ public class RogueTower extends MainTower{
         setID("rogue");
         setBulletTexture(new Texture("ghostbullet.png"));
         setBulletRate(0.03f);
+        setWeakAgainst("bestgoblin");
+        setStrongAgainst("goblin");
     }
 
     @Override

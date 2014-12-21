@@ -9,11 +9,10 @@ public class AOETower extends MainTower {
 
     private float rangeAOE = 20f;
     public AOETower(Vector2 position){
-        super();
+        super("aoetower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(30f, 30f);
-        setTexture(new Texture("aoetower.png"));
         setBulletLimit(2);
         setCost(80);
         setAttack(150f);
@@ -25,6 +24,8 @@ public class AOETower extends MainTower {
         setID("aoe");
         setBulletTexture(new Texture("ghostbullet.png"));
         setBulletRate(0.04f);
+        this.setWeakAgainst("bestgoblin");
+        this.setStrongAgainst("goblin");
     }
 
     public float getRangeAOE(){return rangeAOE;}

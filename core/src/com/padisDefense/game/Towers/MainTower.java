@@ -15,7 +15,7 @@ import com.padisDefense.game.Enemies.Enemy;
  * @author Xeng
  *
  * */
-public class MainTower extends Sprite{
+public class MainTower extends Sprite {
 
 
 
@@ -177,7 +177,7 @@ public class MainTower extends Sprite{
 
 
     public void dispose(){
-        getTexture().dispose();
+        //getTexture().dispose();
         activeBullets.clear();
         pool.clear();
     }

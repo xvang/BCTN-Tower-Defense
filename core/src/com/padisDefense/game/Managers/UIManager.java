@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Towers.BuildableSpot;
 
@@ -40,8 +42,8 @@ public class UIManager implements InputProcessor{
     private float TIMER = 0;
     private Label timeMessage;
 
-
-
+    private Table dragTowers;//table containing towers that can be dragged to build.
+    private Array<Image> image;
 
 
 
@@ -74,7 +76,7 @@ public class UIManager implements InputProcessor{
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-
+        createDragTowers();
 
         createTowerTable();
 
@@ -112,6 +114,7 @@ public class UIManager implements InputProcessor{
         messageTable.add(enemyMessage).pad(20f).row();
         messageTable.add(moneyMessage).pad(20f).row();
         messageTable.add(timeMessage).row();
+        messageTable.add(dragTowers);
 
 
 
@@ -246,6 +249,90 @@ public class UIManager implements InputProcessor{
     }
 
 
+    public void createDragTowers(){
+
+        dragTowers = new Table();
+        image = new Array<Image>();
+
+        //Creating the images for the towers.
+        final Image ice = new Image(new Texture("icetower_small.png"));
+        final Image strength=new Image(new Texture("strengthtower_small.png"));
+        final Image rogue=new Image(new Texture("roguetower_small.png"));
+        final Image ghost=new Image(new Texture("ghosttower_small.png"));
+        final Image speed=new Image(new Texture("speedtower_small.png"));
+        final Image aoe=new Image(new Texture("aoetower_small.png"));
+
+        //giving each image the appropriate names.
+        ice.setName("ice");
+        strength.setName("strength");
+        rogue.setName("rogue");
+        ghost.setName("ghost");
+        speed.setName("speed");
+        aoe.setName("aoe");
+
+        //adding the images to the images array.
+        image.add(ice);
+        image.add(strength);
+        image.add(rogue);
+        image.add(ghost);
+        image.add(speed);
+        image.add(aoe);
+
+        dragTowers.clear();
+        for(int w = 0; w < image.size; w++){
+            if(w % 2 == 0 && w != 0)
+                dragTowers.row();
+            dragTowers.add(image.get(w)).pad(25f);
+
+
+        }
+        dragTowers.setOrigin(0,0);
+
+        for(int s = 0; s < image.size; s++){
+            final int ss = s;
+            image.get(s).addListener(new DragListener(){
+                @Override
+                public void drag(InputEvent e, float x, float y, int pointer){
+                    image.get(ss).setCenterPosition(image.get(ss).getX() + x, image.get(ss).getY() + y);
+                }
+
+                @Override
+                public void dragStop(InputEvent e, float x, float z, int pointer){
+                    Vector2 a = new Vector2(e.getStageX(), e.getStageY());//gets the coord with center at (0,0)
+
+                    //if tower was dragged onto an empty BuildableSpot.
+                    //passes in a rectangle of the image, and the image's name.
+                    checkTheDrop(new Rectangle(a.x, a.y, image.get(ss).getWidth(), image.get(ss).getHeight()), image.get(ss).getName());
+
+                    dragTowers.clear();
+                    for(int w = 0; w < image.size; w++) {
+
+                        if (w % 2 == 0 && w != 0) dragTowers.row();
+                        dragTowers.add(image.get(w)).pad(25f);
+                    }
+                }
+            });
+        }
+    }
+
+    //check if user dropped the image on a buildableSpot.
+    public void checkTheDrop(Rectangle r, String type){
+        //access the buildable array via the spawnManager.
+        Array<BuildableSpot> BS = spawn.tower.getBuildableArray();
+
+        //create Rectangle around BuildableSpot.
+        for(int x = 0; x < BS.size; x++){
+            Rectangle rec = new Rectangle(BS.get(x).getX(), BS.get(x).getY(),
+                    BS.get(x).getWidth(), BS.get(x).getHeight());
+
+            if(rec.overlaps(r) && BS.get(x).emptyCurrentTower())
+                spawn.dragBuildTower(BS.get(x), type);//passes in the buildablespot, and name of tower.
+
+
+
+        }
+
+    }
 
     public void createOptionTable(){
         optionTable = new Table();
@@ -268,7 +355,6 @@ public class UIManager implements InputProcessor{
                 b = !b;
                 optionTable.setVisible(b);
                 towerTable.setVisible(b);
-
                 //emtyCurrentTower() returns true if
                 //nothing is built on the buildablespot.
                 if(!currentBS.emptyCurrentTower()) {
@@ -450,4 +536,8 @@ public class UIManager implements InputProcessor{
     }
 }
 
-
+/**http://stackoverflow.com/questions/18075414/getting-stage-coordinates-of-actor-in-table-in-libgdx
+ *
+ *
+ *
+ * */

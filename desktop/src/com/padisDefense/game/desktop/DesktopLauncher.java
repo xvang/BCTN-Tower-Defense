@@ -8,7 +8,7 @@ import com.padisDefense.game.Padi;
 public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Padi's Defense";
+        config.title = "PDefense";
         config.width = Assets.w;
         config.height = Assets.h;
         config.vSyncEnabled = true;

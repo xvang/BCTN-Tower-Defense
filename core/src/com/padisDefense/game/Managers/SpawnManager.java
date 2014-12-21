@@ -50,8 +50,8 @@ import java.util.Map;
 public class SpawnManager {
 
 
-    private TowerManager tower;
-    private EnemyManager enemy;
+    public TowerManager tower;
+    public EnemyManager enemy;
     private Map<MainTower, Integer> data;
 
     private Assets assets;
@@ -282,13 +282,16 @@ public class SpawnManager {
     public void spawnBuildableSpots(TowerManager tower){
         //For testing purposes only.
         //BuildableSpots are manually spawned here.
-        tower.addBuildableSpots(new Vector2(320f, 180f));
+        tower.addBuildableSpots(new Vector2(100f, 120f));
         tower.addBuildableSpots(new Vector2(500f, 240f));
         tower.addBuildableSpots(new Vector2(500f, 400f));
         tower.addBuildableSpots(new Vector2(400f, 500f));
         tower.addBuildableSpots(new Vector2(500f, 350f));
         tower.addBuildableSpots(new Vector2(550f, 500f));
         tower.addBuildableSpots(new Vector2(660f, 400f));
+        tower.addBuildableSpots(new Vector2(777f, 500f));
+        tower.addBuildableSpots(new Vector2(600f, 550f));
+
     }
 
     /**
@@ -337,7 +340,7 @@ public class SpawnManager {
         }
 
 
-        try{
+        try{//builds the new tower on buildable spot.
             if(tower.getInGameMoney() >= newTower.getCost()){
                 tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
                 tower.getTowerArray().add(newTower);
@@ -356,4 +359,50 @@ public class SpawnManager {
 
         //System.out.println("towerArray size = " + towerArray.size);
     }
+
+
+    //this buildableSpot's currentTower points to null.
+    //This is function is called by checkTheDrop(),
+    //and it should already verify that nothing is built on this buildableSpot.
+    public void dragBuildTower(BuildableSpot b, String type){
+
+        MainTower newTower = null;
+        Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
+                b.getY() + (b.getHeight() / 8));
+
+        //Create SpeedTower
+        if(type.equals("speed")){
+            newTower = new SpeedTower(spawnPosition);
+        }
+
+        //Create StrengthTower
+        else if(type.equals("strength")) {
+            newTower = new StrengthTower(spawnPosition); //Create StrengthTower
+        }
+
+        //Create IceTower
+        else if(type.equals("ice")) {
+            newTower = new IceTower(spawnPosition);
+        }
+
+        else if(type.equals("rogue")){
+            newTower = new RogueTower(spawnPosition);
+        }
+
+        else if(type.equals("aoe")){
+            newTower = new AOETower(spawnPosition);
+        }
+
+        else if(type.equals("ghost")){
+            newTower = new GhostTower(spawnPosition);
+        }
+
+        if(tower.getInGameMoney() >= newTower.getCost()){
+            tower.getTowerArray().add(newTower);
+            b.setCurrentTower(newTower);//points to the tower.
+            tower.updateInGameMoney(-(int)newTower.getCost());
+        }
+
+
+    }//end dragBuildTower();
 }

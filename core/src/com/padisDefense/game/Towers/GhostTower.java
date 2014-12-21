@@ -24,5 +24,7 @@ public class GhostTower extends MainTower{
         setBulletTexture(new Texture("ghostbullet.png"));
         setBulletRate(0.04f);
         setCustomArc(40f);
+        setWeakAgainst("bestgoblin");
+        setStrongAgainst("goblin");
     }
 }

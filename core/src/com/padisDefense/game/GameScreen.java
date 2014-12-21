@@ -168,7 +168,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         UI.dispose();
     }
 
-
+    @Override
+    public void resize(int x, int y){
+        UI.getStage().getViewport().update(x, y, true);
+    }
 
     @Override
     public void hide(){}
