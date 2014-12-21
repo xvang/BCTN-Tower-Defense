@@ -24,8 +24,6 @@ public class BulletManager {
     GameScreen game;
     private float spawnTimer = 0;
 
-    //stores path of current level.
-    private Path<Vector2> path;
 
     //Constructor
     public BulletManager(GameScreen g){game = g;}
@@ -36,9 +34,6 @@ public class BulletManager {
      * Creates a line (bezier) between the points where bullet will travel along.
      * Every iteration, a new line is calculated.
      *
-     * @param 'batch'
-     * @param 't'
-     * @param 'e'
      * */
     public void shooting(SpriteBatch batch, MainTower t, Enemy e){
 
@@ -63,7 +58,7 @@ public class BulletManager {
 
 
             //Creating path between the two points.
-            path = new Bezier<Vector2>(tower,midpoint,  enemy);
+            final Path<Vector2> path = new Bezier<Vector2>(tower,midpoint,  enemy);
             Vector2 out = new Vector2();
             Bullet item;
 
@@ -113,7 +108,7 @@ public class BulletManager {
                         t.getActiveBullets().get(x).setTime(0f);
 
                     item = t.getActiveBullets().get(x);
-                    if(item.alive == false || item.getTime() > 1f){
+                    if(!item.alive || item.getTime() > 1f){
                         item.setTime(0f);
                         t.getActiveBullets().removeIndex(x);
                         t.getPool().free(item);
@@ -126,6 +121,8 @@ public class BulletManager {
 
     }// end shooting();
 
+
+    //TODO: work 'arc' into the midpoint formula.
     //midpoint formula.
     //something about private access prevents me from just putting
     //Vector2 mid = new Vector2((t.x + 10f + e.x)/2, (t.y + 10f + e.y)/2);
@@ -137,8 +134,6 @@ public class BulletManager {
     /**Takes the location of the bullet and location of the enemy.
      * If the distance between the two is ~1f, then bullet has "hit" the enemy.
      *
-     * @param 'location'
-     * @param 'enemy'
      * */
 
 
@@ -147,11 +142,7 @@ public class BulletManager {
         Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 
-        if(b_rec.overlaps(e_rec))
-            return true;
-
-
-        return false;
+        return b_rec.overlaps(e_rec);
     }
 
 

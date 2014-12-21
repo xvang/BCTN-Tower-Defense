@@ -25,7 +25,7 @@ import com.badlogic.gdx.utils.Array;
  *
  *
  * @author Xeng
- * @param 'padi'
+ *
  * */
 public class Setting extends ScreenAdapter {
 
@@ -245,7 +245,7 @@ public class Setting extends ScreenAdapter {
 
     /**Used with wander(). Checks Rectangle for collision with Bounding boxes.
      *
-     * @param 'r'
+     *
      * */
     public int touched(Rectangle r){
 

@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 /**
  * @author Xeng
  *
- * @param 'padi'
+ *
  *
  * */
 public class WorldMap implements Screen {

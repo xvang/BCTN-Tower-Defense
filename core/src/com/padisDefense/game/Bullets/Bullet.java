@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Pool;
  * bullet class.
  *
  *
- * @param 'p'
  * */
 public class Bullet extends Sprite implements Pool.Poolable {
 

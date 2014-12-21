@@ -1,7 +1,6 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
@@ -26,7 +25,6 @@ public class EnemyManager {
     GameScreen game;
     private MainPath path;
     private PathStorage storage;
-    private Vector2 position;
     private int spawnsLeft;
     private int enemyCounter = 0;
     ImmediateModeRenderer20 renderer;
@@ -57,7 +55,7 @@ public class EnemyManager {
                 path = new MainPath(storage.getPath(0));
                 break;
             case(2):
-                path = new MainPath(storage.getPath(1));;
+                path = new MainPath(storage.getPath(1));
                 break;
             case(3):
                 path = new MainPath(storage.getPath(2));
@@ -85,7 +83,7 @@ public class EnemyManager {
 
         else{
 
-            position = new Vector2();
+            Vector2 position = new Vector2();
             //Makes enemy travel along path.
             for(int x = 0; x < activeEnemy.size; x++){
 
@@ -129,7 +127,7 @@ public class EnemyManager {
 
     /**Displays the paths.
      Mostly for testing purposes. User is not suppose to see path.**/
-    public void drawPath(SpriteBatch batch){
+    /*public void drawPath(SpriteBatch batch){
         for(int x = 0; x < path.getPath().size; x++){
             renderer.begin(batch.getProjectionMatrix(), GL20.GL_LINE_STRIP);
             Vector2 out = new Vector2();
@@ -142,11 +140,10 @@ public class EnemyManager {
             }
             renderer.end();
         }
-
-    }
+    }*/
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
     public MainPath getPath(){return path;}
-    public int getSpawnsLeft(){return spawnsLeft;}
+    //public int getSpawnsLeft(){return spawnsLeft;}
     public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
 
 

@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,7 +17,6 @@ import com.padisDefense.game.TransitionScreens.FadeActor;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
-import aurelienribon.*;
 
 
 /**
@@ -26,7 +24,7 @@ import aurelienribon.*;
  * Another class that needs cleaning.
  *
  * @author Xeng
- * @param 'padi'
+ *
  * */
 public class MainMenu extends ScreenAdapter {
 
@@ -44,7 +42,7 @@ public class MainMenu extends ScreenAdapter {
     Group foreground;
 
     public Texture image;
-    private Table table;
+
 
 
 
@@ -70,7 +68,7 @@ public class MainMenu extends ScreenAdapter {
         image = new Texture("limegreen.png");
 
 
-        table = new Table();
+        final Table table = new Table();
 
         bg = padi.background;
 

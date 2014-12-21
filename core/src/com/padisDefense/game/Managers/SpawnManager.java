@@ -9,7 +9,6 @@ import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
-import com.padisDefense.game.Enemies.SpawnStorage;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.AOETower;
 import com.padisDefense.game.Towers.BuildableSpot;
@@ -54,7 +53,6 @@ public class SpawnManager {
     private Map<MainTower, Integer> data;
 
     private Assets assets;
-    private SpawnStorage storage;
     private boolean duckTime = true;//spawns one duck to signify start of bullrushing.
 
     private Array<String> allEnemies;//list of all enemies.
@@ -66,7 +64,6 @@ public class SpawnManager {
         assets = game.padi.assets;
 
         data = new HashMap<MainTower, Integer>();
-        storage = new SpawnStorage(data, game.enemy);
         allEnemies = new Array<String>();
 
         //ADD ENEMIES HERE.
@@ -217,7 +214,7 @@ public class SpawnManager {
                 //System.out.println("spawn Random()");
             }
             else{
-                newEnemy = spawnCustom(mostType, leastType);
+                newEnemy = spawnCustom(mostType);
                 //System.out.println("spawn Custom()");
             }
         }
@@ -235,7 +232,7 @@ public class SpawnManager {
 
 
 
-    private Enemy spawnCustom(Array<MainTower> mostType, Array<MainTower> leastType) {
+    private Enemy spawnCustom(Array<MainTower> mostType) {
 
         Array<String> weak = new Array<String>();
 
@@ -300,14 +297,14 @@ public class SpawnManager {
      * Currently it just builds a new tower, and upgrades that tower.
      * There are no options to sell or charge yet.
      *
-     * @param 't'
+     *
      * */
     public void clickedBuildable(BuildableSpot t, String type){
 
         //System.out.println("Making: " + type);
 
 
-        MainTower newTower = null;
+        MainTower newTower = new MainTower();
         Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
                 t.getY() + (t.getHeight() / 8));
 
@@ -365,7 +362,7 @@ public class SpawnManager {
     //and it should already verify that nothing is built on this buildableSpot.
     public void dragBuildTower(BuildableSpot b, String type){
 
-        MainTower newTower = null;
+        MainTower newTower = new MainTower();
         Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
                 b.getY() + (b.getHeight() / 8));
 

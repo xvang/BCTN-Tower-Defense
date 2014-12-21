@@ -50,13 +50,13 @@ public class UIManager implements InputProcessor{
 
     //charging meter.
     private Image loadingHidden;
-    private Image loadingFrame;
+    //private Image loadingFrame;
     private Actor loadingBar;
 
 
     //optionMenu, when clicked.
     private Table optionTable;
-    private TextButton charge, upgrade, sell;
+    private TextButton charge, upgrade;//, sell;
     private BuildableSpot currentBS = null;//points to the clicked buildableSpot.
     private boolean b = false;// to hide the option popup after a change has been made.
 
@@ -67,8 +67,8 @@ public class UIManager implements InputProcessor{
 
     //table for countdown.
     private Table countDownTable;
-    private TextButton startButton;
-    private Label countDownMessage1;
+    //private TextButton startButton;
+    //private Label countDownMessage1;
     private Label countDownMessage2;
 
     //end-GameScreen
@@ -76,8 +76,8 @@ public class UIManager implements InputProcessor{
     public Table endGameTable;
     private Label winMessage;
     private Label loseMessage;
-    private TextButton returnButton;
-    private TextButton retryButton;
+    /*private TextButton returnButton;
+    private TextButton retryButton;*/
 
     public UIManager(GameScreen g){
         game = g;
@@ -115,8 +115,9 @@ public class UIManager implements InputProcessor{
 
         //charging meter
         loadingHidden = new Image(new Texture("progressbarempty.png"));
-        loadingFrame = new Image(new Texture("progressbarbackground.png"));
         loadingBar = new Image(new Texture("progressbar.png"));
+        Image loadingFrame = new Image(new Texture("progressbarbackground.png"));
+        //android studio suggested to make 'loadingFrame' local.
 
         //charging meter sizes and positions
         loadingFrame.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - (loadingFrame.getHeight() / 2 + 10f));
@@ -156,7 +157,7 @@ public class UIManager implements InputProcessor{
     }
 
     public Stage getStage(){return stage;}
-    public float getTimer(){return TIMER;}
+
     public void updateTimer(float d){TIMER += d;}
 
 
@@ -279,7 +280,7 @@ public class UIManager implements InputProcessor{
 
     public void createCountDownTable(){
         countDownTable = new Table();
-        startButton = new TextButton("START", skin);
+        final TextButton startButton = new TextButton("START", skin);
         startButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -287,7 +288,7 @@ public class UIManager implements InputProcessor{
                 countDownTable.setVisible(false);
             }
         });
-        countDownMessage1 = new Label("Click the Start Button to start!", skin);
+        final Label countDownMessage1 = new Label("Click the Start Button to start!", skin);
 
         float temp = game.enemy.getCountDownTimer();
         countDownMessage2 = new Label("Time Left: " + String.valueOf((int)temp),
@@ -311,8 +312,8 @@ public class UIManager implements InputProcessor{
         endGameTable = new Table();
         winMessage = new Label("You Won!", skin, "default");
         loseMessage = new Label("You Lost!", skin, "default");
-        returnButton = new TextButton(" World Map ", skin);
-        retryButton = new TextButton("Try Level Again", skin);
+        final TextButton returnButton = new TextButton(" World Map ", skin);
+        final TextButton retryButton = new TextButton("Try Level Again", skin);
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -431,7 +432,7 @@ public class UIManager implements InputProcessor{
         optionTable = new Table();
         charge = new TextButton("Charge", skin, "default");
         upgrade = new TextButton("Upgrade", skin, "default");
-        sell = new TextButton("Sell", skin, "default");
+        final TextButton sell = new TextButton("Sell", skin, "default");
         optionTable.add(charge).pad(5f);
         optionTable.add(upgrade).pad(5f);
         optionTable.add(sell).pad(5f);
@@ -457,7 +458,7 @@ public class UIManager implements InputProcessor{
                     if (currentBS.getCurrentTower().getState()) {
                         currentBS.getCurrentTower().setState(false);
                         charge.setText(currentBS.getCurrentTower().getMessage());
-                    } else if (!currentBS.getCurrentTower().getState()) {
+                    } else {
                         currentBS.getCurrentTower().setState(true);
                         charge.setText(currentBS.getCurrentTower().getMessage());
                     }
@@ -513,6 +514,7 @@ public class UIManager implements InputProcessor{
                 towerTable.setVisible(false);
                 game.tower.clearBuildable(currentBS);
 
+
             }
         });
     }
@@ -529,12 +531,22 @@ public class UIManager implements InputProcessor{
 
         String[] names = {"speed", "strength", "ice", "rogue", "aoe", "ghost"};
 
-        for(int x = 0; x < names.length; x++){
+
+        for(String s: names){
+            final TextButton t = new TextButton(s, skin, "default");
+            t.setSize(25f, 15f);
+            t.setName(s);
+            towerOptions.add(t);
+        }
+
+        //TODO: delete later if no errors pop up.
+        //Just changed the for-loop into a foreach loop.
+        /*for(int x = 0; x < names.length; x++){
             final TextButton t = new TextButton(names[x], skin, "default");
             t.setSize(25f, 15f);
             t.setName(names[x]);
             towerOptions.add(t);
-        }
+        }*/
 
 
 

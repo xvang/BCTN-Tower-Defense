@@ -39,8 +39,6 @@ public class TowerManager{
     /**
      * renders all the towers and buildablespots
      *
-     *
-     * @param 'batch'
      * */
     public void startTowers(SpriteBatch batch, EnemyManager enemy){
 
