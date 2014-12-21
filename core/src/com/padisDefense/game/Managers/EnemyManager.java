@@ -1,11 +1,13 @@
 package com.padisDefense.game.Managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Pathing.MainPath;
 import com.padisDefense.game.Pathing.PathStorage;
 
@@ -21,10 +23,10 @@ import com.padisDefense.game.Pathing.PathStorage;
 * **/
 public class EnemyManager {
 
+    GameScreen game;
     private MainPath path;
     private PathStorage storage;
     private Vector2 position;
-    private TowerManager tower;
     private int spawnsLeft;
     private int enemyCounter = 0;
     ImmediateModeRenderer20 renderer;
@@ -33,19 +35,16 @@ public class EnemyManager {
 
 
     public float time = 0;
+    public float countDownTimer = 20f;
 
     /**CONSTRUCTOR**/
-    public EnemyManager(){
+    public EnemyManager(GameScreen g){
+        game = g;
         renderer = new ImmediateModeRenderer20(false, false, 0);
         activeEnemy = new Array<Enemy>();
 
 
         storage = new PathStorage();
-    }
-
-    //setting pointer to towerManager.
-    public void setTowerManager(TowerManager t){
-        tower = t;
     }
 
 
@@ -80,43 +79,51 @@ public class EnemyManager {
      * */
     public void startEnemy(SpriteBatch batch, SpawnManager spawn){
 
-        position = new Vector2();
-        //Makes enemy travel along path.
-        for(int x = 0; x < activeEnemy.size; x++){
-
-            if (!activeEnemy.get(x).isDead()) {
-                time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
-                activeEnemy.get(x).setTime(time);
-
-                path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
-                activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
-                activeEnemy.get(x).draw(batch);
-
-                //If enemy reached end, it starts path over.
-                if(activeEnemy.get(x).getTime() >= 1f)
-                    activeEnemy.get(x).setTime(0f);
-            }
-            /**NOTE: To see the enemy objects loop, set each object's time variable to zero.
-             * I think the best way to reset is in GameScreen.**/
+        if(countDownTimer >= 0f){//no enemy should spawn until countdown ends.
+            countDownTimer -= Gdx.graphics.getDeltaTime();
         }
 
-        checkForDead();
+        else{
 
-        //Calculating if spawning is necessary.
-        if(activeEnemy.size < 25 && spawnsLeft > 0){
+            position = new Vector2();
+            //Makes enemy travel along path.
+            for(int x = 0; x < activeEnemy.size; x++){
 
-            int amount = (int)(Math.random()* 5 + 1);
-            if(spawnsLeft <= 5)
-                amount = spawnsLeft;
+                if (!activeEnemy.get(x).isDead()) {
+                    time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
+                    activeEnemy.get(x).setTime(time);
 
-            for(int x = 0; x < amount; x++){
-                spawnsLeft--;
-                spawn.spawnEnemy(this);
+                    path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
+                    activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
+                    activeEnemy.get(x).draw(batch);
+
+                    //If enemy reached end, it starts path over.
+                    if(activeEnemy.get(x).getTime() >= 1f)
+                        activeEnemy.get(x).setTime(0f);
+                }
+                /**NOTE: To see the enemy objects loop, set each object's time variable to zero.
+                 * I think the best way to reset is in GameScreen.**/
             }
 
+            checkForDead();
 
-            //System.out.println("Size: " + activeEnemy.size);
+            //Calculating if spawning is necessary.
+            if(activeEnemy.size < 25 && spawnsLeft > 0){
+
+                int amount = (int)(Math.random()* 5 + 1);
+                if(spawnsLeft <= 5)
+                    amount = spawnsLeft;
+
+                for(int x = 0; x < amount; x++){
+                    spawnsLeft--;
+                    spawn.spawnEnemy(this);
+                }
+
+
+                //System.out.println("Size: " + activeEnemy.size);
+            }
         }
+
     }
 
 
@@ -152,9 +159,9 @@ public class EnemyManager {
             if(activeEnemy.get(x).isDead()) {
 
                 //if enemy is dead, the tower that targeted it will have 'hasTarget' set to false.
-                for(int s = 0; s < tower.getTowerArray().size;s++){
-                    if(tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
-                        tower.getTowerArray().get(s).setHasTarget(false);
+                for(int s = 0; s < game.tower.getTowerArray().size;s++){
+                    if(game.tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
+                        game.tower.getTowerArray().get(s).setHasTarget(false);
                     }
                 }
                 enemyCounter--;
@@ -163,9 +170,9 @@ public class EnemyManager {
             }
 
             else{//else, update the tower's oldTargetPosition.
-                for(int s = 0; s < tower.getTowerArray().size;s++){
-                    if(tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
-                        tower.getTowerArray().get(s).setOldTargetPosition(activeEnemy.get(x).getLocation());
+                for(int s = 0; s < game.tower.getTowerArray().size;s++){
+                    if(game.tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
+                        game.tower.getTowerArray().get(s).setOldTargetPosition(activeEnemy.get(x).getLocation());
                     }
                 }
             }
@@ -194,6 +201,9 @@ public class EnemyManager {
         activeEnemy.clear();
 
     }
+
+    public float getCountDownTimer(){return countDownTimer;}
+    public void setCountDownTimer(float t){countDownTimer = t;}
 
     public void dispose(){
         renderer.dispose();

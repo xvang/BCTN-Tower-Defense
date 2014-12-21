@@ -2,18 +2,18 @@ package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.AOETower;
 import com.padisDefense.game.Towers.IceTower;
 import com.padisDefense.game.Towers.MainTower;
 
-/**
- * Created by Toog on 12/16/2014.
- */
 public class DamageManager {
-    EnemyManager enemy;
 
-    public DamageManager(EnemyManager e){
-        enemy = e;
+    GameScreen game;
+
+
+    public DamageManager(GameScreen g){
+        game = g;
     }
 
     public void hit(MainTower t, Enemy e){
@@ -28,8 +28,8 @@ public class DamageManager {
         else if(t.getID().equals("aoe")){
             aoeHit((AOETower) t, e);
         }
-        for(int x = 0; x < enemy.getActiveEnemy().size; x++)
-            enemy.getActiveEnemy().get(x).updateAlteredStats();
+        for(int x = 0; x < game.enemy.getActiveEnemy().size; x++)
+            game.enemy.getActiveEnemy().get(x).updateAlteredStats();
     }
 
 
@@ -40,8 +40,8 @@ public class DamageManager {
 
         double distance;
         Enemy temp;
-        for(int x = 0;x < enemy.getActiveEnemy().size; x++){
-            temp = enemy.getActiveEnemy().get(x);
+        for(int x = 0;x < game.enemy.getActiveEnemy().size; x++){
+            temp = game.enemy.getActiveEnemy().get(x);
 
             if(!temp.equals(e)){
                 distance = findDistance(new Vector2(e.getX(), e.getY()),
@@ -68,8 +68,8 @@ public class DamageManager {
     public void aoeHit(AOETower t, Enemy e) {
         double distance;
         Enemy temp;
-        for (int x = 0; x < enemy.getActiveEnemy().size; x++) {
-            temp = enemy.getActiveEnemy().get(x);
+        for (int x = 0; x < game.enemy.getActiveEnemy().size; x++) {
+            temp = game.enemy.getActiveEnemy().get(x);
 
             if(!temp.equals(e)){//Don't want to apply damage twice to target enemy.
                 distance = findDistance(new Vector2(e.getX(), e.getY()),

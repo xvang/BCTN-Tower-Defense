@@ -10,6 +10,7 @@ import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
 import com.padisDefense.game.Enemies.SpawnStorage;
+import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.AOETower;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.GhostTower;
@@ -49,9 +50,7 @@ import java.util.Map;
  * **/
 public class SpawnManager {
 
-
-    public TowerManager tower;
-    public EnemyManager enemy;
+    GameScreen game;
     private Map<MainTower, Integer> data;
 
     private Assets assets;
@@ -62,12 +61,12 @@ public class SpawnManager {
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
 
-    public SpawnManager(TowerManager t, EnemyManager e, Assets a ){
-        tower = t;
-        enemy = e;
+    public SpawnManager(GameScreen g){
+        game = g;
+        assets = game.padi.assets;
+
         data = new HashMap<MainTower, Integer>();
-        assets = a;
-        storage = new SpawnStorage(data, e);
+        storage = new SpawnStorage(data, game.enemy);
         allEnemies = new Array<String>();
 
         //ADD ENEMIES HERE.
@@ -142,8 +141,8 @@ public class SpawnManager {
     // Counts how many of each  tower there are.
     public void gatherTowerData(){
         //TODO: check the case where user has no towers.
-        for(int x = 0; x < tower.getTowerArray().size; x++){
-            MainTower temp = tower.getTowerArray().get(x);
+        for(int x = 0; x < game.tower.getTowerArray().size; x++){
+            MainTower temp = game.tower.getTowerArray().get(x);
 
             if(data.size() == 0){//if size is zero.
                 data.put(temp, 1);
@@ -188,7 +187,7 @@ public class SpawnManager {
         if(mostValue < 3){
             if(duckTime){//The duck should only spawn once to signify the start of bullrushing.
                 newEnemy = new Duck();
-                newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
+                newEnemy.setChosenPath((int)(Math.random()*100) % game.enemy.getPath().getPath().size);
                 duckTime = false;
                 chosenEnemyType = (int)(Math.random()*allEnemies.size);
                 //System.out.println("DUCK TIME!" + " ... Chosen enemy: " + allEnemies.get(chosenEnemyType));
@@ -341,11 +340,11 @@ public class SpawnManager {
 
 
         try{//builds the new tower on buildable spot.
-            if(tower.getInGameMoney() >= newTower.getCost()){
-                tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
-                tower.getTowerArray().add(newTower);
+            if(game.tower.getInGameMoney() >= newTower.getCost()){
+                game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
+                game.tower.getTowerArray().add(newTower);
                 t.setCurrentTower(newTower);//points to the tower.
-                tower.updateInGameMoney(-(int)newTower.getCost());
+                game.tower.updateInGameMoney(-(int)newTower.getCost());
             }
 
         }catch(Exception e){
@@ -397,12 +396,16 @@ public class SpawnManager {
             newTower = new GhostTower(spawnPosition);
         }
 
-        if(tower.getInGameMoney() >= newTower.getCost()){
-            tower.getTowerArray().add(newTower);
+        if(game.tower.getInGameMoney() >= newTower.getCost()){
+            game.tower.getTowerArray().add(newTower);
             b.setCurrentTower(newTower);//points to the tower.
-            tower.updateInGameMoney(-(int)newTower.getCost());
+            game.tower.updateInGameMoney(-(int)newTower.getCost());
         }
 
 
     }//end dragBuildTower();
+
+
+    public void dispose(){
+    }
 }

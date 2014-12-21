@@ -34,7 +34,7 @@ public class MainTower extends Sprite {
 
     private Texture bulletTexture;
     private float bulletRate;
-    public float pause = 0.5f;
+    public float pause = 0.2f;
 
 
     //Creating a pool method thing.

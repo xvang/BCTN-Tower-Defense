@@ -47,6 +47,6 @@ public class RogueTower extends MainTower{
     public void spin(SpriteBatch batch){
         spiral.setPosition(this.getX()+5f, this.getY() + 30f);
         spiral.draw(batch, 1);
-        spiral.rotate(-5f);
+        spiral.rotate(5f);
     }
 }

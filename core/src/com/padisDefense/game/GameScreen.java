@@ -22,7 +22,7 @@ import com.padisDefense.game.Managers.UIManager;
  * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 
-    Padi padi;
+    public Padi padi;
     private boolean  END_GAME = false;
 
     public EnemyManager enemy;
@@ -43,7 +43,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     InputMultiplexer multi;
 
 
-    int whatLevel;
+    public int whatLevel;
     public GameScreen(Padi p, int l){
         padi = p;
         whatLevel = l;
@@ -53,18 +53,16 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        tower = new TowerManager();
-        enemy = new EnemyManager();
-        enemy.setTowerManager(tower);
+        tower = new TowerManager(this);
+        enemy = new EnemyManager(this);
 
 
-        level = new LevelManager();
-        spawn = new SpawnManager(tower, enemy, padi.assets);
-        UI = new UIManager(spawn);
-        damage = new DamageManager(enemy);
-        bullet = new BulletManager(damage);
-        tower.setBulletManager(bullet);
 
+        level = new LevelManager(this);
+        spawn = new SpawnManager(this);
+        UI = new UIManager(this);
+        damage = new DamageManager(this);
+        bullet = new BulletManager(this);
 
 
         level.setLevel(whatLevel);
@@ -115,14 +113,17 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         if(!END_GAME) {
 
             gatherCharge();
-            UI.updateTimer(Gdx.graphics.getDeltaTime());
-            UI.updateTimerMessage();
+            if(enemy.getCountDownTimer() <= 0f){//game clock starts when countdown ends.
+                UI.updateTimer(Gdx.graphics.getDeltaTime());
+                UI.updateTimerMessage();
+            }
+
         }
 
         newEnemyCount = enemy.getEnemyCounter();
 
         calcMoney();
-        UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
+
 
         padi.batch.end();
 
@@ -130,12 +131,23 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         UI.getStage().draw();
 
         //checks if game ended.
-        if(enemy.noMoreEnemy() || UI.fullChargeMeter()){
+
+        if((enemy.noMoreEnemy() || UI.fullChargeMeter())){
             END_GAME = true;
             System.out.println("You win!");
             enemy.destroyAllEnemy();
+            UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
+
+            UI.gameOver();
+            multi.clear();
+            multi.addProcessor(UI.endStage);
+            UI.endGameTable.setVisible(true);
+            UI.endStage.draw();
+
 
         }
+        UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
+
     }
 
 
@@ -166,6 +178,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         tower.dispose();
         bullet.dispose();
         UI.dispose();
+        level.dispose();
+        spawn.dispose();
     }
 
     @Override
@@ -180,7 +194,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        UI.clickedTower(x, y, tower);
+        UI.clickedTower(x, y);
         return false;
     }
 

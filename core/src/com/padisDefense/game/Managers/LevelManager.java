@@ -1,7 +1,7 @@
 package com.padisDefense.game.Managers;
 
 
-
+import com.padisDefense.game.GameScreen;
 
 /**
  *
@@ -15,10 +15,11 @@ package com.padisDefense.game.Managers;
 * **/
 public class LevelManager {
 
+    GameScreen game;
     private int path = 0;
     private int enemyAmount = 0;
     private int level = 0;
-    public LevelManager(){}
+    public LevelManager(GameScreen g){game = g;}
 
 
     //for determining spawn
@@ -62,19 +63,6 @@ public class LevelManager {
 
 
     public void setLevel(int l){level = l;}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

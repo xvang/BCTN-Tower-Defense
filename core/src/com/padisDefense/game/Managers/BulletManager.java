@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.MainTower;
 
 /**
@@ -20,18 +21,14 @@ import com.padisDefense.game.Towers.MainTower;
  * **/
 public class BulletManager {
 
-
+    GameScreen game;
     private float spawnTimer = 0;
-
-    DamageManager damage;
-
 
     //stores path of current level.
     private Path<Vector2> path;
 
-    public BulletManager(DamageManager d){
-        damage = d;
-    }
+    //Constructor
+    public BulletManager(GameScreen g){game = g;}
 
 
     /**
@@ -106,7 +103,7 @@ public class BulletManager {
                 }
 
                 if(hitEnemy(t.getActiveBullets().get(x), e)){
-                    damage.hit(t, e);
+                    game.damage.hit(t, e);
                 }
 
 

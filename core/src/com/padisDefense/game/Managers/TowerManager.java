@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.MainTower;
 import com.padisDefense.game.Towers.RogueTower;
@@ -20,20 +21,21 @@ import com.padisDefense.game.Towers.RogueTower;
 public class TowerManager{
 
 
+    GameScreen game;
     private Array<MainTower> towerArray;
     private Array<BuildableSpot> buildableArray;
-
-    BulletManager bullet;
     private int inGameMoney = 3000;
 
 
-    public TowerManager(){
+    public TowerManager(GameScreen g){
+        game = g;
+
         towerArray = new Array<MainTower>();
         buildableArray = new Array<BuildableSpot>();
     }
 
 
-    public void setBulletManager(BulletManager b){bullet = b;}
+
     /**
      * renders all the towers and buildablespots
      *
@@ -65,7 +67,7 @@ public class TowerManager{
                 assignTargets(enemy, towerArray.get(x));
 
 
-            bullet.shooting(batch, towerArray.get(x),
+            game.bullet.shooting(batch, towerArray.get(x),
                     towerArray.get(x).getTarget());
         }
 
@@ -100,6 +102,7 @@ public class TowerManager{
     }// end checkforDead();
 
 
+    //Assigns targets to towers. Has a small pause.
     public void assignTargets(EnemyManager enemy, MainTower t){
         double currentMin, previousMin = 1000;
         Enemy temp = null;
@@ -121,7 +124,7 @@ public class TowerManager{
             if(previousMin < t.getRange()){
                 t.setTarget(temp);
                 t.setHasTarget(true);
-                t.pause = 0.5f;
+                t.pause = 0.2f;
             }
         }
 

@@ -1,17 +1,7 @@
 package com.padisDefense.game.Towers;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 /**
@@ -33,7 +23,6 @@ public class BuildableSpot extends MainTower {
     public BuildableSpot(Vector2 p){
         setTexture(new Texture("limegreen.png"));
         setSize(40f, 40f);
-
     }
 
 
