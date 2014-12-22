@@ -1,6 +1,7 @@
 package com.padisDefense.game.Managers;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Assets;
@@ -10,6 +11,7 @@ import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.AOETower;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.GhostTower;
@@ -75,13 +77,13 @@ public class SpawnManager {
 
 
 
-    private int first25 = 0;//the first 25 enemies should be random,
+    private int first50 = 0;//the first 25 enemies should be random,
     //but after that, spawning will take into account the user's tower types.
     public void spawnEnemy(EnemyManager enemy){
 
 
 
-        if(first25 < 25){
+        if(first50 < 50){
             int rand = (int)(Math.random()*3);
             Enemy newEnemy;
             if(rand == 0){
@@ -101,7 +103,7 @@ public class SpawnManager {
                 newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(newEnemy);
             }
-            first25++;
+            first50++;
 
         }
         else{//initial 25 enemies have spawned.
@@ -290,6 +292,20 @@ public class SpawnManager {
 
     }
 
+    public void upgradeTower(BuildableSpot b){
+        MainTower t = b.getCurrentTower();
+
+        if(t.getLevel() < 3){
+            t.setAttack(t.getAttack()*1.1f);
+            t.setRange(t.getRange()*1.1f);
+            t.setBulletLimit(t.getBulletLimit()+1);
+            t.setSize(t.getWidth()*1.1f, t.getHeight()*1.1f);
+            t.setColor(Color.GREEN);
+            t.setLevel(t.getLevel()+1);
+        }
+
+    }
+
     /**
      * tower manager implements an inputprocessor,
      * so when it is clicked the function touchedDown() executes,
@@ -299,17 +315,18 @@ public class SpawnManager {
      *
      *
      * */
-    public void clickedBuildable(BuildableSpot t, String type){
+    public void buildATower(BuildableSpot t, String type){
 
-        //System.out.println("Making: " + type);
+        System.out.println("Making: " + type);
 
-
-        MainTower newTower = new MainTower();
+        MainTower newTower = null;
         Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
                 t.getY() + (t.getHeight() / 8));
 
+
         //Create SpeedTower
         if(type.equals("speed")){
+
             newTower = new SpeedTower(spawnPosition);
         }
 
@@ -335,31 +352,28 @@ public class SpawnManager {
             newTower = new GhostTower(spawnPosition);
         }
 
+        int d = 0;
 
-        try{//builds the new tower on buildable spot.
+        if(newTower != null){
             if(game.tower.getInGameMoney() >= newTower.getCost()){
-                game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
+
+                if(t.getCurrentTower()!= null)
+                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
+
+                System.out.println("Range Before: " + newTower.getRange());
+                applyStatChanges(newTower);
+                System.out.println("Range After: " + newTower.getRange());
                 game.tower.getTowerArray().add(newTower);
                 t.setCurrentTower(newTower);//points to the tower.
                 game.tower.updateInGameMoney(-(int)newTower.getCost());
+
             }
-
-        }catch(Exception e){
-            //If user clicks 'upgrade' then that message will be sent here,
-            //and there's nothing for upgrade yet, so that will make a
-            //NullpointerException pop up.
-            //Hence the temporary try-catch.
         }
-
-
 
         //System.out.println("towerArray size = " + towerArray.size);
     }
 
-
-    //this buildableSpot's currentTower points to null.
-    //This is function is called by checkTheDrop(),
-    //and it should already verify that nothing is built on this buildableSpot.
+    //TODO: possible duplicate function. Keeping for now. If no errors pop up later, delete.
     public void dragBuildTower(BuildableSpot b, String type){
 
         MainTower newTower = new MainTower();
@@ -397,10 +411,29 @@ public class SpawnManager {
             game.tower.getTowerArray().add(newTower);
             b.setCurrentTower(newTower);//points to the tower.
             game.tower.updateInGameMoney(-(int)newTower.getCost());
+
         }
 
 
     }//end dragBuildTower();
+
+    public void applyStatChanges(MainTower t){
+
+        Player p = game.padi.player;//pointer to the Player object.
+
+        for(int x = 0; x < p.getItemsUnlocked().size;x++){//getTargets() returns a String of towers targeted by item.
+            for(int y = 0; y < p.getItemsUnlocked().get(x).getTargets().size; y++){
+                String target = p.getItemsUnlocked().get(x).getTargets().get(y);//will point to every element in item's tower target list.
+
+                //if the ID of the newly built tower matches the Name of the item,
+                //item will change the stats of the newly built tower.
+                //update() is declared in ItemStorage.
+                if(t.getID().equals(target)){
+                    p.getItemsUnlocked().get(x).update(t);
+                }
+            }
+        }
+    }
 
 
     public void dispose(){

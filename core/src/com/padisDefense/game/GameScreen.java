@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
@@ -16,13 +18,12 @@ import com.padisDefense.game.Managers.UIManager;
 
 /**
  *
- * There are three levels to the GUI control here.
- * UI, UI's stage, and this.
  *
  * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public Padi padi;
+    private Sprite background;
     private boolean  END_GAME = false;
 
     public EnemyManager enemy;
@@ -49,10 +50,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         whatLevel = l;
     }
 
-
     @Override
     public void show(){
 
+        background = new Sprite(new Texture("background-1.jpg"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setOrigin(0,0);
         tower = new TowerManager(this);
         enemy = new EnemyManager(this);
 
@@ -105,6 +108,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 
         padi.batch.begin();
+        background.draw(padi.batch);
         oldEnemyCount = enemy.getEnemyCounter();
         enemy.startEnemy(padi.batch, spawn);
         tower.startTowers(padi.batch, enemy);
@@ -132,9 +136,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         //checks if game ended.
 
+
         if((enemy.noMoreEnemy() || UI.fullChargeMeter())){
+
             END_GAME = true;
-            System.out.println("You win!");
             enemy.destroyAllEnemy();
             UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 

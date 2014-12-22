@@ -11,11 +11,10 @@ public class StrengthTower extends MainTower {
         super("strengthtower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-
         setSize(50f, 70f);
         setBulletLimit(5);
         setCost(50);
-        setAttack(80);
+        setAttack(30f);
         setRange(200f);
         setChargeRate(0.2f);
         setIncomeRate(4f);

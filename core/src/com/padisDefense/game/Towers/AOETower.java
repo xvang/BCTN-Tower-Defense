@@ -24,8 +24,8 @@ public class AOETower extends MainTower {
         setID("aoe");
         setBulletTexture(new Texture("ghostbullet.png"));
         setBulletRate(0.04f);
-        this.setWeakAgainst("bestgoblin");
-        this.setStrongAgainst("goblin");
+        setWeakAgainst("goblin");
+        setStrongAgainst("bestgoblin");
     }
 
     public float getRangeAOE(){return rangeAOE;}

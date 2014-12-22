@@ -46,6 +46,7 @@ public class TowerManager{
             buildableArray.get(x).draw(batch, 1);
         }
  //       double distance, y2y1, x2x1;
+
         for(int x = 0; x < towerArray.size; x++){
 
             //towerArray.get(x).spinning();

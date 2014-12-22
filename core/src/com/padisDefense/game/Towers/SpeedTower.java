@@ -12,20 +12,18 @@ public class SpeedTower extends MainTower{
         super("speedtower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-
         setSize(50f, 70f);
-
         setBulletLimit(5);
         setCost(25);
-        setAttack(500000f);
+        setAttack(500f);
         setRange(140f);
-        setChargeRate(0.11f);
+        setChargeRate(0.10f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.01f);
+        setFireRate(0.3f);
         setID("speed");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.08f);
+        setBulletRate(0.09f);
         setCustomArc(70f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");

@@ -6,7 +6,7 @@ public class BiggerGoblin extends Enemy{
         //health, armor, texture
         super(100,10, "biggergoblin.png");
         setName("biggergoblin");
-        setRate(0.0006f + (float)Math.random()*0.00009f);
+        setRate(0.0006f + (float)Math.random()*0.0009f);
         //userSetSize(new Vector2(12f, 18f));
     }
 

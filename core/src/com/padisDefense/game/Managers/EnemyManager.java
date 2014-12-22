@@ -106,10 +106,10 @@ public class EnemyManager {
             checkForDead();
 
             //Calculating if spawning is necessary.
-            if(activeEnemy.size < 25 && spawnsLeft > 0){
+            if(activeEnemy.size < 50 && spawnsLeft > 0){
 
                 int amount = (int)(Math.random()* 5 + 1);
-                if(spawnsLeft <= 5)
+                if(spawnsLeft <= 10)
                     amount = spawnsLeft;
 
                 for(int x = 0; x < amount; x++){

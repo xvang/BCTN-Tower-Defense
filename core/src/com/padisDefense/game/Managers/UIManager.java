@@ -76,6 +76,7 @@ public class UIManager implements InputProcessor{
     public Table endGameTable;
     private Label winMessage;
     private Label loseMessage;
+    private Label endGameTimeMessage;
     /*private TextButton returnButton;
     private TextButton retryButton;*/
 
@@ -158,7 +159,7 @@ public class UIManager implements InputProcessor{
 
     public Stage getStage(){return stage;}
 
-    public void updateTimer(float d){TIMER += d;}
+    public void updateTimer(float d){TIMER += d;System.out.println(TIMER);}
 
 
     public void updateEnemyMessage(int e){
@@ -171,6 +172,7 @@ public class UIManager implements InputProcessor{
 
     public void updateTimerMessage(){
         timeMessage.setText("Timer: " + String.valueOf(round(TIMER, 1)));
+        endGameTimeMessage.setText("Time: " + String.valueOf(round(TIMER, 4)) + " secs.");
     }
 
 
@@ -215,6 +217,7 @@ public class UIManager implements InputProcessor{
     }
 
 
+    //Not mine. some answer on Stackoverflow.
     public static double round(float value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
@@ -312,6 +315,7 @@ public class UIManager implements InputProcessor{
         endGameTable = new Table();
         winMessage = new Label("You Won!", skin, "default");
         loseMessage = new Label("You Lost!", skin, "default");
+        endGameTimeMessage = new Label("Time: ", skin, "default");
         final TextButton returnButton = new TextButton(" World Map ", skin);
         final TextButton retryButton = new TextButton("Try Level Again", skin);
         returnButton.addListener(new ClickListener(){
@@ -335,7 +339,7 @@ public class UIManager implements InputProcessor{
 
         endGameTable.add(winMessage).row().pad(15f);
         endGameTable.add(loseMessage).row().pad(15f);
-        endGameTable.add(new Label("Time taken: " + String.valueOf(round(TIMER, 2)), skin)).row().pad(15f);
+        endGameTable.add(endGameTimeMessage).row().pad(15f);
         endGameTable.add(returnButton).padRight(30f);
         endGameTable.add(retryButton).row().pad(15f);
 
@@ -420,7 +424,7 @@ public class UIManager implements InputProcessor{
                     BS.get(x).getWidth(), BS.get(x).getHeight());
 
             if(rec.overlaps(r) && BS.get(x).emptyCurrentTower())
-                game.spawn.dragBuildTower(BS.get(x), type);//passes in the buildablespot, and name of tower.
+                game.spawn.buildATower(BS.get(x), type);//passes in the buildablespot, and name of tower.
 
 
 
@@ -495,7 +499,7 @@ public class UIManager implements InputProcessor{
                     if(!currentBS.emptyCurrentTower()){
                         oldState = currentBS.getCurrentTower().getState();
                     }
-                    game.spawn.clickedBuildable(currentBS, "upgrade");
+                    game.spawn.upgradeTower(currentBS);
                     currentBS.getCurrentTower().setState(oldState);
 
                     optionTable.setVisible(false);
@@ -533,22 +537,11 @@ public class UIManager implements InputProcessor{
 
 
         for(String s: names){
-            final TextButton t = new TextButton(s, skin, "default");
-            t.setSize(25f, 15f);
+            TextButton t = new TextButton(s, skin, "default");
+            t.setSize(60f, 20f);
             t.setName(s);
             towerOptions.add(t);
         }
-
-        //TODO: delete later if no errors pop up.
-        //Just changed the for-loop into a foreach loop.
-        /*for(int x = 0; x < names.length; x++){
-            final TextButton t = new TextButton(names[x], skin, "default");
-            t.setSize(25f, 15f);
-            t.setName(names[x]);
-            towerOptions.add(t);
-        }*/
-
-
 
         //adding listeners to the towers.
         for(int x = 0; x < towerOptions.size; x++){
@@ -556,7 +549,7 @@ public class UIManager implements InputProcessor{
             towerOptions.get(x).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent e, float x, float y){
-                    game.spawn.clickedBuildable(currentBS, towerOptions.get(xx).getName());
+                    game.spawn.buildATower(currentBS, towerOptions.get(xx).getName());
                 }
             });
         }

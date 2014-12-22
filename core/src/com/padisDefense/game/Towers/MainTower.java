@@ -35,6 +35,7 @@ public class MainTower extends Sprite {
     private Texture bulletTexture;
     private float bulletRate;
     public float pause = 0.2f;
+    private int level = 1;
 
 
     //Creating a pool method thing.
@@ -115,6 +116,7 @@ public class MainTower extends Sprite {
         for(int x = 0; x <s.length; x++)
             strongAgainst.add(s[x]);
     }
+    public void setLevel(int i){level = i;}
 
 
 
@@ -140,6 +142,7 @@ public class MainTower extends Sprite {
     public Vector2 getOldTargetPosition(){return oldTargetPosition;}
     public Array<String> getWeakAgainst(){return weakAgainst;}
     public Array<String> getStrongAgainst(){return strongAgainst;}
+    public int getLevel(){return level;}
 
     public String getMessage(){
         if(state)
@@ -153,6 +156,7 @@ public class MainTower extends Sprite {
     public Vector2 getLocation(){
         return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
+
 
 
     public void update() {
