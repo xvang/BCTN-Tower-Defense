@@ -14,11 +14,10 @@ public class RogueTower extends MainTower{
 
     public RogueTower(Vector2 position){
         super("roguetower.png");
-        spiral = new Sprite(new Texture("spiral.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 70f);
-        setBulletLimit(3);
+        setBulletLimit(1);
         setCost(100);
         setRange(250f);
         setAttack(10f);
@@ -44,9 +43,4 @@ public class RogueTower extends MainTower{
         return attack;
     }
 
-    public void spin(SpriteBatch batch){
-        spiral.setPosition(this.getX()+5f, this.getY() + 30f);
-        spiral.draw(batch, 1);
-        spiral.rotate(5f);
-    }
 }

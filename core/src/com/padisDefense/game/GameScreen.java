@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.padisDefense.game.Managers.BulletManager;
+import com.padisDefense.game.Managers.CollisionManager;
 import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
 import com.padisDefense.game.Managers.LevelManager;
@@ -32,6 +33,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public LevelManager level;
     public SpawnManager spawn;
     public DamageManager damage;
+    public CollisionManager collision;
 
     //stuff for the UI
     public UIManager UI;
@@ -53,7 +55,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        background = new Sprite(new Texture("background-1.jpg"));
+        background = new Sprite(new Texture("background-2.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.setOrigin(0,0);
         tower = new TowerManager(this);
@@ -66,6 +68,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         UI = new UIManager(this);
         damage = new DamageManager(this);
         bullet = new BulletManager(this);
+        collision = new CollisionManager(this);
 
 
         level.setLevel(whatLevel);

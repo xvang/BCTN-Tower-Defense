@@ -80,7 +80,6 @@ public class MainMenu extends ScreenAdapter {
         final TextButton button1 = new TextButton("Setting", padi.skin, "default");
         final TextButton button2 = new TextButton("Store", padi.skin, "default");
         final TextButton button3 = new TextButton("Instructions", padi.skin, "default");
-        final TextButton button4 = new TextButton("Export to PDF", padi.skin, "default");
         final TextButton button5 = new TextButton("Log in", padi.skin, "default");
 
 
@@ -89,7 +88,6 @@ public class MainMenu extends ScreenAdapter {
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button2).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button3).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
-        table.add(button4).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
 
         table.setWidth(Gdx.graphics.getWidth() / 3);
         table.setHeight(Gdx.graphics.getHeight() / 3);
@@ -180,25 +178,12 @@ public class MainMenu extends ScreenAdapter {
 
         });
 
-        button4.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                button4.setText("Export to PDF");
-
-            }
-        });
-
         /** LOG IN **/
         button5.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
 
                 LogIn log = new LogIn();
-
-               Gdx.input.getTextInput(log, "popup", "Hello");
-
-
             }
         });
 

@@ -3,6 +3,7 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -63,6 +64,7 @@ public class UIManager implements InputProcessor{
     //displays the towers for user to drag.
     private Table towerTable;
     private Array<TextButton> towerOptions;
+    private ShapeRenderer shapeRenderer;
 
 
     //table for countdown.
@@ -234,7 +236,7 @@ public class UIManager implements InputProcessor{
      * The optionsTable will be located at where the clicked tower is.
      * 'b' boolean below toggles the option table.
      * 'currentBS' points to the clicked BuildableSpot
-     * it will be passed into clickedBuildableSpot() in towerManager.
+     * it will be passed into buildATower() in towerManager.
      * */
     public void clickedTower(int x, int y){
 
@@ -351,6 +353,7 @@ public class UIManager implements InputProcessor{
 
         dragTowers = new Table();
         image = new Array<Image>();
+        shapeRenderer = new ShapeRenderer();
 
         //Creating the images for the towers.
         final Image ice = new Image(new Texture("icetower_small.png"));
@@ -392,6 +395,10 @@ public class UIManager implements InputProcessor{
                 @Override
                 public void drag(InputEvent e, float x, float y, int pointer){
                     image.get(ss).setCenterPosition(image.get(ss).getX() + x, image.get(ss).getY() + y);
+                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(1, 1, 1, 1);
+                    shapeRenderer.circle(image.get(ss).getCenterX(),image.get(ss).getCenterY(), 200f);
+                    shapeRenderer.end();
                 }
 
                 @Override
@@ -410,6 +417,8 @@ public class UIManager implements InputProcessor{
                     }
                 }
             });
+
+
         }
     }
 

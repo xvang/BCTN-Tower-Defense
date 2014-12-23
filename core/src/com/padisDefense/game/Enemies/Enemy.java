@@ -94,7 +94,7 @@ public class Enemy extends Sprite{
     }
     public Boolean isDead(){alive = (health > 0); return (health < 0);}
 
-    //
+
     public void updateAlteredStats(){
         //if rate==oldRate, then no rate was not changed.
         //no need to enter if-statement.
@@ -105,9 +105,10 @@ public class Enemy extends Sprite{
                 rateTimer = 0;
             }
         }
+    }
 
 
-
+    public void move(){
     }
 
 

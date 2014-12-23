@@ -52,14 +52,6 @@ public class TowerManager{
             //towerArray.get(x).spinning();
             towerArray.get(x).draw(batch);
 
-            //for the spinning thing for rogue towers.
-            RogueTower t;
-            if(towerArray.get(x).getID().equals("rogue")){
-                t = (RogueTower)towerArray.get(x);
-                t.spin(batch);
-            }
-
-
             checkRange(towerArray.get(x));
             checkForDead(towerArray.get(x));
             if(!towerArray.get(x).getHasTarget())

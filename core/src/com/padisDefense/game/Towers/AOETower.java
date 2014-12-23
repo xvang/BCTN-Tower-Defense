@@ -13,7 +13,7 @@ public class AOETower extends MainTower {
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(30f, 30f);
-        setBulletLimit(2);
+        setBulletLimit(1);
         setCost(80);
         setAttack(150f);
         setRange(150f);

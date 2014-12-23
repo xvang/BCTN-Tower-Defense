@@ -93,6 +93,7 @@ public class EnemyManager {
 
                     path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
                     activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
+                    activeEnemy.get(x).move();
                     activeEnemy.get(x).draw(batch);
 
                     //If enemy reached end, it starts path over.

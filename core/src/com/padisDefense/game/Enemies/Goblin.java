@@ -11,5 +11,4 @@ public class Goblin extends Enemy{
         setRate(0.002f + (float)Math.random()*0.0009f);
         //userSetSize(new Vector2(10, 15f));
     }
-
 }

@@ -3,6 +3,7 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -92,15 +93,15 @@ public class Store extends ScreenAdapter{
 
 
         //making the stuff on the right.
-        name = new Label("", padi.skin, "default");
-        info = new Label("", padi.skin, "default");
-        cost = new Label("", padi.skin, "default");
-        affects = new Label("", padi.skin, "default");
+        name = new Label(".", padi.skin, "default");
+        info = new Label(".", padi.skin, "default");
+        cost = new Label(".", padi.skin, "default");
+        affects = new Label(".", padi.skin, "default");
         money = new Label(String.valueOf((int)padi.player.getMoney()) + " credits", padi.skin);
 
 
         final TextButton unlockButton = new TextButton("Unlock Now", padi.skin);
-        message = new Label("", padi.skin, "default");
+        message = new Label(".", padi.skin, "default");
         unlockButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -114,18 +115,22 @@ public class Store extends ScreenAdapter{
                             padi.player.setMoney(padi.player.getMoney() - clickedItemCost);
                             padi.player.addItemsUnlocked(clickedItem);
                             money.setText(String.valueOf((int)padi.player.getMoney()) + " credits");
+                            message.setColor(Color.GREEN);
                             message.setText("Item unlocked.");
                         }
 
                         else{//item is not unlocked, but not enough credits.
+                            message.setColor(Color.DARK_GRAY);
                             message.setText("Not enough credits.");
                         }
                     }
                     else{
+                        message.setColor(Color.BLUE);
                         message.setText("Item is already unlocked.");
                     }
                 }
                 else{
+                    message.setColor(Color.RED);
                     message.setText("No item selected.");
                 }
 
@@ -191,7 +196,7 @@ public class Store extends ScreenAdapter{
                     info.setText(itemStorage.itemArray.get(ww).getDisplayStats());
                     cost.setText("Cost: " + String.valueOf(clickedItemCost) + " credits.");
 
-                    String temp = new String();//TODO: find way around new String() declaration?
+                    String temp = "";
 
                     //gets an item's list of towers that it affects,
                     //stores them in a single string.
@@ -205,7 +210,7 @@ public class Store extends ScreenAdapter{
 
                     }
                     affects.setText("Affects: " + temp);
-                    message.setText("");
+                    message.setText("\n");
 
                 }
 

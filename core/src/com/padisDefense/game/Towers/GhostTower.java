@@ -12,7 +12,7 @@ public class GhostTower extends MainTower{
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 70f);
-        setBulletLimit(2);
+        setBulletLimit(1);
         setCost(100);
         setAttack(80f);
         setRange(250f);

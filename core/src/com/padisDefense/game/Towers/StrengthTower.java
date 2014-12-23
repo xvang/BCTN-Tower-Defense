@@ -12,7 +12,7 @@ public class StrengthTower extends MainTower {
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 70f);
-        setBulletLimit(5);
+        setBulletLimit(1);
         setCost(50);
         setAttack(30f);
         setRange(200f);

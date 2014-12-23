@@ -13,7 +13,7 @@ public class SpeedTower extends MainTower{
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 70f);
-        setBulletLimit(5);
+        setBulletLimit(1);
         setCost(25);
         setAttack(500f);
         setRange(140f);
