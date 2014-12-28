@@ -9,8 +9,12 @@ import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.Enemies.Goblin;
+import com.padisDefense.game.Enemies.Sluggo;
 import com.padisDefense.game.Pathing.PathStorage;
 
 /**
@@ -23,7 +27,7 @@ public class TEST4 extends ScreenAdapter {
 
 
     Array<Enemy> activeEnemy;
-
+    Pool<Enemy> enemyPool;
     PathStorage storage;
 
     Array<Path<Vector2>> path;
@@ -34,6 +38,19 @@ public class TEST4 extends ScreenAdapter {
     public void show(){
 
         activeEnemy = new Array<Enemy>();
+        enemyPool = new Pool<Enemy>() {
+            @Override
+            protected Enemy newObject() {
+                return new BiggerGoblin();
+            }
+
+            protected Enemy newCustomObject(int type){
+
+                return new BiggerGoblin();
+            }
+        };
+
+
         addEnemies();
         storage = new PathStorage();
 
@@ -45,6 +62,19 @@ public class TEST4 extends ScreenAdapter {
         //System.out.println("sin(0) = "+ Math.sin(0f) + "  sin(1f) = " + Math.sin(1f) + "     sin(2f) = " + Math.sin(2f) + "   sin(1.5f) = " + Math.sin(1.5f) + "     sin(10f) = " + Math.sin(10f));
 
 
+    }
+
+    public void update() {
+        // if you want to free dead bullets, returning them to the pool:
+        Enemy item;
+        int len = activeEnemy.size;
+        for (int i = len; --i >= 0;) {
+            item = activeEnemy.get(i);
+            if (item.alive == false) {
+                activeEnemy.removeIndex(i);
+                enemyPool.free(item);
+            }
+        }
     }
 
 
@@ -139,71 +169,26 @@ public class TEST4 extends ScreenAdapter {
     }
 
     public void addEnemies(){
-        for(int x = 0; x < 5;x++){
+
+        Enemy e = enemyPool.obtain();
+        e.init(-50f,0);
+        e.setTime(0f);
+        e.setCurrentPath(0);
+        activeEnemy.add(e);
+
+        /*for(int x = 0; x < 5;x++){
             activeEnemy.add(new BiggerGoblin());
             //System.out.println("Wait: " + enemy.get(x).getWait());
-        }
+        }*/
     }
 
-    public void addPaths(){
+    public void addPaths() {
 
 
-        //straight
-        path.add(new Bezier<Vector2>(new Vector2(-50f, h*9/10), new Vector2(w/5, h*9/10)));
-        path.add(new Bezier<Vector2>(new Vector2(w/5, h*9/10), new Vector2(w*5/12, h*9/10)));
-        path.add(new Bezier<Vector2>(new Vector2(w*5/12, h*9/10), new Vector2(w*2/3, h*9/10)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3, h*9/10), new Vector2(w*5/6, h*9/10),
-                new Vector2(w*5/6, h*3/4)));
-
-        //Straight
-        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h*3/4), new Vector2(w*5/6, h*2/5)));
-        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h*2/5), new Vector2(w*5/6, h/5)));
-
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h/5), new Vector2(w*5/6, h/12),
-                new Vector2(w*3/4, h/12)));
-
-        //Straight
-        path.add(new Bezier<Vector2>(new Vector2(w*3/4, h/12), new Vector2(w/2, h/12)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w/2, h/12), new Vector2(w*2/5, h/12),
-                new Vector2(w*2/5, h/4)));
-
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w*2/5, h/4), new Vector2(w*2/5, h*2/5),
-                new Vector2(w/2, h*2/5)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w/2, h*2/5), new Vector2(w*3/5, h*2/5),
-                new Vector2(w*3/5, h/2)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w*3/5, h/2), new Vector2(w*3/5, h*7/10),
-                new Vector2(w*7/20, h*7/10)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w*7/20, h*7/10), new Vector2(w/8, h*7/10),
-                new Vector2(w/8, h/2)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w/8, h/2), new Vector2(w/8, h*2/5),
-                new Vector2(w/4, h*2/5)));
-
-        //Curve
-        path.add(new Bezier<Vector2>(new Vector2(w/4, h*2/5), new Vector2(w/3, h*2/5),
-                new Vector2(w/3, h*1/5)));
-
-        //Curve
-
-        path.add(new Bezier<Vector2>(new Vector2(w/3, h*1/5), new Vector2(w/3, h/12),
-                new Vector2(w/5, h/12)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/5, h/12), new Vector2(-50f, h/12)));
+        path.add(new Bezier<Vector2>(new Vector2(-50f, h / 6),
+                new Vector2(w / 2, h / 8), new Vector2(w * 3 / 5, h * 2 / 3)));
+        path.add(new Bezier<Vector2>(new Vector2(w * 3 / 5, h * 2 / 3),
+                new Vector2(w * 7 / 10, h), new Vector2(w + 50f, h * 5 / 6)));
     }
 }
 

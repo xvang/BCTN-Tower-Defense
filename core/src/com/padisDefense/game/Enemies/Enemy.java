@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Pool;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,7 +18,7 @@ import java.math.RoundingMode;
  * @author Xeng.
  *
  * */
-public class Enemy extends Sprite{
+public class Enemy extends Sprite implements Pool.Poolable{
 
     private String name;
     private float health;
@@ -35,7 +36,7 @@ public class Enemy extends Sprite{
     private float strayAmount =0;
     private float wait = (float) Math.random()*3f;
 
-    private Boolean alive;
+    public Boolean alive;
     public Label label;
     private Skin skin;
 
@@ -64,6 +65,7 @@ public class Enemy extends Sprite{
     public Enemy(Vector2 p){
         setPosition(p.x, p.y);
         health = 1;
+        alive = true;
         rate = (float)(Math.random() % 0.001f );
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         label = new Label("",skin, "default");
@@ -150,6 +152,21 @@ public class Enemy extends Sprite{
     }
 
 
+    public void init(float x, float y){
+
+        this.setPosition(x,y);
+        alive = true;
+    }
+
+
+    @Override
+    public void reset(){
+        ///position.set(0,0);
+        //this.setPosition(position.x, position.y);
+        currentPath = 0;
+        time = 0f;
+        alive = false;
+    }
     public void dispose(){
         getTexture().dispose();
     }

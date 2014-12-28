@@ -63,7 +63,6 @@ public class Bullet extends Sprite implements Pool.Poolable {
 
     public void update(float delta){
         position.add(1*delta*60, 1*delta*60);
-
         if (isOutOfScreen()) alive = false;
     }
 

@@ -196,7 +196,8 @@ public class EnemyManager {
 
         for(int x = 0; x < activeEnemy.size; x++){
 
-            if(activeEnemy.get(x).isDead()) {
+            Enemy e = activeEnemy.get(x);
+            if(!e.alive) {
 
                 //if enemy is dead, the tower that targeted it will have 'hasTarget' set to false.
                 for(int s = 0; s < game.tower.getTowerArray().size;s++){
@@ -205,8 +206,10 @@ public class EnemyManager {
                     }
                 }
                 enemyCounter--;
-                activeEnemy.get(x).dispose();
+                //activeEnemy.get(x).dispose();
                 activeEnemy.removeIndex(x);
+                game.spawn.enemyPool.free(e);
+
             }
 
             else{//else, update the tower's oldTargetPosition.

@@ -4,6 +4,7 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
@@ -60,11 +61,20 @@ public class SpawnManager {
     private Array<String> allEnemies;//list of all enemies.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
+    Pool<Enemy> enemyPool;
 
     TestSpawnDeleteLater tsdl;
+
     public SpawnManager(GameScreen g){
         game = g;
         assets = game.padi.assets;
+        enemyPool = new Pool<Enemy>() {
+            @Override
+            protected Enemy newObject() {
+
+                return new BiggerGoblin();
+            }
+        };
 
         data = new HashMap<MainTower, Integer>();
         allEnemies = new Array<String>();
@@ -86,7 +96,16 @@ public class SpawnManager {
 
 
         if(first50 < 50){
-            enemy.getActiveEnemy().add(tsdl.getSpawn());
+            //enemy.getActiveEnemy().add(tsdl.getSpawn());
+
+            Enemy e = enemyPool.obtain();
+
+            e.init(-50f, 0);
+            e.setTime(0f);
+            e.setCurrentPath(0);
+
+            enemy.getActiveEnemy().add(e);
+
             /*int rand = (int)(Math.random()*3);
             Enemy newEnemy;
             if(rand == 0){
@@ -357,9 +376,9 @@ public class SpawnManager {
                 if(t.getCurrentTower()!= null)
                     game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
 
-                System.out.println("Range Before: " + newTower.getRange());
+                //System.out.println("Range Before: " + newTower.getRange());
                 applyStatChanges(newTower);
-                System.out.println("Range After: " + newTower.getRange());
+               // System.out.println("Range After: " + newTower.getRange());
                 game.tower.getTowerArray().add(newTower);
                 t.setCurrentTower(newTower);//points to the tower.
                 game.tower.updateInGameMoney(-(int)newTower.getCost());

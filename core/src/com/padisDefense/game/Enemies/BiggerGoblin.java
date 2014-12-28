@@ -4,7 +4,7 @@ public class BiggerGoblin extends Enemy{
 
     public BiggerGoblin(){
         //health, armor, texture
-        super(100,10, "sluggo.png");
+        super(1,1, "sluggo.png");
         setName("biggergoblin");
         setSize(25f, 25f);
         setRate(0.13f + (float)Math.random()*0.2f);
