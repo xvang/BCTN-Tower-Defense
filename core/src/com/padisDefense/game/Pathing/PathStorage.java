@@ -89,6 +89,62 @@ public class PathStorage {
 
 
         Array<Path<Vector2>> path4 = new Array<Path<Vector2>>();
+        //straight
+        path4.add(new Bezier<Vector2>(new Vector2(-50f, h*9/10), new Vector2(w/5, h*9/10)));
+        path4.add(new Bezier<Vector2>(new Vector2(w/5, h*9/10), new Vector2(w*5/12, h*9/10)));
+        path4.add(new Bezier<Vector2>(new Vector2(w*5/12, h*9/10), new Vector2(w*2/3, h*9/10)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w*2/3, h*9/10), new Vector2(w*5/6, h*9/10),
+                new Vector2(w*5/6, h*3/4)));
+
+        //Straight
+        path4.add(new Bezier<Vector2>(new Vector2(w*5/6, h*3/4), new Vector2(w*5/6, h*2/5)));
+        path4.add(new Bezier<Vector2>(new Vector2(w*5/6, h*2/5), new Vector2(w*5/6, h/5)));
+
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w*5/6, h/5), new Vector2(w*5/6, h/12),
+                new Vector2(w*3/4, h/12)));
+
+        //Straight
+        path4.add(new Bezier<Vector2>(new Vector2(w*3/4, h/12), new Vector2(w/2, h/12)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w/2, h/12), new Vector2(w*2/5, h/12),
+                new Vector2(w*2/5, h/4)));
+
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w*2/5, h/4), new Vector2(w*2/5, h*2/5),
+                new Vector2(w/2, h*2/5)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w/2, h*2/5), new Vector2(w*3/5, h*2/5),
+                new Vector2(w*3/5, h/2)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w*3/5, h/2), new Vector2(w*3/5, h*7/10),
+                new Vector2(w*7/20, h*7/10)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w*7/20, h*7/10), new Vector2(w/8, h*7/10),
+                new Vector2(w/8, h/2)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w/8, h/2), new Vector2(w/8, h*2/5),
+                new Vector2(w/4, h*2/5)));
+
+        //Curve
+        path4.add(new Bezier<Vector2>(new Vector2(w/4, h*2/5), new Vector2(w/3, h*2/5),
+                new Vector2(w/3, h*1/5)));
+
+        //Curve
+
+        path4.add(new Bezier<Vector2>(new Vector2(w/3, h*1/5), new Vector2(w/3, h/12),
+                new Vector2(w/5, h/12)));
+
+        path4.add(new Bezier<Vector2>(new Vector2(w/5, h/12), new Vector2(-50f, h/12)));
 
 
 

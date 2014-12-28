@@ -82,7 +82,6 @@ public class EnemyManager {
         }
 
         else{
-            check();
             run(batch);
             checkForDead();
 
@@ -130,16 +129,18 @@ public class EnemyManager {
         Vector2 position = new Vector2();
         Vector2 position2 = new Vector2();
         Enemy currentEnemy;
+        float time;
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
 
-            currentEnemy.setTime(currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate()));
 
-            System.out.println(activeEnemy.get(0).getX() + ":" + activeEnemy.get(0).getY());
+            time = currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate());
+            currentEnemy.setTime(time);
+
             path.get(currentEnemy.getCurrentPath()).derivativeAt(position2, currentEnemy.getTime());
 
-            currentEnemy.setTime(currentEnemy.getTime() +
-                    (currentEnemy.getRate() * Gdx.graphics.getDeltaTime() / 800));
+            time = currentEnemy.getTime()+ (currentEnemy.getRate()*Gdx.graphics.getDeltaTime())/position2.len();
+            currentEnemy.setTime(time);
 
             path.get(currentEnemy.getCurrentPath()).valueAt(position, currentEnemy.getTime());
 
@@ -154,15 +155,27 @@ public class EnemyManager {
                 position.add(position2);
             }
 
-            else if(currentEnemy.getWait() > 0f){
+            else if(currentEnemy.getWait() > 0f) {
                 currentEnemy.setWait(currentEnemy.getWait() - Gdx.graphics.getDeltaTime());
             }
+
+            if (activeEnemy.get(x).getTime() >= 1f){
+                if(activeEnemy.get(x).getCurrentPath()+1 < path.size){
+                    activeEnemy.get(x).setCurrentPath(activeEnemy.get(x).getCurrentPath()+1);
+                    //enemy.get(x).setStrayAmount(0f);
+                }
+
+                else
+                    activeEnemy.get(x).setCurrentPath(0);
+                activeEnemy.get(x).setTime(0f);
+
+            }
+
             currentEnemy.goTo(position);
             currentEnemy.draw(batch, 1);
 
         }
     }
-
     public void check(){
         for(int x = 0; x < activeEnemy.size; x++){
             if (activeEnemy.get(x).getTime() >= 1f){

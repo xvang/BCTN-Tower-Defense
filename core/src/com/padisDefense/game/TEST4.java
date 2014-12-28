@@ -22,7 +22,7 @@ public class TEST4 extends ScreenAdapter {
     public final float h = Gdx.graphics.getHeight();
 
 
-    Array<Enemy> enemy;
+    Array<Enemy> activeEnemy;
 
     PathStorage storage;
 
@@ -33,7 +33,7 @@ public class TEST4 extends ScreenAdapter {
     @Override
     public void show(){
 
-        enemy = new Array<Enemy>();
+        activeEnemy = new Array<Enemy>();
         addEnemies();
         storage = new PathStorage();
 
@@ -57,12 +57,12 @@ public class TEST4 extends ScreenAdapter {
 
         count += Gdx.graphics.getDeltaTime();
 
-        if(count >= 15f && enemy.size < 50){
+        if(count >= 15f && activeEnemy.size < 50){
             count = 0;
-            //addEnemies();
+            addEnemies();
         }
 
-        check();
+        //check();
         batch.begin();
         run();
         batch.end();
@@ -90,15 +90,18 @@ public class TEST4 extends ScreenAdapter {
         Vector2 position = new Vector2();
         Vector2 position2 = new Vector2();
         Enemy currentEnemy;
-        for(int x = 0; x < enemy.size; x++){
-            currentEnemy = enemy.get(x);
+        float time;
+        for(int x = 0; x < activeEnemy.size; x++){
+            currentEnemy = activeEnemy.get(x);
 
-            currentEnemy.setTime(currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate()));
+
+            time = currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate());
+            currentEnemy.setTime(time);
 
             path.get(currentEnemy.getCurrentPath()).derivativeAt(position2, currentEnemy.getTime());
 
-            currentEnemy.setTime(currentEnemy.getTime()+
-                    (currentEnemy.getRate()*Gdx.graphics.getDeltaTime()/800));
+            time = currentEnemy.getTime()+ (currentEnemy.getRate()*Gdx.graphics.getDeltaTime())/position2.len();
+            currentEnemy.setTime(time);
 
             path.get(currentEnemy.getCurrentPath()).valueAt(position, currentEnemy.getTime());
 
@@ -113,11 +116,21 @@ public class TEST4 extends ScreenAdapter {
                 position.add(position2);
             }
 
-            else if(currentEnemy.getWait() > 0f){
+            else if(currentEnemy.getWait() > 0f) {
                 currentEnemy.setWait(currentEnemy.getWait() - Gdx.graphics.getDeltaTime());
             }
 
+            if (activeEnemy.get(x).getTime() >= 1f){
+                if(activeEnemy.get(x).getCurrentPath()+1 < path.size){
+                    activeEnemy.get(x).setCurrentPath(activeEnemy.get(x).getCurrentPath()+1);
+                    //enemy.get(x).setStrayAmount(0f);
+                }
 
+                else
+                    activeEnemy.get(x).setCurrentPath(0);
+                activeEnemy.get(x).setTime(0f);
+
+            }
 
             currentEnemy.goTo(position);
             currentEnemy.draw(batch, 1);
@@ -125,74 +138,78 @@ public class TEST4 extends ScreenAdapter {
         }
     }
 
-    public void check(){
-        for(int x = 0; x < enemy.size; x++){
-            if (enemy.get(x).getTime() >= 1f){
-                if(enemy.get(x).getCurrentPath()+1 < path.size){
-                    enemy.get(x).setCurrentPath(enemy.get(x).getCurrentPath()+1);
-                    //enemy.get(x).setStrayAmount(0f);
-                }
-
-                else
-                    enemy.get(x).setCurrentPath(0);
-                enemy.get(x).setTime(0f);
-
-            }
-        }
-    }
-
-
-
     public void addEnemies(){
-        for(int x = 0; x < 1;x++){
-            enemy.add(new BiggerGoblin());
+        for(int x = 0; x < 5;x++){
+            activeEnemy.add(new BiggerGoblin());
             //System.out.println("Wait: " + enemy.get(x).getWait());
         }
     }
 
     public void addPaths(){
 
-        path.add(new Bezier<Vector2>(new Vector2(-50f, h*4/5), new Vector2(w/12, h*4/5)));
 
-        path.add(new Bezier<Vector2>(new Vector2(w/12, h*4/5), new Vector2(w/6, h*4/5),
-                new Vector2(w/6, h*5/8)));
+        //straight
+        path.add(new Bezier<Vector2>(new Vector2(-50f, h*9/10), new Vector2(w/5, h*9/10)));
+        path.add(new Bezier<Vector2>(new Vector2(w/5, h*9/10), new Vector2(w*5/12, h*9/10)));
+        path.add(new Bezier<Vector2>(new Vector2(w*5/12, h*9/10), new Vector2(w*2/3, h*9/10)));
 
-        path.add(new Bezier<Vector2>(new Vector2(w/6, h*5/8), new Vector2(w/6, h/2)));
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w*2/3, h*9/10), new Vector2(w*5/6, h*9/10),
+                new Vector2(w*5/6, h*3/4)));
 
-        path.add(new Bezier<Vector2>(new Vector2(w/6, h/2), new Vector2(w/6, h/4)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/6, h/4), new Vector2(w/6, h/8),
-                new Vector2(w/4, h/8)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/4, h/8), new Vector2(w/3, h/8)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/3, h/8), new Vector2(w*5/12, h/8),
-                new Vector2(w*5/12, h/4)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*5/12, h/4), new Vector2(w*5/12, h/2)));
-        path.add(new Bezier<Vector2>(new Vector2(w*5/12, h/2), new Vector2(w*5/12, h*2/3)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*5/12, h*2/3), new Vector2(w*5/12, h*4/5),
-                new Vector2(w/2, h*4/5)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/2, h*4/5), new Vector2(w*3/5, h*4/5)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*3/5, h*4/5), new Vector2(w*2/3, h*4/5),
-                new Vector2(w*2/3, h*2/3)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3,h*2/3), new Vector2(w*2/3, h/2)));
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3,h/2), new Vector2(w*2/3, h/3)));
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3,h/3), new Vector2(w*2/3, h/6)));
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3,h/6), new Vector2(w*2/3, -50f)));
+        //Straight
+        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h*3/4), new Vector2(w*5/6, h*2/5)));
+        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h*2/5), new Vector2(w*5/6, h/5)));
 
 
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w*5/6, h/5), new Vector2(w*5/6, h/12),
+                new Vector2(w*3/4, h/12)));
 
+        //Straight
+        path.add(new Bezier<Vector2>(new Vector2(w*3/4, h/12), new Vector2(w/2, h/12)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w/2, h/12), new Vector2(w*2/5, h/12),
+                new Vector2(w*2/5, h/4)));
+
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w*2/5, h/4), new Vector2(w*2/5, h*2/5),
+                new Vector2(w/2, h*2/5)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w/2, h*2/5), new Vector2(w*3/5, h*2/5),
+                new Vector2(w*3/5, h/2)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w*3/5, h/2), new Vector2(w*3/5, h*7/10),
+                new Vector2(w*7/20, h*7/10)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w*7/20, h*7/10), new Vector2(w/8, h*7/10),
+                new Vector2(w/8, h/2)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w/8, h/2), new Vector2(w/8, h*2/5),
+                new Vector2(w/4, h*2/5)));
+
+        //Curve
+        path.add(new Bezier<Vector2>(new Vector2(w/4, h*2/5), new Vector2(w/3, h*2/5),
+                new Vector2(w/3, h*1/5)));
+
+        //Curve
+
+        path.add(new Bezier<Vector2>(new Vector2(w/3, h*1/5), new Vector2(w/3, h/12),
+                new Vector2(w/5, h/12)));
+
+        path.add(new Bezier<Vector2>(new Vector2(w/5, h/12), new Vector2(-50f, h/12)));
     }
 }
 
 
-/**
- * path.add(new Bezier<Vector2>(new Vector2()));
+/*
+ * path.add(new Bezier<Vector2>(new Vector2(), new Vector2()));
  * path.add(new Bezier<Vector2>(new Vector2(),
  new Vector2(), new Vector2()));
  path.add(new Bezier<Vector2>(new Vector2(),
