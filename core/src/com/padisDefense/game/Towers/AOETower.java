@@ -7,7 +7,7 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class AOETower extends MainTower {
 
-    private float rangeAOE = 20f;
+    private float rangeAOE = 100f;
     public AOETower(Vector2 position){
         super("aoetower.png");
         setTarget(new Enemy());
@@ -15,15 +15,15 @@ public class AOETower extends MainTower {
         setSize(30f, 30f);
         setBulletLimit(1);
         setCost(80);
-        setAttack(150f);
+        setAttack(20f);
         setRange(150f);
         setChargeRate(0.14f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.04f);
+        setFireRate(0.15f);
         setID("aoe");
         setBulletTexture(new Texture("ghostbullet.png"));
-        setBulletRate(0.04f);
+        setBulletRate(0.02f);
         setWeakAgainst("goblin");
         setStrongAgainst("bestgoblin");
     }

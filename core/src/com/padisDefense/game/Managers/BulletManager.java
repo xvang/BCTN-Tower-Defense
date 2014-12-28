@@ -99,6 +99,7 @@ public class BulletManager {
 
                 if(hitEnemy(t.getActiveBullets().get(x), e)){
                     game.damage.hit(t, e);
+                    t.getActiveBullets().get(x).setTime(1.1f);//to activate below.
                 }
 
 
@@ -128,7 +129,7 @@ public class BulletManager {
     //Vector2 mid = new Vector2((t.x + 10f + e.x)/2, (t.y + 10f + e.y)/2);
     //It can be worked around, but...this is already here.
     public Vector2 almostMidPoint(Vector2 t, Vector2 e, float arc){
-        return new Vector2((t.x+ 50f + e.x)/2, (t.y + 50f + e.y)/2);
+        return new Vector2((t.x+ arc + e.x)/2, (t.y + arc + e.y)/2);
     }
 
     /**Takes the location of the bullet and location of the enemy.
@@ -137,15 +138,34 @@ public class BulletManager {
      * */
 
 
-    public Boolean hitEnemy(Bullet b, Enemy e){
-
+    //The bullet's destination is the bottom left coordinate of the enemy.
+    //But the bullet will overlap the enemy for many iterations before
+    //reaching the bottom left. And damage is calculated many times before
+    //bullet reaches its destination.
+    //This feature might be useful later on.
+    /*public boolean hitEnemy(Bullet b, Enemy e){
         Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-
         return b_rec.overlaps(e_rec);
+    }*/
+
+
+    public boolean hitEnemy(Bullet b, Enemy e){
+        double x  =findDistance(new Vector2(b.getX(), b.getY()),
+                new Vector2(e.getX() + e.getWidth()/2, e.getY()+e.getHeight()/2));
+
+        return x < 4f;
     }
 
 
+
+
+    public double findDistance(Vector2 a, Vector2 b){
+
+        double x2x1 = a.x - b.x;
+        double y2y1 = a.y - b.y;
+        return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
+    }
 
     public void dispose(){
 

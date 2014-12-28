@@ -11,7 +11,7 @@ public class Sluggo extends Enemy{
         super(100,10, "sluggo.png");
         setName("sluggo");
         //setSize(25f, 25f);
-        setRate(0.0006f + (float)Math.random()*0.0009f);
+        setRate(0.08f + (float)Math.random()*0.05f);
         //userSetSize(new Vector2(12f, 18f));
     }
 

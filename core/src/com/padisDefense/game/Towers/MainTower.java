@@ -24,16 +24,16 @@ public class MainTower extends Sprite {
     private float attack = 1;
     private float range = 1;
     private float chargeRate = 1;//Used in gameScreen. gatherCharge().
-    private float incomeRate = 1;
+    private float incomeRate = 1;//unused for now.
     private Boolean state = true;//TRUE is shooting. FALSE is charging.
-    private float fireRate = 1;//Used in bulletManager. shooting().
+    private float fireRate = 1;//Used in bulletManager. shooting(). How often a new Bullet is created.
     private Boolean hasTarget = false;
     private Enemy target;
     private Array<String> weakAgainst;
     private Array<String> strongAgainst;
 
     private Texture bulletTexture;
-    private float bulletRate;
+    private float bulletRate;//How fast a bullet travels.
     public float pause = 0.2f;
     private int level = 1;
 

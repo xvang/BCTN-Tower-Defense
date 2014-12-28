@@ -238,12 +238,6 @@ public class MainMenu extends ScreenAdapter {
         stage.draw();
         padi.batch.end();
 
-        // System.out.println(".....");
-        if (Gdx.input.justTouched()){
-            Gdx.input.vibrate(100);
-
-        }
-
     }
 
 

@@ -14,4 +14,11 @@
 
 
 
+- How paths were changed.
+    Instead of multiple complete paths, a path will be broken into segments.
+    This means enemies will spawn at different parts of a map.
+    implement "zigzag" to make the movements seem random.
+
+
+
 

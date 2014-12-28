@@ -18,7 +18,8 @@ import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Items.ItemStorage;
 import com.padisDefense.game.Items.MainItem;
 
-//TODO: update money. Have clickable items in store. etc.
+
+
 public class Store extends ScreenAdapter{
 
     Padi padi;
@@ -93,15 +94,15 @@ public class Store extends ScreenAdapter{
 
 
         //making the stuff on the right.
-        name = new Label(".", padi.skin, "default");
-        info = new Label(".", padi.skin, "default");
-        cost = new Label(".", padi.skin, "default");
-        affects = new Label(".", padi.skin, "default");
-        money = new Label(String.valueOf((int)padi.player.getMoney()) + " credits", padi.skin);
+        name = new Label("\n", padi.skin, "default");
+        info = new Label("\n", padi.skin, "default");
+        cost = new Label("\n", padi.skin, "default");
+        affects = new Label("\n", padi.skin, "default");
+        money = new Label("Your Credits: " + String.valueOf((int)padi.player.getMoney()), padi.skin);
 
 
         final TextButton unlockButton = new TextButton("Unlock Now", padi.skin);
-        message = new Label(".", padi.skin, "default");
+        message = new Label("\n", padi.skin, "default");
         unlockButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -114,7 +115,7 @@ public class Store extends ScreenAdapter{
                         if(padi.player.getMoney() >= clickedItemCost){
                             padi.player.setMoney(padi.player.getMoney() - clickedItemCost);
                             padi.player.addItemsUnlocked(clickedItem);
-                            money.setText(String.valueOf((int)padi.player.getMoney()) + " credits");
+                            money.setText("Your Credits: "  + String.valueOf((int)padi.player.getMoney()));
                             message.setColor(Color.GREEN);
                             message.setText("Item unlocked.");
                         }
@@ -133,37 +134,25 @@ public class Store extends ScreenAdapter{
                     message.setColor(Color.RED);
                     message.setText("No item selected.");
                 }
-
             }
         });
 
-
-
-
-        final Table table1 = new Table();//contains the navigation buttons.
-        final Table table2 = new Table();//contains information about item.
-
-
-        table1.add(menu).row().pad(40f, 40f, 40f, 40f);
-        table1.add(worldMap).row().padBottom(20f);
-        table1.setPosition(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight()*5 / 6);
-
-
-
-        table2.add(name).row().pad(30f, 20f, 20f, 20f);
-        table2.add(info).row().pad(20f, 20f, 20f, 20f);
-        table2.add(affects).row().pad(10f, 10f, 10f, 10f);
-        table2.add(cost).row().pad(20f, 20f, 20f, 20f);
-        table2.add(unlockButton).row().pad(10f, 10f, 10f, 10f);
-        table2.add(money).row().pad(10f, 10f, 10f, 10f);
-        table2.add(message).row().pad(10f, 10f, 10f, 10f);
-        table2.setPosition(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight() / 2);
+        final Table allTables = new Table();
+        allTables.add(name).padBottom(10f).row();
+        allTables.add(info).padBottom(10f).row();
+        allTables.add(affects).padBottom(10f).row();
+        allTables.add(cost).padBottom(10f).row();
+        allTables.add(money).padBottom(10f).row();
+        allTables.add(unlockButton).width(130f).height(40f).row().padTop(20f).row();
+        allTables.add(message).padBottom(40f).row();
+        allTables.add(menu).width(130f).height(40f).row().padBottom(10f).padTop(10f).row();
+        allTables.add(worldMap).width(130f).height(40f).padBottom(10f).padTop(20f).row();
+        allTables.setPosition(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight()/2);
 
 
         stage.addActor(background);
         stage.addActor(t);
-        stage.addActor(table1);
-        stage.addActor(table2);
+        stage.addActor(allTables);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -189,6 +178,10 @@ public class Store extends ScreenAdapter{
                 @Override
                 public void clicked(InputEvent e, float x, float y){
 
+                    for(int t = 0; t < itemStorage.itemArray.size; t++){
+                        imageList.get(t).setColor(Color.WHITE);
+                    }
+
                     clickedItemCost = itemStorage.itemArray.get(ww).getCost();
                     clickedItem = itemStorage.itemArray.get(ww);
 
@@ -210,8 +203,18 @@ public class Store extends ScreenAdapter{
 
                     }
                     affects.setText("Affects: " + temp);
-                    message.setText("\n");
+                    //message.setText("\n");
+                    if(padi.player.isItemUnlocked(clickedItem)){
+                        message.setColor(Color.GREEN);
+                        message.setText("Unlocked");
+                    }
+                    else{
+                        message.setColor(Color.RED);
+                        message.setText("Locked");
+                    }
 
+
+                    imageList.get(ww).setColor(Color.RED);
                 }
 
                 /*@Override
@@ -220,12 +223,8 @@ public class Store extends ScreenAdapter{
                 }*/
 
             });
-
         }
     }
-
-
-
 
     @Override
     public void dispose(){}

@@ -59,13 +59,18 @@ public class Instruction extends ScreenAdapter {
         next = new TextButton("Next", padi.skin, "default");
         back = new TextButton("Back", padi.skin, "default");
         menu = new TextButton("Menu", padi.skin, "default");
+
+        next.setSize(150f, 50f);
+        back.setSize(150f, 50f);
+        menu.setSize(150f, 50f);
+
         buttons.addActor(next);
         buttons.addActor(back);
         buttons.addActor(menu);
 
 
-        menu.setPosition(w / 2, h/40);
-        next.setPosition(w - (next.getWidth() + 20f), 20f);
+        menu.setPosition(w / 2 - menu.getWidth()/2, h/40);
+        next.setPosition(w - (next.getWidth() + 20f), h/40);
         back.setPosition(w/45, h/40);
 
         menu.addListener(new ClickListener() {

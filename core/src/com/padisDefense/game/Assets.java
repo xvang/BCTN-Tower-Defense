@@ -17,8 +17,10 @@ public class Assets {
     public  static final int w = 1200;
     public static final int h = 800;
 
+
+    //To add more, also add them into Assets.
     public static int SOUND_LEVEL = 20;
-    public static int DIFFICULTY = 50;
+    public static int DIFFICULTY = 49;
 
     public Vector splash_Pages;
 
@@ -98,7 +100,7 @@ public class Assets {
 
     public float getScreenWidth(){return w;}
     public float getScreenHeight(){return h;}
-    public int getSound(){return SOUND_LEVEL;}
+    public int getSoundLevel(){return SOUND_LEVEL;}
     public int getDifficulty(){return DIFFICULTY;}
 
 

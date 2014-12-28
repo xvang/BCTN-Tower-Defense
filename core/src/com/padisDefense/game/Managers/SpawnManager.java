@@ -61,12 +61,14 @@ public class SpawnManager {
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
 
+    TestSpawnDeleteLater tsdl;
     public SpawnManager(GameScreen g){
         game = g;
         assets = game.padi.assets;
 
         data = new HashMap<MainTower, Integer>();
         allEnemies = new Array<String>();
+        tsdl = new TestSpawnDeleteLater();
 
         //ADD ENEMIES HERE.
         allEnemies.add("goblin");
@@ -84,26 +86,24 @@ public class SpawnManager {
 
 
         if(first50 < 50){
-            int rand = (int)(Math.random()*3);
+            enemy.getActiveEnemy().add(tsdl.getSpawn());
+            /*int rand = (int)(Math.random()*3);
             Enemy newEnemy;
             if(rand == 0){
                 newEnemy = new Goblin();
-                newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if (rand == 1){
                 newEnemy = new BiggerGoblin();
-                newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if(rand == 2){
                 newEnemy = new BestGoblin();
-                newEnemy.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(newEnemy);
             }
-            first50++;
+            first50++;*/
 
         }
         else{//initial 25 enemies have spawned.
@@ -112,14 +112,11 @@ public class SpawnManager {
             if(data.size() == 0){
                 //System.out.println("no towers built.");
                 Enemy e = spawnRandom();
-                e.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(e);
                 //System.out.println("Spawned " + e.getName());
             }
             else{
                 Enemy e = spawnResponse();
-
-                e.setChosenPath((int)(Math.random()*100) % enemy.getPath().getPath().size);
                 enemy.getActiveEnemy().add(e);
 
                 //System.out.println("Spawned " + e.getName());
@@ -186,7 +183,7 @@ public class SpawnManager {
         if(mostValue < 3){
             if(duckTime){//The duck should only spawn once to signify the start of bullrushing.
                 newEnemy = new Duck();
-                newEnemy.setChosenPath((int)(Math.random()*100) % game.enemy.getPath().getPath().size);
+
                 duckTime = false;
                 chosenEnemyType = (int)(Math.random()*allEnemies.size);
                 //System.out.println("DUCK TIME!" + " ... Chosen enemy: " + allEnemies.get(chosenEnemyType));

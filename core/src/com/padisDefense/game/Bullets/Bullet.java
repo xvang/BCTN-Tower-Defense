@@ -29,7 +29,7 @@ public class Bullet extends Sprite implements Pool.Poolable {
     public Bullet (Vector2 p, Texture t){
 
         super(t);
-        this.setSize(16f, 16f);
+        this.setSize(7f, 7f);
         this.setPosition(p.x, p.y);
         this.alive = false;
         position = new Vector2();

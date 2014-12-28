@@ -55,7 +55,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        background = new Sprite(new Texture("background-2.jpg"));
+        background = new Sprite(new Texture("custombackground1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.setOrigin(0,0);
         tower = new TowerManager(this);
@@ -75,8 +75,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         level.determineLevel();
 
 
-        //Setting the enemy amount and getting the path
-        // for the level.
+        //enemy amount and path is stored in enemy.
+        //information about those things are stored in levelManager.
         enemy.setEnemyAmount(level.getEnemyAmount());
         enemy.setPath(level.getPath());
 

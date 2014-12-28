@@ -107,14 +107,18 @@ public class Setting extends ScreenAdapter {
             values.add(new Label("stuff", padi.skin));
 
             slider.get(x).setSize(250f,60f);
-            slider.get(x).setValue(50);
+
+            //Getting the proper values from assets
+            if(x == 0) slider.get(x).setValue(padi.assets.getDifficulty());
+            else if (x == 1) slider.get(x).setValue(padi.assets.getSoundLevel());
+
             images.get(x).setSize(150f,60f);
             values.get(x).setSize(50f, 30f);
         }
 
 
         //'return to menu' button
-        final TextButton back_button = new TextButton("Back", padi.skin, "default");
+        final TextButton back_button = new TextButton("Back to Menu", padi.skin, "default");
 
 
         //on click, return to menu.
@@ -144,8 +148,8 @@ public class Setting extends ScreenAdapter {
             }
         }
 
-        back_button.setPosition(Gdx.graphics.getWidth() / 2 - 75f, Gdx.graphics.getHeight() / 2 - 240f);
-
+        back_button.setPosition(Gdx.graphics.getWidth() / 2 - 75f, 30f);
+        back_button.setSize(180f, 60f);
 
 
 
@@ -255,6 +259,11 @@ public class Setting extends ScreenAdapter {
         else if (r.overlaps(right)) return 4;
 
         return 0;
+
+    }
+
+    public void bounce(){
+        Array<Rectangle> covers = new Array<Rectangle>();
 
     }
     @Override

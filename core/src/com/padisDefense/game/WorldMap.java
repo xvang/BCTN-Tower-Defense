@@ -43,6 +43,7 @@ public class WorldMap implements Screen {
         background_texture = new Texture("worldmap.png");
         background = new Sprite(background_texture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setOriginCenter();
         buttons = new Array<TextButton>();
         stage = new Stage();
 
@@ -59,7 +60,7 @@ public class WorldMap implements Screen {
          * That's why [final int g] was created.
          * **/
         for(int x = 0; x < 11; x++){
-            final int g = x + 1;
+            final int g = x+1;
             //Adds a button. The last two buttons are 'menu' and 'store'.
             if(x < 9) {
                 buttons.add(new TextButton(String.valueOf(x + 1), padi.skin, "default"));
@@ -93,15 +94,25 @@ public class WorldMap implements Screen {
 
 
             //This sets the dimensions and color of the buttons.
-            buttons.get(x).setSize(50f, 30f);
-            buttons.get(x).setColor(0.1f,0.3f, 0.4f, 0.6f);
+            buttons.get(x).setSize(100f, 50f);
+            buttons.get(x).setColor(0.2f,0.3f, 0.8f, 0.8f);
 
-            //This is to position the buttons. Each button is 50f lower than the previous one.
-            if(x == 0)
-                buttons.get(x).setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 50f);
-            else
-                buttons.get(x).setPosition(Gdx.graphics.getWidth() / 2,buttons.get(x-1).getY() - 50f);
+
         }
+
+        //TODO: Get rid of hard code
+        //This is to position the buttons. Each button is 50f lower than the previous one.
+        buttons.get(0).setPosition(10f, 10f);
+        buttons.get(1).setPosition(110f, 80f);
+        buttons.get(2).setPosition(210f, 150f);
+        buttons.get(3).setPosition(310f, 220f);
+        buttons.get(4).setPosition(410f, 290f);
+        buttons.get(5).setPosition(510f, 360f);
+        buttons.get(6).setPosition(610f, 430f);
+        buttons.get(7).setPosition(710f, 50f);
+        buttons.get(8).setPosition(610f, 150f);
+        buttons.get(9).setPosition(300f, 20f);
+        buttons.get(10).setPosition(500f, 50f);
 
         for(int x = 0; x < buttons.size; x++)
             stage.addActor(buttons.get(x));

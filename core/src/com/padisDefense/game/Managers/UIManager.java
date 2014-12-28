@@ -66,6 +66,8 @@ public class UIManager implements InputProcessor{
     private Array<TextButton> towerOptions;
     private ShapeRenderer shapeRenderer;
 
+    //TODO: make the circles around the range visible.
+
 
     //table for countdown.
     private Table countDownTable;
@@ -161,7 +163,7 @@ public class UIManager implements InputProcessor{
 
     public Stage getStage(){return stage;}
 
-    public void updateTimer(float d){TIMER += d;System.out.println(TIMER);}
+    public void updateTimer(float d){TIMER += d;}
 
 
     public void updateEnemyMessage(int e){
@@ -446,10 +448,10 @@ public class UIManager implements InputProcessor{
         charge = new TextButton("Charge", skin, "default");
         upgrade = new TextButton("Upgrade", skin, "default");
         final TextButton sell = new TextButton("Sell", skin, "default");
-        optionTable.add(charge).pad(5f);
-        optionTable.add(upgrade).pad(5f);
-        optionTable.add(sell).pad(5f);
-        optionTable.setSize(50f, 50f);
+        optionTable.add(charge).width(70f).height(40f).pad(5f);
+        optionTable.add(upgrade).width(70f).height(40f).pad(5f);
+        optionTable.add(sell).width(70f).height(40f).pad(5f);
+        //optionTable.setSize(50f, 50f);
         optionTable.setVisible(false);
         //adding clicklisteners for option table.
 
@@ -569,7 +571,7 @@ public class UIManager implements InputProcessor{
 
             if(x % 3 == 0 && x != 0) towerTable.row();
 
-            towerTable.add(towerOptions.get(x)).pad(8f);
+            towerTable.add(towerOptions.get(x)).width(70f).height(35f).pad(8f);
             towerTable.pad(5f);
         }
 

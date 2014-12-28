@@ -3,11 +3,11 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
-import com.padisDefense.game.Pathing.MainPath;
 import com.padisDefense.game.Pathing.PathStorage;
 
 
@@ -23,17 +23,18 @@ import com.padisDefense.game.Pathing.PathStorage;
 public class EnemyManager {
 
     GameScreen game;
-    private MainPath path;
+    private Array<Path<Vector2>> path;
     private PathStorage storage;
     private int spawnsLeft;
     private int enemyCounter = 0;
     ImmediateModeRenderer20 renderer;
+    private float spawnPause = 0f;
 
     protected Array<Enemy>  activeEnemy;
 
 
     public float time = 0;
-    public float countDownTimer = 20f;
+    public float countDownTimer = 5f;
 
     /**CONSTRUCTOR**/
     public EnemyManager(GameScreen g){
@@ -52,19 +53,19 @@ public class EnemyManager {
         switch(p){
 
             case(1):
-                path = new MainPath(storage.getPath(0));
+                path = storage.getPath(0);
                 break;
             case(2):
-                path = new MainPath(storage.getPath(1));
+                path = storage.getPath(1);
                 break;
             case(3):
-                path = new MainPath(storage.getPath(2));
+                path = storage.getPath(2);
                 break;
             case(4):
-                path = new MainPath(storage.getPath(3));
+                path = storage.getPath(3);
                 break;
             default:
-                path = new MainPath(storage.getPath(4));
+                path = storage.getPath(4);
                 break;
         }
     }
@@ -73,7 +74,6 @@ public class EnemyManager {
      * Loops through every enemy and moves them along the path.
      *
      *
-     * param 'batch'
      * */
     public void startEnemy(SpriteBatch batch, SpawnManager spawn){
 
@@ -82,44 +82,23 @@ public class EnemyManager {
         }
 
         else{
-
-            Vector2 position = new Vector2();
-            //Makes enemy travel along path.
-            for(int x = 0; x < activeEnemy.size; x++){
-
-                if (!activeEnemy.get(x).isDead()) {
-                    time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
-                    activeEnemy.get(x).setTime(time);
-
-                    path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
-                    activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
-                    activeEnemy.get(x).move();
-                    activeEnemy.get(x).draw(batch);
-
-                    //If enemy reached end, it starts path over.
-                    if(activeEnemy.get(x).getTime() >= 1f)
-                        activeEnemy.get(x).setTime(0f);
-                }
-                /**NOTE: To see the enemy objects loop, set each object's time variable to zero.
-                 * I think the best way to reset is in GameScreen.**/
-            }
-
+            check();
+            run(batch);
             checkForDead();
 
+            spawnPause += Gdx.graphics.getDeltaTime();
             //Calculating if spawning is necessary.
-            if(activeEnemy.size < 50 && spawnsLeft > 0){
+            if(activeEnemy.size < 50 && spawnsLeft > 0 && spawnPause >= 2.0f){
 
-                int amount = (int)(Math.random()* 5 + 1);
-                if(spawnsLeft <= 10)
+                spawnPause = 0f;
+                int amount = (int)(Math.random()* 3 + 1);
+                if(spawnsLeft <= 4)
                     amount = spawnsLeft;
 
                 for(int x = 0; x < amount; x++){
                     spawnsLeft--;
                     spawn.spawnEnemy(this);
                 }
-
-
-                //System.out.println("Size: " + activeEnemy.size);
             }
         }
 
@@ -143,11 +122,61 @@ public class EnemyManager {
         }
     }*/
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
-    public MainPath getPath(){return path;}
+    public Array<Path<Vector2>> getPath(){return path;}
     //public int getSpawnsLeft(){return spawnsLeft;}
     public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
 
+    public void run(SpriteBatch batch){
+        Vector2 position = new Vector2();
+        Vector2 position2 = new Vector2();
+        Enemy currentEnemy;
+        for(int x = 0; x < activeEnemy.size; x++){
+            currentEnemy = activeEnemy.get(x);
 
+            currentEnemy.setTime(currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate()));
+
+            System.out.println(activeEnemy.get(0).getX() + ":" + activeEnemy.get(0).getY());
+            path.get(currentEnemy.getCurrentPath()).derivativeAt(position2, currentEnemy.getTime());
+
+            currentEnemy.setTime(currentEnemy.getTime() +
+                    (currentEnemy.getRate() * Gdx.graphics.getDeltaTime() / 800));
+
+            path.get(currentEnemy.getCurrentPath()).valueAt(position, currentEnemy.getTime());
+
+
+            //If waiting period is over, then enemy can start swerving up and down path.
+            if(currentEnemy.getWait()<= 0f){
+                currentEnemy.setStrayAmount(currentEnemy.getStrayAmount()+(Gdx.graphics.getDeltaTime()/2f));
+
+                position2.nor();
+                position2.set(-position2.y, position2.x);
+                position2.scl((float)(Math.sin(currentEnemy.getStrayAmount())) * 20f);
+                position.add(position2);
+            }
+
+            else if(currentEnemy.getWait() > 0f){
+                currentEnemy.setWait(currentEnemy.getWait() - Gdx.graphics.getDeltaTime());
+            }
+            currentEnemy.goTo(position);
+            currentEnemy.draw(batch, 1);
+
+        }
+    }
+
+    public void check(){
+        for(int x = 0; x < activeEnemy.size; x++){
+            if (activeEnemy.get(x).getTime() >= 1f){
+                if(activeEnemy.get(x).getCurrentPath()+1 < path.size){
+                    activeEnemy.get(x).setCurrentPath(activeEnemy.get(x).getCurrentPath()+1);
+                    //enemy.get(x).setStrayAmount(0f);
+                }
+
+                else
+                    activeEnemy.get(x).setCurrentPath(0);
+                activeEnemy.get(x).setTime(0f);
+            }
+        }
+    }
 
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
@@ -205,7 +234,6 @@ public class EnemyManager {
 
     public void dispose(){
         renderer.dispose();
-        path.dispose();
     }
 }
 
@@ -234,3 +262,30 @@ public class EnemyManager {
         activeEnemy.get(x).setTime(0f);
     }
 }*/
+
+
+/**THE OLD PATHS**/
+
+/*
+ Vector2 position = new Vector2();
+ //Makes enemy travel along path.
+ for(int x = 0; x < activeEnemy.size; x++){
+
+ if (!activeEnemy.get(x).isDead()) {
+ time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
+ activeEnemy.get(x).setTime(time);
+
+ path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
+ activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
+ activeEnemy.get(x).move();
+ activeEnemy.get(x).draw(batch);
+ activeEnemy.get(x).updateMessage();
+ activeEnemy.get(x).label.draw(batch, 1);
+
+ //If enemy reached end, it starts path over.
+ if(activeEnemy.get(x).getTime() >= 1f)
+ activeEnemy.get(x).setTime(0f);
+ }
+
+}
+ * */
