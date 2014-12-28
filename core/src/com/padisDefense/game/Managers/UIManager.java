@@ -61,6 +61,7 @@ public class UIManager implements InputProcessor{
     private BuildableSpot currentBS = null;//points to the clicked buildableSpot.
     private boolean b = false;// to hide the option popup after a change has been made.
 
+
     //displays the towers for user to drag.
     private Table towerTable;
     private Array<TextButton> towerOptions;
@@ -143,8 +144,8 @@ public class UIManager implements InputProcessor{
         masterTable.setSize(200f, Gdx.graphics.getHeight());
         masterTable.setPosition(Gdx.graphics.getWidth() - 250f,0);
 
-        masterTable.add(countDownTable).row().pad(10f);
-        masterTable.add(messageTable).padBottom(20f).row();
+        //masterTable.add(countDownTable).row();
+        //masterTable.add(messageTable).padBottom(20f).row();
         masterTable.add(dragTowers);
 
 

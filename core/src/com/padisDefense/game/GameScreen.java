@@ -55,7 +55,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        background = new Sprite(new Texture("custombackground1.png"));
+        background = new Sprite(new Texture("test1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.setOrigin(0,0);
         tower = new TowerManager(this);
