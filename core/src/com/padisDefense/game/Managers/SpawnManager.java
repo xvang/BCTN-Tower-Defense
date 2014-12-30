@@ -4,21 +4,13 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
-import com.padisDefense.game.Enemies.Cake;
 import com.padisDefense.game.Enemies.Soda;
 import com.padisDefense.game.Enemies.IceCream;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Pizza;
-import com.padisDefense.game.Enemies.Burger;
-import com.padisDefense.game.Enemies.Lollipop;
-import com.padisDefense.game.Enemies.Donut;
-import com.padisDefense.game.Enemies.Cookie;
-import com.padisDefense.game.Enemies.JawBreaker;
-import com.padisDefense.game.Enemies.CottonCandy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.FlossTower;
@@ -69,23 +61,14 @@ public class SpawnManager {
     private Array<String> allEnemies;//list of all enemies.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
-    Pool<Enemy> enemyPool;
     CustomPool<Enemy> enemyCustomPool;//TODO: REMEMBER TO DELETE THE FREE() IN ENEMYMANAGER
 
     TestSpawnDeleteLater tsdl;
 
-    int dummyCounter = 0;
+
     public SpawnManager(GameScreen g){
         game = g;
         assets = game.padi.assets;
-        enemyPool = new Pool<Enemy>() {
-            @Override
-            protected Enemy newObject() {
-
-                dummyCounter++;
-                return new IceCream();
-            }
-        };
 
         enemyCustomPool = new CustomPool<Enemy>() {
             @Override
@@ -97,19 +80,6 @@ public class SpawnManager {
 
                 else if (type.equals("soda")) return new Soda();
 
-                else if(type.equals("cookie")) return new Cookie();
-
-                else if (type.equals("cake")) return new Cake();
-
-                else if (type.equals("burger")) return new Burger();
-
-                else if (type.equals("lollipop")) return new Lollipop();
-
-                else if(type.equals("donut")) return new Donut();
-
-                else if (type.equals("jawbreaker")) return new JawBreaker();
-
-                else if (type.equals("cottoncandy")) return new CottonCandy();
 
 
                 System.out.println("RETURNING NULL");
@@ -135,16 +105,10 @@ public class SpawnManager {
         Array<Enemy> eArray = new Array<Enemy>();
         for(int x = 0; x < 25; x++){
 
-            eArray.add(enemyCustomPool.obtain("lollipop"));
-            eArray.add(enemyCustomPool.obtain("cake"));
-            eArray.add(enemyCustomPool.obtain("burger"));
-            eArray.add(enemyCustomPool.obtain("jawbreaker"));
-            eArray.add(enemyCustomPool.obtain("donut"));
-            eArray.add(enemyCustomPool.obtain("icecream"));
-            eArray.add(enemyCustomPool.obtain("cookie"));
             eArray.add(enemyCustomPool.obtain("soda"));
             eArray.add(enemyCustomPool.obtain("pizza"));
-            eArray.add(enemyCustomPool.obtain("cottoncandy"));
+            eArray.add(enemyCustomPool.obtain("icecream"));
+
             //eArray.add(enemyPool.obtain());
             //System.out.println("Pool init(): " + dummyCounter);
         }
@@ -169,19 +133,10 @@ public class SpawnManager {
             int r = (int)(Math.random()*10);
 
             if(r == 0) e = enemyCustomPool.obtain("pizza");
-            else if(r == 1) e = enemyCustomPool.obtain("cookie");
-            else if(r == 2) e = enemyCustomPool.obtain("cake");
-            else if(r == 3) e = enemyCustomPool.obtain("soda");
-            else if(r == 4) e = enemyCustomPool.obtain("jawbreaker");
-            else if(r == 5) e = enemyCustomPool.obtain("donut");
-            else if(r == 6) e = enemyCustomPool.obtain("lollipop");
-            else if(r == 7) e = enemyCustomPool.obtain("cottoncandy");
             else if(r == 8) e = enemyCustomPool.obtain("icecream");
-            else if(r == 9) e = enemyCustomPool.obtain("burger");
+            else if(r == 3) e = enemyCustomPool.obtain("soda");
 
-
-
-            else e = enemyCustomPool.obtain("cake");
+            else e = enemyCustomPool.obtain("soda");
 
 
             e.init(-50f, 0);

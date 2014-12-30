@@ -1,8 +1,5 @@
 package com.padisDefense.game.Enemies;
 
-/**
- * Created by Toog on 12/20/2014.
- */
 public class Duck extends Enemy{
 
     public Duck(){
