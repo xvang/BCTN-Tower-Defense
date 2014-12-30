@@ -14,7 +14,7 @@ public class StrengthTower extends MainTower {
         setSize(50f, 70f);
         setBulletLimit(1);
         setCost(50);
-        setAttack(1f);
+        setAttack(20f);
         setRange(150f);
         setChargeRate(0.2f);
         setIncomeRate(4f);

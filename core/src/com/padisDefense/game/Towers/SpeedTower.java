@@ -16,7 +16,7 @@ public class SpeedTower extends MainTower{
         setState(true);
         setID("speed");
         setCost(25);
-        setAttack(1f);
+        setAttack(45f);
         setRange(150f);
         setIncomeRate(4f);
         setChargeRate(0.10f);

@@ -12,7 +12,13 @@ import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
+import com.padisDefense.game.Enemies.Lobbo;
+import com.padisDefense.game.Enemies.Nocto;
+import com.padisDefense.game.Enemies.Numbo;
+import com.padisDefense.game.Enemies.Purpo;
 import com.padisDefense.game.Enemies.Sluggo;
+import com.padisDefense.game.Enemies.Snuggo;
+import com.padisDefense.game.Enemies.Turto;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.AOETower;
@@ -85,17 +91,26 @@ public class SpawnManager {
             @Override
             protected Enemy newObject(String type) {
 
-                if(type.equals("biggergoblin")){
-                    return new BiggerGoblin();
-                }
+                if(type.equals("biggergoblin")) return new BiggerGoblin();
 
-                else if(type.equals("goblin")){
-                    return new Goblin();
-                }
+                else if(type.equals("goblin")) return new Goblin();
 
-                else if(type.equals("sluggo")){
-                    return new Sluggo();
-                }
+                else if (type.equals("bestgoblin")) return new BestGoblin();
+
+                else if(type.equals("sluggo")) return new Sluggo();
+
+                else if (type.equals("lobbo")) return new Lobbo();
+
+                else if (type.equals("nocto")) return new Nocto();
+
+                else if (type.equals("numbo")) return new Numbo();
+
+                else if(type.equals("purpo")) return new Purpo();
+
+                else if (type.equals("snuggo")) return new Snuggo();
+
+                else if (type.equals("turto")) return new Turto();
+
 
                 System.out.println("RETURNING NULL");
                 return null;
@@ -113,24 +128,25 @@ public class SpawnManager {
         allEnemies.add("bestgoblin");
     }
 
+
+    //Creating 25 of each enemy.
+    //So they can be freed into the pool.
     public void initPool(){
         Array<Enemy> eArray = new Array<Enemy>();
         for(int x = 0; x < 25; x++){
 
-
             eArray.add(enemyCustomPool.obtain("goblin"));
-            //eArray.add(enemyPool.obtain());
-
-
-            //System.out.println("Pool init(): " + dummyCounter);
-        }
-
-        for(int x = 0; x < 25; x++){
             eArray.add(enemyCustomPool.obtain("biggergoblin"));
-        }
-
-        for(int x = 0; x < 25; x++){
+            eArray.add(enemyCustomPool.obtain("bestgoblin"));
             eArray.add(enemyCustomPool.obtain("sluggo"));
+            eArray.add(enemyCustomPool.obtain("snuggo"));
+            eArray.add(enemyCustomPool.obtain("nocto"));
+            eArray.add(enemyCustomPool.obtain("purpo"));
+            eArray.add(enemyCustomPool.obtain("lobbo"));
+            eArray.add(enemyCustomPool.obtain("numbo"));
+            eArray.add(enemyCustomPool.obtain("turto"));
+            //eArray.add(enemyPool.obtain());
+            //System.out.println("Pool init(): " + dummyCounter);
         }
 
         System.out.println("Size of eArray: " + eArray.size);
@@ -148,51 +164,33 @@ public class SpawnManager {
 
 
         if(first50 < 50){
-            //enemy.getActiveEnemy().add(tsdl.getSpawn());
 
-            //Enemy e = enemyPool.obtain();
+            Enemy e;
+            int r = (int)(Math.random()*10);
 
-            //System.out.println("Pool spawn(): " + dummyCounter);
-
-            Enemy ee;
-            int r = (int)(Math.random()*3);
-
-            if(r == 0){
-                Enemy e = enemyCustomPool.obtain("biggergoblin");
-                e.init(-50f, 0);
-                e.setTime(0f);
-                e.setCurrentPath(0);
-                e.setHealth(e.getOriginalHealth());
-                e.alive = true;
-
-                enemy.getActiveEnemy().add(e);
-            }
+            if(r == 0) e = enemyCustomPool.obtain("bestgoblin");
+            else if(r == 1) e = enemyCustomPool.obtain("biggergoblin");
+            else if(r == 2) e = enemyCustomPool.obtain("goblin");
+            else if(r == 3) e = enemyCustomPool.obtain("sluggo");
+            else if(r == 4) e = enemyCustomPool.obtain("lobbo");
+            else if(r == 5) e = enemyCustomPool.obtain("nocto");
+            else if(r == 6) e = enemyCustomPool.obtain("numbo");
+            else if(r == 7) e = enemyCustomPool.obtain("purpo");
+            else if(r == 8) e = enemyCustomPool.obtain("snuggo");
+            else if(r == 9) e = enemyCustomPool.obtain("turto");
 
 
-            else if(r == 1){
-                Enemy e = enemyCustomPool.obtain("sluggo");
-                e.init(-50f, 0);
-                e.setTime(0f);
-                e.setCurrentPath(0);
-                e.setHealth(e.getOriginalHealth());
-                e.alive = true;
 
-                enemy.getActiveEnemy().add(e);
-            }
-
-            else{
-                Enemy e = enemyCustomPool.obtain("goblin");
-                e.init(-50f, 0);
-                e.setTime(0f);
-                e.setCurrentPath(0);
-                e.setHealth(e.getOriginalHealth());
-                e.alive = true;
+            else e = enemyCustomPool.obtain("goblin");
 
 
-                enemy.getActiveEnemy().add(e);
-            }
+            e.init(-50f, 0);
+            e.setTime(0f);
+            e.setCurrentPath(0);
+            e.setHealth(e.getOriginalHealth());
+            e.alive = true;
 
-
+            enemy.getActiveEnemy().add(e);
 
             /*ee.init(-50f, 0);
             ee.setTime(0f);
@@ -216,6 +214,8 @@ public class SpawnManager {
                 newEnemy = new BestGoblin();
                 enemy.getActiveEnemy().add(newEnemy);
             }
+
+
             first50++;*/
 
         }

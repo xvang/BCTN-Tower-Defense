@@ -16,7 +16,7 @@ public class IceTower extends MainTower {
         setSize(50f, 60f);
         setBulletLimit(1);
         setCost(70);
-        setAttack(0.1f);
+        setAttack(4f);
         setRange(180f);
         setChargeRate(0.01f);
         setIncomeRate(4f);

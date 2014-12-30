@@ -15,7 +15,7 @@ public class AOETower extends MainTower {
         setSize(30f, 30f);
         setBulletLimit(1);
         setCost(80);
-        setAttack(8f);
+        setAttack(15f);
         setRange(150f);
         setChargeRate(0.14f);
         setIncomeRate(4f);

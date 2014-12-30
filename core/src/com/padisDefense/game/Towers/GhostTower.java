@@ -14,7 +14,7 @@ public class GhostTower extends MainTower{
         setSize(50f, 70f);
         setBulletLimit(1);
         setCost(100);
-        setAttack(1f);
+        setAttack(5f);
         setRange(250f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
