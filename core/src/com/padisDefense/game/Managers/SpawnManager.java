@@ -6,11 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Assets;
+import com.padisDefense.game.CustomPool;
 import com.padisDefense.game.Enemies.BestGoblin;
 import com.padisDefense.game.Enemies.BiggerGoblin;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Enemies.Goblin;
+import com.padisDefense.game.Enemies.Sluggo;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.AOETower;
@@ -62,9 +64,11 @@ public class SpawnManager {
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
     Pool<Enemy> enemyPool;
+    CustomPool<Enemy> enemyCustomPool;//TODO: REMEMBER TO DELETE THE FREE() IN ENEMYMANAGER
 
     TestSpawnDeleteLater tsdl;
 
+    int dummyCounter = 0;
     public SpawnManager(GameScreen g){
         game = g;
         assets = game.padi.assets;
@@ -72,10 +76,33 @@ public class SpawnManager {
             @Override
             protected Enemy newObject() {
 
+                dummyCounter++;
                 return new BiggerGoblin();
             }
         };
 
+        enemyCustomPool = new CustomPool<Enemy>() {
+            @Override
+            protected Enemy newObject(String type) {
+
+                if(type.equals("biggergoblin")){
+                    return new BiggerGoblin();
+                }
+
+                else if(type.equals("goblin")){
+                    return new Goblin();
+                }
+
+                else if(type.equals("sluggo")){
+                    return new Sluggo();
+                }
+
+                System.out.println("RETURNING NULL");
+                return null;
+            }
+        };
+
+        initPool();
         data = new HashMap<MainTower, Integer>();
         allEnemies = new Array<String>();
         tsdl = new TestSpawnDeleteLater();
@@ -86,7 +113,32 @@ public class SpawnManager {
         allEnemies.add("bestgoblin");
     }
 
+    public void initPool(){
+        Array<Enemy> eArray = new Array<Enemy>();
+        for(int x = 0; x < 25; x++){
 
+
+            eArray.add(enemyCustomPool.obtain("goblin"));
+            //eArray.add(enemyPool.obtain());
+
+
+            //System.out.println("Pool init(): " + dummyCounter);
+        }
+
+        for(int x = 0; x < 25; x++){
+            eArray.add(enemyCustomPool.obtain("biggergoblin"));
+        }
+
+        for(int x = 0; x < 25; x++){
+            eArray.add(enemyCustomPool.obtain("sluggo"));
+        }
+
+        System.out.println("Size of eArray: " + eArray.size);
+        //enemyPool.freeAll(eArray);
+        enemyCustomPool.freeAll(eArray);
+
+
+    }
 
 
     private int first50 = 0;//the first 25 enemies should be random,
@@ -98,13 +150,55 @@ public class SpawnManager {
         if(first50 < 50){
             //enemy.getActiveEnemy().add(tsdl.getSpawn());
 
-            Enemy e = enemyPool.obtain();
+            //Enemy e = enemyPool.obtain();
 
-            e.init(-50f, 0);
-            e.setTime(0f);
-            e.setCurrentPath(0);
+            //System.out.println("Pool spawn(): " + dummyCounter);
 
-            enemy.getActiveEnemy().add(e);
+            Enemy ee;
+            int r = (int)(Math.random()*3);
+
+            if(r == 0){
+                Enemy e = enemyCustomPool.obtain("biggergoblin");
+                e.init(-50f, 0);
+                e.setTime(0f);
+                e.setCurrentPath(0);
+                e.setHealth(e.getOriginalHealth());
+                e.alive = true;
+
+                enemy.getActiveEnemy().add(e);
+            }
+
+
+            else if(r == 1){
+                Enemy e = enemyCustomPool.obtain("sluggo");
+                e.init(-50f, 0);
+                e.setTime(0f);
+                e.setCurrentPath(0);
+                e.setHealth(e.getOriginalHealth());
+                e.alive = true;
+
+                enemy.getActiveEnemy().add(e);
+            }
+
+            else{
+                Enemy e = enemyCustomPool.obtain("goblin");
+                e.init(-50f, 0);
+                e.setTime(0f);
+                e.setCurrentPath(0);
+                e.setHealth(e.getOriginalHealth());
+                e.alive = true;
+
+
+                enemy.getActiveEnemy().add(e);
+            }
+
+
+
+            /*ee.init(-50f, 0);
+            ee.setTime(0f);
+            ee.setCurrentPath(0);
+
+            enemy.getActiveEnemy().add(ee);*/
 
             /*int rand = (int)(Math.random()*3);
             Enemy newEnemy;
@@ -333,9 +427,10 @@ public class SpawnManager {
      * */
     public void buildATower(BuildableSpot t, String type){
 
-        System.out.println("Making: " + type);
+        //System.out.println("Making: " + type);
 
         MainTower newTower = null;
+
         Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
                 t.getY() + (t.getHeight() / 8));
 
@@ -389,49 +484,6 @@ public class SpawnManager {
         //System.out.println("towerArray size = " + towerArray.size);
     }
 
-    //TODO: possible duplicate function. Keeping for now. If no errors pop up later, delete.
-    public void dragBuildTower(BuildableSpot b, String type){
-
-        MainTower newTower = new MainTower();
-        Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
-                b.getY() + (b.getHeight() / 8));
-
-        //Create SpeedTower
-        if(type.equals("speed")){
-            newTower = new SpeedTower(spawnPosition);
-        }
-
-        //Create StrengthTower
-        else if(type.equals("strength")) {
-            newTower = new StrengthTower(spawnPosition); //Create StrengthTower
-        }
-
-        //Create IceTower
-        else if(type.equals("ice")) {
-            newTower = new IceTower(spawnPosition);
-        }
-
-        else if(type.equals("rogue")){
-            newTower = new RogueTower(spawnPosition);
-        }
-
-        else if(type.equals("aoe")){
-            newTower = new AOETower(spawnPosition);
-        }
-
-        else if(type.equals("ghost")){
-            newTower = new GhostTower(spawnPosition);
-        }
-
-        if(game.tower.getInGameMoney() >= newTower.getCost()){
-            game.tower.getTowerArray().add(newTower);
-            b.setCurrentTower(newTower);//points to the tower.
-            game.tower.updateInGameMoney(-(int)newTower.getCost());
-
-        }
-
-
-    }//end dragBuildTower();
 
     public void applyStatChanges(MainTower t){
 
@@ -455,3 +507,53 @@ public class SpawnManager {
     public void dispose(){
     }
 }
+
+
+
+/***
+ *
+ //TODO: possible duplicate function. Keeping for now. If no errors pop up later, delete.
+ public void dragBuildTower(BuildableSpot b, String type){
+
+ MainTower newTower = new MainTower();
+ Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
+ b.getY() + (b.getHeight() / 8));
+
+ //Create SpeedTower
+ if(type.equals("speed")){
+ newTower = new SpeedTower(spawnPosition);
+ }
+
+ //Create StrengthTower
+ else if(type.equals("strength")) {
+ newTower = new StrengthTower(spawnPosition); //Create StrengthTower
+ }
+
+ //Create IceTower
+ else if(type.equals("ice")) {
+ newTower = new IceTower(spawnPosition);
+ }
+
+ else if(type.equals("rogue")){
+ newTower = new RogueTower(spawnPosition);
+ }
+
+ else if(type.equals("aoe")){
+ newTower = new AOETower(spawnPosition);
+ }
+
+ else if(type.equals("ghost")){
+ newTower = new GhostTower(spawnPosition);
+ }
+
+ if(game.tower.getInGameMoney() >= newTower.getCost()){
+ game.tower.getTowerArray().add(newTower);
+ b.setCurrentTower(newTower);//points to the tower.
+ game.tower.updateInGameMoney(-(int)newTower.getCost());
+
+ }
+
+
+ }//end dragBuildTower();
+ *
+ * */

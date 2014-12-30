@@ -16,15 +16,15 @@ public class SpeedTower extends MainTower{
         setState(true);
         setID("speed");
         setCost(25);
-        setAttack(5f);
-        setRange(140f);
+        setAttack(1f);
+        setRange(150f);
         setIncomeRate(4f);
         setChargeRate(0.10f);
         setSize(50f, 70f);
         setBulletLimit(1);
-        setFireRate(0.1f);
-        setBulletRate(0.11f);
-        setCustomArc(70f);
+        setFireRate(0.06f);
+        setBulletRate(0.07f);
+        setCustomArc(20f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
     }

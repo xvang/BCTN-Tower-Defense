@@ -9,7 +9,7 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class RogueTower extends MainTower{
 
-    private float attack = 100;
+    private float attack = 30;
     private Sprite spiral;
 
     public RogueTower(Vector2 position){
@@ -19,15 +19,15 @@ public class RogueTower extends MainTower{
         setSize(50f, 70f);
         setBulletLimit(1);
         setCost(100);
-        setRange(250f);
-        setAttack(10f);
+        setRange(150f);
+        setAttack(1f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(1f);
+        setFireRate(0.12f);
         setID("rogue");
-        setBulletTexture(new Texture("ghostbullet.png"));
-        setBulletRate(0.03f);
+        setBulletTexture(new Texture("redbullet.png"));
+        setBulletRate(0.09f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
     }
@@ -36,10 +36,11 @@ public class RogueTower extends MainTower{
     //rogue tower has a chance of healing the enemy
     //50% chance of healing by 50% of its attack.
     public float getAttack(){
-        if(Math.random()*100f > 50f){
+        if(Math.random()*100f > 60f){
             return -attack/2;
         }
 
+        System.out.println("Attack: "  + attack);
         return attack;
     }
 

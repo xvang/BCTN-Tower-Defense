@@ -15,15 +15,15 @@ public class AOETower extends MainTower {
         setSize(30f, 30f);
         setBulletLimit(1);
         setCost(80);
-        setAttack(20f);
+        setAttack(8f);
         setRange(150f);
         setChargeRate(0.14f);
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.15f);
         setID("aoe");
-        setBulletTexture(new Texture("ghostbullet.png"));
-        setBulletRate(0.02f);
+        setBulletTexture(new Texture("redbullet.png"));
+        setBulletRate(0.08f);
         setWeakAgainst("goblin");
         setStrongAgainst("bestgoblin");
     }

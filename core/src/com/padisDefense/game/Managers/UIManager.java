@@ -3,6 +3,7 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.BuildableSpot;
@@ -68,8 +70,6 @@ public class UIManager implements InputProcessor{
     private ShapeRenderer shapeRenderer;
 
     //TODO: make the circles around the range visible.
-
-
     //table for countdown.
     private Table countDownTable;
     //private TextButton startButton;
@@ -123,14 +123,16 @@ public class UIManager implements InputProcessor{
         loadingHidden = new Image(new Texture("progressbarempty.png"));
         loadingBar = new Image(new Texture("progressbar.png"));
         Image loadingFrame = new Image(new Texture("progressbarbackground.png"));
-        //android studio suggested to make 'loadingFrame' local.
+
+        loadingFrame.setSize(game.padi.assets.getScreenWidth()/3, game.padi.assets.getScreenHeight()/40);
+        loadingHidden.setSize(loadingFrame.getWidth()-10f, loadingFrame.getHeight()-10f);
 
         //charging meter sizes and positions
-        loadingFrame.setCenterPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - (loadingFrame.getHeight() / 2 + 10f));
-        loadingBar.setPosition(loadingFrame.getX() + 10f, loadingFrame.getY() + 10f);
+        loadingFrame.setCenterPosition(Gdx.graphics.getWidth() / 2, loadingFrame.getHeight()+10f);
+        loadingHidden.setCenterPosition(loadingFrame.getCenterX(), loadingFrame.getCenterY());
+        //loadingBar.setPosition(loadingFrame.getX() + 10f, loadingFrame.getY() + 10f);
+        loadingBar.setPosition(loadingHidden.getX(), loadingHidden.getY());
         loadingBar.setSize(0, 0);
-        loadingHidden.setPosition(loadingBar.getX(), loadingBar.getY());
-
         messageTable.setSize(200f, Gdx.graphics.getHeight());
         messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
         messageTable.add(enemyMessage).pad(20f).row();
@@ -141,11 +143,36 @@ public class UIManager implements InputProcessor{
 
 
         masterTable = new Table();
-        masterTable.setSize(200f, Gdx.graphics.getHeight());
-        masterTable.setPosition(Gdx.graphics.getWidth() - 250f,0);
+        masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
+        masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
 
-        //masterTable.add(countDownTable).row();
-        //masterTable.add(messageTable).padBottom(20f).row();
+        final TextButton hideButton = new TextButton("Hide", skin, "default");
+        hideButton.setSize(80f, 50f);
+        hideButton.setPosition(Gdx.graphics.getWidth()-masterTable.getWidth(), 10f);
+        hideButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                if(masterTable.isVisible()){
+                    hideButton.setText("Show");
+                    masterTable.setVisible(false);
+                    hideButton.setPosition(Gdx.graphics.getWidth()-hideButton.getWidth() - 10f, 10f);
+                }
+                else{
+                    hideButton.setText("Hide");
+                    hideButton.setPosition(Gdx.graphics.getWidth()-masterTable.getWidth(), 10f);
+                    masterTable.setVisible(true);
+                }
+
+            }
+        });
+
+        //creating the background for  the table.
+        TextureRegionDrawable background = new TextureRegionDrawable(
+                new TextureRegion(new Texture("uitablebackground.png")));
+
+        masterTable.setBackground(background);
+        masterTable.add(countDownTable).row();
+        masterTable.add(messageTable).padBottom(20f).row();
         masterTable.add(dragTowers);
 
 
@@ -155,6 +182,7 @@ public class UIManager implements InputProcessor{
         stage.addActor(loadingBar);
         stage.addActor(optionTable);
         stage.addActor(masterTable);
+        stage.addActor(hideButton);
         stage.addActor(towerTable);
 
 
@@ -199,13 +227,13 @@ public class UIManager implements InputProcessor{
                 loadingBar.setSize(a, loadingHidden.getHeight());
                 stage.act();
             }
-        }
 
-        if(loadingBar.getWidth() >= loadingHidden.getWidth()) {
-            stopUpdating = true;
-            loadingBar.setWidth(loadingHidden.getWidth());
-        }
 
+            if (loadingBar.getWidth() >= loadingHidden.getWidth()) {
+                stopUpdating = true;
+                loadingBar.setWidth(loadingHidden.getWidth());
+            }
+        }
     }
 
     public void updateUIStuff(int enemyCounter, int inGameMoney){
@@ -247,32 +275,35 @@ public class UIManager implements InputProcessor{
         Rectangle rec1 = new Rectangle();
         rec1.setSize(2f, 2f);
         rec1.setPosition(x, Gdx.graphics.getHeight() - y);
+        BuildableSpot currentBuildable;
         for(int s = 0; s < game.tower.getBuildableArray().size; s++){
-            if(rec1.overlaps(game.tower.getBuildableArray().get(s).getBoundingRectangle())){
+            currentBuildable = game.tower.getBuildableArray().get(s);
+
+            if(rec1.overlaps(currentBuildable.getBoundingRectangle())){
                 b = !b;
 
                 //updating the 'charge' button message.
                 try{
-                    charge.setText(game.tower.getBuildableArray().get(s).getCurrentTower().getMessage());
+                    charge.setText(currentBuildable.getCurrentTower().getMessage());
                 }catch(Exception e){
 
                     //charge.setText(tower.getBuildableArray().get(s).getMessage());
                 }
 
                 //setting the optiontable's location to where clicked tower is.
-                optionTable.setPosition(game.tower.getBuildableArray().get(s).getX() - (optionTable.getWidth()/2),
+                optionTable.setPosition(currentBuildable.getX() - (optionTable.getWidth()/2),
                         game.tower.getBuildableArray().get(s).getY() - (optionTable.getHeight() - 5f));
 
                 //setting the towerTable's location.
-                towerTable.setPosition(game.tower.getBuildableArray().get(s).getX() - (towerTable.getWidth()/2),
-                        game.tower.getBuildableArray().get(s).getY() +
-                                game.tower.getBuildableArray().get(s).getHeight() + 40f);
+                towerTable.setPosition(currentBuildable.getX() - (towerTable.getWidth()/2),
+                        currentBuildable.getY() + currentBuildable.getHeight() + 40f);
 
-
+                //'currentBuildable' is local to this function.
+                //'currentBS' is global in this class.
                 currentBS = game.tower.getBuildableArray().get(s);//pointer to clicked buildablespot.
 
                 //if buildable is empty, choices of towers to build should pop up.
-                if(currentBS.emptyCurrentTower()){
+                if(currentBuildable.emptyCurrentTower()){
                     towerTable.setVisible(true);
                 }
                 //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
@@ -386,7 +417,7 @@ public class UIManager implements InputProcessor{
         for(int w = 0; w < image.size; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
-            dragTowers.add(image.get(w)).pad(25f);
+            dragTowers.add(image.get(w)).width(50f).height(50f).pad(25f);
 
 
         }
@@ -416,7 +447,7 @@ public class UIManager implements InputProcessor{
                     for(int w = 0; w < image.size; w++) {
 
                         if (w % 2 == 0 && w != 0) dragTowers.row();
-                        dragTowers.add(image.get(w)).pad(25f);
+                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(30f);
                     }
                 }
             });

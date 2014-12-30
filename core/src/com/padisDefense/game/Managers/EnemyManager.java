@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Pathing.PathStorage;
+import com.padisDefense.game.Towers.MainTower;
 
 
 /**
@@ -70,11 +72,6 @@ public class EnemyManager {
         }
     }
 
-    /**
-     * Loops through every enemy and moves them along the path.
-     *
-     *
-     * */
     public void startEnemy(SpriteBatch batch, SpawnManager spawn){
 
         if(countDownTimer >= 0f){//no enemy should spawn until countdown ends.
@@ -103,23 +100,6 @@ public class EnemyManager {
 
     }
 
-
-    /**Displays the paths.
-     Mostly for testing purposes. User is not suppose to see path.**/
-    /*public void drawPath(SpriteBatch batch){
-        for(int x = 0; x < path.getPath().size; x++){
-            renderer.begin(batch.getProjectionMatrix(), GL20.GL_LINE_STRIP);
-            Vector2 out = new Vector2();
-            float val = 0f;
-            while (val <= 1f) {
-                renderer.color(0f, 0f, 0f, 1f);
-                path.getPath().get(x).valueAt(out, val);
-                renderer.vertex(out.x, out.y, 0);
-                val += 0.001f;
-            }
-            renderer.end();
-        }
-    }*/
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
     public Array<Path<Vector2>> getPath(){return path;}
     //public int getSpawnsLeft(){return spawnsLeft;}
@@ -159,70 +139,76 @@ public class EnemyManager {
                 currentEnemy.setWait(currentEnemy.getWait() - Gdx.graphics.getDeltaTime());
             }
 
-            if (activeEnemy.get(x).getTime() >= 1f){
-                if(activeEnemy.get(x).getCurrentPath()+1 < path.size){
-                    activeEnemy.get(x).setCurrentPath(activeEnemy.get(x).getCurrentPath()+1);
+            if (currentEnemy.getTime() >= 1f){
+                if(currentEnemy.getCurrentPath()+1 < path.size){
+                    currentEnemy.setCurrentPath(currentEnemy.getCurrentPath() + 1);
                     //enemy.get(x).setStrayAmount(0f);
                 }
 
                 else
-                    activeEnemy.get(x).setCurrentPath(0);
-                activeEnemy.get(x).setTime(0f);
+                    currentEnemy.setCurrentPath(0);
+                currentEnemy.setTime(0f);
 
             }
 
             currentEnemy.goTo(position);
             currentEnemy.draw(batch, 1);
-
-        }
-    }
-    public void check(){
-        for(int x = 0; x < activeEnemy.size; x++){
-            if (activeEnemy.get(x).getTime() >= 1f){
-                if(activeEnemy.get(x).getCurrentPath()+1 < path.size){
-                    activeEnemy.get(x).setCurrentPath(activeEnemy.get(x).getCurrentPath()+1);
-                    //enemy.get(x).setStrayAmount(0f);
-                }
-
-                else
-                    activeEnemy.get(x).setCurrentPath(0);
-                activeEnemy.get(x).setTime(0f);
-            }
+            //currentEnemy.updateAndDrawMessage(batch);
+            currentEnemy.displayHealth(batch);
         }
     }
 
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
 
+        MainTower currentTower;
+        Enemy e;
         for(int x = 0; x < activeEnemy.size; x++){
 
-            Enemy e = activeEnemy.get(x);
-            if(!e.alive) {
+            e = activeEnemy.get(x);
 
+            e.isDead();
+            if(e.isDead()) {
                 //if enemy is dead, the tower that targeted it will have 'hasTarget' set to false.
                 for(int s = 0; s < game.tower.getTowerArray().size;s++){
-                    if(game.tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
-                        game.tower.getTowerArray().get(s).setHasTarget(false);
+                    currentTower = game.tower.getTowerArray().get(s);
+
+                    if(currentTower.getTarget().equals(e)){
+                        currentTower.setHasTarget(false);
+
+
+                        Bullet b;
+                        //Resetting the tower's bullets.
+                        for(int w = 0; w < currentTower.getActiveBullets().size; w++){
+                            //currentTower.getActiveBullets().get(w).setTime(0f);
+
+                            b = currentTower.getActiveBullets().get(w);
+                            b.setTime(0f);
+                            currentTower.getActiveBullets().removeIndex(w);
+                            currentTower.getPool().free(b);
+                        }
+
                     }
+
                 }
+
                 enemyCounter--;
                 //activeEnemy.get(x).dispose();
                 activeEnemy.removeIndex(x);
-                game.spawn.enemyPool.free(e);
+                //game.spawn.enemyPool.free(e);
+                game.spawn.enemyCustomPool.free(e);
 
             }
 
             else{//else, update the tower's oldTargetPosition.
                 for(int s = 0; s < game.tower.getTowerArray().size;s++){
-                    if(game.tower.getTowerArray().get(s).getTarget().equals(activeEnemy.get(x))){
-                        game.tower.getTowerArray().get(s).setOldTargetPosition(activeEnemy.get(x).getLocation());
+                    currentTower = game.tower.getTowerArray().get(s);
+
+                    if(currentTower.getTarget().equals(activeEnemy.get(x))){
+                        currentTower.setOldTargetPosition(activeEnemy.get(x).getLocation());
                     }
                 }
             }
-
-
-
-
         }
     }
 

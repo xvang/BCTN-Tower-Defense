@@ -23,7 +23,8 @@ public class BulletManager {
 
     GameScreen game;
     private float spawnTimer = 0;
-
+    Vector2 tower, enemy;
+    Bullet currentBullet;
 
     //Constructor
     public BulletManager(GameScreen g){game = g;}
@@ -39,11 +40,11 @@ public class BulletManager {
 
         spawnTimer += Gdx.graphics.getDeltaTime();
 
-        //If tower has target AND tower is in shoot mode.
+        //if-statement wraps around every relevant code in shooting().
+        //if tower is NOT in shooting mode, no code involving moving bullets should execute.
         if(t.getState()){
 
-            Vector2 tower = new Vector2(t.getLocation());
-            Vector2 enemy;
+            tower = new Vector2(t.getLocation());
 
             if(t.getHasTarget())
                 enemy = new Vector2(e.getLocation());
@@ -64,26 +65,32 @@ public class BulletManager {
 
 
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                    &&t.getHasTarget()){
+                    &&t.getHasTarget() /*&& notAlmostDead(t, e)*/){
 
                 item = t.getPool().obtain();
                 item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
                 item.setTexture(t.getBulletTexture());
+                item.setTime(0);
+
                 t.getActiveBullets().add(item);
+
                 spawnTimer = 0;
+
             }
 
 
             for(int x = 0;x < t.getActiveBullets().size; x++){
 
+                currentBullet = t.getActiveBullets().get(x);
+
                 //time is from the bullet
-                float time = (t.getActiveBullets().get(x).getTime() + t.getBulletRate());
+                float time = (currentBullet.getTime() + t.getBulletRate());
 
                 //calculates the bullet's location on the path
                 //using the bullet's time.
                 //stores the bullet's location in a Vector2 'out'
-                //if(time <= 1f)
-                path.valueAt(out, time);
+                if(time <= 1f)
+                    path.valueAt(out, time);
 
 
 
@@ -92,21 +99,32 @@ public class BulletManager {
                 //That made the bullets briefly spawn at (0,0).
                 if(out.x != 0f && out.y != 0f){
                     //update new time, go to new position, draw
-                    t.getActiveBullets().get(x).setTime(time);
-                    t.getActiveBullets().get(x).goTo(new Vector2(out.x, out.y));
-                    t.getActiveBullets().get(x).draw(batch);
+                    currentBullet.setTime(time);
+                    if(findDistance(out, t.getLocation())< t.getRange()){
+                        currentBullet.goTo(new Vector2(out.x, out.y));
+                    }
+
+                    else{
+                        currentBullet.goTo(t.getOldTargetPosition());
+                    }
+
+                    currentBullet.draw(batch);
                 }
 
-                if(hitEnemy(t.getActiveBullets().get(x), e)){
+                if(hitEnemy(currentBullet, e) || arrivedAtOldLocation(currentBullet, e)){
                     game.damage.hit(t, e);
-                    t.getActiveBullets().get(x).setTime(1.1f);//to activate below.
+
+                    currentBullet.setTime(0);//to activate below.
+                    //item = t.getActiveBullets().get(x);
+                    t.getActiveBullets().removeIndex(x);
+                    t.getPool().free(currentBullet);
                 }
 
 
-                //not sure what this is for
+                /*//not sure what this is for
                 if (time >= 1f){
                     if(t.getHasTarget())//if no target, no need for bullet to restart.
-                        t.getActiveBullets().get(x).setTime(0f);
+                        currentBullet.setTime(0f);
 
                     item = t.getActiveBullets().get(x);
                     if(!item.alive || item.getTime() > 1f){
@@ -115,7 +133,7 @@ public class BulletManager {
                         t.getPool().free(item);
                     }
 
-                }
+                }*/
             }
 
         }
@@ -123,6 +141,9 @@ public class BulletManager {
     }// end shooting();
 
 
+    public boolean notAlmostDead(MainTower t, Enemy e){
+        return e.getHealth() - t.getAttack() > 0;
+    }
     //TODO: work 'arc' into the midpoint formula.
     //midpoint formula.
     //something about private access prevents me from just putting
@@ -143,14 +164,14 @@ public class BulletManager {
     //reaching the bottom left. And damage is calculated many times before
     //bullet reaches its destination.
     //This feature might be useful later on.
-    /*public boolean hitEnemy(Bullet b, Enemy e){
+    public boolean hitEnemy(Bullet b, Enemy e){
         Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         return b_rec.overlaps(e_rec);
-    }*/
+    }
 
 
-    public boolean hitEnemy(Bullet b, Enemy e){
+    public boolean arrivedAtOldLocation(Bullet b, Enemy e){
         double x  =findDistance(new Vector2(b.getX(), b.getY()),
                 new Vector2(e.getX() + e.getWidth()/2, e.getY()+e.getHeight()/2));
 

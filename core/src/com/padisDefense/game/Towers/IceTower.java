@@ -14,7 +14,7 @@ public class IceTower extends MainTower {
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 60f);
-        setBulletLimit(2);
+        setBulletLimit(1);
         setCost(70);
         setAttack(0.1f);
         setRange(180f);
@@ -23,7 +23,7 @@ public class IceTower extends MainTower {
         setState(true);
         setFireRate(0.01f);
         setID("ice");
-        setBulletTexture(new Texture("snowball.png"));
+        setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.04f);
         setCustomArc(50f);
         setWeakAgainst("goblin");

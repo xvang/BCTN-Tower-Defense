@@ -4,6 +4,7 @@ package com.padisDefense.game.Enemies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,7 +22,7 @@ import java.math.RoundingMode;
 public class Enemy extends Sprite implements Pool.Poolable{
 
     private String name;
-    private float health;
+    private float health, originalHealth;
 
     private float armor;
 
@@ -36,13 +37,19 @@ public class Enemy extends Sprite implements Pool.Poolable{
     private float strayAmount =0;
     private float wait = (float) Math.random()*3f;
 
-    public Boolean alive;
+    public boolean alive;
+
+    //Displays the health.
     public Label label;
     private Skin skin;
+    private Sprite healthRed;
+    private Sprite healthGreen;
+
 
     public Enemy(float h, float a, String picture){
         super(new Texture(picture));
         health = h;
+        originalHealth = h;
         armor = a;
         alive = true;
 
@@ -50,25 +57,42 @@ public class Enemy extends Sprite implements Pool.Poolable{
         time = 0;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         label = new Label("",skin, "default");
+
+        healthGreen = new Sprite(new Texture("healthbargreen.png"));
+        healthRed = new Sprite(new Texture("healthbarred.png"));
+        healthGreen.setSize(this.getWidth()+5f, 2f);
+        healthRed.setSize(this.getWidth()+5f, 2f);
     }
 
     public Enemy(){
        // rate = (float)(Math.random() / (double)50);
         rate = Gdx.graphics.getDeltaTime();
         time = 0;
-        health = 1;
+        health = 100;
+        originalHealth = 100;
         alive = true;
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         label = new Label("",skin, "default");
+
+        healthGreen = new Sprite(new Texture("healthbargreen.png"));
+        healthRed = new Sprite(new Texture("healthbarred.png"));
+        healthGreen.setSize(this.getWidth()+5f, 2f);
+        healthRed.setSize(this.getWidth()+5f, 2f);
     }
 
     public Enemy(Vector2 p){
         setPosition(p.x, p.y);
-        health = 1;
+        health = 100;
+        originalHealth = 100;
         alive = true;
         rate = (float)(Math.random() % 0.001f );
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         label = new Label("",skin, "default");
+        healthGreen = new Sprite(new Texture("healthbargreen.png"));
+        healthRed = new Sprite(new Texture("healthbarred.png"));
+
+        healthGreen.setSize(this.getWidth()+5f, 2f);
+        healthRed.setSize(this.getWidth()+5f, 2f);
     }
 
     public void goTo(Vector2 p){
@@ -85,6 +109,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public void setCurrentPath(int c){currentPath = c;}
     public void setStrayAmount(float s){strayAmount = s;}
     public void setWait(float w){wait = w;}
+    public void setHealth(float h){health = h;}
+    public void setOriginalHealth(float o){originalHealth = o;}
 
 
 
@@ -97,6 +123,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public int getCurrentPath(){return currentPath;}
     public float getStrayAmount(){return strayAmount;}
     public float getWait(){return wait;}
+    public float getOriginalHealth(){return originalHealth;}
     public Vector2 getLocation(){
 
         return new Vector2(getX()+(getWidth() / 2), getY() + (getHeight()/2));
@@ -107,7 +134,10 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
 
     public void updateHealth(float damage){
+
         health -= (damage / armor);
+        if(health <= 0f)
+            alive = false;
     }
     public void affectRate(float newRate, float time){
         rateTimer = time;
@@ -117,7 +147,10 @@ public class Enemy extends Sprite implements Pool.Poolable{
         if(rate > finalRate / 2)
             rate = newRate;
     }
-    public Boolean isDead(){alive = (health > 0); return (health < 0);}
+    public Boolean isDead(){
+        alive = ((int)health >= 0);
+        return (health <= 0);
+    }
 
 
     public void updateAlteredStats(){
@@ -132,9 +165,30 @@ public class Enemy extends Sprite implements Pool.Poolable{
         }
     }
 
-    public void updateMessage(){
+    public void updateAndDrawMessage(SpriteBatch batch){
         label.setText(String.valueOf(round(this.getHealth(), 2)));
         label.setPosition(this.getX() + this.getWidth()/2, this.getY() + 15f);
+        label.draw(batch, 1);
+    }
+
+    //TODO: make the health bar display properly. Or, make a cooler looking health bar.
+    public void displayHealth(SpriteBatch batch){
+
+        float percentage = health/originalHealth;
+
+        System.out.println(this.getWidth() + "  " + this.getHeight());
+        //we want healthRed's width, because it's the one that doesn't change.
+        //Example: if health goes down by 50%, then width of 'healthGreen' also goes down by 50%.
+        //and if percentage is greater than 1, than it means rogue must have increased
+        //its health. In that case, we don't want the healthbar to grow.
+        if(percentage <= 1f)
+            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
+
+        healthRed.setPosition(this.getX(), this.getY() + this.getHeight() + 1f);
+        healthGreen.setPosition(this.getX(), this.getY()+ this.getHeight() + 1f);
+
+        healthRed.draw(batch, 1);
+        healthGreen.draw(batch, 1);
     }
 
 
@@ -154,6 +208,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
     public void init(float x, float y){
 
+        health = originalHealth;
+        healthGreen.setSize(healthRed.getWidth(), healthRed.getHeight());
         this.setPosition(x,y);
         alive = true;
     }

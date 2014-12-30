@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.BuildableSpot;
@@ -45,22 +46,37 @@ public class TowerManager{
         for(int x = 0; x < buildableArray.size; x++){
             buildableArray.get(x).draw(batch, 1);
         }
- //       double distance, y2y1, x2x1;
+
 
         for(int x = 0; x < towerArray.size; x++){
+
+
+
 
             //towerArray.get(x).spinning();
             towerArray.get(x).draw(batch);
 
             checkRange(towerArray.get(x));
             checkForDead(towerArray.get(x));
+
+            //System.out.println(towerArray.get(x).getTarget().isDead());
+            //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
+            //towerArray.get(x).getTarget().rotate(10);
+
             if(!towerArray.get(x).getHasTarget())
                 assignTargets(enemy, towerArray.get(x));
 
-
             game.bullet.shooting(batch, towerArray.get(x),
                     towerArray.get(x).getTarget());
+
+            checkRange(towerArray.get(x));
+            checkForDead(towerArray.get(x));
+            //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
+
         }
+
+
+
 
 
 
@@ -68,8 +84,10 @@ public class TowerManager{
 
     //Checks to see if target enemy object is out of range.
     public void checkRange(MainTower t){
+
         double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
 
+        //System.out.println((int)distance);
         if(distance > t.getRange()){
             t.setHasTarget(false);
         }
@@ -83,25 +101,37 @@ public class TowerManager{
 
         //setting oldTargetPosition, like in checkRange().
         if(t.getHasTarget()){
-            if(t.getTarget().isDead()){
+
+            if(!t.getTarget().alive){
                 t.setHasTarget(false);
+                Bullet b;
+
+                for(int x = 0; x < t.getActiveBullets().size; x++){
+                    b = t.getActiveBullets().get(x);
+
+                    b.setTime(0f);
+                    t.getPool().free(b);
+                }
             }
             else{
                 t.setOldTargetPosition(t.getTarget().getLocation());
             }
         }
+
     }// end checkforDead();
 
 
     //Assigns targets to towers. Has a small pause.
     public void assignTargets(EnemyManager enemy, MainTower t){
-        double currentMin, previousMin = 1000;
+        double currentMin, previousMin = 2000;
         Enemy temp = null;
 
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
         }
         else{
+
+            //checks all the  enemies, and finds the closest one.
             for(int x = 0; x < enemy.getActiveEnemy().size; x++){
 
                 currentMin = findDistance(enemy.getActiveEnemy().get(x).getLocation(), t.getLocation());
@@ -112,17 +142,21 @@ public class TowerManager{
                 }
             }
 
+            //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
                 t.setTarget(temp);
                 t.setHasTarget(true);
-                t.pause = 0.2f;
+                t.setOldTargetPosition(temp.getLocation());
+                t.pause = 0.8f;
             }
         }
-
     }
+
+
 
     public Array<MainTower> getTowerArray(){return towerArray;}
     public Array<BuildableSpot> getBuildableArray(){return buildableArray;}
+
     public void addBuildableSpots(Vector2 position){
 
         BuildableSpot build = new BuildableSpot(position);

@@ -14,14 +14,14 @@ public class StrengthTower extends MainTower {
         setSize(50f, 70f);
         setBulletLimit(1);
         setCost(50);
-        setAttack(30f);
-        setRange(200f);
+        setAttack(1f);
+        setRange(150f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.1f);
+        setFireRate(0.5f);
         setID("strength");
-        setBulletTexture(new Texture("snowball.png"));
+        setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
