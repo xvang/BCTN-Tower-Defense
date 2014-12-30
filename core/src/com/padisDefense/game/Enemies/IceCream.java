@@ -1,11 +1,11 @@
 package com.padisDefense.game.Enemies;
 
-public class BiggerGoblin extends Enemy{
+public class IceCream extends Enemy{
 
-    public BiggerGoblin(){
+    public IceCream(){
         //health, armor, texture
         super(100,1, "biggergoblin.png");
-        setName("biggergoblin");
+        setName("icecream");
 
         setRate(0.07f + (float)Math.random()*0.1f);
 

@@ -5,12 +5,12 @@ package com.padisDefense.game.Enemies;
 
 
 
-public class Snuggo extends Enemy {
+public class JawBreaker extends Enemy {
 
-    public Snuggo(){
+    public JawBreaker(){
         //health, armor, texture
         super(100,10, "slimo.png");
-        setName("snuggo");
+        setName("jawbreaker");
 
         setRate(0.06f + (float)Math.random()*0.09f);
 

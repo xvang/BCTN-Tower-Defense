@@ -10,7 +10,7 @@ import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Pathing.PathStorage;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.Tower;
 
 
 /**
@@ -161,7 +161,7 @@ public class EnemyManager {
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
 
-        MainTower currentTower;
+        Tower currentTower;
         Enemy e;
         for(int x = 0; x < activeEnemy.size; x++){
 

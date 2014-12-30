@@ -5,7 +5,7 @@ package com.padisDefense.game.Items;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.Tower;
 
 /**
  * this will be the main item class.
@@ -65,31 +65,31 @@ public class MainItem extends Sprite{
     public void setName(String s){name = s;}
 
 
-    public void changeBulletRate(MainTower t, float amount){
+    public void changeBulletRate(Tower t, float amount){
         t.setBulletRate(t.getBulletRate()*amount);
     }
 
-    public void changeChargeRate(MainTower t, float amount){
+    public void changeChargeRate(Tower t, float amount){
         t.setChargeRate(t.getChargeRate()*amount);
     }
 
-    public void changeRange(MainTower t, float amount){
+    public void changeRange(Tower t, float amount){
         t.setRange(t.getRange() * amount);
     };
 
-    public void changeAttack(MainTower t, float amount){
+    public void changeAttack(Tower t, float amount){
         t.setAttack(t.getAttack() * amount);
     }
 
-    public void changeFireRate(MainTower t, float amount){
+    public void changeFireRate(Tower t, float amount){
         t.setFireRate(t.getFireRate()*amount);
     }
 
-    public void changeBulletAmount(MainTower t, int amount){
+    public void changeBulletAmount(Tower t, int amount){
         t.setBulletLimit(t.getBulletLimit() + amount);
     }
 
-    public void update(MainTower t){
+    public void update(Tower t){
     }
 
 }

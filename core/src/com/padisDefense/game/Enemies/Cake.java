@@ -1,13 +1,12 @@
 package com.padisDefense.game.Enemies;
 
 
-public class Lobbo extends Enemy{
+public class Cake extends Enemy {
 
-    public Lobbo(){
+    public Cake(){
         //health, armor, texture
         super(100,10, "lobbo.png");
-        setName("lobbo");
+        setName("cake");
         setRate(0.11f + (float)Math.random()*0.09f);
-
     }
 }

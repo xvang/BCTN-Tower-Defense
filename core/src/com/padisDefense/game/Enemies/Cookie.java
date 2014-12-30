@@ -2,14 +2,14 @@ package com.padisDefense.game.Enemies;
 
 
 
-public class Sluggo extends Enemy{
+public class Cookie extends Enemy{
 
 
-    public Sluggo(){
+    public Cookie(){
 
         //health, armor, texture
         super(100,1, "sluggo.png");
-        setName("sluggo");
+        setName("cookie");
 
         setRate(0.08f + (float)Math.random()*0.05f);
 

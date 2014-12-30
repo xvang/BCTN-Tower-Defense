@@ -8,8 +8,7 @@ import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.MainTower;
-import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.Tower;
 
 /**
  *
@@ -23,7 +22,7 @@ public class TowerManager{
 
 
     GameScreen game;
-    private Array<MainTower> towerArray;
+    private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
     private int inGameMoney = 3000;
 
@@ -31,7 +30,7 @@ public class TowerManager{
     public TowerManager(GameScreen g){
         game = g;
 
-        towerArray = new Array<MainTower>();
+        towerArray = new Array<Tower>();
         buildableArray = new Array<BuildableSpot>();
     }
 
@@ -83,7 +82,7 @@ public class TowerManager{
     }
 
     //Checks to see if target enemy object is out of range.
-    public void checkRange(MainTower t){
+    public void checkRange(Tower t){
 
         double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
 
@@ -97,7 +96,7 @@ public class TowerManager{
         }
     }
 
-    public void checkForDead(MainTower t){
+    public void checkForDead(Tower t){
 
         //setting oldTargetPosition, like in checkRange().
         if(t.getHasTarget()){
@@ -122,7 +121,7 @@ public class TowerManager{
 
 
     //Assigns targets to towers. Has a small pause.
-    public void assignTargets(EnemyManager enemy, MainTower t){
+    public void assignTargets(EnemyManager enemy, Tower t){
         double currentMin, previousMin = 2000;
         Enemy temp = null;
 
@@ -154,7 +153,7 @@ public class TowerManager{
 
 
 
-    public Array<MainTower> getTowerArray(){return towerArray;}
+    public Array<Tower> getTowerArray(){return towerArray;}
     public Array<BuildableSpot> getBuildableArray(){return buildableArray;}
 
     public void addBuildableSpots(Vector2 position){
@@ -177,7 +176,7 @@ public class TowerManager{
     public void updateInGameMoney(int m){inGameMoney += m;}
     public int getInGameMoney(){return inGameMoney;}
 
-    public boolean stillActiveBullets(MainTower t){
+    public boolean stillActiveBullets(Tower t){
         for(int x = 0; x < t.getActiveBullets().size; x++){
             if(t.getActiveBullets().get(x).alive){
                 return true;

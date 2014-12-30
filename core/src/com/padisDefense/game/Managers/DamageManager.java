@@ -3,9 +3,9 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
-import com.padisDefense.game.Towers.AOETower;
-import com.padisDefense.game.Towers.IceTower;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.FlossTower;
+import com.padisDefense.game.Towers.MouthWashTower;
+import com.padisDefense.game.Towers.Tower;
 
 public class DamageManager {
 
@@ -16,17 +16,17 @@ public class DamageManager {
         game = g;
     }
 
-    public void hit(MainTower t, Enemy e){
+    public void hit(Tower t, Enemy e){
 
         e.updateHealth(t.getAttack());//no matter the tower, targeted enemy will take SOME damage.
 
 
         if(t.getID().equals("ice")){
-            iceHit((IceTower) t, e);
+            iceHit((FlossTower) t, e);
         }
 
         else if(t.getID().equals("aoe")){
-            aoeHit((AOETower) t, e);
+            aoeHit((MouthWashTower) t, e);
         }
         for(int x = 0; x < game.enemy.getActiveEnemy().size; x++)
             game.enemy.getActiveEnemy().get(x).updateAlteredStats();
@@ -35,7 +35,7 @@ public class DamageManager {
 
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
-    public void iceHit(IceTower t, Enemy e){
+    public void iceHit(FlossTower t, Enemy e){
         e.affectRate(e.getRate()*0.6f, 3f);
 
         double distance;
@@ -69,7 +69,7 @@ public class DamageManager {
     //damage proportional to distance from targeted enemy.
     //Pretty much the same as iceHit(), except damage is taken instead of rate changes.
     //Will keep separate for now. Might be useful later.
-    public void aoeHit(AOETower t, Enemy e) {
+    public void aoeHit(MouthWashTower t, Enemy e) {
         double distance;
         Enemy temp;
         for (int x = 0; x < game.enemy.getActiveEnemy().size; x++) {

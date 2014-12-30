@@ -10,11 +10,8 @@ import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.padisDefense.game.Bullets.Bullet;
-import com.padisDefense.game.Enemies.BiggerGoblin;
+import com.padisDefense.game.Enemies.IceCream;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.Goblin;
-import com.padisDefense.game.Enemies.Sluggo;
 import com.padisDefense.game.Pathing.PathStorage;
 
 /**
@@ -41,12 +38,12 @@ public class TEST4 extends ScreenAdapter {
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
-                return new BiggerGoblin();
+                return new IceCream();
             }
 
             protected Enemy newCustomObject(int type){
 
-                return new BiggerGoblin();
+                return new IceCream();
             }
         };
 
@@ -177,7 +174,7 @@ public class TEST4 extends ScreenAdapter {
         activeEnemy.add(e);
 
         /*for(int x = 0; x < 5;x++){
-            activeEnemy.add(new BiggerGoblin());
+            activeEnemy.add(new IceCream());
             //System.out.println("Wait: " + enemy.get(x).getWait());
         }*/
     }

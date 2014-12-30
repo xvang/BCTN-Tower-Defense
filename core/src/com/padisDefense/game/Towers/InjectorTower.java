@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
-public class SpeedTower extends MainTower{
+public class InjectorTower extends Tower {
 
-    public SpeedTower(Vector2 position){
+    public InjectorTower(Vector2 position){
         super("speedtower.png");
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setState(true);
-        setID("speed");
+        setID("injector");
         setCost(25);
         setAttack(45f);
         setRange(150f);

@@ -5,11 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 
-public class IceTower extends MainTower {
+public class FlossTower extends Tower {
 
 
     private float rangeAOE = 50f;
-    public IceTower(Vector2 position){
+    public FlossTower(Vector2 position){
         super("icetower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
@@ -22,7 +22,7 @@ public class IceTower extends MainTower {
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.01f);
-        setID("ice");
+        setID("floss");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.04f);
         setCustomArc(50f);

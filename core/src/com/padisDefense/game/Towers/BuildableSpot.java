@@ -1,6 +1,5 @@
 package com.padisDefense.game.Towers;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -10,11 +9,11 @@ import com.badlogic.gdx.math.Vector2;
  * @author Xeng
  *
  * */
-public class BuildableSpot extends MainTower {
+public class BuildableSpot extends Tower {
 
 
     //'currentTower' points to what is currently built on a buildableSpot.
-    private MainTower currentTower = null;
+    private Tower currentTower = null;
     private boolean hasTower = false;
 
 
@@ -26,13 +25,13 @@ public class BuildableSpot extends MainTower {
     }
 
 
-    public MainTower getCurrentTower(){
+    public Tower getCurrentTower(){
         return currentTower;
     }
 
     //called from clearBuildable() in towerManager. It passes in a null.
     // If newTower is null, then hasTower should be false.
-    public void setCurrentTower(MainTower newTower){
+    public void setCurrentTower(Tower newTower){
         currentTower = newTower;
         hasTower = true;
 

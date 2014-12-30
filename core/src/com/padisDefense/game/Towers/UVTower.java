@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 
-public class GhostTower extends MainTower{
+public class UVTower extends Tower {
 
-    public GhostTower(Vector2 position){
+    public UVTower(Vector2 position){
         super("ghosttower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
@@ -20,7 +20,7 @@ public class GhostTower extends MainTower{
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.07f);
-        setID("ghost");
+        setID("uv");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);
         setCustomArc(40f);

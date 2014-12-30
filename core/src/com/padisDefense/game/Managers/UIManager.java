@@ -390,28 +390,28 @@ public class UIManager implements InputProcessor{
         shapeRenderer = new ShapeRenderer();
 
         //Creating the images for the towers.
-        final Image ice = new Image(new Texture("icetower_small.png"));
-        final Image strength=new Image(new Texture("strengthtower_small.png"));
-        final Image rogue=new Image(new Texture("roguetower_small.png"));
-        final Image ghost=new Image(new Texture("ghosttower_small.png"));
-        final Image speed=new Image(new Texture("speedtower_small.png"));
-        final Image aoe=new Image(new Texture("aoetower_small.png"));
+        final Image floss = new Image(new Texture("icetower_small.png"));
+        final Image toothpaste = new Image(new Texture("strengthtower_small.png"));
+        final Image uv = new Image(new Texture("roguetower_small.png"));
+        final Image filler = new Image(new Texture("ghosttower_small.png"));
+        final Image injector = new Image(new Texture("speedtower_small.png"));
+        final Image mouthwash = new Image(new Texture("aoetower_small.png"));
 
         //giving each image the appropriate names.
-        ice.setName("ice");
-        strength.setName("strength");
-        rogue.setName("rogue");
-        ghost.setName("ghost");
-        speed.setName("speed");
-        aoe.setName("aoe");
+        floss.setName("floss");
+        toothpaste.setName("toothpaste");
+        uv.setName("uv");
+        filler.setName("filler");
+        injector.setName("injector");
+        mouthwash.setName("mouthwash");
 
         //adding the images to the images array.
-        image.add(ice);
-        image.add(strength);
-        image.add(rogue);
-        image.add(ghost);
-        image.add(speed);
-        image.add(aoe);
+        image.add(floss);
+        image.add(toothpaste);
+        image.add(uv);
+        image.add(filler);
+        image.add(injector);
+        image.add(mouthwash);
 
         dragTowers.clear();
         for(int w = 0; w < image.size; w++){
@@ -576,7 +576,7 @@ public class UIManager implements InputProcessor{
         towerTable = new Table();
         towerOptions = new Array<TextButton>();
 
-        String[] names = {"speed", "strength", "ice", "rogue", "aoe", "ghost"};
+        String[] names = {"filler", "uv", "floss", "injector", "toothpaste", "mouthwash"};
 
 
         for(String s: names){

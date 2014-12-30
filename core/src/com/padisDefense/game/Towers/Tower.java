@@ -15,7 +15,7 @@ import com.padisDefense.game.Enemies.Enemy;
  * @author Xeng
  *
  * */
-public class MainTower extends Sprite {
+public class Tower extends Sprite {
 
 
 
@@ -54,7 +54,7 @@ public class MainTower extends Sprite {
     //It is updated in TowerManager [checkRange(), checkForDead()] and EnemyManager [isDead()]
 
 
-    public MainTower(String name){
+    public Tower(String name){
         super(new Texture(name));
         hasTarget = false;
         ID = "";
@@ -74,7 +74,7 @@ public class MainTower extends Sprite {
     }
 
     //Empty Constructor
-    public MainTower(){
+    public Tower(){
 
         hasTarget = false;
         ID = "";

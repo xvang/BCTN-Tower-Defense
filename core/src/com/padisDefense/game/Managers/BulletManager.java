@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.Tower;
 
 /**
  *This class manages the the 'shooting' aspect of the towers.
@@ -36,7 +36,7 @@ public class BulletManager {
      * Every iteration, a new line is calculated.
      *
      * */
-    public void shooting(SpriteBatch batch, MainTower t, Enemy e){
+    public void shooting(SpriteBatch batch, Tower t, Enemy e){
 
         spawnTimer += Gdx.graphics.getDeltaTime();
 
@@ -141,7 +141,7 @@ public class BulletManager {
     }// end shooting();
 
 
-    public boolean notAlmostDead(MainTower t, Enemy e){
+    public boolean notAlmostDead(Tower t, Enemy e){
         return e.getHealth() - t.getAttack() > 0;
     }
     //TODO: work 'arc' into the midpoint formula.

@@ -7,28 +7,28 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
-import com.padisDefense.game.Enemies.BestGoblin;
-import com.padisDefense.game.Enemies.BiggerGoblin;
+import com.padisDefense.game.Enemies.Cake;
+import com.padisDefense.game.Enemies.Soda;
+import com.padisDefense.game.Enemies.IceCream;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.Goblin;
-import com.padisDefense.game.Enemies.Lobbo;
-import com.padisDefense.game.Enemies.Nocto;
-import com.padisDefense.game.Enemies.Numbo;
-import com.padisDefense.game.Enemies.Purpo;
-import com.padisDefense.game.Enemies.Sluggo;
-import com.padisDefense.game.Enemies.Snuggo;
-import com.padisDefense.game.Enemies.Turto;
+import com.padisDefense.game.Enemies.Pizza;
+import com.padisDefense.game.Enemies.Burger;
+import com.padisDefense.game.Enemies.Lollipop;
+import com.padisDefense.game.Enemies.Donut;
+import com.padisDefense.game.Enemies.Cookie;
+import com.padisDefense.game.Enemies.JawBreaker;
+import com.padisDefense.game.Enemies.CottonCandy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Player;
-import com.padisDefense.game.Towers.AOETower;
+import com.padisDefense.game.Towers.FlossTower;
+import com.padisDefense.game.Towers.Tower;
+import com.padisDefense.game.Towers.UVTower;
+import com.padisDefense.game.Towers.MouthWashTower;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.GhostTower;
-import com.padisDefense.game.Towers.IceTower;
-import com.padisDefense.game.Towers.MainTower;
-import com.padisDefense.game.Towers.RogueTower;
-import com.padisDefense.game.Towers.SpeedTower;
-import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.FillerTower;
+import com.padisDefense.game.Towers.InjectorTower;
+import com.padisDefense.game.Towers.ToothPasteTower;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,7 +61,7 @@ import java.util.Map;
 public class SpawnManager {
 
     GameScreen game;
-    private Map<MainTower, Integer> data;
+    private Map<Tower, Integer> data;
 
     private Assets assets;
     private boolean duckTime = true;//spawns one duck to signify start of bullrushing.
@@ -83,7 +83,7 @@ public class SpawnManager {
             protected Enemy newObject() {
 
                 dummyCounter++;
-                return new BiggerGoblin();
+                return new IceCream();
             }
         };
 
@@ -91,25 +91,25 @@ public class SpawnManager {
             @Override
             protected Enemy newObject(String type) {
 
-                if(type.equals("biggergoblin")) return new BiggerGoblin();
+                if(type.equals("icecream")) return new IceCream();
 
-                else if(type.equals("goblin")) return new Goblin();
+                else if(type.equals("pizza")) return new Pizza();
 
-                else if (type.equals("bestgoblin")) return new BestGoblin();
+                else if (type.equals("soda")) return new Soda();
 
-                else if(type.equals("sluggo")) return new Sluggo();
+                else if(type.equals("cookie")) return new Cookie();
 
-                else if (type.equals("lobbo")) return new Lobbo();
+                else if (type.equals("cake")) return new Cake();
 
-                else if (type.equals("nocto")) return new Nocto();
+                else if (type.equals("burger")) return new Burger();
 
-                else if (type.equals("numbo")) return new Numbo();
+                else if (type.equals("lollipop")) return new Lollipop();
 
-                else if(type.equals("purpo")) return new Purpo();
+                else if(type.equals("donut")) return new Donut();
 
-                else if (type.equals("snuggo")) return new Snuggo();
+                else if (type.equals("jawbreaker")) return new JawBreaker();
 
-                else if (type.equals("turto")) return new Turto();
+                else if (type.equals("cottoncandy")) return new CottonCandy();
 
 
                 System.out.println("RETURNING NULL");
@@ -118,7 +118,7 @@ public class SpawnManager {
         };
 
         initPool();
-        data = new HashMap<MainTower, Integer>();
+        data = new HashMap<Tower, Integer>();
         allEnemies = new Array<String>();
         tsdl = new TestSpawnDeleteLater();
 
@@ -135,16 +135,16 @@ public class SpawnManager {
         Array<Enemy> eArray = new Array<Enemy>();
         for(int x = 0; x < 25; x++){
 
-            eArray.add(enemyCustomPool.obtain("goblin"));
-            eArray.add(enemyCustomPool.obtain("biggergoblin"));
-            eArray.add(enemyCustomPool.obtain("bestgoblin"));
-            eArray.add(enemyCustomPool.obtain("sluggo"));
-            eArray.add(enemyCustomPool.obtain("snuggo"));
-            eArray.add(enemyCustomPool.obtain("nocto"));
-            eArray.add(enemyCustomPool.obtain("purpo"));
-            eArray.add(enemyCustomPool.obtain("lobbo"));
-            eArray.add(enemyCustomPool.obtain("numbo"));
-            eArray.add(enemyCustomPool.obtain("turto"));
+            eArray.add(enemyCustomPool.obtain("lollipop"));
+            eArray.add(enemyCustomPool.obtain("cake"));
+            eArray.add(enemyCustomPool.obtain("burger"));
+            eArray.add(enemyCustomPool.obtain("jawbreaker"));
+            eArray.add(enemyCustomPool.obtain("donut"));
+            eArray.add(enemyCustomPool.obtain("icecream"));
+            eArray.add(enemyCustomPool.obtain("cookie"));
+            eArray.add(enemyCustomPool.obtain("soda"));
+            eArray.add(enemyCustomPool.obtain("pizza"));
+            eArray.add(enemyCustomPool.obtain("cottoncandy"));
             //eArray.add(enemyPool.obtain());
             //System.out.println("Pool init(): " + dummyCounter);
         }
@@ -168,20 +168,20 @@ public class SpawnManager {
             Enemy e;
             int r = (int)(Math.random()*10);
 
-            if(r == 0) e = enemyCustomPool.obtain("bestgoblin");
-            else if(r == 1) e = enemyCustomPool.obtain("biggergoblin");
-            else if(r == 2) e = enemyCustomPool.obtain("goblin");
-            else if(r == 3) e = enemyCustomPool.obtain("sluggo");
-            else if(r == 4) e = enemyCustomPool.obtain("lobbo");
-            else if(r == 5) e = enemyCustomPool.obtain("nocto");
-            else if(r == 6) e = enemyCustomPool.obtain("numbo");
-            else if(r == 7) e = enemyCustomPool.obtain("purpo");
-            else if(r == 8) e = enemyCustomPool.obtain("snuggo");
-            else if(r == 9) e = enemyCustomPool.obtain("turto");
+            if(r == 0) e = enemyCustomPool.obtain("pizza");
+            else if(r == 1) e = enemyCustomPool.obtain("cookie");
+            else if(r == 2) e = enemyCustomPool.obtain("cake");
+            else if(r == 3) e = enemyCustomPool.obtain("soda");
+            else if(r == 4) e = enemyCustomPool.obtain("jawbreaker");
+            else if(r == 5) e = enemyCustomPool.obtain("donut");
+            else if(r == 6) e = enemyCustomPool.obtain("lollipop");
+            else if(r == 7) e = enemyCustomPool.obtain("cottoncandy");
+            else if(r == 8) e = enemyCustomPool.obtain("icecream");
+            else if(r == 9) e = enemyCustomPool.obtain("burger");
 
 
 
-            else e = enemyCustomPool.obtain("goblin");
+            else e = enemyCustomPool.obtain("cake");
 
 
             e.init(-50f, 0);
@@ -201,17 +201,17 @@ public class SpawnManager {
             /*int rand = (int)(Math.random()*3);
             Enemy newEnemy;
             if(rand == 0){
-                newEnemy = new Goblin();
+                newEnemy = new Pizza();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if (rand == 1){
-                newEnemy = new BiggerGoblin();
+                newEnemy = new IceCream();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if(rand == 2){
-                newEnemy = new BestGoblin();
+                newEnemy = new Soda();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
@@ -236,7 +236,7 @@ public class SpawnManager {
 
             }
 
-            /*for(Map.Entry<MainTower, Integer> k: data.entrySet()){
+            /*for(Map.Entry<Tower, Integer> k: data.entrySet()){
                 System.out.print(k.getKey().getID() + "  " + k.getValue() + " ___ " );
             }
             System.out.print("  Total" + "  " + data.size() + "\n");*/
@@ -251,7 +251,7 @@ public class SpawnManager {
     public void gatherTowerData(){
         //TODO: check the case where user has no towers.
         for(int x = 0; x < game.tower.getTowerArray().size; x++){
-            MainTower temp = game.tower.getTowerArray().get(x);
+            Tower temp = game.tower.getTowerArray().get(x);
 
             if(data.size() == 0){//if size is zero.
                 data.put(temp, 1);
@@ -259,7 +259,7 @@ public class SpawnManager {
             }
             else{//It is in data. Searching for it in data to increment by one.
                 boolean added = false;
-                for(Map.Entry<MainTower, Integer> k: data.entrySet()){
+                for(Map.Entry<Tower, Integer> k: data.entrySet()){
                     if(k.getKey().getID().equals(temp.getID())){
                         //k.setValue(k.getValue()+1);
                         int t = k.getValue();
@@ -288,8 +288,8 @@ public class SpawnManager {
 
 
         //no need to assign these a value unless mostValue < 4
-        Array<MainTower> mostType;//Array of least and most frequent type towers.
-        Array<MainTower> leastType;
+        Array<Tower> mostType;//Array of least and most frequent type towers.
+        Array<Tower> leastType;
         //System.out.println("Most: " + mostValue);
 
 
@@ -309,10 +309,10 @@ public class SpawnManager {
             duckTime = true;
             //System.out.println("duck time over...");
 
-            mostType = new Array<MainTower>();
-            leastType = new Array<MainTower>();
+            mostType = new Array<Tower>();
+            leastType = new Array<Tower>();
 
-            for(Map.Entry<MainTower, Integer> k: data.entrySet()){
+            for(Map.Entry<Tower, Integer> k: data.entrySet()){
                 if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
                 else if(k.getValue().equals(leastValue)) leastType.add(k.getKey());
             }
@@ -344,7 +344,7 @@ public class SpawnManager {
 
 
 
-    private Enemy spawnCustom(Array<MainTower> mostType) {
+    private Enemy spawnCustom(Array<Tower> mostType) {
 
         Array<String> weak = new Array<String>();
 
@@ -368,23 +368,23 @@ public class SpawnManager {
 
         int x = (int)(Math.random()*3);
         Enemy e;
-        if(x == 0) e = new Goblin();
-        else if (x == 1) e =  new BiggerGoblin();
-        else if (x == 2) e =  new BestGoblin();
-        else e = new Goblin();
+        if(x == 0) e = new Pizza();
+        else if (x == 1) e =  new IceCream();
+        else if (x == 2) e =  new Soda();
+        else e = new Pizza();
         return e;
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-        if(type.equals("goblin"))
-            return new Goblin();
-        else if (type.equals("biggergoblin"))
-            return new BiggerGoblin();
-        else if (type.equals("bestgoblin"))
-            return new BestGoblin();
+        if(type.equals("pizza"))
+            return new Pizza();
+        else if (type.equals("icecream"))
+            return new IceCream();
+        else if (type.equals("soda"))
+            return new Soda();
         else
-            return new Goblin();
+            return new Pizza();
     }
 /************FOR BUILDABLE SPOTS***********************************************************/
     public void spawnBuildableSpots(TowerManager tower){
@@ -403,7 +403,7 @@ public class SpawnManager {
     }
 
     public void upgradeTower(BuildableSpot b){
-        MainTower t = b.getCurrentTower();
+        Tower t = b.getCurrentTower();
 
         if(t.getLevel() < 3){
             t.setAttack(t.getAttack()*1.1f);
@@ -429,38 +429,38 @@ public class SpawnManager {
 
         //System.out.println("Making: " + type);
 
-        MainTower newTower = null;
+        Tower newTower = null;
 
         Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
                 t.getY() + (t.getHeight() / 8));
 
 
-        //Create SpeedTower
-        if(type.equals("speed")){
+        //Create InjectorTower
+        if(type.equals("injector")){
 
-            newTower = new SpeedTower(spawnPosition);
+            newTower = new InjectorTower(spawnPosition);
         }
 
-        //Create StrengthTower
-        else if(type.equals("strength")) {
-            newTower = new StrengthTower(spawnPosition); //Create StrengthTower
+        //Create ToothPasteTower
+        else if(type.equals("toothpaste")) {
+            newTower = new ToothPasteTower(spawnPosition); //Create ToothPasteTower
         }
 
-        //Create IceTower
-        else if(type.equals("ice")) {
-            newTower = new IceTower(spawnPosition);
+        //Create FlossTower
+        else if(type.equals("floss")) {
+            newTower = new FlossTower(spawnPosition);
         }
 
-        else if(type.equals("rogue")){
-            newTower = new RogueTower(spawnPosition);
+        else if(type.equals("filler")){
+            newTower = new FillerTower(spawnPosition);
         }
 
-        else if(type.equals("aoe")){
-            newTower = new AOETower(spawnPosition);
+        else if(type.equals("mouthwash")){
+            newTower = new MouthWashTower(spawnPosition);
         }
 
-        else if(type.equals("ghost")){
-            newTower = new GhostTower(spawnPosition);
+        else if(type.equals("uv")){
+            newTower = new UVTower(spawnPosition);
         }
 
         int d = 0;
@@ -469,7 +469,7 @@ public class SpawnManager {
             if(game.tower.getInGameMoney() >= newTower.getCost()){
 
                 if(t.getCurrentTower()!= null)
-                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes SpeedTower from towerArray.
+                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes InjectorTower from towerArray.
 
                 //System.out.println("Range Before: " + newTower.getRange());
                 applyStatChanges(newTower);
@@ -485,7 +485,7 @@ public class SpawnManager {
     }
 
 
-    public void applyStatChanges(MainTower t){
+    public void applyStatChanges(Tower t){
 
         Player p = game.padi.player;//pointer to the Player object.
 
@@ -515,35 +515,35 @@ public class SpawnManager {
  //TODO: possible duplicate function. Keeping for now. If no errors pop up later, delete.
  public void dragBuildTower(BuildableSpot b, String type){
 
- MainTower newTower = new MainTower();
+ Tower newTower = new Tower();
  Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
  b.getY() + (b.getHeight() / 8));
 
- //Create SpeedTower
+ //Create InjectorTower
  if(type.equals("speed")){
- newTower = new SpeedTower(spawnPosition);
+ newTower = new InjectorTower(spawnPosition);
  }
 
- //Create StrengthTower
+ //Create ToothPasteTower
  else if(type.equals("strength")) {
- newTower = new StrengthTower(spawnPosition); //Create StrengthTower
+ newTower = new ToothPasteTower(spawnPosition); //Create ToothPasteTower
  }
 
- //Create IceTower
+ //Create FlossTower
  else if(type.equals("ice")) {
- newTower = new IceTower(spawnPosition);
+ newTower = new FlossTower(spawnPosition);
  }
 
  else if(type.equals("rogue")){
- newTower = new RogueTower(spawnPosition);
+ newTower = new FillerTower(spawnPosition);
  }
 
  else if(type.equals("aoe")){
- newTower = new AOETower(spawnPosition);
+ newTower = new MouthWashTower(spawnPosition);
  }
 
  else if(type.equals("ghost")){
- newTower = new GhostTower(spawnPosition);
+ newTower = new UVTower(spawnPosition);
  }
 
  if(game.tower.getInGameMoney() >= newTower.getCost()){

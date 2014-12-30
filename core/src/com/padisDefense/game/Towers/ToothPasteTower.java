@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
-public class StrengthTower extends MainTower {
+public class ToothPasteTower extends Tower {
 
-    public StrengthTower(Vector2 position){
+    public ToothPasteTower(Vector2 position){
         super("strengthtower.png");
         setTarget(new Enemy());
         setPosition(position.x, position.y);
@@ -20,7 +20,7 @@ public class StrengthTower extends MainTower {
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.5f);
-        setID("strength");
+        setID("toothpaste");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);
         setWeakAgainst("bestgoblin");

@@ -2,7 +2,7 @@ package com.padisDefense.game.Items;
 
 
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.Tower;
 
 public class ItemStorage {
 
@@ -13,20 +13,20 @@ public class ItemStorage {
         itemArray = new Array<MainItem>();
         itemArray.add(new MainItem("telescope.png"){
             @Override
-            public void update(MainTower t){
+            public void update(Tower t){
                 changeRange(t, 1.1f);
             }
         });//scope.
         itemArray.add(new MainItem("telescope.png"){
             @Override
-            public void update(MainTower t){
+            public void update(Tower t){
                 changeRange(t, 1.1f);
             }
         });//heat-vision scope
 
         itemArray.add(new MainItem("telescope.png"){
             @Override
-            public void update(MainTower t){
+            public void update(Tower t){
                 changeRange(t, 1.2f);
             }
         });//hubble

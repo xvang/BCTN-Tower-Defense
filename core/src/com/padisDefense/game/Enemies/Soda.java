@@ -1,12 +1,12 @@
 package com.padisDefense.game.Enemies;
 
 
-public class BestGoblin extends Enemy{
+public class Soda extends Enemy{
 
-    public BestGoblin(){
+    public Soda(){
         //health, armor, texture
         super(100, 100, "bestgoblin.png");
-        setName("bestgoblin");
+        setName("soda");
         setRate(0.08f + (float)Math.random()*0.035f);
 
     }

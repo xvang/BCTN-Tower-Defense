@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Towers.MainTower;
+import com.padisDefense.game.Towers.Tower;
 
 /**
  *This class manages the the 'shooting' aspect of the towers.
