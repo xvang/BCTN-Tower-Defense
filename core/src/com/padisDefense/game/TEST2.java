@@ -18,8 +18,8 @@ import com.badlogic.gdx.utils.Array;
 public class TEST2 extends ScreenAdapter {
 
     private Sprite background;
-    private static final int        FRAME_COLS = 4;         // #1
-    private static final int        FRAME_ROWS = 1;         // #2
+    private static final int        FRAME_COLS = 10;         // #1
+    private static final int        FRAME_ROWS = 5;         // #2
 
     Animation                       walkAnimation;          // #3
     Texture                         walkSheet;              // #4
@@ -39,7 +39,7 @@ public class TEST2 extends ScreenAdapter {
         background = new Sprite(new Texture("test6.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        walkSheet = new Texture("animation/walk_vanilla.png"); // #9
+        walkSheet = new Texture("animation/spider02.png"); // #9
 
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, (walkSheet.getHeight()/FRAME_ROWS));              // #10
@@ -53,44 +53,46 @@ public class TEST2 extends ScreenAdapter {
         }
 
 
-
-
-
         int w = walkSheet.getWidth();
         int h = walkSheet.getHeight();
 
+        //height and width for a single frame.
+        int wSingle = w/10;
+        int hSingle = h/5;
+
+
         leftToRight = new Array<TextureRegion>();
-        leftToRight.add(new TextureRegion(walkSheet, 0,h*3/4, w/4, walkSheet.getHeight()/4));
-        leftToRight.add(new TextureRegion(walkSheet, w/4,h*3/4, walkSheet.getWidth()/4, h/4));
-        leftToRight.add(new TextureRegion(walkSheet, w/2,h*3/4, walkSheet.getWidth()/4, h/4));
-        leftToRight.add(new TextureRegion(walkSheet, w*3/4,h*3/4, walkSheet.getWidth()/4, h/4));
+        for(int x = 0; x < 10; x++){
+            leftToRight.add(new TextureRegion(walkSheet, w*x/10,h*3/5,wSingle, hSingle));
+            System.out.println(w*(x/10) + ", h*3/5, " + wSingle + ", " + hSingle);
+        }
+
+
 
         down = new Array<TextureRegion>();
-        down.add(new TextureRegion(walkSheet, 0,h/2, w/4, h/4));
-        down.add(new TextureRegion(walkSheet, w/4,h/2, w/4, h/4));
-        down.add(new TextureRegion(walkSheet, w/2,h/2, w/4, h/4));
-        down.add(new TextureRegion(walkSheet, w*3/4,h/2, w/4, h/4));
+        for(int x = 0; x < 10; x++)
+            down.add(new TextureRegion(walkSheet, w*x/10,h*2/5, wSingle, hSingle ));
+
+
 
         up = new Array<TextureRegion>();
-        up.add(new TextureRegion(walkSheet, 0,0, w/4, h/4));
-        up.add(new TextureRegion(walkSheet, w/4,0, w/4, h/4));
-        up.add(new TextureRegion(walkSheet, w/2,0, w/4, h/4));
-        up.add(new TextureRegion(walkSheet, w*3/4,0, w/4, h/4));
+        for(int x = 0; x < 10; x++)
+            up.add(new TextureRegion(walkSheet, w*x/10, 0, wSingle, hSingle));
+
 
         rightToLeft = new Array<TextureRegion>();
-        rightToLeft.add(new TextureRegion(walkSheet, 0,h/4, w/4, h/4));
-        rightToLeft.add(new TextureRegion(walkSheet, w/4,h/4, w/4, h/4));
-        rightToLeft.add(new TextureRegion(walkSheet, w/2,h/4, w/4, h/4));
-        rightToLeft.add(new TextureRegion(walkSheet, w*3/4,h/4, w/4, h/4));
+        for(int x = 0; x < 10; x++)
+            rightToLeft.add(new TextureRegion(walkSheet, w*x/10, h/5, wSingle, hSingle));
+
 
 
         allAnimations = new Array<Animation>();
-        allAnimations.add(new Animation(0.25f, leftToRight));
-        allAnimations.add(new Animation(0.25f, down));
-        allAnimations.add(new Animation(0.25f, up));
-        allAnimations.add(new Animation(0.25f, rightToLeft));
+        allAnimations.add(new Animation(0.1f, leftToRight));
+        allAnimations.add(new Animation(0.1f, down));
+        allAnimations.add(new Animation(0.1f, up));
+        allAnimations.add(new Animation(0.1f, rightToLeft));
 
-        walkAnimation = new Animation(0.25f, leftToRight);      // #11
+        walkAnimation = new Animation(0.25f, walkFrames);      // #11
         spriteBatch = new SpriteBatch();                // #12
         stateTime = 0f;
 

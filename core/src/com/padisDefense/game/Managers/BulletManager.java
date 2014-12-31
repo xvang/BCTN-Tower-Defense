@@ -111,7 +111,7 @@ public class BulletManager {
                     currentBullet.draw(batch);
                 }
 
-                if(hitEnemy(currentBullet, e) || arrivedAtOldLocation(currentBullet, e)){
+                if(hitEnemy(currentBullet, e) /*|| arrivedAtOldLocation(currentBullet, e)*/){
                     game.damage.hit(t, e);
 
                     currentBullet.setTime(0);//to activate below.
@@ -164,18 +164,17 @@ public class BulletManager {
     //reaching the bottom left. And damage is calculated many times before
     //bullet reaches its destination.
     //This feature might be useful later on.
-    public boolean hitEnemy(Bullet b, Enemy e){
+    /*public boolean hitEnemy(Bullet b, Enemy e){
         Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
         Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
         return b_rec.overlaps(e_rec);
-    }
+    }*/
 
 
-    public boolean arrivedAtOldLocation(Bullet b, Enemy e){
+    public boolean hitEnemy(Bullet b, Enemy e){
         double x  =findDistance(new Vector2(b.getX(), b.getY()),
                 new Vector2(e.getX() + e.getWidth()/2, e.getY()+e.getHeight()/2));
-
-        return x < 4f;
+        return x < 5f;
     }
 
 

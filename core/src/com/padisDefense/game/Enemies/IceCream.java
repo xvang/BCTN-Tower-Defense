@@ -17,6 +17,7 @@ public class IceCream extends Enemy{
         setRate(0.07f + (float)Math.random()*0.1f);
 
         initMovement();
+        this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
     public void initMovement(){
@@ -57,6 +58,7 @@ public class IceCream extends Enemy{
         animation.add(new Animation(0.25f, rightToLeft));
 
         currentAnimation = animation.get(0);
+        currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);
     }
 
     float iteration = 0f;

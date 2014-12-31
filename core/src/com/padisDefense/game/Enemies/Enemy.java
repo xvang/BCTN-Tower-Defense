@@ -19,7 +19,9 @@ import java.math.RoundingMode;
 /**
  * the main enemy class.
  *
- * @author Xeng.
+ * //TODO: try to get rid of extending Sprite?
+ * Sprite extends TextureRegion, but I still declare a TextureRegion object in Enemy.
+ * That doesn't sound right.
  *
  * */
 public class Enemy extends Sprite implements Pool.Poolable{

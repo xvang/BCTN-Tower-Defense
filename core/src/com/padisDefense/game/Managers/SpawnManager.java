@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
+import com.padisDefense.game.Enemies.Goblin;
 import com.padisDefense.game.Enemies.Soda;
 import com.padisDefense.game.Enemies.IceCream;
 import com.padisDefense.game.Enemies.Duck;
@@ -80,6 +81,8 @@ public class SpawnManager {
 
                 else if (type.equals("soda")) return new Soda();
 
+                else if(type.equals("goblin")) return new Goblin();
+
 
 
                 System.out.println("RETURNING NULL");
@@ -108,6 +111,7 @@ public class SpawnManager {
             eArray.add(enemyCustomPool.obtain("soda"));
             eArray.add(enemyCustomPool.obtain("pizza"));
             eArray.add(enemyCustomPool.obtain("icecream"));
+            eArray.add(enemyCustomPool.obtain("goblin"));
 
             //eArray.add(enemyPool.obtain());
             //System.out.println("Pool init(): " + dummyCounter);
@@ -135,11 +139,12 @@ public class SpawnManager {
             if(r == 0) e = enemyCustomPool.obtain("pizza");
             else if(r == 8) e = enemyCustomPool.obtain("icecream");
             else if(r == 3) e = enemyCustomPool.obtain("soda");
+            else if(r == 4) e = enemyCustomPool.obtain("goblin");
 
             else e = enemyCustomPool.obtain("soda");
 
 
-            e.init(-50f, 0);
+            e.init(-100f, 0);
             e.setTime(0f);
             e.setCurrentPath(0);
             e.setHealth(e.getOriginalHealth());

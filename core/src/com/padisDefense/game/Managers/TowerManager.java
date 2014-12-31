@@ -25,10 +25,12 @@ public class TowerManager{
     private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
     private int inGameMoney = 3000;
+    SpriteBatch batch;
 
 
     public TowerManager(GameScreen g){
         game = g;
+        batch = new SpriteBatch();
 
         towerArray = new Array<Tower>();
         buildableArray = new Array<BuildableSpot>();
@@ -40,20 +42,19 @@ public class TowerManager{
      * renders all the towers and buildablespots
      *
      * */
-    public void startTowers(SpriteBatch batch, EnemyManager enemy){
+    public void startTowers(SpriteBatch batchh, EnemyManager enemy){
 
+
+        //batch.begin();
         for(int x = 0; x < buildableArray.size; x++){
-            buildableArray.get(x).draw(batch, 1);
+            buildableArray.get(x).draw(batchh, 1);
         }
 
 
         for(int x = 0; x < towerArray.size; x++){
 
-
-
-
             //towerArray.get(x).spinning();
-            towerArray.get(x).draw(batch);
+            towerArray.get(x).draw(batchh);
 
             checkRange(towerArray.get(x));
             checkForDead(towerArray.get(x));
@@ -65,7 +66,7 @@ public class TowerManager{
             if(!towerArray.get(x).getHasTarget())
                 assignTargets(enemy, towerArray.get(x));
 
-            game.bullet.shooting(batch, towerArray.get(x),
+            game.bullet.shooting(batchh, towerArray.get(x),
                     towerArray.get(x).getTarget());
 
             checkRange(towerArray.get(x));
@@ -75,7 +76,7 @@ public class TowerManager{
         }
 
 
-
+        //batch.end();
 
 
 

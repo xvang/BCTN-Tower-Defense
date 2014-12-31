@@ -40,7 +40,7 @@ public class PathStorage {
     public void init(){
         //Level 0
         Array<Path<Vector2>> path1 = new Array<Path<Vector2>>();
-        path1.add(new Bezier<Vector2>(new Vector2(-50f, h/10), new Vector2(w/5, h/10)));
+        path1.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
 
         path1.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
                 new Vector2(w/3, h/4)));
@@ -67,7 +67,7 @@ public class PathStorage {
 
         //Level 1
         Array<Path<Vector2>> path2 = new Array<Path<Vector2>>();
-        path2.add(new Bezier<Vector2>(new Vector2(-50f, h/6),
+        path2.add(new Bezier<Vector2>(new Vector2(-100f, h/6),
                 new Vector2(w/2, h/8), new Vector2(w*3/5, h*2/3)));
 
         path2.add(new Bezier<Vector2>(new Vector2(w*3/5, h*2/3),
@@ -82,7 +82,7 @@ public class PathStorage {
 
         //Level 2
         Array<Path<Vector2>> path3 = new Array<Path<Vector2>>();
-        path3.add(new Bezier<Vector2>(new Vector2(-50f, h*4/5), new Vector2(w/12, h*4/5)));
+        path3.add(new Bezier<Vector2>(new Vector2(-100f, h*4/5), new Vector2(w/12, h*4/5)));
 
         path3.add(new Bezier<Vector2>(new Vector2(w/12, h*4/5), new Vector2(w/6, h*4/5),
                 new Vector2(w/6, h*5/8)));
@@ -120,7 +120,7 @@ public class PathStorage {
 
         Array<Path<Vector2>> path4 = new Array<Path<Vector2>>();
         //straight
-        path4.add(new Bezier<Vector2>(new Vector2(-50f, h*9/10), new Vector2(w/5, h*9/10)));
+        path4.add(new Bezier<Vector2>(new Vector2(-100f, h*9/10), new Vector2(w/5, h*9/10)));
         path4.add(new Bezier<Vector2>(new Vector2(w/5, h*9/10), new Vector2(w*5/12, h*9/10)));
         path4.add(new Bezier<Vector2>(new Vector2(w*5/12, h*9/10), new Vector2(w*2/3, h*9/10)));
 

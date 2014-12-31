@@ -19,6 +19,7 @@ public class Pizza extends Enemy{
         setRate(0.09f + (float)Math.random()*0.06f);
 
         initMovement();
+        this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }
 
 
@@ -60,6 +61,7 @@ public class Pizza extends Enemy{
         animation.add(new Animation(0.25f, rightToLeft));
 
         currentAnimation = animation.get(0);
+        currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);
     }
 
     float iteration = 0f;

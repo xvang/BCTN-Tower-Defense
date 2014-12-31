@@ -109,10 +109,11 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         oldEnemyCount = enemy.getEnemyCounter();
 
         enemy.startEnemy( spawn);
+
+
+
         padi.batch.begin();
-
         tower.startTowers(padi.batch, enemy);
-
 
 
         if(!END_GAME) {
