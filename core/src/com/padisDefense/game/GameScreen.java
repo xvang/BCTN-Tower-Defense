@@ -102,18 +102,17 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //TODO: mess with the GDX.clearcolor() to make NUKE animations.
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(0f,0f,0f,0f);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-
-
-
-        padi.batch.begin();
-        background.draw(padi.batch);
+        //background.draw(padi.batch);
         oldEnemyCount = enemy.getEnemyCounter();
-        enemy.startEnemy(padi.batch, spawn);
+
+        enemy.startEnemy( spawn);
+        padi.batch.begin();
+
         tower.startTowers(padi.batch, enemy);
+
 
 
         if(!END_GAME) {

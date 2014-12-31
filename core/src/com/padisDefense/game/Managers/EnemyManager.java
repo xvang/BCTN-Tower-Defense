@@ -1,6 +1,7 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Path;
@@ -37,6 +38,7 @@ public class EnemyManager {
 
     public float time = 0;
     public float countDownTimer = 5f;
+    SpriteBatch batch;
 
     /**CONSTRUCTOR**/
     public EnemyManager(GameScreen g){
@@ -44,7 +46,7 @@ public class EnemyManager {
         renderer = new ImmediateModeRenderer20(false, false, 0);
         activeEnemy = new Array<Enemy>();
 
-
+        batch = new SpriteBatch();
         storage = new PathStorage();
     }
 
@@ -72,14 +74,19 @@ public class EnemyManager {
         }
     }
 
-    public void startEnemy(SpriteBatch batch, SpawnManager spawn){
+    public void startEnemy(SpawnManager spawn){
+
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(countDownTimer >= 0f){//no enemy should spawn until countdown ends.
             countDownTimer -= Gdx.graphics.getDeltaTime();
         }
 
         else{
+            batch.begin();
             run(batch);
+            batch.end();
             checkForDead();
 
             spawnPause += Gdx.graphics.getDeltaTime();
@@ -108,12 +115,11 @@ public class EnemyManager {
     public void run(SpriteBatch batch){
         Vector2 position = new Vector2();
         Vector2 position2 = new Vector2();
-        Enemy currentEnemy;
         float time;
+        Enemy currentEnemy;
+
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
-
-
             time = currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate());
             currentEnemy.setTime(time);
 
@@ -123,6 +129,17 @@ public class EnemyManager {
             currentEnemy.setTime(time);
 
             path.get(currentEnemy.getCurrentPath()).valueAt(position, currentEnemy.getTime());
+
+            //the newPosition is set here because
+            //we don't want to calculate in straying from the path.
+            currentEnemy.newPosition.set(position);
+
+            //should only run once to initialize the old position at
+            //enemy's initial position, instead of at (0,0)
+            //TODO: find a way around this. Anything that is "do once only" should not exist...?
+            if(currentEnemy.oldPosition.x == 0 && currentEnemy.oldPosition.y == 0){
+                currentEnemy.oldPosition.set(position);
+            }
 
 
             //If waiting period is over, then enemy can start swerving up and down path.
@@ -139,25 +156,30 @@ public class EnemyManager {
                 currentEnemy.setWait(currentEnemy.getWait() - Gdx.graphics.getDeltaTime());
             }
 
-            if (currentEnemy.getTime() >= 1f){
+            //Reached end of path or path segment.
+            if (currentEnemy.getTime() >= 1f){//end of segment
                 if(currentEnemy.getCurrentPath()+1 < path.size){
                     currentEnemy.setCurrentPath(currentEnemy.getCurrentPath() + 1);
                     //enemy.get(x).setStrayAmount(0f);
                 }
 
-                else
+                else{//end of path.
                     currentEnemy.setCurrentPath(0);
+                    currentEnemy.stateTime = 0f;
+                    currentEnemy.oldPosition.set(0,0);
+                    currentEnemy.newPosition.set(0,0);
+                }
                 currentEnemy.setTime(0f);
-
             }
 
+            //moving enemy, and displaying animations and health bar.
             currentEnemy.goTo(position);
-            currentEnemy.draw(batch, 1);
-            //currentEnemy.updateAndDrawMessage(batch);
+            currentEnemy.animate(batch);
             currentEnemy.displayHealth(batch);
         }
-    }
 
+
+    }
     /** Checks enemy array for dead enemies and removes them */
     public void  checkForDead(){
 

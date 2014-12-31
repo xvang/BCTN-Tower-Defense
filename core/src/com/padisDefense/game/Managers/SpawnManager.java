@@ -143,6 +143,7 @@ public class SpawnManager {
             e.setTime(0f);
             e.setCurrentPath(0);
             e.setHealth(e.getOriginalHealth());
+
             e.alive = true;
 
             enemy.getActiveEnemy().add(e);
