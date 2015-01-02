@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
-import com.padisDefense.game.Enemies.Goblin;
-import com.padisDefense.game.Enemies.Soda;
-import com.padisDefense.game.Enemies.IceCream;
+import com.padisDefense.game.Enemies.BlueSpider;
+import com.padisDefense.game.Enemies.Golem;
+import com.padisDefense.game.Enemies.IronSpider;
+import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.Pizza;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.FlossTower;
@@ -75,13 +75,13 @@ public class SpawnManager {
             @Override
             protected Enemy newObject(String type) {
 
-                if(type.equals("icecream")) return new IceCream();
+                if(type.equals("icecream")) return new BlueSpider();
 
-                else if(type.equals("pizza")) return new Pizza();
+                else if(type.equals("pizza")) return new IronSpider();
 
-                else if (type.equals("soda")) return new Soda();
+                else if (type.equals("soda")) return new RedSpider();
 
-                else if(type.equals("goblin")) return new Goblin();
+                else if(type.equals("goblin")) return new Golem();
 
 
 
@@ -162,17 +162,17 @@ public class SpawnManager {
             /*int rand = (int)(Math.random()*3);
             Enemy newEnemy;
             if(rand == 0){
-                newEnemy = new Pizza();
+                newEnemy = new IronSpider();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if (rand == 1){
-                newEnemy = new IceCream();
+                newEnemy = new BlueSpider();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
             else if(rand == 2){
-                newEnemy = new Soda();
+                newEnemy = new RedSpider();
                 enemy.getActiveEnemy().add(newEnemy);
             }
 
@@ -329,23 +329,23 @@ public class SpawnManager {
 
         int x = (int)(Math.random()*3);
         Enemy e;
-        if(x == 0) e = new Pizza();
-        else if (x == 1) e =  new IceCream();
-        else if (x == 2) e =  new Soda();
-        else e = new Pizza();
+        if(x == 0) e = new IronSpider();
+        else if (x == 1) e =  new BlueSpider();
+        else if (x == 2) e =  new RedSpider();
+        else e = new IronSpider();
         return e;
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
         if(type.equals("pizza"))
-            return new Pizza();
+            return new IronSpider();
         else if (type.equals("icecream"))
-            return new IceCream();
+            return new BlueSpider();
         else if (type.equals("soda"))
-            return new Soda();
+            return new RedSpider();
         else
-            return new Pizza();
+            return new IronSpider();
     }
 /************FOR BUILDABLE SPOTS***********************************************************/
     public void spawnBuildableSpots(TowerManager tower){

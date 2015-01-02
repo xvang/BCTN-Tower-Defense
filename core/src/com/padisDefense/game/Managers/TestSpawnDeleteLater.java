@@ -2,7 +2,7 @@ package com.padisDefense.game.Managers;
 
 
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.Pizza;
+import com.padisDefense.game.Enemies.IronSpider;
 
 public class TestSpawnDeleteLater {
 
@@ -13,7 +13,7 @@ public class TestSpawnDeleteLater {
     public Enemy getSpawn(){
 
 
-        return new Pizza();
+        return new IronSpider();
     }
 
 }

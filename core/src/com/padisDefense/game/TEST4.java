@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
-import com.padisDefense.game.Enemies.IceCream;
+import com.padisDefense.game.Enemies.BlueSpider;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Pathing.PathStorage;
 
@@ -38,12 +38,12 @@ public class TEST4 extends ScreenAdapter {
         enemyPool = new Pool<Enemy>() {
             @Override
             protected Enemy newObject() {
-                return new IceCream();
+                return new BlueSpider();
             }
 
             protected Enemy newCustomObject(int type){
 
-                return new IceCream();
+                return new BlueSpider();
             }
         };
 
@@ -174,7 +174,7 @@ public class TEST4 extends ScreenAdapter {
         activeEnemy.add(e);
 
         /*for(int x = 0; x < 5;x++){
-            activeEnemy.add(new IceCream());
+            activeEnemy.add(new BlueSpider());
             //System.out.println("Wait: " + enemy.get(x).getWait());
         }*/
     }

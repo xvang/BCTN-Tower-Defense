@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Enemies.BlueSpider;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Enemies.IceCream;
-import com.padisDefense.game.Enemies.Pizza;
-import com.padisDefense.game.Enemies.Soda;
+import com.padisDefense.game.Enemies.IronSpider;
+import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.Pathing.PathStorage;
 
 /**
@@ -36,9 +36,9 @@ public class TEST5 extends ScreenAdapter {
         batch = new SpriteBatch();
         path = storage.getPath(0);
         enemyArray = new Array<Enemy>();
-        enemyArray.add(new Pizza());
-        enemyArray.add(new Soda());
-        enemyArray.add(new IceCream());
+        enemyArray.add(new IronSpider());
+        enemyArray.add(new RedSpider());
+        enemyArray.add(new BlueSpider());
 
 
     }
