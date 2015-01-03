@@ -13,7 +13,7 @@ public class Golem extends Enemy{
     public Golem(){
         //health, armor, texture
         super(100, 1, "bestgoblin.png");
-        setName("soda");
+        setName("sosda");
         setRate(0.08f + (float)Math.random()*0.035f);
 
         initMovement();
@@ -22,13 +22,13 @@ public class Golem extends Enemy{
 
     public void initMovement(){
 
-        texture = new Texture("enemies/goblin_0.png");
+        texture = new Texture("enemies/golem-walk.png");
 
         int w = texture.getWidth();
         int h = texture.getHeight();
 
-        int wSingle = w/11;
-        int hSingle = h/5;
+        int wSingle = w/7;
+        int hSingle = h/4;
 
         leftToRight = new Array<TextureRegion>();
         rightToLeft = new Array<TextureRegion>();
@@ -36,18 +36,18 @@ public class Golem extends Enemy{
         down = new Array<TextureRegion>();
 
 
-        for(int x = 0; x < 11; x++){
-            leftToRight.add(new TextureRegion(texture, w*x/11,h/5,wSingle, hSingle));
-            rightToLeft.add(new TextureRegion(texture, w*x/11,h*3/5,wSingle, hSingle));
-            up.add(new TextureRegion(texture, w*x/11,h*2/5,wSingle, hSingle));
-            down.add(new TextureRegion(texture, w*x/11,0,wSingle, hSingle));
+        for(int x = 0; x < 7; x++){
+            leftToRight.add(new TextureRegion(texture, w*x/7,h*3/4,wSingle, hSingle));
+            rightToLeft.add(new TextureRegion(texture, w*x/7,h/4,wSingle, hSingle));
+            up.add(new TextureRegion(texture, w*x/7,0,wSingle, hSingle));
+            down.add(new TextureRegion(texture, w*x/7,h*2/4,wSingle, hSingle));
         }
 
         animation = new Array<Animation>();
-        animation.add(new Animation(0.09f, leftToRight));
-        animation.add(new Animation(0.09f, down));
-        animation.add(new Animation(0.09f, up));
-        animation.add(new Animation(0.09f, rightToLeft));
+        animation.add(new Animation(0.14f, leftToRight));
+        animation.add(new Animation(0.14f, down));
+        animation.add(new Animation(0.14f, up));
+        animation.add(new Animation(0.14f, rightToLeft));
 
         currentAnimation = animation.get(0);
         currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);

@@ -36,6 +36,7 @@ public class EnemyManager {
     protected Array<Enemy>  activeEnemy;
 
 
+    //TODO: find out why a high arc value makes the bullet disappear.
     public float time = 0;
     public float countDownTimer = 5f;
     SpriteBatch batch;
@@ -175,7 +176,9 @@ public class EnemyManager {
             //moving enemy, and displaying animations and health bar.
             currentEnemy.goTo(position);
             currentEnemy.animate(batch);
-            currentEnemy.displayHealth(batch);
+
+            if(currentEnemy.getHealth() != currentEnemy.getOriginalHealth())
+                currentEnemy.displayHealth(batch);
         }
 
 

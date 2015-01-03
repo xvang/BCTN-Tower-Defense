@@ -25,6 +25,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public Padi padi;
     private Sprite background;
     private boolean  END_GAME = false;
+    private EndGameAnimation endGameAnimation;
+
 
     public EnemyManager enemy;
     public TowerManager tower;
@@ -32,6 +34,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public LevelManager level;
     public SpawnManager spawn;
     public DamageManager damage;
+
 
 
     //stuff for the UI
@@ -56,7 +59,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         background = new Sprite(new Texture("test1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setOrigin(0,0);
+        background.setOrigin(0, 0);
+        endGameAnimation = new EndGameAnimation();
         tower = new TowerManager(this);
         enemy = new EnemyManager(this);
 
@@ -150,6 +154,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             multi.addProcessor(UI.endStage);
             UI.endGameTable.setVisible(true);
             UI.endStage.draw();
+            UI.masterTable.setVisible(false);
+
+            endGameAnimation.run();
 
 
         }

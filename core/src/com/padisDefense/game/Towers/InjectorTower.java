@@ -22,9 +22,9 @@ public class InjectorTower extends Tower {
         setChargeRate(0.10f);
         setSize(50f, 70f);
         setBulletLimit(1);
-        setFireRate(0.06f);
+        setFireRate(2f);
         setBulletRate(0.07f);
-        setCustomArc(20f);
+        setCustomArc(120f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
     }

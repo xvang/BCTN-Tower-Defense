@@ -1,6 +1,5 @@
 package com.padisDefense.game.Enemies;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -8,12 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-public class RedSpider extends Enemy{
+/**
+ * Created by Toog on 1/2/2015.
+ */
+public class Cobra extends Enemy {
 
-    public RedSpider(){
+    public Cobra(){
         //health, armor, texture
         super(100, 1, "bestgoblin.png");
-        setName("sosdda");
+        setName("soada");
         setRate(0.08f + (float)Math.random()*0.035f);
 
         initMovement();
@@ -22,48 +24,37 @@ public class RedSpider extends Enemy{
 
     public void initMovement(){
 
-        texture = new Texture("enemies/spider03.png");
+        texture = new Texture("enemies/king_cobra.png");
+
         int w = texture.getWidth();
         int h = texture.getHeight();
 
-        //height and width for a single frame.
-        int wSingle = w/10;
-        int hSingle = h/5;
-
+        int wSingle = w/3;
+        int hSingle = h/4;
 
         leftToRight = new Array<TextureRegion>();
-        for(int x = 0; x < 10; x++)
-            leftToRight.add(new TextureRegion(texture, w*x/10,h*3/5,wSingle, hSingle));
-
-
-        down = new Array<TextureRegion>();
-        for(int x = 0; x < 10; x++)
-            down.add(new TextureRegion(texture, w*x/10,h*2/5, wSingle, hSingle ));
-
-
-
-        up = new Array<TextureRegion>();
-        for(int x = 0; x < 10; x++)
-            up.add(new TextureRegion(texture, w*x/10, 0, wSingle, hSingle));
-
-
         rightToLeft = new Array<TextureRegion>();
-        for(int x = 0; x < 10; x++)
-            rightToLeft.add(new TextureRegion(texture, w*x/10, h/5, wSingle, hSingle));
+        up = new Array<TextureRegion>();
+        down = new Array<TextureRegion>();
 
 
+        for(int x = 0; x < 3; x++){
+            leftToRight.add(new TextureRegion(texture, w*x/3,h/4,wSingle, hSingle));
+            rightToLeft.add(new TextureRegion(texture, w*x/3,h*3/4,wSingle, hSingle));
+            up.add(new TextureRegion(texture, w*x/3,0,wSingle, hSingle));
+            down.add(new TextureRegion(texture, w*x/3,h*2/4,wSingle, hSingle));
+        }
 
-        //System.out.println("upSize = " + up.size);
-        //spider02.png is 4x10, so every second, 10 frames have to show.
         animation = new Array<Animation>();
-        animation.add(new Animation(0.1f, leftToRight));
-        animation.add(new Animation(0.1f, down));
-        animation.add(new Animation(0.1f, up));
-        animation.add(new Animation(0.1f, rightToLeft));
+        animation.add(new Animation(0.14f, leftToRight));
+        animation.add(new Animation(0.14f, down));
+        animation.add(new Animation(0.14f, up));
+        animation.add(new Animation(0.14f, rightToLeft));
 
         currentAnimation = animation.get(0);
         currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);
     }
+
 
     float iteration = 0f;
     @Override

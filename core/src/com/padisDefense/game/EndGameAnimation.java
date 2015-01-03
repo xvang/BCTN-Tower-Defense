@@ -9,23 +9,31 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.MiscellaniousCharacters.FireBall;
 
 
-public class AnimationTest extends ScreenAdapter {
+public class EndGameAnimation {
+
+    public EndGameAnimation(){
+        init();
+    }
 
     private static final int        FRAME_COLS = 3;         // #1
-    private static final int        FRAME_ROWS = 4;          // #2
+    private static final int        FRAME_ROWS = 4;         // #2
 
     Animation                       walkAnimation;          // #3
     Texture                         walkSheet;              // #4
     TextureRegion[]                 walkFrames;             // #5
     SpriteBatch                     spriteBatch;            // #6
     TextureRegion                   currentFrame;           // #7
-
+    Array<FireBall> activeFireBall;
+    Pool<FireBall> fireBallPool;
     float stateTime;                                        // #8
+    Vector2 position;
 
-    @Override
-    public void show() {//TODO: get rid of purple background
+    public void init() {
         walkSheet = new Texture(Gdx.files.internal("animation/explosion_1.png")); // #9
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, walkSheet.getHeight()/FRAME_ROWS);              // #10
@@ -40,21 +48,53 @@ public class AnimationTest extends ScreenAdapter {
         spriteBatch = new SpriteBatch();                // #12
         stateTime = 0f;                         // #13
 
+
+        activeFireBall = new Array<FireBall>();
+        fireBallPool = new Pool<FireBall>() {
+            @Override
+            protected FireBall newObject() {
+                FireBall f = new FireBall();
+                f.setPosition(-100f, -100f);
+                return f;
+            }
+        };
+
+
+        for(int x = 0; x < 3; x++){
+            activeFireBall.add(fireBallPool.obtain());
+        }
+        fireBallPool.freeAll(activeFireBall);
+        activeFireBall.clear();
+
+        position = new Vector2();
     }
 
+    float interval = 0f;
 
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);                        // #14
+    public void run() {
         stateTime += Gdx.graphics.getDeltaTime();           // #15
-        currentFrame = walkAnimation.getKeyFrame(stateTime, false);  // #16
 
+        if(activeFireBall.size < 3)//to prevent interval from infinitely increasing.
+            interval += Gdx.graphics.getDeltaTime();
+
+        currentFrame = walkAnimation.getKeyFrame(stateTime, false);  // #16
+        interval += Gdx.graphics.getDeltaTime();
         spriteBatch.begin();
 
 
-        spriteBatch.draw(currentFrame, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);             // #17
+        for(int x = 0; x < activeFireBall.size; x++){
+            activeFireBall.get(x).animate();
+        }
+        if(activeFireBall.size < 3 && interval >= 3f){
+            FireBall f = fireBallPool.obtain();
+            activeFireBall.add(f);
+            interval = 0;
+        }
 
         spriteBatch.end();
+
+
+
     }
 }
+

@@ -161,7 +161,7 @@ public class BulletManager {
 
     //The bullet's destination is the bottom left coordinate of the enemy.
     //But the bullet will overlap the enemy for many iterations before
-    //reaching the bottom left. And damage is calculated many times before
+    //reaching the bottom left. So damage is calculated many times before
     //bullet reaches its destination.
     //This feature might be useful later on.
     /*public boolean hitEnemy(Bullet b, Enemy e){
@@ -174,7 +174,7 @@ public class BulletManager {
     public boolean hitEnemy(Bullet b, Enemy e){
         double x  =findDistance(new Vector2(b.getX(), b.getY()),
                 new Vector2(e.getX() + e.getWidth()/2, e.getY()+e.getHeight()/2));
-        return x < 5f;
+        return x < 8f;
     }
 
 

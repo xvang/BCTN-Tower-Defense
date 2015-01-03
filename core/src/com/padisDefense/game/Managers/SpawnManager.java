@@ -6,9 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
+import com.padisDefense.game.Enemies.BipedalDragon;
 import com.padisDefense.game.Enemies.BlueSpider;
+import com.padisDefense.game.Enemies.Cobra;
 import com.padisDefense.game.Enemies.Golem;
 import com.padisDefense.game.Enemies.IronSpider;
+import com.padisDefense.game.Enemies.Mage;
 import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
@@ -79,9 +82,9 @@ public class SpawnManager {
 
                 else if(type.equals("pizza")) return new IronSpider();
 
-                else if (type.equals("soda")) return new RedSpider();
+                else if (type.equals("ggg")) return new RedSpider();
 
-                else if(type.equals("goblin")) return new Golem();
+                else if(type.equals("soda")) return new Mage();
 
 
 
@@ -109,9 +112,9 @@ public class SpawnManager {
         for(int x = 0; x < 25; x++){
 
             eArray.add(enemyCustomPool.obtain("soda"));
-            eArray.add(enemyCustomPool.obtain("pizza"));
-            eArray.add(enemyCustomPool.obtain("icecream"));
-            eArray.add(enemyCustomPool.obtain("goblin"));
+            //eArray.add(enemyCustomPool.obtain("pizza"));
+            //eArray.add(enemyCustomPool.obtain("icecream"));
+            //eArray.add(enemyCustomPool.obtain("goblin"));
 
             //eArray.add(enemyPool.obtain());
             //System.out.println("Pool init(): " + dummyCounter);
@@ -136,10 +139,10 @@ public class SpawnManager {
             Enemy e;
             int r = (int)(Math.random()*10);
 
-            if(r == 0) e = enemyCustomPool.obtain("pizza");
-            else if(r == 8) e = enemyCustomPool.obtain("icecream");
+            if(r == 0) e = enemyCustomPool.obtain("soda");
+            else if(r == 8) e = enemyCustomPool.obtain("soda");
             else if(r == 3) e = enemyCustomPool.obtain("soda");
-            else if(r == 4) e = enemyCustomPool.obtain("goblin");
+            else if(r == 4) e = enemyCustomPool.obtain("soda");
 
             else e = enemyCustomPool.obtain("soda");
 

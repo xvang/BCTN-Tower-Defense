@@ -33,7 +33,7 @@ public class UIManager implements InputProcessor{
     //Used to create/upgrade towers
     public boolean  GAME_OVER = false;
     Stage stage;
-    Table masterTable;
+    public Table masterTable;
     Skin skin;
 
 
