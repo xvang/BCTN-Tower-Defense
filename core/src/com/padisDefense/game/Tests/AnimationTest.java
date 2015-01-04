@@ -1,20 +1,25 @@
-package com.padisDefense.game;
+package com.padisDefense.game.Tests;
 
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 import com.padisDefense.game.MiscellaniousCharacters.FireBall;
+import com.padisDefense.game.MiscellaniousCharacters.FirePlace;
 
 
-public class EndGameAnimation {
+public class AnimationTest extends ScreenAdapter {
 
-
-    public EndGameAnimation(){
-        show();
+    public AnimationTest(){
     }
+
     Array<FireBall> activeFireBall;
     Pool<FireBall> fireBallPool;
 
@@ -23,8 +28,12 @@ public class EndGameAnimation {
     Array<Explosion> activeExplosion;
     Vector2 explosionPosition;
 
-    SpriteBatch batch;
+    Pool<FirePlace> firePlacePool;
+    Array<FirePlace> activeFirePlace;
+    Vector2 fireplacePosition;
 
+    SpriteBatch batch;
+    @Override
     public void show() {
         batch = new SpriteBatch();
         //FIREBALL
@@ -38,7 +47,7 @@ public class EndGameAnimation {
             }
         };
 
-        for(int x = 0; x < 10; x++){
+        for(int x = 0; x < 8; x++){
             activeFireBall.add(fireBallPool.obtain());
         }
         fireBallPool.freeAll(activeFireBall);
@@ -54,17 +63,34 @@ public class EndGameAnimation {
         activeExplosion = new Array<Explosion>();
         explosionPosition = new Vector2();
 
-        for(int x = 0; x < 30; x++){
+        for(int x = 0; x < 20; x++){
             activeExplosion.add(explosionPool.obtain());
         }
         explosionPool.freeAll(activeExplosion);
         activeExplosion.clear();
+
+        //FIREPLACE
+        firePlacePool = new Pool<FirePlace>() {
+            @Override
+            protected FirePlace newObject() {
+                return new FirePlace();
+            }
+        };
+
+        activeFirePlace = new Array<FirePlace>();
+        fireplacePosition = new Vector2();
+
+        for(int x = 0; x < 20; x++){
+            activeFirePlace.add(firePlacePool.obtain());
+        }
+
+        firePlacePool.freeAll(activeFirePlace);
+        activeFirePlace.clear();
     }
 
+    @Override
+    public void render(float delta) {
 
-    public void run() {
-
-        batch.begin();
         //drawing fireballs
         for(int x = 0; x < activeFireBall.size; x++){
             activeFireBall.get(x).animate(batch);
@@ -80,6 +106,10 @@ public class EndGameAnimation {
                 e.explosionPosition.set(f.out);
                 activeExplosion.add(e);
 
+                FirePlace fire = firePlacePool.obtain();
+                fire.firePlacePosition.set(f.out);
+                activeFirePlace.add(fire);
+
                 activeFireBall.removeIndex(x);
 
                 fireBallPool.free(f);
@@ -91,15 +121,26 @@ public class EndGameAnimation {
             if(activeFireBall.size < 8){
                 FireBall f = fireBallPool.obtain();
                 activeFireBall.add(f);
-
             }
+        }
+
+
+        for(int x = 0; x < activeFirePlace.size; x++){
+            activeFirePlace.get(x).animate();
         }
 
         for(int x = 0; x < activeExplosion.size; x++){
             activeExplosion.get(x).animate(batch);
         }
 
-        batch.end();
+        for(int x = 0; x < activeFirePlace.size; x++){
+            if(!activeFirePlace.get(x).alive){
+                FirePlace pointer = activeFirePlace.get(x);
+                activeFirePlace.removeIndex(x);
+                firePlacePool.free(pointer);
+            }
+        }
+
         for(int x = 0; x < activeExplosion.size; x++){
             if(!activeExplosion.get(x).alive){
                 Explosion pointer = activeExplosion.get(x);
@@ -107,9 +148,5 @@ public class EndGameAnimation {
                 explosionPool.free(pointer);
             }
         }
-
-
-        System.out.println(activeExplosion.size + "  " + activeFireBall.size);
     }
 }
-

@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.padisDefense.game.Tests.AnimationTest;
+import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
+import com.padisDefense.game.Tests.TEST2;
 import com.padisDefense.game.TransitionScreens.Splash;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -44,7 +47,7 @@ public class Padi extends Game implements ApplicationListener{
     //When I need to test something, I'll set the screen
     //to test(setScreen(test)).  The setScreen is at the end
     //of the create() method.
-    TEST2 TEST2;
+    com.padisDefense.game.Tests.TEST2 TEST2;
 
     @Override
     public void create(){
@@ -72,6 +75,7 @@ public class Padi extends Game implements ApplicationListener{
         //this.setScreen(new TEST4());
         //this.setScreen(new TEST5());
         //this.setScreen(new AnimationTest());
+        //this.setScreen(new DefaultSpriteSheetTest());
 
     }
 

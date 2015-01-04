@@ -17,14 +17,14 @@ import com.padisDefense.game.Managers.UIManager;
 
 
 /**
- *
+ *TODO: combine the 40 pics of fire animation
  *
  * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public Padi padi;
     private Sprite background;
-    private boolean  END_GAME = false;
+    private boolean  GAME_OVER = false;
     private EndGameAnimation endGameAnimation;
 
 
@@ -103,6 +103,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     }
 
 
+    boolean do_once = true;
     //TODO: mess with the GDX.clearcolor() to make NUKE animations.
     @Override
     public void render(float delta){
@@ -120,7 +121,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         tower.startTowers(padi.batch, enemy);
 
 
-        if(!END_GAME) {
+        if(!GAME_OVER) {
 
             gatherCharge();
             if(enemy.getCountDownTimer() <= 0f){//game clock starts when countdown ends.
@@ -143,9 +144,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         //checks if game ended.
 
 
-        if((enemy.noMoreEnemy() || UI.fullChargeMeter())){
-
-            END_GAME = true;
+        if((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once){
+            do_once = false;
+            GAME_OVER = true;
             enemy.destroyAllEnemy();
             UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
@@ -155,10 +156,18 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             UI.endGameTable.setVisible(true);
             UI.endStage.draw();
             UI.masterTable.setVisible(false);
+            UI.hideButton.setPosition(Gdx.graphics.getWidth()-UI.hideButton.getWidth() - 10f, 10f);
 
             endGameAnimation.run();
 
 
+
+        }
+        else if (GAME_OVER){
+
+            endGameAnimation.run();
+
+            UI.endStage.draw();
         }
         UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 

@@ -1,4 +1,4 @@
-package com.padisDefense.game;
+package com.padisDefense.game.Tests;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;

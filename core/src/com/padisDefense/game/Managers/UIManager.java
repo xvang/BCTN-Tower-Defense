@@ -35,6 +35,7 @@ public class UIManager implements InputProcessor{
     Stage stage;
     public Table masterTable;
     Skin skin;
+    public TextButton hideButton;
 
 
     //prints money and enemy left.
@@ -146,7 +147,7 @@ public class UIManager implements InputProcessor{
         masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
         masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
 
-        final TextButton hideButton = new TextButton("Hide", skin, "default");
+        hideButton = new TextButton("Hide", skin, "default");
         hideButton.setSize(80f, 50f);
         hideButton.setPosition(Gdx.graphics.getWidth()-masterTable.getWidth(), 10f);
         hideButton.addListener(new ClickListener(){

@@ -1,6 +1,7 @@
 package com.padisDefense.game.Managers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -354,15 +355,15 @@ public class SpawnManager {
     public void spawnBuildableSpots(TowerManager tower){
         //For testing purposes only.
         //BuildableSpots are manually spawned here.
-        tower.addBuildableSpots(new Vector2(100f, 120f));
-        tower.addBuildableSpots(new Vector2(500f, 240f));
-        tower.addBuildableSpots(new Vector2(500f, 400f));
-        tower.addBuildableSpots(new Vector2(400f, 500f));
-        tower.addBuildableSpots(new Vector2(500f, 350f));
-        tower.addBuildableSpots(new Vector2(550f, 500f));
-        tower.addBuildableSpots(new Vector2(660f, 400f));
-        tower.addBuildableSpots(new Vector2(777f, 500f));
-        tower.addBuildableSpots(new Vector2(600f, 550f));
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        tower.addBuildableSpots(new Vector2(w/12f, h/6));
+        tower.addBuildableSpots(new Vector2(w/3f, h/6));
+        tower.addBuildableSpots(new Vector2(w*2/3, h/2));
+        tower.addBuildableSpots(new Vector2(w/2f, h*2/3));
+        tower.addBuildableSpots(new Vector2(w*3/4f, h*2/3));
+        tower.addBuildableSpots(new Vector2(w/2f, h*3/4));
+        tower.addBuildableSpots(new Vector2(w*5/6f, h*5/6));
 
     }
 
