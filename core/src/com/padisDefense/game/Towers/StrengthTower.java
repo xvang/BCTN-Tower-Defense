@@ -9,8 +9,8 @@ public class StrengthTower extends Tower {
 
 
     private float rangeAOE = 50f;
-    public StrengthTower(Vector2 position){
-        super("towers/strength_level_one.png");
+    public StrengthTower(Vector2 position, Texture picture){
+        super(picture);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);

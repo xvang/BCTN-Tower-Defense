@@ -11,9 +11,8 @@ public class SpeedTower extends Tower {
     private float attack = 30;
 
 
-    public SpeedTower(Vector2 position){
-        super("towers/speed_level_one.png");
-
+    public SpeedTower(Vector2 position, Texture picture){
+        super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 

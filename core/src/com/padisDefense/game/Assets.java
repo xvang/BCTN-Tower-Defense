@@ -47,7 +47,7 @@ public class Assets {
     public TweenManager tweenManager;
 
     public Skin skin2, skin3, someUIskin;
-
+    public TextureAtlas towerAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public GameScreen gameScreen;
 
@@ -78,7 +78,7 @@ public class Assets {
 
 
         batch = new SpriteBatch();
-        //someUIskin = new Skin(new TextureAtlas("someUI.pack"));
+        towerAtlas = new TextureAtlas("towers/tower.pack");
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
         skin3 = new Skin(new TextureAtlas("symbolsandtext.pack"));
         skin2 = new Skin(Gdx.files.internal("pack2.json"));

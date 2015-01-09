@@ -8,9 +8,8 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class RogueTower extends Tower {
 
-    public RogueTower(Vector2 position){
-        super("towers/rogue_level_three.png");
-
+    public RogueTower(Vector2 position, Texture picture){
+        super(picture);
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);

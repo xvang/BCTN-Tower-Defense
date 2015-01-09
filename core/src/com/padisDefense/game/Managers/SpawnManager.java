@@ -3,6 +3,9 @@ package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.CustomPool;
@@ -353,37 +356,51 @@ public class SpawnManager {
         //System.out.println("Making: " + type);
 
         Tower newTower = null;
-
+        Sprite s;
+        Texture texture;
         Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
                 t.getY() + (t.getHeight() / 8));
 
 
         //Create RogueTower
         if(type.equals("rogue")){
+            s = padi.assets.towerAtlas.createSprite("rogue_level_one");
+            texture = s.getTexture();
+            newTower = new RogueTower(spawnPosition, texture);
 
-            newTower = new RogueTower(spawnPosition);
         }
 
         //Create SniperTower
         else if(type.equals("sniper")) {
-            newTower = new SniperTower(spawnPosition);
+            s = padi.assets.towerAtlas.createSprite("sniper_level_one", -14);
+            texture = s.getTexture();
+            newTower = new SniperTower(spawnPosition, texture);
         }
 
         //Create StrengthTower
         else if(type.equals("strength")) {
-            newTower = new StrengthTower(spawnPosition);
+            s = padi.assets.towerAtlas.createSprite("strength_level_one");
+
+            texture = s.getTexture();
+            newTower = new StrengthTower(spawnPosition, texture);
         }
 
         else if(type.equals("speed")){
-            newTower = new SpeedTower(spawnPosition);
+            s = padi.assets.towerAtlas.createSprite("speed_level_one");
+            texture = s.getTexture();
+            newTower = new SpeedTower(spawnPosition, texture);
         }
 
         else if(type.equals("aoe")){
-            newTower = new AoeTower(spawnPosition);
+            s = padi.assets.towerAtlas.createSprite("aoe_level_one");
+            texture = s.getTexture();
+            newTower = new AoeTower(spawnPosition, texture);
         }
 
         else if(type.equals("laser")){
-            newTower = new LaserTower(spawnPosition);
+            s = padi.assets.towerAtlas.createSprite("laser_level_one");
+            texture = s.getTexture();
+            newTower = new LaserTower(spawnPosition, texture);
         }
 
         if(newTower != null){

@@ -7,9 +7,8 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class LaserTower extends Tower {
 
-    public LaserTower(Vector2 position){
-        super("towers/laser_level_one.png");
-
+    public LaserTower(Vector2 position, Texture picture){
+        super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 

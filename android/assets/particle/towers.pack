@@ -1,0 +1,131 @@
+
+towers.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+rogue_level_three
+  rotate: false
+  xy: 1, 4
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+laser_level_two
+  rotate: false
+  xy: 58, 12
+  size: 59, 47
+  orig: 59, 47
+  offset: 0, 0
+  index: -2
+aoe_level_one
+  rotate: false
+  xy: 119, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: -3
+aoe_level_three
+  rotate: false
+  xy: 171, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: -4
+aoe_level_two
+  rotate: false
+  xy: 223, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: -5
+laser_level_three
+  rotate: false
+  xy: 275, 4
+  size: 50, 55
+  orig: 50, 55
+  offset: 0, 0
+  index: -6
+speed_level_three
+  rotate: false
+  xy: 327, 8
+  size: 50, 51
+  orig: 50, 51
+  offset: 0, 0
+  index: -7
+sniper_level_three
+  rotate: false
+  xy: 379, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -8
+sniper_level_two
+  rotate: false
+  xy: 431, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -9
+strength_level_three
+  rotate: false
+  xy: 483, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -10
+laser_level_one
+  rotate: false
+  xy: 535, 14
+  size: 51, 45
+  orig: 51, 45
+  offset: 0, 0
+  index: -11
+rogue_level_one
+  rotate: false
+  xy: 588, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -12
+rogue_level_two
+  rotate: false
+  xy: 635, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -13
+sniper_level_one
+  rotate: false
+  xy: 682, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -14
+speed_level_one
+  rotate: false
+  xy: 729, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -15
+speed_level_two
+  rotate: false
+  xy: 776, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -16
+strength_level_one
+  rotate: false
+  xy: 823, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -17
+strength_level_two
+  rotate: false
+  xy: 870, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -18

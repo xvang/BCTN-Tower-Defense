@@ -8,8 +8,8 @@ import com.padisDefense.game.Enemies.Enemy;
 public class AoeTower extends Tower {
 
     private float rangeAOE = 120f;
-    public AoeTower(Vector2 position){
-        super("towers/aoe_level_one.png");
+    public AoeTower(Vector2 position, Texture picture){
+        super(picture);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);

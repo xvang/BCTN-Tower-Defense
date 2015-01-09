@@ -1,5 +1,6 @@
 package com.padisDefense.game.Towers;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -20,7 +21,7 @@ public class BuildableSpot extends Tower {
 
     //Currently, Vector p is unused.
     public BuildableSpot(Vector2 p){
-        super("buildablespot.png");
+        super(new Texture("buildablespot.png"));
         setSize(40f, 40f);
     }
 

@@ -7,8 +7,8 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class SniperTower extends Tower {
 
-    public SniperTower(Vector2 position){
-        super("towers/strength_level_one.png");
+    public SniperTower(Vector2 position, Texture picture){
+        super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 

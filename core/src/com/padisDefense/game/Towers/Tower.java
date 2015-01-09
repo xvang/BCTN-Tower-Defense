@@ -60,8 +60,8 @@ public class Tower extends Sprite{
     public boolean lockedOnTarget = false;
     public float radius = this.getHeight()/2;
     //Constructor #1
-    public Tower(String name){
-        super(new Texture(name));
+    public Tower(Texture picture){
+        super(picture);
         hasTarget = false;
         ID = "";
         customArc = 25f;
