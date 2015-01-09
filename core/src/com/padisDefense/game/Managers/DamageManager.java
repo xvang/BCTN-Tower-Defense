@@ -3,17 +3,19 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
-import com.padisDefense.game.Towers.FlossTower;
-import com.padisDefense.game.Towers.MouthWashTower;
+import com.padisDefense.game.Padi;
+import com.padisDefense.game.Towers.AoeTower;
+import com.padisDefense.game.Towers.StrengthTower;
 import com.padisDefense.game.Towers.Tower;
 
 public class DamageManager {
 
+    Padi padi;
     GameScreen game;
 
 
-    public DamageManager(GameScreen g){
-        game = g;
+    public DamageManager(GameScreen g, Padi p){
+        game = g; padi = p;
     }
 
     public void hit(Tower t, Enemy e){
@@ -22,11 +24,11 @@ public class DamageManager {
 
 
         if(t.getID().equals("ice")){
-            iceHit((FlossTower) t, e);
+            iceHit((StrengthTower) t, e);
         }
 
         else if(t.getID().equals("aoe")){
-            aoeHit((MouthWashTower) t, e);
+            aoeHit((AoeTower) t, e);
         }
         for(int x = 0; x < game.enemy.getActiveEnemy().size; x++)
             game.enemy.getActiveEnemy().get(x).updateAlteredStats();
@@ -35,7 +37,7 @@ public class DamageManager {
 
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
-    public void iceHit(FlossTower t, Enemy e){
+    public void iceHit(StrengthTower t, Enemy e){
         e.affectRate(e.getRate()*0.6f, 3f);
 
         double distance;
@@ -69,7 +71,7 @@ public class DamageManager {
     //damage proportional to distance from targeted enemy.
     //Pretty much the same as iceHit(), except damage is taken instead of rate changes.
     //Will keep separate for now. Might be useful later.
-    public void aoeHit(MouthWashTower t, Enemy e) {
+    public void aoeHit(AoeTower t, Enemy e) {
         double distance;
         Enemy temp;
         for (int x = 0; x < game.enemy.getActiveEnemy().size; x++) {
@@ -102,4 +104,12 @@ public class DamageManager {
         return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
     }
 
+
+    public void dispose(){
+        //nothing yet.
+    }
+
+    public void reset(){
+        //nothing yet.
+    }
 }

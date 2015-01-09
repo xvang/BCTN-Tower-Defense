@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 /** @author Xoppa */
-public class TEST3 extends ScreenAdapter{
+public class PathRunTest extends ScreenAdapter{
     int SAMPLE_POINTS = 100;
     float SAMPLE_POINT_DISTANCE = 1f / SAMPLE_POINTS;
     float ZIGZAG_SCALE;
@@ -30,7 +30,7 @@ public class TEST3 extends ScreenAdapter{
     SpriteBatch spriteBatch;
     ImmediateModeRenderer20 renderer;
     Sprite obj;
-    Sprite obj2;
+    //Sprite obj2;
     Array<Path<Vector2>> paths = new Array<Path<Vector2>>();
     int currentPath = 0;
     float t;
@@ -46,11 +46,11 @@ public class TEST3 extends ScreenAdapter{
     public void show () {
         renderer = new ImmediateModeRenderer20(false, false, 0);
         spriteBatch = new SpriteBatch();
-        obj = new Sprite(new Texture(Gdx.files.internal("sluggo.png")));
-        obj2 = new Sprite(new Texture(Gdx.files.internal("lobbo.png")));
+        obj = new Sprite(new Texture(Gdx.files.internal("turto.png")));
+        //obj2 = new Sprite(new Texture(Gdx.files.internal("goblin.png")));
 
         obj.setSize(40f, 40f);
-        obj2.setSize(40f, 40f);
+        //obj2.setSize(40f, 40f);
 
         obj.setOriginCenter();
         obj.setOriginCenter();
@@ -58,24 +58,8 @@ public class TEST3 extends ScreenAdapter{
 
         ZIGZAG_SCALE = Gdx.graphics.getDensity() * 48; // 48DP
 
-        //paths.add(new Bezier<Vector2>(new Vector2(0,0), new Vector2(w/2, 2*h), new Vector2(w, 0)));
-        paths.add(new Bezier<Vector2>(new Vector2(-50f, h/6), new Vector2(w/2, h/8), new Vector2(w*3/5, h*2/3)));
-        paths.add(new Bezier<Vector2>(new Vector2(w*3/5, h*2/3), new Vector2(w*7/10, h), new Vector2(w + 50f, h*5/6)));
-        //paths.add(new Bezier<Vector2>( new Vector2(w*2/3, h*8/16),new Vector2(w*2/3, h*14/16),new Vector2(w+50f, h*12/16)));
-        //paths.add(new Bezier<Vector2>(new Vector2(w/3, h/2), new Vector2(w/2, h/10), new Vector2(w*0.8f, h/5)));
-        //paths.add(new Bezier<Vector2>(new Vector2(w*0.8f, h/5), new Vector2(w+50f, h/2)));
-        /*paths.add(new Bezier<Vector2>(new Vector2(-50f, 50), new Vector2(100f, 50f)));
-        paths.add(new Bezier<Vector2>(new Vector2(100f, 100f), new Vector2(150f,10f), new Vector2(200f, 222f)));
-        paths.add(new Bezier<Vector2>(new Vector2(200f, 222f), new Vector2(350f, 500f), new Vector2(400f, 50f), new Vector2(550f, h-50f)));
 
-
-        paths.add(new Bezier<Vector2>(new Vector2(550f, h-50f), new Vector2(600f, 300f), new Vector2(650f, 100f)));
-        Vector2 cp[] = new Vector2[] {new Vector2(0, 0), new Vector2(w * 0.25f, h * 0.5f), new Vector2(0, h),
-                new Vector2(w * 0.5f, h * 0.75f), new Vector2(w, h), new Vector2(w * 0.75f, h * 0.5f), new Vector2(w, 0),
-                new Vector2(w * 0.5f, h * 0.25f)};
-        paths.add(new BSpline<Vector2>(cp, 3, true));
-
-        paths.add(new CatmullRomSpline<Vector2>(cp, true));*/
+        addPath();
 
         pathLength = paths.get(currentPath).approxLength(500);
         avg_speed = speed * pathLength;
@@ -99,8 +83,8 @@ public class TEST3 extends ScreenAdapter{
             wait -= Gdx.graphics.getDeltaTime();
         else {
 
-            System.out.println(Gdx.graphics.getDeltaTime());
-            t += speed * Gdx.graphics.getDeltaTime();
+            //System.out.println(Gdx.graphics.getDeltaTime());
+            t += speed*2 * Gdx.graphics.getDeltaTime();
             t3 += speed2*Gdx.graphics.getDeltaTime();
             zt += zspeed * Gdx.graphics.getDeltaTime();
             while (t >= 1f) {
@@ -110,6 +94,7 @@ public class TEST3 extends ScreenAdapter{
 
                 t = 0f;
                 t2 = 0f;
+                t3 = 0f;
 
 
             }
@@ -137,7 +122,7 @@ public class TEST3 extends ScreenAdapter{
 
 
             obj.setPosition(tmpV.x, tmpV.y);
-            obj2.setPosition(tmpV4.x, tmpV4.y);
+            //obj2.setPosition(tmpV4.x, tmpV4.y);
 
 
         }
@@ -154,9 +139,28 @@ public class TEST3 extends ScreenAdapter{
 
         spriteBatch.begin();
         obj.draw(spriteBatch);
-        obj2.draw(spriteBatch);
+        //obj2.draw(spriteBatch);
         spriteBatch.end();
     }
 
 
+
+    //paths
+    public void addPath(){
+        //Path 1
+        paths.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
+                new Vector2(w/3, h/4)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2),
+                new Vector2(w*5/12, h/2)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*5/12, h/2), new Vector2(w*2/3, h/2)));
+
+
+
+
+
+    }
 }

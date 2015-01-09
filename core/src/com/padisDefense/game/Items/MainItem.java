@@ -50,6 +50,9 @@ public class MainItem extends Sprite{
         super(new Texture(pic));
 
         targets = new Array<String>();
+        displayStats = "";
+        name = "";
+        cost = 1;
     }
 
 

@@ -13,21 +13,29 @@ import com.padisDefense.game.Items.MainItem;
  * */
 public class Player {
 
-    public static int numberOfLevels = 5;
+    public static int numberOfLevels = 9;
     public static String name;
-    public static float money;
+    public static int money;
     public static Array<MainItem> itemsUnlocked;
     private String password;
 
 
     //Levels
+    //has to be this kind of array because Array<> and Vector() do not take primitive types.
+    //boolean is apparently a primitive type. Probably along with int, float, char... etc.
     public static boolean[] levels = new boolean[numberOfLevels];
 
 
     //Constructor
     Player(){
 
-        levels[0] = true;
+        //only the first level is unlocked.
+        for(int x = 0; x < levels.length; x++){
+            if(x == 0)
+                levels[x] = true;
+            else
+                levels[x] = false;
+        }
         money = 5000;
         name = "Guest" +  (int)(Math.random()*1000);
         itemsUnlocked = new Array<MainItem>();
@@ -41,24 +49,20 @@ public class Player {
     public void addItemsUnlocked(MainItem i){itemsUnlocked.add(i);}
     public void setLevelsUnlocked(int l){levels[l - 1] = true;}
     public void setPassword(String p){password = p;}
-    public void setMoney(float m){money += m;}
+    public void setMoney(int m){money = m;}
 
     //GET functions.
     public String get_Name(){return name;}
-    public float getMoney(){return money;}
+    public int getMoney(){return money;}
     public Array<MainItem> getItemsUnlocked(){return itemsUnlocked;}
 
 
 
-    /**
-     * Checks if a level is unlocked.
-     * @param 'n'
-     * */
     public boolean isLevelUnlocked(int n){
         try{
                 return levels[n - 1];
         }catch(Exception e){
-            System.out.println("getLevelsUnlocked(): bad parameter.");
+            System.out.println("getLevelsUnlocked(): bad parameter. cheeck yoself");
             return false;
         }
 

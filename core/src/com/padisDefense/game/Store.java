@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,7 +25,6 @@ import com.padisDefense.game.Items.MainItem;
 public class Store extends ScreenAdapter{
 
     Padi padi;
-    public Store(Padi p){padi = p;}
     private Stage stage;
     private ItemStorage itemStorage;
 
@@ -37,26 +38,27 @@ public class Store extends ScreenAdapter{
     private int clickedItemCost;//pointer to the cost.
     private MainItem clickedItem = null;//pointer to the item.
     private Label affects;//displays all the affected towers.
-    private Label money;//displays the user's money
+    //private Label money;//displays the user's money
+    private TextButton money, dollarSign;
     private Label message;//Prints out a message: item unlocked, not enough money, no item selected.
 
+    public Store(Padi p){
 
 
-    @Override public void show() {
-
+        padi = p;
         stage = new Stage();
         imageList = new Array<Image>();
         itemStorage = new ItemStorage();
 
-        TextButton menu = new TextButton("Back to Menu", padi.skin);
-        TextButton worldMap = new TextButton("Back to Map", padi.skin);
+        TextButton menu = new TextButton("Back to Menu", padi.assets.skin2, "default");
+        TextButton worldMap = new TextButton("Back to Map", padi.assets.skin2, "default");
         worldMap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
                 padi.setScreen(padi.worldmap);
             }
         });
-        menu.setSize(80f, 20f);
+
         menu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -94,15 +96,20 @@ public class Store extends ScreenAdapter{
 
 
         //making the stuff on the right.
-        name = new Label("\n", padi.skin, "default");
-        info = new Label("\n", padi.skin, "default");
-        cost = new Label("\n", padi.skin, "default");
-        affects = new Label("\n", padi.skin, "default");
-        money = new Label("Your Credits: " + String.valueOf((int)padi.player.getMoney()), padi.skin);
 
 
-        final TextButton unlockButton = new TextButton("Unlock Now", padi.skin);
-        message = new Label("\n", padi.skin, "default");
+        String amount = String.valueOf(padi.player.getMoney());
+        dollarSign = new TextButton("", padi.assets.someUIskin, "dollarSign");
+        money = new TextButton(amount, padi.assets.someUIskin, "default");
+        name = new Label("\n", padi.assets.someUIskin, "default");
+        info = new Label("\n", padi.assets.someUIskin, "default");
+        cost = new Label("\n", padi.assets.someUIskin, "default");
+        affects = new Label("\n", padi.assets.someUIskin, "default");
+
+
+
+        final TextButton unlockButton = new TextButton("Unlock Now", padi.assets.skin2, "default");
+        message = new Label("\n", padi.assets.skin, "default");
         unlockButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -113,9 +120,11 @@ public class Store extends ScreenAdapter{
 
                         //subtracts cost from Player' money, and adds item to item array in Player.
                         if(padi.player.getMoney() >= clickedItemCost){
+
                             padi.player.setMoney(padi.player.getMoney() - clickedItemCost);
+
                             padi.player.addItemsUnlocked(clickedItem);
-                            money.setText("Your Credits: "  + String.valueOf((int)padi.player.getMoney()));
+                            money.setText(String.valueOf(padi.player.getMoney()));
                             message.setColor(Color.GREEN);
                             message.setText("Item unlocked.");
                         }
@@ -137,23 +146,37 @@ public class Store extends ScreenAdapter{
             }
         });
 
+        Table moneyTable = new Table();
+
+        moneyTable.add(money).width(150f).height(40f).padLeft(40f);
+        moneyTable.add(dollarSign).width(50f).height(40f).padLeft(-money.getWidth()+40f);
+
+
         final Table allTables = new Table();
-        allTables.add(name).padBottom(10f).row();
-        allTables.add(info).padBottom(10f).row();
-        allTables.add(affects).padBottom(10f).row();
-        allTables.add(cost).padBottom(10f).row();
-        allTables.add(money).padBottom(10f).row();
-        allTables.add(unlockButton).width(130f).height(40f).row().padTop(20f).row();
-        allTables.add(message).padBottom(40f).row();
-        allTables.add(menu).width(130f).height(40f).row().padBottom(10f).padTop(10f).row();
-        allTables.add(worldMap).width(130f).height(40f).padBottom(10f).padTop(20f).row();
-        allTables.setPosition(Gdx.graphics.getWidth() - 100f, Gdx.graphics.getHeight()/2);
+
+
+        allTables.add(moneyTable).padBottom(20f).row();
+        allTables.add(name).padBottom(0).row();
+        allTables.add(info).padBottom(0).row();
+        allTables.add(affects).padBottom(0).row();
+        allTables.add(cost).padBottom(0).row();
+        allTables.add(unlockButton).width(200f).height(40f).row().padTop(0).row();
+        allTables.add(message).padBottom(20f).row();
+        allTables.add(menu).width(200f).height(40f).row().padBottom(10f).padTop(10f).row();
+        allTables.add(worldMap).width(200f).height(40f).padBottom(10f).padTop(20f).row();
+        allTables.setPosition(Gdx.graphics.getWidth()*7/8, Gdx.graphics.getHeight()/2);
 
 
         stage.addActor(background);
         stage.addActor(t);
         stage.addActor(allTables);
 
+
+    }
+
+
+
+    @Override public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -212,7 +235,6 @@ public class Store extends ScreenAdapter{
                         message.setColor(Color.RED);
                         message.setText("Locked");
                     }
-
 
                     imageList.get(ww).setColor(Color.RED);
                 }

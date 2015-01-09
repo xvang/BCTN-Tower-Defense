@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Assets;
 import com.padisDefense.game.CustomPool;
 import com.padisDefense.game.Enemies.BipedalDragon;
 import com.padisDefense.game.Enemies.BlueSpider;
@@ -17,15 +16,16 @@ import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Padi;
 import com.padisDefense.game.Player;
-import com.padisDefense.game.Towers.FlossTower;
+import com.padisDefense.game.Towers.AoeTower;
+import com.padisDefense.game.Towers.StrengthTower;
 import com.padisDefense.game.Towers.Tower;
-import com.padisDefense.game.Towers.UVTower;
-import com.padisDefense.game.Towers.MouthWashTower;
+import com.padisDefense.game.Towers.LaserTower;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.FillerTower;
-import com.padisDefense.game.Towers.InjectorTower;
-import com.padisDefense.game.Towers.ToothPasteTower;
+import com.padisDefense.game.Towers.SpeedTower;
+import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.SniperTower;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ import java.util.Map;
  *
  *
  * enemyManager calls spawnEnemy();
- * spawnEnemy() randomly spawns 25 initial enemy.
+ * spawnEnemy() randomly spawns 50 initial enemy.
  * After that, it gathers tower data.
  * If no tower is built, it keeps spawning random until it exceeds enemy limit.(at the moment, limit is 25)
  * spawnEnemy() calls on spawnResponse();
@@ -57,75 +57,43 @@ import java.util.Map;
  * **/
 public class SpawnManager {
 
+    Padi padi;
     GameScreen game;
     private Map<Tower, Integer> data;
 
-    private Assets assets;
     private boolean duckTime = true;//spawns one duck to signify start of bullrushing.
 
     private Array<String> allEnemies;//list of all enemies.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
-    CustomPool<Enemy> enemyCustomPool;//TODO: REMEMBER TO DELETE THE FREE() IN ENEMYMANAGER
+    public CustomPool<Enemy> enemyCustomPool;//TODO: REMEMBER TO DELETE THE FREE() IN ENEMYMANAGER
 
-    TestSpawnDeleteLater tsdl;
+    Array<String> weak;
+    Array<Tower> mostType;//Array of least and most frequent type towers.
+    Array<Tower> leastType;
 
 
-    public SpawnManager(GameScreen g){
+
+    public SpawnManager(GameScreen g, Padi p){
         game = g;
-        assets = game.padi.assets;
+        padi = p;
+        enemyCustomPool = padi.assets.enemyCustomPoolL;
 
-        enemyCustomPool = new CustomPool<Enemy>() {
-            @Override
-            protected Enemy newObject(String type) {
-
-                if(type.equals("icecream")) return new BlueSpider();
-
-                else if(type.equals("pizza")) return new IronSpider();
-
-                else if (type.equals("ggg")) return new RedSpider();
-
-                else if(type.equals("soda")) return new Mage();
-
-
-
-                System.out.println("RETURNING NULL");
-                return null;
-            }
-        };
-
-        initPool();
         data = new HashMap<Tower, Integer>();
         allEnemies = new Array<String>();
-        tsdl = new TestSpawnDeleteLater();
 
         //ADD ENEMIES HERE.
-        allEnemies.add("goblin");
-        allEnemies.add("biggergoblin");
-        allEnemies.add("bestgoblin");
-    }
+        allEnemies.add("bipedaldragon");
+        allEnemies.add("bluespider");
+        allEnemies.add("cobra");
+        allEnemies.add("golem");
+        allEnemies.add("ironspider");
+        allEnemies.add("mage");
+        allEnemies.add("redspider");
 
-
-    //Creating 25 of each enemy.
-    //So they can be freed into the pool.
-    public void initPool(){
-        Array<Enemy> eArray = new Array<Enemy>();
-        for(int x = 0; x < 25; x++){
-
-            eArray.add(enemyCustomPool.obtain("soda"));
-            //eArray.add(enemyCustomPool.obtain("pizza"));
-            //eArray.add(enemyCustomPool.obtain("icecream"));
-            //eArray.add(enemyCustomPool.obtain("goblin"));
-
-            //eArray.add(enemyPool.obtain());
-            //System.out.println("Pool init(): " + dummyCounter);
-        }
-
-        System.out.println("Size of eArray: " + eArray.size);
-        //enemyPool.freeAll(eArray);
-        enemyCustomPool.freeAll(eArray);
-
-
+        weak = new Array<String>();
+        mostType = new Array<Tower>();
+        leastType = new Array<Tower>();
     }
 
 
@@ -134,18 +102,21 @@ public class SpawnManager {
     public void spawnEnemy(EnemyManager enemy){
 
 
-
         if(first50 < 50){
 
             Enemy e;
             int r = (int)(Math.random()*10);
 
-            if(r == 0) e = enemyCustomPool.obtain("soda");
-            else if(r == 8) e = enemyCustomPool.obtain("soda");
-            else if(r == 3) e = enemyCustomPool.obtain("soda");
-            else if(r == 4) e = enemyCustomPool.obtain("soda");
+            if(r == 0) e = enemyCustomPool.obtain("bipedaldragon");
+            else if(r == 1) e = enemyCustomPool.obtain("bluespider");
+            else if(r == 2) e = enemyCustomPool.obtain("cobra");
+            else if(r == 3) e = enemyCustomPool.obtain("golem");
+            else if(r == 4) e = enemyCustomPool.obtain("ironspider");
+            else if(r == 5) e = enemyCustomPool.obtain("mage");
+            else if(r == 6) e = enemyCustomPool.obtain("redspider");
 
-            else e = enemyCustomPool.obtain("soda");
+
+            else e = enemyCustomPool.obtain("mage");
 
 
             e.init(-100f, 0);
@@ -157,34 +128,10 @@ public class SpawnManager {
 
             enemy.getActiveEnemy().add(e);
 
-            /*ee.init(-50f, 0);
-            ee.setTime(0f);
-            ee.setCurrentPath(0);
-
-            enemy.getActiveEnemy().add(ee);*/
-
-            /*int rand = (int)(Math.random()*3);
-            Enemy newEnemy;
-            if(rand == 0){
-                newEnemy = new IronSpider();
-                enemy.getActiveEnemy().add(newEnemy);
-            }
-
-            else if (rand == 1){
-                newEnemy = new BlueSpider();
-                enemy.getActiveEnemy().add(newEnemy);
-            }
-
-            else if(rand == 2){
-                newEnemy = new RedSpider();
-                enemy.getActiveEnemy().add(newEnemy);
-            }
-
-
-            first50++;*/
+            first50++;
 
         }
-        else{//initial 25 enemies have spawned.
+        else{//initial 50 enemies have spawned.
 
             gatherTowerData();
             if(data.size() == 0){
@@ -201,13 +148,16 @@ public class SpawnManager {
 
             }
 
-            /*for(Map.Entry<Tower, Integer> k: data.entrySet()){
+           /*for(Map.Entry<Tower, Integer> k: data.entrySet()){
                 System.out.print(k.getKey().getID() + "  " + k.getValue() + " ___ " );
             }
             System.out.print("  Total" + "  " + data.size() + "\n");*/
         }
 
         data.clear();
+        weak.clear();
+        mostType.clear();
+        leastType.clear();
 
     }
 
@@ -253,8 +203,8 @@ public class SpawnManager {
 
 
         //no need to assign these a value unless mostValue < 4
-        Array<Tower> mostType;//Array of least and most frequent type towers.
-        Array<Tower> leastType;
+        //Array<Tower> mostType;//Array of least and most frequent type towers.
+        //Array<Tower> leastType;
         //System.out.println("Most: " + mostValue);
 
 
@@ -274,8 +224,8 @@ public class SpawnManager {
             duckTime = true;
             //System.out.println("duck time over...");
 
-            mostType = new Array<Tower>();
-            leastType = new Array<Tower>();
+            //mostType = new Array<Tower>();
+            //leastType = new Array<Tower>();
 
             for(Map.Entry<Tower, Integer> k: data.entrySet()){
                 if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
@@ -286,7 +236,7 @@ public class SpawnManager {
 
             //Example: if DIFFICULTY was 55, then there is a
             //55% chance the enemy spawn will counter the user's towers.
-            if(x >= assets.getDifficulty()){
+            if(x >= padi.assets.getDifficulty()){
                 newEnemy = spawnRandom();
                 //System.out.println("spawn Random()");
             }
@@ -311,8 +261,7 @@ public class SpawnManager {
 
     private Enemy spawnCustom(Array<Tower> mostType) {
 
-        Array<String> weak = new Array<String>();
-
+        //Array<String> weak = new Array<String>();
         //gathers all the enemies that the most frequent towers are weak against.
         for(int x = 0; x < mostType.size; x++){
             int size = mostType.get(x).getWeakAgainst().size;
@@ -331,34 +280,41 @@ public class SpawnManager {
     //spawns a random enemy.
     private Enemy spawnRandom() {
 
-        int x = (int)(Math.random()*3);
+        int x = (int)(Math.random()*7);
         Enemy e;
         if(x == 0) e = new IronSpider();
         else if (x == 1) e =  new BlueSpider();
         else if (x == 2) e =  new RedSpider();
+        else if (x == 3) e = new IronSpider();
+        else if (x == 4) e = new Cobra();
+        else if (x == 5) e = new BipedalDragon();
+        else if (x == 6) e = new Mage();
+
         else e = new IronSpider();
         return e;
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-        if(type.equals("pizza"))
-            return new IronSpider();
-        else if (type.equals("icecream"))
-            return new BlueSpider();
-        else if (type.equals("soda"))
-            return new RedSpider();
-        else
-            return new IronSpider();
+        if(type.equals("ironspider")) return new IronSpider();
+        else if (type.equals("bluespider")) return new BlueSpider();
+        else if (type.equals("redspider")) return new RedSpider();
+        else if (type.equals("golem")) return new Golem();
+        else if (type.equals("cobra")) return new Cobra();
+        else if (type.equals("mage")) return new Mage();
+        else if (type.equals("bipedaldragon")) return new BipedalDragon();
+
+        else return new IronSpider();
     }
+
 /************FOR BUILDABLE SPOTS***********************************************************/
     public void spawnBuildableSpots(TowerManager tower){
         //For testing purposes only.
         //BuildableSpots are manually spawned here.
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        tower.addBuildableSpots(new Vector2(w/12f, h/6));
-        tower.addBuildableSpots(new Vector2(w/3f, h/6));
+        tower.addBuildableSpots(new Vector2(w/12f, h/3));
+        tower.addBuildableSpots(new Vector2(w/2f, h/6));
         tower.addBuildableSpots(new Vector2(w*2/3, h/2));
         tower.addBuildableSpots(new Vector2(w/2f, h*2/3));
         tower.addBuildableSpots(new Vector2(w*3/4f, h*2/3));
@@ -373,9 +329,11 @@ public class SpawnManager {
         if(t.getLevel() < 3){
             t.setAttack(t.getAttack()*1.1f);
             t.setRange(t.getRange()*1.1f);
-            t.setBulletLimit(t.getBulletLimit()+1);
             t.setSize(t.getWidth()*1.1f, t.getHeight()*1.1f);
-            t.setColor(Color.GREEN);
+            if(t.getLevel() == 1)
+                t.setColor(Color.GREEN);
+            else if (t.getLevel() == 2)
+                t.setColor(Color.RED);
             t.setLevel(t.getLevel()+1);
         }
 
@@ -400,41 +358,39 @@ public class SpawnManager {
                 t.getY() + (t.getHeight() / 8));
 
 
-        //Create InjectorTower
-        if(type.equals("injector")){
+        //Create RogueTower
+        if(type.equals("rogue")){
 
-            newTower = new InjectorTower(spawnPosition);
+            newTower = new RogueTower(spawnPosition);
         }
 
-        //Create ToothPasteTower
-        else if(type.equals("toothpaste")) {
-            newTower = new ToothPasteTower(spawnPosition); //Create ToothPasteTower
+        //Create SniperTower
+        else if(type.equals("sniper")) {
+            newTower = new SniperTower(spawnPosition);
         }
 
-        //Create FlossTower
-        else if(type.equals("floss")) {
-            newTower = new FlossTower(spawnPosition);
+        //Create StrengthTower
+        else if(type.equals("strength")) {
+            newTower = new StrengthTower(spawnPosition);
         }
 
-        else if(type.equals("filler")){
-            newTower = new FillerTower(spawnPosition);
+        else if(type.equals("speed")){
+            newTower = new SpeedTower(spawnPosition);
         }
 
-        else if(type.equals("mouthwash")){
-            newTower = new MouthWashTower(spawnPosition);
+        else if(type.equals("aoe")){
+            newTower = new AoeTower(spawnPosition);
         }
 
-        else if(type.equals("uv")){
-            newTower = new UVTower(spawnPosition);
+        else if(type.equals("laser")){
+            newTower = new LaserTower(spawnPosition);
         }
-
-        int d = 0;
 
         if(newTower != null){
             if(game.tower.getInGameMoney() >= newTower.getCost()){
 
                 if(t.getCurrentTower()!= null)
-                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes InjectorTower from towerArray.
+                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes RogueTower from towerArray.
 
                 //System.out.println("Range Before: " + newTower.getRange());
                 applyStatChanges(newTower);
@@ -452,7 +408,7 @@ public class SpawnManager {
 
     public void applyStatChanges(Tower t){
 
-        Player p = game.padi.player;//pointer to the Player object.
+        Player p = padi.player;//pointer to the Player object.
 
         for(int x = 0; x < p.getItemsUnlocked().size;x++){//getTargets() returns a String of towers targeted by item.
             for(int y = 0; y < p.getItemsUnlocked().get(x).getTargets().size; y++){
@@ -469,7 +425,14 @@ public class SpawnManager {
     }
 
 
+    //TODO; look up how to delete a map.
     public void dispose(){
+        data.clear();
+        allEnemies.clear();
+    }
+
+    public void reset(){
+        data.clear();
     }
 }
 
@@ -484,31 +447,31 @@ public class SpawnManager {
  Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
  b.getY() + (b.getHeight() / 8));
 
- //Create InjectorTower
+ //Create RogueTower
  if(type.equals("speed")){
- newTower = new InjectorTower(spawnPosition);
+ newTower = new RogueTower(spawnPosition);
  }
 
- //Create ToothPasteTower
+ //Create SniperTower
  else if(type.equals("strength")) {
- newTower = new ToothPasteTower(spawnPosition); //Create ToothPasteTower
+ newTower = new SniperTower(spawnPosition); //Create SniperTower
  }
 
- //Create FlossTower
+ //Create StrengthTower
  else if(type.equals("ice")) {
- newTower = new FlossTower(spawnPosition);
+ newTower = new StrengthTower(spawnPosition);
  }
 
  else if(type.equals("rogue")){
- newTower = new FillerTower(spawnPosition);
+ newTower = new SpeedTower(spawnPosition);
  }
 
  else if(type.equals("aoe")){
- newTower = new MouthWashTower(spawnPosition);
+ newTower = new AoeTower(spawnPosition);
  }
 
  else if(type.equals("ghost")){
- newTower = new UVTower(spawnPosition);
+ newTower = new LaserTower(spawnPosition);
  }
 
  if(game.tower.getInGameMoney() >= newTower.getCost()){

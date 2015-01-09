@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Padi;
 import com.padisDefense.game.Pathing.PathStorage;
 import com.padisDefense.game.Towers.Tower;
 
@@ -25,6 +26,7 @@ import com.padisDefense.game.Towers.Tower;
 * **/
 public class EnemyManager {
 
+    Padi padi;
     GameScreen game;
     private Array<Path<Vector2>> path;
     private PathStorage storage;
@@ -38,11 +40,13 @@ public class EnemyManager {
 
     //TODO: find out why a high arc value makes the bullet disappear.
     public float time = 0;
-    public float countDownTimer = 5f;
+    public float countDownTimer = 10f;
     SpriteBatch batch;
 
     /**CONSTRUCTOR**/
-    public EnemyManager(GameScreen g){
+    public EnemyManager(GameScreen g, Padi p){
+
+        padi = p;
         game = g;
         renderer = new ImmediateModeRenderer20(false, false, 0);
         activeEnemy = new Array<Enemy>();
@@ -75,13 +79,14 @@ public class EnemyManager {
         }
     }
 
-    public void startEnemy(SpawnManager spawn){
+    public void startEnemy(){
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(countDownTimer >= 0f){//no enemy should spawn until countdown ends.
             countDownTimer -= Gdx.graphics.getDeltaTime();
+
         }
 
         else{
@@ -92,7 +97,7 @@ public class EnemyManager {
 
             spawnPause += Gdx.graphics.getDeltaTime();
             //Calculating if spawning is necessary.
-            if(activeEnemy.size < 50 && spawnsLeft > 0 && spawnPause >= 2.0f){
+            if(activeEnemy.size < 50 && spawnsLeft > 0 && spawnPause >= 1.0f){
 
                 spawnPause = 0f;
                 int amount = (int)(Math.random()* 3 + 1);
@@ -101,7 +106,7 @@ public class EnemyManager {
 
                 for(int x = 0; x < amount; x++){
                     spawnsLeft--;
-                    spawn.spawnEnemy(this);
+                    game.spawn.spawnEnemy(this);
                 }
             }
         }
@@ -119,8 +124,14 @@ public class EnemyManager {
         float time;
         Enemy currentEnemy;
 
+        if(activeEnemy.size == 1){
+            System.out.println("One left: " + activeEnemy.get(0).getLocation());
+        }
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
+
+            if(currentEnemy == null)
+                System.out.println("Null enemy");
             time = currentEnemy.getTime() + (Gdx.graphics.getDeltaTime() * currentEnemy.getRate());
             currentEnemy.setTime(time);
 
@@ -208,7 +219,7 @@ public class EnemyManager {
                             //currentTower.getActiveBullets().get(w).setTime(0f);
 
                             b = currentTower.getActiveBullets().get(w);
-                            b.setTime(0f);
+                            //b.setTime(0f);
                             currentTower.getActiveBullets().removeIndex(w);
                             currentTower.getPool().free(b);
                         }
@@ -259,8 +270,39 @@ public class EnemyManager {
     public float getCountDownTimer(){return countDownTimer;}
     public void setCountDownTimer(float t){countDownTimer = t;}
 
+    /**
+     * private Array<Path<Vector2>> path;
+     private PathStorage storage;
+     private int spawnsLeft;
+     private int enemyCounter = 0;
+     ImmediateModeRenderer20 renderer;
+     private float spawnPause = 0f;
+
+     protected Array<Enemy>  activeEnemy;
+
+
+     //TODO: find out why a high arc value makes the bullet disappear.
+     public float time = 0;
+     public float countDownTimer = 10f;
+     SpriteBatch batch;
+     * */
     public void dispose(){
         renderer.dispose();
+        batch.dispose();
+        for(int x = 0; x < activeEnemy.size; x++)
+            activeEnemy.get(x).getTexture().dispose();
+        activeEnemy.clear();
+        storage.dispose();
+        path.clear();
+
+    }
+
+    public void reset(){
+
+        activeEnemy.clear();
+
+        countDownTimer  = 10f;
+
     }
 }
 

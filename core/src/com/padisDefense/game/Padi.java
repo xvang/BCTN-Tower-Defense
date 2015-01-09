@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.padisDefense.game.Tests.AnimationTest;
 import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
-import com.padisDefense.game.Tests.TEST2;
+import com.padisDefense.game.Tests.GeneralTesting;
+import com.padisDefense.game.Tests.PathRunTest;
+import com.padisDefense.game.Tests.PathRunTest2;
+import com.padisDefense.game.Tests.RotateTest;
 import com.padisDefense.game.TransitionScreens.Splash;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -38,42 +42,28 @@ public class Padi extends Game implements ApplicationListener{
 
     //These are global variables?
     //Every screen should have access to them.
-    public SpriteBatch batch;
-    public Skin skin;
-    public Sprite background;
-    public TweenManager tweenManager;
 
 
-    //When I need to test something, I'll set the screen
-    //to test(setScreen(test)).  The setScreen is at the end
-    //of the create() method.
-    com.padisDefense.game.Tests.TEST2 TEST2;
 
     @Override
     public void create(){
 
-        assets = new Assets(this);
+        /*assets = new Assets(this);
+        assets.initGameScreen();
+
         main_menu = new MainMenu(this);
         setting = new Setting(this);
         worldmap = new WorldMap(this);
         player = new Player();
         store = new Store(this);
-        TEST2 = new TEST2();
         instruction = new Instruction(this);
 
-        batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        background = new Sprite(new Texture("test1.png"));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        tweenManager = new TweenManager();
+        this.setScreen(new Splash(this));*/
+        this.setScreen(new RotateTest());
+        //this.setScreen(new GeneralTesting(this));
+        //this.setScreen(new PathRunTest());
+        //this.setScreen(new PathRunTest2());
 
-
-
-        this.setScreen(new Splash(this));
-       //this.setScreen(TEST2);
-        //this.setScreen(new TEST3());
-        //this.setScreen(new TEST4());
-        //this.setScreen(new TEST5());
         //this.setScreen(new AnimationTest());
         //this.setScreen(new DefaultSpriteSheetTest());
 
@@ -100,9 +90,7 @@ public class Padi extends Game implements ApplicationListener{
     }
     @Override
     public void dispose(){
-
         super.dispose();
-
     }
 
     @Override

@@ -6,25 +6,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 
-public class FillerTower extends Tower {
+public class SpeedTower extends Tower {
 
     private float attack = 30;
-    private Sprite spiral;
 
-    public FillerTower(Vector2 position){
-        super("roguetower.png");
+
+    public SpeedTower(Vector2 position){
+        super("towers/speed_level_one.png");
+        this.setSize(30f, 30f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setSize(50f, 70f);
         setBulletLimit(1);
         setCost(100);
-        setRange(150f);
+        setRange(350f);
         setAttack(1f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.12f);
-        setID("filler");
+        setID("speed");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.09f);
         setWeakAgainst("bestgoblin");
@@ -39,7 +40,7 @@ public class FillerTower extends Tower {
             return -attack/2;
         }
 
-        System.out.println("Attack: "  + attack);
+
         return attack;
     }
 

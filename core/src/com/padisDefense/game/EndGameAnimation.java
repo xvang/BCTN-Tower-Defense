@@ -15,15 +15,14 @@ public class EndGameAnimation {
     public EndGameAnimation(){
         show();
     }
-    Array<FireBall> activeFireBall;
-    Pool<FireBall> fireBallPool;
+    private Array<FireBall> activeFireBall;
+    private Pool<FireBall> fireBallPool;
 
 
-    Pool<Explosion> explosionPool;
-    Array<Explosion> activeExplosion;
-    Vector2 explosionPosition;
+    private Pool<Explosion> explosionPool;
+    private Array<Explosion> activeExplosion;
 
-    SpriteBatch batch;
+    private SpriteBatch batch;
 
     public void show() {
         batch = new SpriteBatch();
@@ -52,7 +51,7 @@ public class EndGameAnimation {
             }
         };
         activeExplosion = new Array<Explosion>();
-        explosionPosition = new Vector2();
+
 
         for(int x = 0; x < 30; x++){
             activeExplosion.add(explosionPool.obtain());
@@ -109,7 +108,31 @@ public class EndGameAnimation {
         }
 
 
-        System.out.println(activeExplosion.size + "  " + activeFireBall.size);
+        //System.out.println(activeExplosion.size + "  " + activeFireBall.size);
+    }
+
+
+
+
+    //deletes the pools and clears the array.
+    public void dispose(){
+        batch.dispose();
+        explosionPool.freeAll(activeExplosion);
+        explosionPool.clear();
+        fireBallPool.freeAll(activeFireBall);
+        fireBallPool.clear();
+
+        activeExplosion.clear();
+        activeFireBall.clear();
+
+    }
+
+    //returns the used fireballs and explosions back to pool. clears arrays.
+    public void reset(){
+        explosionPool.freeAll(activeExplosion);
+        fireBallPool.freeAll(activeFireBall);
+        activeExplosion.clear();
+        activeFireBall.clear();
     }
 }
 

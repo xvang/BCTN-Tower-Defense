@@ -15,7 +15,7 @@ public class Mage extends Enemy {
     public Mage(){
         //health, armor, texture
         super(100, 1, "bestgoblin.png");
-        setName("soda");
+        setName("mage");
         setRate(0.08f + (float)Math.random()*0.035f);
 
         initMovement();
@@ -62,17 +62,18 @@ public class Mage extends Enemy {
         currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);
     }
 
-    float iteration = 0f;
+    float changeRate = (float)(Math.random()*0.004);
+
     @Override
     public void animate(SpriteBatch batch){
-        this.stateTime += Gdx.graphics.getDeltaTime();
+        this.stateTime += Gdx.graphics.getDeltaTime() + changeRate;
         currentFrame = currentAnimation.getKeyFrame(this.stateTime, true);
         batch.draw(currentFrame, this.getX(), this.getY());
 
-        iteration += Gdx.graphics.getDeltaTime();
+
         this.currentAnimation = this.getAnimationDirection();
         this.oldPosition.set(this.newPosition);
-        iteration = 0;
+
 
 
     }
@@ -103,5 +104,27 @@ public class Mage extends Enemy {
 
         //if no major changes, then return the current animation.
         return currentAnimation;
+    }
+
+    @Override
+    public void displayHealth(SpriteBatch batch){
+
+        float percentage = health/originalHealth;
+
+        if(percentage <= 0f)
+            healthGreen.setSize(0, healthGreen.getHeight());
+        else if(percentage <= 1f)
+            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
+
+        try{
+            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
+            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
+
+        }catch(Exception e){
+            System.out.println("ENEMY IS NULL SOMEHOW");
+        }
+
+        healthRed.draw(batch, 1);
+        healthGreen.draw(batch, 1);
     }
 }

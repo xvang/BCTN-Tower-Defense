@@ -40,9 +40,9 @@ public class Splash extends ScreenAdapter {
         tweenManager.update(delta);
 
         //Begin rendering.
-        padi.batch.begin();
-        sprite.draw( padi.batch);
-        padi.batch.end();
+        padi.assets.batch.begin();
+        sprite.draw( padi.assets.batch);
+        padi.assets.batch.end();
 
         if (Gdx.input.justTouched()){
             padi.setScreen(padi.main_menu);
@@ -55,7 +55,7 @@ public class Splash extends ScreenAdapter {
 
         //Gets a random picture, put that in a new Texture,
         //and put the texture in a sprite.
-        sprite = new Sprite(new Texture((String)padi.assets.getRandomPic()));
+        sprite = new Sprite(padi.assets.getRandomPic());
 
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();

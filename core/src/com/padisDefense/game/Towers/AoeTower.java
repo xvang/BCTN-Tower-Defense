@@ -5,30 +5,28 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 
-public class FlossTower extends Tower {
+public class AoeTower extends Tower {
 
-
-    private float rangeAOE = 50f;
-    public FlossTower(Vector2 position){
-        super("icetower.png");
+    private float rangeAOE = 120f;
+    public AoeTower(Vector2 position){
+        super("towers/aoe_level_one.png");
+        this.setSize(30f, 30f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(50f, 60f);
+        setSize(30f, 30f);
         setBulletLimit(1);
-        setCost(70);
-        setAttack(4f);
-        setRange(180f);
-        setChargeRate(0.01f);
+        setCost(80);
+        setAttack(35f);
+        setRange(550f);
+        setChargeRate(0.14f);
         setIncomeRate(4f);
         setState(true);
-        setFireRate(0.01f);
-        setID("floss");
+        setFireRate(0.15f);
+        setID("aoe");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.04f);
-        setCustomArc(50f);
+        setBulletRate(0.06f);
         setWeakAgainst("goblin");
-        setStrongAgainst("bestgoblin", "biggergoblin");
-
+        setStrongAgainst("bestgoblin");
     }
 
     public float getRangeAOE(){return rangeAOE;}

@@ -207,6 +207,19 @@ public class PathStorage {
 
 
         Array<Path<Vector2>> path6 = new Array<Path<Vector2>>();
+
+        path6.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
+                new Vector2(w/3, h/4)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2),
+                new Vector2(w*5/12, h/2)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*5/12, h/2), new Vector2(w*2/3, h/2)));
+
+
+
         Array<Path<Vector2>> path7 = new Array<Path<Vector2>>();
         Array<Path<Vector2>> path8 = new Array<Path<Vector2>>();
         Array<Path<Vector2>> path9 = new Array<Path<Vector2>>();
@@ -232,6 +245,13 @@ public class PathStorage {
 
     public void dispose(){
 
+        for(int x = 0; x < allPaths.size; x++){
+            for(int y= 0; y < allPaths.get(x).size; x++){
+                allPaths.get(x).clear();
+            }
+        }
+
+        allPaths.clear();
     }
 }
 

@@ -3,6 +3,9 @@ package com.padisDefense.game.Towers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
@@ -15,8 +18,7 @@ import com.padisDefense.game.Enemies.Enemy;
  * @author Xeng
  *
  * */
-public class Tower extends Sprite {
-
+public class Tower extends Sprite{
 
 
     private String ID;
@@ -54,6 +56,10 @@ public class Tower extends Sprite {
     //It is updated in TowerManager [checkRange(), checkForDead()] and EnemyManager [isDead()]
 
 
+    public float rotateDestination;
+    public boolean lockedOnTarget = false;
+
+    //Constructor #1
     public Tower(String name){
         super(new Texture(name));
         hasTarget = false;
@@ -71,9 +77,10 @@ public class Tower extends Sprite {
                 return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
+
     }
 
-    //Empty Constructor
+    //Constructor #2
     public Tower(){
 
         hasTarget = false;
@@ -87,7 +94,6 @@ public class Tower extends Sprite {
                 return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
-
 
     }
 
@@ -152,12 +158,21 @@ public class Tower extends Sprite {
     }
 
 
-    //The bullet will spawn where this function returns..?
+
     public Vector2 getLocation(){
         return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
 
+    //The bullet will spawn where this function returns..?
+    public Vector2 getBulletSpawnLocation(){
 
+        float SS = (float)(Math.abs(Math.sin(rotateDestination) - ((rotateDestination + 90)/180)) % 1);
+        float WW = (float)(Math.abs(Math.cos(rotateDestination) - rotateDestination/180) % 1);
+
+        float x = this.getX() + this.getWidth()*SS;
+        float y = this.getY() + this.getHeight()*WW;
+        return new Vector2(x,y);
+    }
 
     public void update() {
         // if you want to free dead bullets, returning them to the pool:
@@ -165,14 +180,18 @@ public class Tower extends Sprite {
         int len = activeBullets.size;
         for (int i = len; --i >= 0;) {
             item = activeBullets.get(i);
-            if (item.alive == false) {
+            if (!item.alive) {
                 activeBullets.removeIndex(i);
                 pool.free(item);
             }
         }
     }
 
+    public Vector2 getCenterPosition(){return new Vector2(this.getX() + this.getWidth()/2,
+            this.getY() + this.getHeight()/2);}
 
+    public float getCenterX(){return this.getX() + this.getWidth()/2;}
+    public float getCenterY(){return this.getY() + this.getHeight()/2;}
 
     public void print(){
         System.out.print(ID);

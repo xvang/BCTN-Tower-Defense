@@ -1,12 +1,14 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.Tower;
 
@@ -21,19 +23,21 @@ import com.padisDefense.game.Towers.Tower;
 public class TowerManager{
 
 
+    Padi padi;
     GameScreen game;
     private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
     private int inGameMoney = 3000;
     SpriteBatch batch;
+    Vector2 arbitraryPoint;
 
-
-    public TowerManager(GameScreen g){
+    public TowerManager(GameScreen g, Padi p){
         game = g;
-        batch = new SpriteBatch();
-
+        padi = p;
         towerArray = new Array<Tower>();
         buildableArray = new Array<BuildableSpot>();
+        batch = new SpriteBatch();
+        arbitraryPoint = new Vector2();
     }
 
 
@@ -42,41 +46,48 @@ public class TowerManager{
      * renders all the towers and buildablespots
      *
      * */
-    public void startTowers(SpriteBatch batchh, EnemyManager enemy){
+    public void startTowers(){
 
 
-        //batch.begin();
+        batch.begin();
         for(int x = 0; x < buildableArray.size; x++){
-            buildableArray.get(x).draw(batchh, 1);
+            buildableArray.get(x).draw(batch, 1);
         }
 
 
         for(int x = 0; x < towerArray.size; x++){
-
+            Tower currentTower = towerArray.get(x);
             //towerArray.get(x).spinning();
-            towerArray.get(x).draw(batchh);
+            currentTower.draw(batch);
 
-            checkRange(towerArray.get(x));
-            checkForDead(towerArray.get(x));
+
+            checkRange(currentTower);
+            checkForDead(currentTower);
 
             //System.out.println(towerArray.get(x).getTarget().isDead());
             //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
             //towerArray.get(x).getTarget().rotate(10);
 
-            if(!towerArray.get(x).getHasTarget())
-                assignTargets(enemy, towerArray.get(x));
+            if(!currentTower.getHasTarget())
+                assignTargets(game.enemy, currentTower);
 
-            game.bullet.shooting(batchh, towerArray.get(x),
-                    towerArray.get(x).getTarget());
+            game.bullet.shooting(batch, currentTower,
+                    currentTower.getTarget());
 
-            checkRange(towerArray.get(x));
-            checkForDead(towerArray.get(x));
+            checkRange(currentTower);
+            checkForDead(currentTower);
+
+            if(currentTower.getHasTarget()){
+                calcRotate(currentTower, currentTower.getTarget());
+                rotate(currentTower);
+            }
+
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
 
         }
 
 
-        //batch.end();
+        batch.end();
 
 
 
@@ -186,6 +197,65 @@ public class TowerManager{
         return false;
     }
 
+    public void rotate(Tower t){
+        if(t.getRotation() != t.rotateDestination){
+            if( t.getRotation() + 2 <= t.rotateDestination){
+                t.rotate(2);
+            }
+            else if(t.getRotation() - 2 >= t.rotateDestination){
+                t.rotate(-2);
+            }
+        }
+
+        //System.out.println(Math.abs(t.getRotation() - t.rotateDestination) + " , " + t.lockedOnTarget);
+        if(Math.abs(t.getRotation() - t.rotateDestination) <= 3)
+            t.lockedOnTarget = true;
+        else
+            t.lockedOnTarget = false;
+    }
+    //an arbitrary point, the tower, and the enemy will make up a right triangle.
+    //figures out the rotation by calculating the the sin of an angle in the triangle.
+    public void calcRotate(Tower t, Enemy d){
+        //finding the hypotenuse.
+        Vector2 tt = new Vector2(t.getX(), t.getY());
+        Vector2 dd = new Vector2(d.getX(), d.getY());
+        double hypotenuse = findDistance(tt, dd);
+
+        arbitraryPoint.set(t.getX(), d.getY());
+        double opposite = Math.abs(d.getX() - arbitraryPoint.x);
+
+        //calculating.
+        double hypoppo = opposite/hypotenuse;
+
+        double arcSin = Math.asin(hypoppo);
+
+        double radian = arcSin*(180/Math.PI);
+
+        //System.out.println(hypotenuse + " / " + hypotenuses + "......." + radian + " / " + radian2);
+        if((t.getY() < d.getY()) && t.getX() != d.getX()){//tower is lower than enemy.
+            if(d.getX() > arbitraryPoint.x) t.rotateDestination = -(float)radian;
+            else t.rotateDestination = (float)radian;
+        }
+
+        else if((t.getY() > d.getY()) && t.getX() != d.getX()){// tower is higher than enemy.
+
+            if(d.getX() > arbitraryPoint.x) t.rotateDestination = 180 + (float)radian;
+            else t.rotateDestination = 180 - (float)radian;
+        }
+
+        else if(t.getY() == d.getY()){//tower is directly across enemy
+            if(t.getX() < d.getX())
+                t.rotateDestination = 90;
+            else
+                t.rotateDestination = 270;
+        }
+        else if(t.getX() == d.getX()){//tower is directly below/above enemy
+            if(t.getY() < d.getY())
+                t.rotateDestination = 0;
+            else
+                t.rotateDestination = 180;
+        }
+    }
 
 
     public double findDistance(Vector2 a, Vector2 b){
@@ -196,9 +266,23 @@ public class TowerManager{
     }
 
 
+    /**
+     * private Array<Tower> towerArray;
+     private Array<BuildableSpot> buildableArray;
+     private int inGameMoney = 3000;
+     * */
     public void dispose() {
-        for (int x = 0; x < towerArray.size; x++) {
-            towerArray.get(x).getTexture().dispose();
-        }
+        this.reset();
     }
+
+    public void reset(){
+        for (int x = 0; x < towerArray.size; x++)
+            towerArray.get(x).getTexture().dispose();
+
+        for(int x = 0; x < buildableArray.size; x++)
+            buildableArray.get(x).setCurrentTower(null);
+        towerArray.clear();
+
+    }
+
 }

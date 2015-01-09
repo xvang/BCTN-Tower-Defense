@@ -31,15 +31,8 @@ public class WorldMap implements Screen {
     Sprite background;
     Stage stage;
     WorldMap(Padi p){
+
         padi = p;
-    }//End of Worldmap() Constructor.
-
-
-    @Override
-    public void show() {
-
-
-
         background_texture = new Texture("worldmap.png");
         background = new Sprite(background_texture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -63,18 +56,28 @@ public class WorldMap implements Screen {
             final int g = x+1;
             //Adds a button. The last two buttons are 'menu' and 'store'.
             if(x < 9) {
-                buttons.add(new TextButton(String.valueOf(x + 1), padi.skin, "default"));
+                buttons.add(new TextButton(String.valueOf(x + 1), padi.assets.skin2, "default"));
+
 
                 buttons.get(x).addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent e, float a, float b) {
-                        padi.setScreen(new GameScreen(padi, g));
+
+                        if(padi.player.isLevelUnlocked(g)){
+                            padi.assets.gameScreen.assignLevel(g);
+                            padi.assets.gameScreen.reset();
+                            padi.setScreen(padi.assets.gameScreen);
+                        }
+                        else{
+                            System.out.println("No No No! No Bueno!");
+                        }
+
                     }
                 });
 
             }
             else if(x == 9) {
-                buttons.add(new TextButton(" menu ", padi.skin, "default"));
+                buttons.add(new TextButton(" menu ", padi.assets.skin2, "default"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){
@@ -83,7 +86,7 @@ public class WorldMap implements Screen {
                 });
             }
             else if(x == 10) {
-                buttons.add(new TextButton(" store ", padi.skin, "default"));
+                buttons.add(new TextButton(" store ", padi.assets.skin2, "default"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){
@@ -95,7 +98,7 @@ public class WorldMap implements Screen {
 
             //This sets the dimensions and color of the buttons.
             buttons.get(x).setSize(100f, 50f);
-            buttons.get(x).setColor(0.2f,0.3f, 0.8f, 0.8f);
+            //buttons.get(x).setColor(0.2f,0.3f, 0.8f, 0.8f);
 
 
         }
@@ -117,28 +120,31 @@ public class WorldMap implements Screen {
         for(int x = 0; x < buttons.size; x++)
             stage.addActor(buttons.get(x));
 
+
+    }//End of Worldmap() Constructor.
+
+
+    @Override
+    public void show() {
         Gdx.input.setInputProcessor(stage);
+
     }
 
 
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(0,0,0.8f,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        padi.batch.begin();
+        padi.assets.batch.begin();
 
-        background.draw(padi.batch);//Draw background.
+        background.draw(padi.assets.batch);//Draw background.
 
         for(int x = 0; x < buttons.size; x++)
-            buttons.get(x).draw(padi.batch, 3);//Draw buttons.
+            buttons.get(x).draw(padi.assets.batch, 3);//Draw buttons.
 
-        padi.batch.end();
-
-        /*if(Gdx.input.isKeyPressed(2)){
-            padi.setScreen(padi.main_menu);
-        }*/
+        padi.assets.batch.end();
     }
 
 

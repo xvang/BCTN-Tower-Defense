@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -44,7 +45,7 @@ public class Setting extends ScreenAdapter {
 
 
     public Array<Slider> slider;
-    public Array<Texture> textures;//SOUND, DIFFICULTY, SPEED.
+    public Array<TextureRegion> textures;//SOUND, DIFFICULTY, SPEED.
     public Array<Image> images;//SOUND, DIFFICULTY, SPEED.
     public Array<Label> values;
 
@@ -61,11 +62,8 @@ public class Setting extends ScreenAdapter {
 
 
 
-    public Setting(Padi p){ padi = p;}
-
-    @Override
-    public void show(){
-
+    public Setting(Padi p){
+        padi = p;
         top = new Rectangle();
         bottom = new Rectangle();
         left = new Rectangle();
@@ -83,28 +81,27 @@ public class Setting extends ScreenAdapter {
 
 
 
-
-
-
-
         stage = new Stage();
 
         background = new Group();
         foreground = new Group();
         textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("limegreen.png"))));
-        bar_style = new ProgressBar.ProgressBarStyle(padi.skin.newDrawable("white", Color.CYAN), textureBar);
+        bar_style = new ProgressBar.ProgressBarStyle(padi.assets.skin.newDrawable("white", Color.CYAN), textureBar);
         slider = new Array<Slider>();
-        textures = new Array<Texture>();
+        textures = new Array<TextureRegion>();
         images = new Array<Image>();
         values = new Array<Label>();
 
 
+        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
+        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
+        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
         //slider[0] corresponds with texture[0] and images[0], etc.
         for(int x = 0; x < 3; x++){
-            slider.add(new Slider(1,100,1,false,padi.skin));
-            textures.add(new Texture((String)padi.assets.getRandomPic()));
+            slider.add(new Slider(1,100,1,false,padi.assets.skin));
+
             images.add(new Image(textures.get(x)));
-            values.add(new Label("stuff", padi.skin));
+            values.add(new Label("stuff", padi.assets.skin));
 
             slider.get(x).setSize(250f,60f);
 
@@ -118,7 +115,7 @@ public class Setting extends ScreenAdapter {
 
 
         //'return to menu' button
-        final TextButton back_button = new TextButton("Back to Menu", padi.skin, "default");
+        final TextButton back_button = new TextButton("Back to Menu", padi.assets.skin2, "default");
 
 
         //on click, return to menu.
@@ -168,9 +165,15 @@ public class Setting extends ScreenAdapter {
 
 
         //setting the input to this stage on this screen.
-        Gdx.input.setInputProcessor(stage);
 
-    }//End show().
+
+    }
+
+
+    @Override
+    public void show(){
+        Gdx.input.setInputProcessor(stage);
+    }
 
 
     //Save settings into assets.
@@ -178,6 +181,7 @@ public class Setting extends ScreenAdapter {
     public void saveSettings(){
         padi.assets.setDifficulty((int)slider.get(2).getVisualValue());
         padi.assets.setSoundLevel((int)slider.get(0).getVisualValue());
+        padi.assets.setOriginalSoundLevel((int)slider.get(0).getVisualValue());
     }
 
     public void updateValues(){
@@ -197,11 +201,9 @@ public class Setting extends ScreenAdapter {
         saveSettings();
         updateValues();
 
-        //wander();
-        padi.batch.begin();
-        //padi.background.draw(padi.batch);
         stage.draw();
-        padi.batch.end();
+        //wander();
+
     }
 
 

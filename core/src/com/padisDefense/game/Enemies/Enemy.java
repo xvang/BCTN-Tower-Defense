@@ -27,7 +27,7 @@ import java.math.RoundingMode;
 public class Enemy extends Sprite implements Pool.Poolable{
 
     private String name;
-    private float health, originalHealth;
+    public float health, originalHealth;
 
     private float armor;
 
@@ -45,9 +45,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public boolean alive;
 
     //Displays the health.
-    private Skin skin;
-    private Sprite healthRed;
-    private Sprite healthGreen;
+    public Sprite healthRed;
+    public Sprite healthGreen;
 
 
     //Movement
@@ -68,7 +67,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
         rate = (float)(Math.random() % 0.01f);
         time = 0;
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
 
 
         healthGreen = new Sprite(new Texture("healthbargreen.png"));
@@ -89,7 +88,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
         health = 100;
         originalHealth = 100;
         alive = true;
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
 
         healthGreen = new Sprite(new Texture("healthbargreen.png"));
         healthRed = new Sprite(new Texture("healthbarred.png"));
@@ -105,7 +104,24 @@ public class Enemy extends Sprite implements Pool.Poolable{
         originalHealth = 100;
         alive = true;
         rate = (float)(Math.random() % 0.001f );
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        healthGreen = new Sprite(new Texture("healthbargreen.png"));
+        healthRed = new Sprite(new Texture("healthbarred.png"));
+
+        healthGreen.setSize(this.getWidth()+5f, 2f);
+        healthRed.setSize(this.getWidth()+5f, 2f);
+        oldPosition = new Vector2();
+        newPosition = new Vector2();
+
+    }
+
+    //constructor just for Duck()
+    Enemy(boolean b, int h, int a, String texture){
+        super(new Texture(texture));
+        health = h;
+        armor = a;
+        alive = true;
+        rate = (float)(Math.random() % 0.001f );
 
         healthGreen = new Sprite(new Texture("healthbargreen.png"));
         healthRed = new Sprite(new Texture("healthbarred.png"));
@@ -117,6 +133,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
 
     }
+
 
     public void goTo(Vector2 p){
         this.setPosition(p.x, p.y);
@@ -190,26 +207,29 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
 
     //TODO: make the health bar display properly. Or, make a cooler looking health bar.
-    public void displayHealth(SpriteBatch batch){
+    /*public void displayHealth(SpriteBatch batch){
 
         float percentage = health/originalHealth;
 
-
-        //we want healthRed's width, because it's the one that doesn't change.
-        //Example: if health goes down by 50%, then width of 'healthGreen' also goes down by 50%.
-        //and if percentage is greater than 1, than it means rogue must have increased
-        //its health. In that case, we don't want the healthbar to grow.
         if(percentage <= 0f)
             healthGreen.setSize(0, healthGreen.getHeight());
         else if(percentage <= 1f)
             healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
 
-        healthRed.setPosition(this.getX() + this.currentFrame.getRegionWidth()/3, this.getY() + this.currentFrame.getRegionHeight() - 5f);
-        healthGreen.setPosition(this.getX() + this.currentFrame.getRegionWidth()/3, this.getY()+ this.currentFrame.getRegionHeight() - 5f);
+        try{
+            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
+            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
+
+        }catch(Exception e){
+            System.out.println("ENEMY IS NULL SOMEHOW");
+        }
 
         healthRed.draw(batch, 1);
         healthGreen.draw(batch, 1);
-    }
+    }*/
+
+
+    public void displayHealth(SpriteBatch batch){}
 
 
     public void animate(SpriteBatch batch){}

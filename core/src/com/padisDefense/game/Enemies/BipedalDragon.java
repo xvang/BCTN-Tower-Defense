@@ -13,7 +13,7 @@ public class BipedalDragon extends Enemy{
     public BipedalDragon(){
         //health, armor, texture
         super(100, 1, "bestgoblin.png");
-        setName("ssoda");
+        setName("bipedaldragon");
         setRate(0.08f + (float)Math.random()*0.035f);
 
         initMovement();
@@ -79,5 +79,29 @@ public class BipedalDragon extends Enemy{
             return animation.get(1);
         //if no major changes, then return the current animation.
 
+    }
+
+    @Override
+    public void displayHealth(SpriteBatch batch){
+
+        float percentage = health/originalHealth;
+
+        if(percentage <= 0f)
+            healthGreen.setSize(0, healthGreen.getHeight());
+        else if(percentage <= 1f)
+            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
+
+
+        try{
+            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
+            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
+
+        }catch(Exception e){
+            if(currentFrame == null)
+                System.out.println("CURRENTFRAME IS OUR CUPLRIT GODDAM");
+        }
+
+        healthRed.draw(batch, 1);
+        healthGreen.draw(batch, 1);
     }
 }

@@ -42,8 +42,9 @@ public class BuildableSpot extends Tower {
 
     public void setHasTower(boolean b){hasTower = b;}
 
+    //only one condition is needed, but checking for thoroughness...?
     public boolean emptyCurrentTower(){
-        return !hasTower;
+        return (!hasTower && currentTower == null);
     }
 
 

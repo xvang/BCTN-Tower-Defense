@@ -7,6 +7,13 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
@@ -17,7 +24,7 @@ import com.padisDefense.game.Managers.UIManager;
 
 
 /**
- *TODO: combine the 40 pics of fire animation
+ *
  *
  * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
@@ -45,131 +52,117 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     //maybe right now a multi is not needed,
     //but it never hurts to have,  right?
-    InputMultiplexer multi;
+    public InputMultiplexer multi;
 
 
-    public int whatLevel;
-    public GameScreen(Padi p, int l){
+    public GameScreen(Padi p){
+
         padi = p;
-        whatLevel = l;
+        background = new Sprite(new Texture("test1.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setOrigin(0, 0);
+        endGameAnimation = new EndGameAnimation();
+        tower = new TowerManager(this, p);
+        enemy = new EnemyManager(this, p);
+        level = new LevelManager(this, p);
+        spawn = new SpawnManager(this, p);
+        UI = new UIManager(this, p);
+        damage = new DamageManager(this, p);
+        bullet = new BulletManager(this, p);
+        multi = new InputMultiplexer();
+
+
+
     }
 
     @Override
     public void show(){
 
-        background = new Sprite(new Texture("test1.png"));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setOrigin(0, 0);
-        endGameAnimation = new EndGameAnimation();
-        tower = new TowerManager(this);
-        enemy = new EnemyManager(this);
-
-
-
-        level = new LevelManager(this);
-        spawn = new SpawnManager(this);
-        UI = new UIManager(this);
-        damage = new DamageManager(this);
-        bullet = new BulletManager(this);
-
-
-
-        level.setLevel(whatLevel);
-        level.determineLevel();
-
-
-        //enemy amount and path is stored in enemy.
-        //information about those things are stored in levelManager.
-        enemy.setEnemyAmount(level.getEnemyAmount());
-        enemy.setPath(level.getPath());
-
-
-        spawn.spawnBuildableSpots(tower);
-
-
-
-        //Setting up the inputs.
-        multi = new InputMultiplexer();
-
-
-
-        multi.addProcessor(UI.getStage());
-        multi.addProcessor(UI);
-        multi.addProcessor(this);
-
-
-        Gdx.input.setInputProcessor(multi);
-
     }
 
+    //enemy amount and path is stored in enemy.
+    //information about those things are stored in levelManager.
+    public void assignLevel(int L){
+        level.setLevel(L);
+        level.determineLevel();
+        enemy.setEnemyAmount(level.getEnemyAmount());
+        enemy.setPath(level.getPath());
+        spawn.spawnBuildableSpots(tower);
+    }
 
     boolean do_once = true;
-    //TODO: mess with the GDX.clearcolor() to make NUKE animations.
     @Override
     public void render(float delta){
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //background.draw(padi.batch);
-        oldEnemyCount = enemy.getEnemyCounter();
+        if(!UI.PAUSED){
+            //background.draw(padi.batch);
+            oldEnemyCount = enemy.getEnemyCounter();
 
-        enemy.startEnemy( spawn);
+            enemy.startEnemy();
+
+            tower.startTowers();
+
+            if(!GAME_OVER) {
 
 
-
-        padi.batch.begin();
-        tower.startTowers(padi.batch, enemy);
-
-
-        if(!GAME_OVER) {
-
-            gatherCharge();
-            if(enemy.getCountDownTimer() <= 0f){//game clock starts when countdown ends.
-                UI.updateTimer(Gdx.graphics.getDeltaTime());
-                UI.updateTimerMessage();
+                gatherCharge();
+                if(enemy.getCountDownTimer() <= 0f){//game clock starts when countdown ends.
+                    UI.updateTimer(Gdx.graphics.getDeltaTime());
+                    UI.updateTimerMessage();
+                }
             }
 
-        }
+            newEnemyCount = enemy.getEnemyCounter();
 
-        newEnemyCount = enemy.getEnemyCounter();
+            calcMoney();
 
-        calcMoney();
+            UI.getStage().draw();
 
-
-        padi.batch.end();
-
-
-        UI.getStage().draw();
-
-        //checks if game ended.
+            //checks if game ended.
 
 
-        if((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once){
-            do_once = false;
-            GAME_OVER = true;
-            enemy.destroyAllEnemy();
+            if((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once){
+
+                do_once = false;
+                GAME_OVER = true;
+                enemy.destroyAllEnemy();
+                UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
+
+                UI.gameOver();
+                multi.clear();
+                multi.addProcessor(UI.endStage);
+                UI.endGameTable.setVisible(true);
+                UI.endStage.draw();
+                UI.masterTable.setVisible(false);
+                UI.hideButton.setPosition(Gdx.graphics.getWidth()-UI.hideButton.getWidth() - 10f, 10f);
+
+            /*if(UI.fullChargeMeter())
+                endGameAnimation.run();*/
+
+
+
+            }
+            else if (GAME_OVER){
+
+                if(UI.fullChargeMeter()){
+                    endGameAnimation.run();
+
+                }
+
+
+                UI.endStage.draw();
+            }
             UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
-            UI.gameOver();
-            multi.clear();
-            multi.addProcessor(UI.endStage);
-            UI.endGameTable.setVisible(true);
-            UI.endStage.draw();
-            UI.masterTable.setVisible(false);
-            UI.hideButton.setPosition(Gdx.graphics.getWidth()-UI.hideButton.getWidth() - 10f, 10f);
-
-            endGameAnimation.run();
-
-
-
         }
-        else if (GAME_OVER){
 
-            endGameAnimation.run();
 
-            UI.endStage.draw();
+        //PAUSED
+        else{
+            UI.pauseStage.draw();
         }
-        UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
     }
 
@@ -182,36 +175,69 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         oldEnemyCount = newEnemyCount;
     }
 
-
     //if getState() returns 'false', then it must be in charging mode.
     //its chargRate is retrieved and added to temp.
     //temp is passed to UIManager to update charging meter.
     public void gatherCharge(){
+
         float temp = 0;
         for(int x = 0; x < tower.getTowerArray().size; x++){
             if(!tower.getTowerArray().get(x).getState())
                 temp += tower.getTowerArray().get(x).getChargeRate();
 
         }
+
         UI.updateChargeMeter(temp);
     }
+
     @Override
     public void dispose(){
+        System.out.println("DISPOSING GAME SCREEN NOW!");
+
+        endGameAnimation.dispose();
         enemy.dispose();
         tower.dispose();
         bullet.dispose();
         UI.dispose();
         level.dispose();
         spawn.dispose();
+        damage.dispose();
+
+        multi.getProcessors().clear();
     }
 
+    public void reset(){
+        endGameAnimation.reset();
+        enemy.reset();
+        tower.reset();
+        bullet.reset();
+        UI.reset();
+        level.reset();
+        spawn.reset();
+        damage.reset();
+
+        GAME_OVER = false;
+        enemy.setEnemyAmount(level.getEnemyAmount());
+        do_once = true;
+        oldEnemyCount = 0;
+        newEnemyCount = 0;
+
+        multi.clear();
+
+        multi.addProcessor(UI.getStage());
+        multi.addProcessor(UI);
+        multi.addProcessor(this);
+
+
+        Gdx.input.setInputProcessor(multi);
+    }
     @Override
     public void resize(int x, int y){
         UI.getStage().getViewport().update(x, y, true);
     }
 
     @Override
-    public void hide(){}
+    public void hide(){this.reset();}
     @Override
     public void pause(){}
 

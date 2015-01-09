@@ -1,7 +1,7 @@
-package com.padisDefense.game.Tests;
+package com.padisDefense.game.MiscellaniousCharacters;
+
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,26 +9,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+
+public class LightingBall extends Miscellaneous{
 
 
-public class DefaultSpriteSheetTest extends ScreenAdapter {
+    public Bezier<Vector2> path;
+    public Vector2 out;
 
+    public LightingBall(){
+        initMovement();
+    }
 
-    public DefaultSpriteSheetTest(){}
-
-
-    Animation walkAnimation;
-    SpriteBatch spriteBatch;
-    TextureRegion currentFrame;
-
-    Bezier<Vector2> path;
-    Vector2 out;
-    float time = 0;
-    float stateTime;
-
-    @Override
-    public void show() {
+    public void initMovement() {
         final int        FRAME_COLS = 10;
         final int        FRAME_ROWS = 2;
         Texture walkSheet = new Texture(Gdx.files.internal("animation/fx8_lightingball_all_me.png")); // #9
@@ -43,9 +35,9 @@ public class DefaultSpriteSheetTest extends ScreenAdapter {
             }
         }
 
-        walkAnimation = new Animation(1/((float)(FRAME_COLS*FRAME_ROWS)), walkFrames);      // #11
+        animation = new Animation(1/((float)(FRAME_COLS*FRAME_ROWS)), walkFrames);      // #11
 
-        spriteBatch = new SpriteBatch();                // #12
+
         stateTime = 0f;                         // #13
 
         path = new Bezier<Vector2>();
@@ -54,26 +46,29 @@ public class DefaultSpriteSheetTest extends ScreenAdapter {
                 new Vector2(Gdx.graphics.getWidth(), 0));
         out = new Vector2();
 
-        currentFrame = walkAnimation.getKeyFrame(stateTime, true);  // #16
+        currentFrame = animation.getKeyFrame(stateTime, true);  // #16
 
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);                   // #14
+
+    public void animate(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();           // #15
-        currentFrame = walkAnimation.getKeyFrame(stateTime, true);  // #16
+        currentFrame = animation.getKeyFrame(stateTime, true);  // #16
 
-        time += Gdx.graphics.getDeltaTime();
+        stateTime += Gdx.graphics.getDeltaTime();
 
-        if(time >= 1)
-            time = 0;
-        path.valueAt(out, time);
-
-        spriteBatch.begin();
         //spriteBatch.draw(currentFrame, out.x, out.y);             // #17
-        spriteBatch.draw(currentFrame, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        spriteBatch.end();
+        //batch.draw(currentFrame, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+
+    }
+
+
+
+
+
+
+    @Override
+    public void reset(){
+
     }
 }

@@ -3,7 +3,6 @@ package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -23,117 +22,75 @@ import aurelienribon.tweenengine.TweenManager;
  * Menu class.
  * Another class that needs cleaning.
  *
- * @author Xeng
- *
+ * 'show()' is executed ONCE every time the mainmenu object is accessed.
+ * so if everything is declared in show, then show keeps declaring every time
+ * the screen is accessed.
  * */
 public class MainMenu extends ScreenAdapter {
 
-    final float w = Gdx.graphics.getWidth();
-    final float h = Gdx.graphics.getHeight();
 
-    final float BUTTON_WIDTH = w / 3 - 50f;
-    final float BUTTON_HEIGHT = h / 8;
-    final float BUTTON_PAD = w / 80;
 
     private  Padi padi;
-
     private Stage stage;
-
-    Group foreground;
-
-    public Texture image;
-
-
-
-
-
-
-
     private TweenManager tweenManager;
-    public MainMenu (Padi p){
+    Table table;
 
+    public MainMenu (Padi p){
         padi = p;
 
-    }
+        final float w = Gdx.graphics.getWidth();
+        final float h = Gdx.graphics.getHeight();
 
-    Sprite bg;
-
-
-    @Override
-    public void show() {
+        final float BUTTON_WIDTH = w / 3 - 50f;
+        final float BUTTON_HEIGHT = h / 8;
+        final float BUTTON_PAD = w / 80;
         stage = new Stage();
 
 
-        foreground = new Group();
-        image = new Texture("limegreen.png");
+        Group foreground = new Group();
 
+        table = new Table();
 
-        final Table table = new Table();
-
-        bg = padi.background;
+        //background = padi.assets.background;
 
         tweenManager = new TweenManager();
         Tween.registerAccessor(Actor.class, new FadeActor());
 
 
-        final TextButton button = new TextButton("Play", padi.skin, "default");
-        final TextButton button1 = new TextButton("Setting", padi.skin, "default");
-        final TextButton button2 = new TextButton("Store", padi.skin, "default");
-        final TextButton button3 = new TextButton("Instructions", padi.skin, "default");
-        final TextButton button5 = new TextButton("Log in", padi.skin, "default");
-
-
+        final TextButton button = new TextButton("Play", padi.assets.skin2, "default");
+        final TextButton button1 = new TextButton("Setting", padi.assets.skin2, "default");
+        final TextButton button2 = new TextButton("Store", padi.assets.skin2, "default");
+        final TextButton button3 = new TextButton("Instructions", padi.assets.skin2, "default");
+        final TextButton button5 = new TextButton("Log in", padi.assets.skin2, "default");
 
         table.add(button).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button2).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button3).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
 
-        table.setWidth(Gdx.graphics.getWidth() / 3);
-        table.setHeight(Gdx.graphics.getHeight() / 3);
+        table.setWidth(w / 3);
+        table.setHeight(h / 3);
 
-        //System.out.println("width = " + Gdx.graphics.getWidth() / 3);
-        //System.out.println("height = " + Gdx.graphics.getHeight() / 3);
+        Sprite spritey = new Sprite(padi.assets.getRandomPic());
 
-        Sprite spritey = new Sprite(new Texture((String)padi.assets.getRandomPic()));
+        SpriteDrawable sd = new SpriteDrawable(spritey);
 
-        SpriteDrawable sd = new SpriteDrawable();
-        sd.setSprite(spritey);
 
         table.setBackground(sd, true);
 
         table.background(sd).setHeight(table.getHeight() + 200f);
         table.background(sd).setWidth(table.getWidth() + 70f);
-        /*
-        button.setWidth(Gdx.graphics.getWidth() / 3);
-        button.setHeight(40f);
 
-        button1.setWidth(Gdx.graphics.getWidth() / 3);
-        button1.setHeight(40f);
-
-        button2.setWidth(Gdx.graphics.getWidth() / 3);
-        button2.setHeight(40f);
-
-        button3.setWidth(Gdx.graphics.getWidth() / 3);
-        button3.setHeight(40f);
-
-        button4.setWidth(Gdx.graphics.getWidth() / 3);
-        button4.setHeight(40f);
-*/
         button5.setWidth(Gdx.graphics.getWidth() / 9);
         button5.setHeight(60f);
         button5.pad(20f, 20f, 20f, 20f);
 
 
-        /*button.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 + 70f);
-        button1.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 0f);
-        button2.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 70f);
-        button3.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 140f);
-        button4.setPosition(Gdx.graphics.getWidth() / 2 - 140f, Gdx.graphics.getHeight() / 2 - 210f);*/
         table.setPosition(Gdx.graphics.getWidth() / 3 - 30, Gdx.graphics.getHeight() / 6);
 
 
-        button5.setPosition(Gdx.graphics.getWidth() -  120f, Gdx.graphics.getHeight() - 80f);
+        button5.setPosition(Gdx.graphics.getWidth() -  button5.getWidth() - 50f,
+                Gdx.graphics.getHeight() - 80f);
 
 
         //make function for this later.Get rid of repeated calls.
@@ -141,7 +98,6 @@ public class MainMenu extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                button.setText("Play");
                 padi.setScreen(padi.worldmap);
             }
 
@@ -151,17 +107,14 @@ public class MainMenu extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                button1.setText("Setting");
-
                 padi.setScreen(padi.setting);
             }
         });
 
         button2.addListener(new ClickListener() {
 
-           @Override
+            @Override
             public void clicked(InputEvent event, float x, float y) {
-                button2.setText("Store");
                 padi.setScreen(padi.store);
             }
         });
@@ -170,8 +123,6 @@ public class MainMenu extends ScreenAdapter {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                button3.setText("Instruction");
-
                 padi.setScreen(padi.instruction);
 
             }
@@ -191,37 +142,33 @@ public class MainMenu extends ScreenAdapter {
 
         stage.addActor(foreground);
 
-
-       /* foreground.addActor(button);
-        foreground.addActor(button1);
-        foreground.addActor(button2);
-        foreground.addActor(button3);
-        foreground.addActor(button4);*/
         foreground.addActor(table);
 
         foreground.addActor(button5);
 
-
-
-
-
-
         Gdx.input.setInputProcessor(stage);
 
 
+
+
+    }
+
+    //Sprite background;
+
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
         //Fading Animation
         aurelienribon.tweenengine.Timeline.createSequence().beginSequence()
-                .push(Tween.from(padi.background, FadeActor.ALPHA, 3f).target(0))
-                //.push(Tween.from(foreground, FadeActor.ALPHA, 2f).target(0))
+                .push(Tween.from(padi.assets.background, FadeActor.ALPHA, 3f).target(0))
+                        //.push(Tween.from(foreground, FadeActor.ALPHA, 2f).target(0))
                 .start(tweenManager);
-
 
         //Table fade-in
         Tween.from(table, FadeActor.ALPHA, 0.1f).target(0).start(tweenManager);
         Tween.from(table, FadeActor.Y, 1f).target(Gdx.graphics.getHeight()).start(tweenManager);
 
-
-        Gdx.input.setInputProcessor(stage);
     }
 
 
@@ -233,10 +180,10 @@ public class MainMenu extends ScreenAdapter {
 
 
         tweenManager.update(delta);
-        padi.batch.begin();
-        bg.draw(padi.batch);
+        padi.assets.batch.begin();
+        //background.draw(padi.assets.batch);
         stage.draw();
-        padi.batch.end();
+        padi.assets.batch.end();
 
     }
 

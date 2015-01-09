@@ -2,6 +2,7 @@ package com.padisDefense.game.Managers;
 
 
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Padi;
 
 /**
  *
@@ -15,11 +16,12 @@ import com.padisDefense.game.GameScreen;
 * **/
 public class LevelManager {
 
+    Padi padi;
     GameScreen game;
     private int path = 0;
     private int enemyAmount = 0;
     private int level = 0;
-    public LevelManager(GameScreen g){game = g;}
+    public LevelManager(GameScreen g, Padi p){game = g; padi = p;}
 
 
     //for determining spawn
@@ -33,11 +35,11 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 5;
+                enemyAmount = 800;
                 break;
             case (2):
                 path = 2;
-                enemyAmount = 100;
+                enemyAmount = 400;
                 break;
             case (3):
                 path = 3;
@@ -69,12 +71,10 @@ public class LevelManager {
 
 
 
-
-
-
-
-
     public void dispose(){
+    }
+
+    public void reset(){
 
     }
 }

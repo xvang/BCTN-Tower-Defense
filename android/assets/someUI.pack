@@ -1,0 +1,61 @@
+
+someUI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+UI_ETCBAR1
+  rotate: false
+  xy: 1, 360
+  size: 354, 86
+  orig: 354, 86
+  offset: 0, 0
+  index: -1
+UI_ETCBAR2
+  rotate: false
+  xy: 1, 272
+  size: 354, 86
+  orig: 354, 86
+  offset: 0, 0
+  index: -1
+UI_HEARTFULL
+  rotate: false
+  xy: 357, 275
+  size: 154, 171
+  orig: 154, 171
+  offset: 0, 0
+  index: -1
+UI_ETCBAR3
+  rotate: false
+  xy: 1, 184
+  size: 354, 86
+  orig: 354, 86
+  offset: 0, 0
+  index: -1
+UI_HEARTEMPTY
+  rotate: false
+  xy: 357, 120
+  size: 154, 153
+  orig: 154, 153
+  offset: 0, 0
+  index: -1
+UI_HEARTHALF
+  rotate: false
+  xy: 1, 29
+  size: 154, 153
+  orig: 154, 153
+  offset: 0, 0
+  index: -1
+UI_BOLT
+  rotate: false
+  xy: 157, 8
+  size: 91, 174
+  orig: 91, 174
+  offset: 0, 0
+  index: -1
+UI_COIN
+  rotate: false
+  xy: 250, 1
+  size: 112, 117
+  orig: 112, 117
+  offset: 0, 0
+  index: -1

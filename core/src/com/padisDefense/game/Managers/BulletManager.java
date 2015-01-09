@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
+import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.Tower;
 
 /**
@@ -21,13 +22,14 @@ import com.padisDefense.game.Towers.Tower;
  * **/
 public class BulletManager {
 
+    Padi padi;
     GameScreen game;
     private float spawnTimer = 0;
-    Vector2 tower, enemy;
+    Vector2 towerLocation, enemyLocation;
     Bullet currentBullet;
 
     //Constructor
-    public BulletManager(GameScreen g){game = g;}
+    public BulletManager(GameScreen g, Padi p){game = g;padi = p;}
 
 
     /**
@@ -44,31 +46,35 @@ public class BulletManager {
         //if tower is NOT in shooting mode, no code involving moving bullets should execute.
         if(t.getState()){
 
-            tower = new Vector2(t.getLocation());
+            towerLocation = new Vector2(t.getBulletSpawnLocation());
 
             if(t.getHasTarget())
-                enemy = new Vector2(e.getLocation());
+                enemyLocation = new Vector2(e.getLocation());
             else
-                enemy = new Vector2(t.getOldTargetPosition());
+                enemyLocation = new Vector2(t.getOldTargetPosition());
 
 
 
 
-            Vector2 midpoint = almostMidPoint(tower, enemy, t.getCustomArc());
+            //Vector2 midpoint = almostMidPoint(towerLocation, enemyLocation, t.getCustomArc());
 
 
 
             //Creating path between the two points.
-            final Path<Vector2> path = new Bezier<Vector2>(tower,midpoint,  enemy);
+            //final Path<Vector2> path = new Bezier<Vector2>(towerLocation,midpoint,  enemyLocation);
+            final Path<Vector2> path = new Bezier<Vector2>(towerLocation, enemyLocation);
             Vector2 out = new Vector2();
+            Vector2 angle = new Vector2();//used to get the angle rotation for path...
+                                            //example: make an arrow curve along a path.
             Bullet item;
 
 
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                    &&t.getHasTarget() /*&& notAlmostDead(t, e)*/){
+                    &&t.getHasTarget() && t.lockedOnTarget){
 
                 item = t.getPool().obtain();
-                item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
+                //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
+                item.init(t.getBulletSpawnLocation());
                 item.setTexture(t.getBulletTexture());
                 item.setTime(0);
 
@@ -89,8 +95,11 @@ public class BulletManager {
                 //calculates the bullet's location on the path
                 //using the bullet's time.
                 //stores the bullet's location in a Vector2 'out'
-                if(time <= 1f)
+                if(time <= 1f){
                     path.valueAt(out, time);
+                    path.derivativeAt(angle, time);
+                }
+
 
 
 
@@ -105,6 +114,7 @@ public class BulletManager {
                     }
 
                     else{
+
                         currentBullet.goTo(t.getOldTargetPosition());
                     }
 
@@ -191,6 +201,9 @@ public class BulletManager {
 
     }
 
+    public void reset(){
+
+    }
 }
 
 

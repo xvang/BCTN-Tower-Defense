@@ -12,6 +12,7 @@ public class DesktopLauncher {
         config.width = Assets.w;
         config.height = Assets.h;
         config.vSyncEnabled = true;
+
         new LwjglApplication(new Padi(), config);
     }
 }

@@ -1,22 +1,47 @@
-- Add more enemies. spiders,pigs, stuff?
-
-- figure out an endgame.
-
 - fusion towers. 6 towers, 15 total combinations.
 
 - special attacks.
 
 - BALANCE THE TOWERS AND ENEMIES
 
-- SPAWN THE NEW ENEMIES
-
-FIX TOWERMANAGER
-
 
 MAKE THE END GAME ANIMATIONS MORE THAN COSMETIC
 maybe 50% chance it targets an enemy?
 
 
+work on store? make the items.
+
+Exit Button?
+
+
+update bullet speed. further target will make bullet travel faster.
+
+make tower spawn at correct position.
+
+make sprite "clickable"?
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+texturepacker jar
+hiero jar
+json and .atlas files created manually.

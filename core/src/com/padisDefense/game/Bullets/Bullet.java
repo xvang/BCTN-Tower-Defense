@@ -44,6 +44,13 @@ public class Bullet extends Sprite implements Pool.Poolable {
         alive = true;
     }
 
+    public void init(Vector2 location){
+
+        position.set(location);
+        this.setPosition(location.x, location.y);
+        alive = true;
+    }
+
 
     @Override
     public void reset(){
@@ -75,8 +82,8 @@ public class Bullet extends Sprite implements Pool.Poolable {
     public float getTime(){return time;}
 
     public Vector2 getLocation(){return new Vector2(getX(), getY());}
-    public void dispose(){
 
+    public void dispose(){
         getTexture().dispose();
     }
 
