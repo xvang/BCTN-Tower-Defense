@@ -119,16 +119,27 @@ public class RotateTest extends ScreenAdapter {
 
         double x, y, deltaX, deltaY;
 
-        float currentRotation;
+        //currentRotation is modulus'd by 90.
+        //convertedRotation converts the rotation to positive if it is negative.
+        float currentRotation, convertedRotation;
 
-        if(tower.getRotation() < 0)
+        if(tower.getRotation() < 0){
             currentRotation = (360 - Math.abs(tower.getRotation())) % 90;
-
-        else{
-            currentRotation = tower.getRotation() % 90;
+            convertedRotation = 360 - Math.abs(tower.getRotation());
         }
 
 
+
+        else{
+            currentRotation = tower.getRotation() % 90;
+            convertedRotation = tower.getRotation();
+
+        }
+
+        if(tower.getRotation() < 90){
+
+        }
+        
 
 
         //bullet.goTo(new Vector2(x,y));
