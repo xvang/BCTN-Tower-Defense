@@ -13,7 +13,7 @@ import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.RogueTower;
-import com.padisDefense.game.Towers.SniperTower;
+
 import com.padisDefense.game.Towers.Tower;
 
 public class RotateTest extends ScreenAdapter {
@@ -57,18 +57,27 @@ public class RotateTest extends ScreenAdapter {
 
 
 
-        bullet.setCenter(tower.getCenterX(), tower.getY() + tower.getHeight());
+        bullet.setCenterLocation(tower.getCenterX(), tower.getCenterY() + tower.getHeight()/2);
 
 
         radius = findDistance(new Vector2(bullet.getX() + bullet.getWidth()/2, bullet.getY() + bullet.getHeight()/2),
                 new Vector2(tower.getX() + tower.getWidth()/2, tower.getY() + tower.getHeight()/2));
 
-        //System.out.println(radius);
+        //System.out.println("Original radius: " + radius);
+
+        double radius2 = findDistance(bullet.getLocation(), tower.getCenterPosition());
+
+        //System.out.println("Using Location(): " + radius2);
+
+        //tower.setRotation(-360);
+
+        //System.out.println(tower.getWidth()+ " , " +  tower.getHeight());
+
     }
 
 
     float counter = 0;
-    float answer;
+    float spinny = 2;
     @Override
     public void render(float delta){
 
@@ -83,9 +92,10 @@ public class RotateTest extends ScreenAdapter {
         if(duck.getTime() >= 1f){
             if(duck.getTime() >= 1f && counter >= 7){
                 duck.setTime(0f);
-                /*tower.setPosition((float)Math.random()*(w*2/3) + w/3,
-                        (float)Math.random()*(h*2/3) + h/3);*/
+                tower.setPosition((float)Math.random()*(w*2/3) + w/3,
+                        (float)Math.random()*(h*2/3) + h/3);
                 counter = 0;
+                spinny = -spinny;
             }
             else
                 duck.setTime(0f);
@@ -97,9 +107,10 @@ public class RotateTest extends ScreenAdapter {
 
         calcRotate(tower, duck);
 
+        //tower.rotate(spinny);
         rotate(tower);
         bulletLocate();
-
+        //tower.rotate(2);
 
 
         batch.begin();
@@ -117,33 +128,149 @@ public class RotateTest extends ScreenAdapter {
     //it's location should move accordingly to the tower's rotation value.
     public void bulletLocate(){
 
-        double x, y, deltaX, deltaY;
+        float x, y, deltaX = 0, deltaY = 0;
 
         //currentRotation is modulus'd by 90.
         //convertedRotation converts the rotation to positive if it is negative.
-        float currentRotation, convertedRotation;
+        double currentRotation, convertedRotation;
 
         if(tower.getRotation() < 0){
-            currentRotation = (360 - Math.abs(tower.getRotation())) % 90;
-            convertedRotation = 360 - Math.abs(tower.getRotation());
+
+            currentRotation = tower.getRotation() % 90;
+            convertedRotation = 360 - (Math.abs(tower.getRotation())) % 360;
         }
 
 
 
         else{
             currentRotation = tower.getRotation() % 90;
-            convertedRotation = tower.getRotation();
+            convertedRotation = Math.abs(tower.getRotation()) % 360;
 
         }
 
-        if(tower.getRotation() < 90){
+
+
+
+        currentRotation = Math.toRadians(currentRotation);
+        System.out.println(convertedRotation);
+
+
+
+        //Assuming origin of the coordinate system is located at center of tower,
+        //the if-elseif-else below checks if bullet should be quadrant II, III, IV, or I (in that order)
+        //the cases where the rotation equals 90, 180, and 270 are checked first.
+
+        if(convertedRotation == 0){
+            System.out.println("=0");
+
+            deltaX = 0;
+            deltaY = (float)radius;
+        }
+        else if(convertedRotation == 90){
+            System.out.println("=90");
+            if(currentRotation > 0){
+                deltaX = - (float)radius;
+                deltaY = 0;
+            }
+            else{
+                deltaX = - (float)radius;
+                deltaY = 0;
+            }
+
 
         }
-        
+        else if(convertedRotation == 180){System.out.println("=180");
+            if(currentRotation > 0){
+                deltaX = 0;
+                deltaY = - (float)radius;
+            }
+            else{
+                deltaX = 0;
+                deltaY = -(float)radius;
+            }
+
+        }
+
+        else if(convertedRotation == 270){System.out.println("=270");
+            if(currentRotation > 0){
+                deltaX = (float)radius;
+                deltaY = 0;
+            }
+            else{
+                deltaX = (float)radius;
+                deltaY = 0;
+            }
+
+        }
+
+        else if(convertedRotation == 360){
+            deltaX = 0;
+            deltaY = (float) radius;
+        }
+        else if(convertedRotation < 90){System.out.println("<90");
+
+            if(currentRotation > 0){
+                deltaX = -(float)(Math.sin(currentRotation)*radius);
+                deltaY = (float)(Math.cos(currentRotation)*radius);
+            }
+            else{
+                deltaX = - (float)(Math.cos(currentRotation)*radius);
+                deltaY = -(float)(Math.sin(currentRotation)*radius);
+            }
 
 
-        //bullet.goTo(new Vector2(x,y));
+        }
 
+        else if( convertedRotation < 180){System.out.println("<180");
+            if(currentRotation > 0){
+                deltaX = - (float)(Math.cos(currentRotation)*radius);
+                deltaY = - (float)(Math.sin(currentRotation)*radius);
+            }
+            else{
+                deltaX = (float)(Math.sin(currentRotation)*radius);
+                deltaY =  - (float)(Math.cos(currentRotation)*radius);
+
+            }
+
+
+        }
+        else if ( convertedRotation < 270){System.out.println("<270");
+            if(currentRotation > 0){
+                deltaX =  (float)(Math.sin(currentRotation)*radius);
+                deltaY = - (float)(Math.cos(currentRotation)*radius);
+            }
+            else{
+                deltaX = (float)(Math.cos(currentRotation)*radius);
+                deltaY =   (float)(Math.sin(currentRotation)*radius);
+            }
+
+        }
+
+        else if( convertedRotation < 360){System.out.println("<360");
+
+            if(currentRotation > 0){
+                deltaX = (float)(Math.cos(currentRotation)*radius);
+                deltaY = (float)(Math.sin(currentRotation)*radius);
+            }
+
+            else{
+                deltaX = -(float)(Math.sin(currentRotation)*radius);
+                deltaY = (float)(Math.cos(currentRotation)*radius);
+            }
+
+        }
+
+        x = tower.getCenterX() + deltaX;
+        y = tower.getCenterY() + deltaY;
+
+        bullet.setCenterLocation(x,y);
+
+        //System.out.println(tower.getCenterY() + "  " + deltaY + " ...Y suppose to be at: " + bullet.getY());
+
+        //System.out.println(convertedRotation + " , " + bullet.getLocation());
+
+        double d = findDistance(bullet.getLocation(), tower.getCenterPosition());
+        //System.out.println("newRadius: " + d);
 
     }
 

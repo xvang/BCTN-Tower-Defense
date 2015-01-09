@@ -58,7 +58,7 @@ public class Tower extends Sprite{
 
     public float rotateDestination;
     public boolean lockedOnTarget = false;
-
+    public float radius = this.getHeight()/2;
     //Constructor #1
     public Tower(String name){
         super(new Texture(name));
@@ -163,15 +163,134 @@ public class Tower extends Sprite{
         return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
 
-    //The bullet will spawn where this function returns..?
+
+    //This function calculates the bullet's spawn location relative to the tower.
+    //bullet should spawn where the "gun" on the tower is pointed.
+    //new bullet location is calculated using SOH-CAH-TOA. i didn't use TOA, so maybe just SOH-CAH.
     public Vector2 getBulletSpawnLocation(){
 
-        float SS = (float)(Math.abs(Math.sin(rotateDestination) - ((rotateDestination + 90)/180)) % 1);
-        float WW = (float)(Math.abs(Math.cos(rotateDestination) - rotateDestination/180) % 1);
+        float x, y, deltaX = 0, deltaY = 0;
 
-        float x = this.getX() + this.getWidth()*SS;
-        float y = this.getY() + this.getHeight()*WW;
+        double currentRotation, convertedRotation;
+
+        if(getRotation() < 0){
+            currentRotation = getRotation() % 90;
+            convertedRotation = 360 - (Math.abs(getRotation())) % 360;
+        }
+
+        else{
+            currentRotation = getRotation() % 90;
+            convertedRotation = Math.abs(getRotation()) % 360;
+        }
+
+        currentRotation = Math.toRadians(currentRotation);
+
+        //Assuming origin of the coordinate system is located at center of tower,
+        //the if-elseif-else below checks if bullet should be quadrant II, III, IV, or I (in that order)
+        //the cases where the rotation equals 90, 180, 270, and 360 are checked first.
+        if(convertedRotation == 0){
+
+            deltaX = 0;
+            deltaY = radius;
+        }
+        else if(convertedRotation == 90){
+
+            if(currentRotation > 0){
+                deltaX = - radius;
+                deltaY = 0;
+            }
+            else {
+                deltaX = -radius;
+                deltaY = 0;
+            }
+        }
+        else if(convertedRotation == 180){
+            if(currentRotation > 0){
+                deltaX = 0;
+                deltaY = - radius;
+            }
+            else{
+                deltaX = 0;
+                deltaY = -radius;
+            }
+        }
+
+        else if(convertedRotation == 270){
+            if(currentRotation > 0){
+                deltaX = radius;
+                deltaY = 0;
+            }
+            else{
+                deltaX = radius;
+                deltaY = 0;
+            }
+        }
+
+        else if(convertedRotation == 360){
+            deltaX = 0;
+            deltaY = radius;
+        }
+        else if(convertedRotation < 90){
+
+            if(currentRotation > 0){
+                deltaX = -(float)(Math.sin(currentRotation)*radius);
+                deltaY = (float)(Math.cos(currentRotation)*radius);
+            }
+            else{
+                deltaX = - (float)(Math.cos(currentRotation)*radius);
+                deltaY = -(float)(Math.sin(currentRotation)*radius);
+            }
+        }
+
+        else if( convertedRotation < 180){
+            if(currentRotation > 0){
+                deltaX = - (float)(Math.cos(currentRotation)*radius);
+                deltaY = - (float)(Math.sin(currentRotation)*radius);
+            }
+            else{
+                deltaX = (float)(Math.sin(currentRotation)*radius);
+                deltaY =  - (float)(Math.cos(currentRotation)*radius);
+            }
+        }
+
+        else if ( convertedRotation < 270){
+            if(currentRotation > 0){
+                deltaX =  (float)(Math.sin(currentRotation)*radius);
+                deltaY = - (float)(Math.cos(currentRotation)*radius);
+            }
+            else{
+                deltaX = (float)(Math.cos(currentRotation)*radius);
+                deltaY =   (float)(Math.sin(currentRotation)*radius);
+            }
+        }
+
+        else if( convertedRotation < 360){
+            if(currentRotation > 0){
+                deltaX = (float)(Math.cos(currentRotation)*radius);
+                deltaY = (float)(Math.sin(currentRotation)*radius);
+            }
+            else{
+                deltaX = -(float)(Math.sin(currentRotation)*radius);
+                deltaY = (float)(Math.cos(currentRotation)*radius);
+            }
+        }
+
+        x = getCenterX() + deltaX;
+        y = getCenterY() + deltaY;
+
         return new Vector2(x,y);
+    }
+
+    public void customRotate(){
+        if(getRotation() != rotateDestination){
+            if( getRotation() + 2 <= rotateDestination){
+                rotate(2);
+
+            }
+            else if(getRotation() - 2 >= rotateDestination) {
+                rotate(-2);
+            }
+        }
     }
 
     public void update() {

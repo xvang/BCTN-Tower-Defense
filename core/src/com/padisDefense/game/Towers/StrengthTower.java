@@ -11,10 +11,10 @@ public class StrengthTower extends Tower {
     private float rangeAOE = 50f;
     public StrengthTower(Vector2 position){
         super("towers/strength_level_one.png");
-        this.setSize(30f, 30f);
+
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(50f, 60f);
+
         setBulletLimit(1);
         setCost(70);
         setAttack(4f);

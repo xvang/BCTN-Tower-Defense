@@ -9,10 +9,10 @@ public class LaserTower extends Tower {
 
     public LaserTower(Vector2 position){
         super("towers/laser_level_one.png");
-        this.setSize(30f, 30f);
+
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(50f, 70f);
+
         setBulletLimit(1);
         setCost(100);
         setAttack(5f);

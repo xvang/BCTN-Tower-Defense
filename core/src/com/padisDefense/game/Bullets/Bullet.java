@@ -81,7 +81,13 @@ public class Bullet extends Sprite implements Pool.Poolable {
     public void setTime(float t){time = t;}
     public float getTime(){return time;}
 
-    public Vector2 getLocation(){return new Vector2(getX(), getY());}
+    public Vector2 getLocation(){return new Vector2(getX() + getWidth()/2, getY() + getHeight()/2);}
+    public float getCenterX(){return getX() + getWidth()/2;}
+    public float getCenterY(){return getY() + getHeight()/2;}
+    public void setCenterLocation(float x, float y){
+        this.setX(x  - this.getWidth()/2);
+        this.setY(y - this.getHeight()/2);
+    }
 
     public void dispose(){
         getTexture().dispose();

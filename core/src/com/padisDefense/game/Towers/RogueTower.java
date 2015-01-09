@@ -10,7 +10,7 @@ public class RogueTower extends Tower {
 
     public RogueTower(Vector2 position){
         super("towers/rogue_level_three.png");
-        this.setSize(30f, 30f);
+
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);
@@ -21,7 +21,7 @@ public class RogueTower extends Tower {
         setRange(350f);
         setIncomeRate(4f);
         setChargeRate(0.10f);
-        setSize(50f, 70f);
+
         setBulletLimit(1);
         setFireRate(2f);
         setBulletRate(0.07f);

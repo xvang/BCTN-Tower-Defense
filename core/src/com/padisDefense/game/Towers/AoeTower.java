@@ -10,10 +10,10 @@ public class AoeTower extends Tower {
     private float rangeAOE = 120f;
     public AoeTower(Vector2 position){
         super("towers/aoe_level_one.png");
-        this.setSize(30f, 30f);
+
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(30f, 30f);
+
         setBulletLimit(1);
         setCost(80);
         setAttack(35f);

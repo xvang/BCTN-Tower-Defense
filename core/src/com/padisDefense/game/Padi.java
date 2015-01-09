@@ -48,7 +48,7 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
-        /*assets = new Assets(this);
+        assets = new Assets(this);
         assets.initGameScreen();
 
         main_menu = new MainMenu(this);
@@ -58,8 +58,8 @@ public class Padi extends Game implements ApplicationListener{
         store = new Store(this);
         instruction = new Instruction(this);
 
-        this.setScreen(new Splash(this));*/
-        this.setScreen(new RotateTest());
+        this.setScreen(new Splash(this));
+        //this.setScreen(new RotateTest());
         //this.setScreen(new GeneralTesting(this));
         //this.setScreen(new PathRunTest());
         //this.setScreen(new PathRunTest2());

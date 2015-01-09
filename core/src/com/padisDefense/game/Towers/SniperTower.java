@@ -9,10 +9,9 @@ public class SniperTower extends Tower {
 
     public SniperTower(Vector2 position){
         super("towers/strength_level_one.png");
-        this.setSize(30f, 30f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(50f, 70f);
+
         setBulletLimit(1);
         setCost(50);
         setAttack(20f);

@@ -13,10 +13,10 @@ public class SpeedTower extends Tower {
 
     public SpeedTower(Vector2 position){
         super("towers/speed_level_one.png");
-        this.setSize(30f, 30f);
+
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setSize(50f, 70f);
+
         setBulletLimit(1);
         setCost(100);
         setRange(350f);

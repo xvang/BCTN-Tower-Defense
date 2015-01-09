@@ -79,7 +79,7 @@ public class TowerManager{
 
             if(currentTower.getHasTarget()){
                 calcRotate(currentTower, currentTower.getTarget());
-                rotate(currentTower);
+                customRotate(currentTower);
             }
 
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
@@ -101,6 +101,7 @@ public class TowerManager{
         //System.out.println((int)distance);
         if(distance > t.getRange()){
             t.setHasTarget(false);
+            t.lockedOnTarget = false;
         }
 
         else{
@@ -115,6 +116,7 @@ public class TowerManager{
 
             if(!t.getTarget().alive){
                 t.setHasTarget(false);
+                t.lockedOnTarget = false;
                 Bullet b;
 
                 for(int x = 0; x < t.getActiveBullets().size; x++){
@@ -159,6 +161,7 @@ public class TowerManager{
                 t.setHasTarget(true);
                 t.setOldTargetPosition(temp.getLocation());
                 t.pause = 0.8f;
+                t.lockedOnTarget = false;
             }
         }
     }
@@ -197,7 +200,7 @@ public class TowerManager{
         return false;
     }
 
-    public void rotate(Tower t){
+    public void customRotate(Tower t){
         if(t.getRotation() != t.rotateDestination){
             if( t.getRotation() + 2 <= t.rotateDestination){
                 t.rotate(2);
