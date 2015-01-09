@@ -2,13 +2,14 @@ package com.padisDefense.game.Towers;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 public class SniperTower extends Tower {
 
-    public SniperTower(Vector2 position, Texture picture){
-        super(picture);
+    public SniperTower(Vector2 position, Sprite sprite){
+        super(sprite);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
@@ -20,7 +21,7 @@ public class SniperTower extends Tower {
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.5f);
-        setID("sniper");
+        setID("SNIPER");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);
         setWeakAgainst("bestgoblin");

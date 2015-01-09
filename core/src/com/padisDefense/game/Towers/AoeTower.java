@@ -1,6 +1,7 @@
 package com.padisDefense.game.Towers;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
@@ -8,7 +9,7 @@ import com.padisDefense.game.Enemies.Enemy;
 public class AoeTower extends Tower {
 
     private float rangeAOE = 120f;
-    public AoeTower(Vector2 position, Texture picture){
+    public AoeTower(Vector2 position, Sprite picture){
         super(picture);
 
         setTarget(new Enemy());
@@ -22,7 +23,7 @@ public class AoeTower extends Tower {
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.15f);
-        setID("aoe");
+        setID("AOE");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.06f);
         setWeakAgainst("goblin");

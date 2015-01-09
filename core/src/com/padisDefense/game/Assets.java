@@ -19,12 +19,7 @@ import java.util.Vector;
 
 import aurelienribon.tweenengine.TweenManager;
 
-/**
- * All the assets should be declared here. Probably.
- *
- *
- *
- * **/
+
 public class Assets {
 
     Padi padi;

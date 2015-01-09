@@ -31,6 +31,7 @@ public class Tower extends Sprite{
     private float fireRate = 1;//Used in bulletManager. shooting(). How often a new Bullet is created.
     private Boolean hasTarget = false;
     private Enemy target;
+    private int upgradeCost = 1;
     private Array<String> weakAgainst;
     private Array<String> strongAgainst;
 
@@ -97,6 +98,26 @@ public class Tower extends Sprite{
 
     }
 
+    public Tower( Sprite sprite){
+        super(sprite);
+        hasTarget = false;
+        ID = "";
+        customArc = 25f;
+        oldTargetPosition = new Vector2();
+        activeBullets = new Array<Bullet>();
+
+        weakAgainst = new Array<String>();
+        strongAgainst = new Array<String>();
+
+        pool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
+            }
+        };
+
+    }
+
     public void setCost(int newCost){cost = newCost;}
     public void setAttack(float newAttack){attack = newAttack; }
     public void setRange(float newRange){range = newRange;}
@@ -114,6 +135,7 @@ public class Tower extends Sprite{
     public void setBulletRate(float r){bulletRate = r;}
     public void setCustomArc(float c){customArc = c;}
     public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
+    public void setUpgradeCost(int n){upgradeCost = n;}
     public void setWeakAgainst(String... s){
         for(int x = 0; x <s.length; x++)
             weakAgainst.add(s[x]);
@@ -148,6 +170,7 @@ public class Tower extends Sprite{
     public Vector2 getOldTargetPosition(){return oldTargetPosition;}
     public Array<String> getWeakAgainst(){return weakAgainst;}
     public Array<String> getStrongAgainst(){return strongAgainst;}
+    public int getUpgradeCost(){return upgradeCost;}
     public int getLevel(){return level;}
 
     public String getMessage(){

@@ -89,8 +89,6 @@ public class TowerManager{
 
         batch.end();
 
-
-
     }
 
     //Checks to see if target enemy object is out of range.

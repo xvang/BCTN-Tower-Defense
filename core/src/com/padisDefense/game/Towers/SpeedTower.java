@@ -11,7 +11,7 @@ public class SpeedTower extends Tower {
     private float attack = 30;
 
 
-    public SpeedTower(Vector2 position, Texture picture){
+    public SpeedTower(Vector2 position, Sprite picture){
         super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
@@ -24,7 +24,7 @@ public class SpeedTower extends Tower {
         setIncomeRate(4f);
         setState(true);
         setFireRate(0.12f);
-        setID("speed");
+        setID("SPEED");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.09f);
         setWeakAgainst("bestgoblin");

@@ -3,18 +3,19 @@ package com.padisDefense.game.Towers;
 
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
 public class RogueTower extends Tower {
 
-    public RogueTower(Vector2 position, Texture picture){
+    public RogueTower(Vector2 position, Sprite picture){
         super(picture);
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setState(true);
-        setID("rogue");
+        setID("ROGUE");
         setCost(25);
         setAttack(45f);
         setRange(350f);

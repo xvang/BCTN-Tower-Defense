@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.padisDefense.game.Tests.AnimationTest;
+import com.padisDefense.game.Tests.AtlasTest;
 import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
 import com.padisDefense.game.Tests.GeneralTesting;
 import com.padisDefense.game.Tests.PathRunTest;
@@ -66,6 +67,7 @@ public class Padi extends Game implements ApplicationListener{
 
         //this.setScreen(new AnimationTest());
         //this.setScreen(new DefaultSpriteSheetTest());
+        //this.setScreen(new AtlasTest());
 
     }
 

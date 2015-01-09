@@ -125,7 +125,7 @@ public class EnemyManager {
         Enemy currentEnemy;
 
         if(activeEnemy.size == 1){
-            System.out.println("One left: " + activeEnemy.get(0).getLocation());
+            //System.out.println("One left: " + activeEnemy.get(0).getLocation());
         }
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);

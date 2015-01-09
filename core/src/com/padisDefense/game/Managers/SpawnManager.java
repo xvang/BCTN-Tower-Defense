@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -326,18 +327,27 @@ public class SpawnManager {
 
     }
 
-    public void upgradeTower(BuildableSpot b){
-        Tower t = b.getCurrentTower();
 
-        if(t.getLevel() < 3){
-            t.setAttack(t.getAttack()*1.1f);
-            t.setRange(t.getRange()*1.1f);
-            t.setSize(t.getWidth()*1.1f, t.getHeight()*1.1f);
-            if(t.getLevel() == 1)
-                t.setColor(Color.GREEN);
-            else if (t.getLevel() == 2)
-                t.setColor(Color.RED);
-            t.setLevel(t.getLevel()+1);
+    //TODO: find out if setting the old tower to NULL messes anything up. memory leaks?
+    //this function upgrades a tower.
+    //it gathers the necessary information, then its suppose to delete the current tower
+    //then it calls buildATower() on the buildablespot.
+    public void upgradeTower(BuildableSpot b){
+        System.out.println("upgradeTower called");
+        Tower t = b.getCurrentTower();
+        int newLevel;
+        String name;
+        if(t.getLevel() < 3 && game.tower.getInGameMoney() >= t.getUpgradeCost()){
+
+            game.tower.updateInGameMoney(game.tower.getInGameMoney() - t.getUpgradeCost());
+
+
+            //gather info
+            newLevel = t.getLevel() + 1;
+            name = t.getID();
+
+            buildATower("upgrade", b,name, newLevel );
+
         }
 
     }
@@ -351,72 +361,81 @@ public class SpawnManager {
      *
      *
      * */
-    public void buildATower(BuildableSpot t, String type){
+    public void buildATower(String action, BuildableSpot b, String type, int level){
 
-        //System.out.println("Making: " + type);
+        System.out.println("action: " + action);
 
         Tower newTower = null;
-        Sprite s;
-        Texture texture;
-        Vector2 spawnPosition = new Vector2(t.getX() + (t.getWidth() / 8),
-                t.getY() + (t.getHeight() / 8));
+        Sprite picture;
+        Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
+                b.getY() + (b.getHeight() / 8));
 
 
         //Create RogueTower
-        if(type.equals("rogue")){
-            s = padi.assets.towerAtlas.createSprite("rogue_level_one");
-            texture = s.getTexture();
-            newTower = new RogueTower(spawnPosition, texture);
+        if(type.equals("ROGUE")){
+            picture = padi.assets.towerAtlas.createSprite("ROGUE", level);
+            newTower = new RogueTower(spawnPosition, picture);
 
         }
 
         //Create SniperTower
-        else if(type.equals("sniper")) {
-            s = padi.assets.towerAtlas.createSprite("sniper_level_one", -14);
-            texture = s.getTexture();
-            newTower = new SniperTower(spawnPosition, texture);
+        else if(type.equals("SNIPER")) {
+            picture = padi.assets.towerAtlas.createSprite("SNIPER", level);
+            newTower = new SniperTower(spawnPosition, picture);
         }
 
         //Create StrengthTower
-        else if(type.equals("strength")) {
-            s = padi.assets.towerAtlas.createSprite("strength_level_one");
-
-            texture = s.getTexture();
-            newTower = new StrengthTower(spawnPosition, texture);
+        else if(type.equals("STRENGTH")) {
+            picture = padi.assets.towerAtlas.createSprite("STRENGTH", level);
+            newTower = new StrengthTower(spawnPosition, picture);
         }
 
-        else if(type.equals("speed")){
-            s = padi.assets.towerAtlas.createSprite("speed_level_one");
-            texture = s.getTexture();
-            newTower = new SpeedTower(spawnPosition, texture);
+        else if(type.equals("SPEED")){
+            picture = padi.assets.towerAtlas.createSprite("SPEED", level);
+            newTower = new SpeedTower(spawnPosition, picture);
         }
 
-        else if(type.equals("aoe")){
-            s = padi.assets.towerAtlas.createSprite("aoe_level_one");
-            texture = s.getTexture();
-            newTower = new AoeTower(spawnPosition, texture);
+        else if(type.equals("AOE")){
+            picture = padi.assets.towerAtlas.createSprite("AOE", level);
+            newTower = new AoeTower(spawnPosition, picture);
         }
 
-        else if(type.equals("laser")){
-            s = padi.assets.towerAtlas.createSprite("laser_level_one");
-            texture = s.getTexture();
-            newTower = new LaserTower(spawnPosition, texture);
+        else if(type.equals("LASER")){
+            picture = padi.assets.towerAtlas.createSprite("LASER", level);
+            newTower = new LaserTower(spawnPosition, picture);
+
         }
 
+        //TODO: apply stat changes.
         if(newTower != null){
-            if(game.tower.getInGameMoney() >= newTower.getCost()){
 
-                if(t.getCurrentTower()!= null)
-                    game.tower.getTowerArray().removeValue(t.getCurrentTower(), false);//deletes RogueTower from towerArray.
+            //updating level.
+            newTower.setLevel(level);
 
-                //System.out.println("Range Before: " + newTower.getRange());
-                applyStatChanges(newTower);
-               // System.out.println("Range After: " + newTower.getRange());
+            if(action.equals("build")){
+                if(game.tower.getInGameMoney() >= newTower.getCost()){
+                    applyStatChanges(newTower);
+                    game.tower.getTowerArray().add(newTower);
+                    b.setCurrentTower(newTower);//points to the tower.
+                    game.tower.updateInGameMoney(-(int)newTower.getCost());
+                }
+            }
+
+            else if(action.equals("upgrade")){
+                System.out.println("DOES THIS EVEN WORK?");
+
+                float oldRotate = b.getCurrentTower().getRotation();
+                newTower.setRotation(oldRotate);
+
+                game.tower.getTowerArray().removeValue(b.getCurrentTower(), false);
+                b.setCurrentTower(null);
+
+
                 game.tower.getTowerArray().add(newTower);
-                t.setCurrentTower(newTower);//points to the tower.
-                game.tower.updateInGameMoney(-(int)newTower.getCost());
+                b.setCurrentTower(newTower);
 
             }
+
         }
 
         //System.out.println("towerArray size = " + towerArray.size);

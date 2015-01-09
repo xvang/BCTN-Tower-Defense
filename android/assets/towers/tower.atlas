@@ -1,0 +1,131 @@
+
+tower.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+AOE
+  rotate: false
+  xy: 1, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: 1
+AOE
+  rotate: false
+  xy: 53, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: 2
+AOE
+  rotate: false
+  xy: 105, 1
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: 3
+LASER
+  rotate: false
+  xy: 157, 12
+  size: 59, 47
+  orig: 59, 47
+  offset: 0, 0
+  index: 2
+LASER
+  rotate: false
+  xy: 218, 4
+  size: 50, 55
+  orig: 50, 55
+  offset: 0, 0
+  index: 3
+SPEED
+  rotate: false
+  xy: 270, 8
+  size: 50, 51
+  orig: 50, 51
+  offset: 0, 0
+  index: 3
+ROGUE
+  rotate: false
+  xy: 322, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 3
+SNIPER
+  rotate: false
+  xy: 374, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 2
+SNIPER
+  rotate: false
+  xy: 426, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 3
+STRENGTH
+  rotate: false
+  xy: 478, 9
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 3
+LASER
+  rotate: false
+  xy: 530, 14
+  size: 51, 45
+  orig: 51, 45
+  offset: 0, 0
+  index: 1
+ROGUE
+  rotate: false
+  xy: 583, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 1
+ROGUE
+  rotate: false
+  xy: 630, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 2
+SNIPER
+  rotate: false
+  xy: 677, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 1
+SPEED
+  rotate: false
+  xy: 724, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 1
+SPEED
+  rotate: false
+  xy: 771, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 2
+STRENGTH
+  rotate: false
+  xy: 818, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 1
+STRENGTH
+  rotate: false
+  xy: 865, 14
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: 2

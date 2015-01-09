@@ -297,7 +297,7 @@ public class UIManager implements InputProcessor{
                     BS.get(x).getWidth(), BS.get(x).getHeight());
 
             if(rec.overlaps(r) && BS.get(x).emptyCurrentTower()){
-                game.spawn.buildATower(BS.get(x), type);//passes in the buildablespot, and name of tower.
+                game.spawn.buildATower("build", BS.get(x), type.toUpperCase(), 1);//passes in the buildablespot, name of tower, and level.
                 clickedOptionTable.setVisible(false);
                 clickedTowerTable.setVisible(false);
             }
@@ -533,7 +533,7 @@ public class UIManager implements InputProcessor{
             towerOptions.get(x).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent e, float x, float y){
-                    game.spawn.buildATower(currentBS, towerOptions.get(xx).getName());
+                    game.spawn.buildATower("build",currentBS, towerOptions.get(xx).getName().toUpperCase(), 1);
                 }
             });
         }

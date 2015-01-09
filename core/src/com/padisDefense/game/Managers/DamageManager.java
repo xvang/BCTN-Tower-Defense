@@ -23,11 +23,11 @@ public class DamageManager {
         e.updateHealth(t.getAttack());//no matter the tower, targeted enemy will take SOME damage.
 
 
-        if(t.getID().equals("ice")){
+        if(t.getID().equals("ICE")){
             iceHit((StrengthTower) t, e);
         }
 
-        else if(t.getID().equals("aoe")){
+        else if(t.getID().equals("AOE")){
             aoeHit((AoeTower) t, e);
         }
         for(int x = 0; x < game.enemy.getActiveEnemy().size; x++)
