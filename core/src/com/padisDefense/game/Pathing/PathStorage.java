@@ -208,21 +208,132 @@ public class PathStorage {
 
         Array<Path<Vector2>> path6 = new Array<Path<Vector2>>();
 
-        path6.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
+        path6.add(new Bezier<Vector2>(new Vector2(w/9, h + 50f), new Vector2(w/8, h*10/12)));
 
-        path6.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
-                new Vector2(w/3, h/4)));
+        path6.add(new Bezier<Vector2>(new Vector2(w/8, h*10/12), new Vector2(w/7, h*7/12)));
 
-        path6.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2),
-                new Vector2(w*5/12, h/2)));
+        path6.add(new Bezier<Vector2>(new Vector2(w/7, h*7/12), new Vector2(w/6, h/3)));
 
-        path6.add(new Bezier<Vector2>(new Vector2(w*5/12, h/2), new Vector2(w*2/3, h/2)));
+        path6.add(new Bezier<Vector2>(new Vector2(w/6, h/3), new Vector2(w/5, h/12),
+                new Vector2(w/4, h/12)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w/4, h/12), new Vector2(w*7/24, h/14),
+                new Vector2(w*15/48, h/6)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*15/48, h/6), new Vector2(w*19/48, h/2)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*19/48,  h/2), new Vector2(w*22/48, h*2/3),
+                new Vector2(w*25/48, h/2 )));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*25/48,h/2), new Vector2(w*30/48, h/6)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*30/48, h/6), new Vector2(w*33/48, h/20),
+                new Vector2(w*37/48, h/6)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*37/48, h/6), new Vector2(w*41/48, h/3),
+                new Vector2(w*41/48, h/2)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*41/48, h/2), new Vector2(w*40/48, h*2/3)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*40/48, h*2/3), new Vector2(w*39/48, h*5/6)));
+
+        path6.add(new Bezier<Vector2>(new Vector2(w*39/48, h*5/6), new Vector2(w*38/48, h+40f)));
 
 
 
         Array<Path<Vector2>> path7 = new Array<Path<Vector2>>();
+        path7.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
+                new Vector2(w/3, h/4)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2),
+                new Vector2(w*6/12, h/2)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w*6/12, h/2), new Vector2(w*3/4, h/2)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w*3/4, h/2), new Vector2(w*7/8, h/2),
+                new Vector2(w*7/8, h*3/4)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w*7/8, h*3/4), new Vector2(w*7/8, h*8/9),
+                new Vector2(w*2/3, h*8/9)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w*2/3, h*8/9), new Vector2(w*5/12, h*8/9)));
+
+
+        path7.add(new Bezier<Vector2>(new Vector2(w*5/12, h*8/9), new Vector2(w/3, h*8/9),
+                new Vector2(w/3, h*5/8)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w/3, h*5/8), new Vector2(w/3, h/3),
+                new Vector2(w/5, h/3)));
+
+        path7.add(new Bezier<Vector2>(new Vector2(w/5, h/3), new Vector2(w/10, h/3),
+                new Vector2(w/10, h*2/3)));
+
+        path7.add(new Bezier<Vector2>( new Vector2(w/10, h*2/3), new Vector2(w/10, h + 50f)));
+
+
+
         Array<Path<Vector2>> path8 = new Array<Path<Vector2>>();
+
+        path8.add(new Bezier<Vector2>(new Vector2(w+100f, h*5/6), new Vector2(w*9/10, h*5/6)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*9/10, h*5/6), new Vector2(w*3/5, h*5/6)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*3/5, h*5/6), new Vector2(w/2, h*5/6),
+                new Vector2(w/3, h*29/32), new Vector2(w*7/30, h*25/32)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*7/30, h*25/32), new Vector2(w*4/30, h*19/32),
+                new Vector2(w/3, h*17/32)));
+
+
+        path8.add(new Bezier<Vector2>(new Vector2(w/3, h*17/32), new Vector2(w*7/10, h*17/32)));
+
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*7/10, h*17/32), new Vector2(w*5/6, h/2),
+                new Vector2(w*5/6, h/4)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*5/6, h/4), new Vector2(w*5/6, h/7),
+                new Vector2(w*8/12, h/7)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w*8/12, h/7), new Vector2(w/3, h/7)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w/3, h/7), new Vector2(w/9, h/7)));
+
+        path8.add(new Bezier<Vector2>(new Vector2(w/9, h/7), new Vector2(0-50f, h/7)));
+
+
         Array<Path<Vector2>> path9 = new Array<Path<Vector2>>();
+        path9.add(new Bezier<Vector2>(new Vector2(w/7, h/15), new Vector2(w/6, h/5)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w / 6, h / 5), new Vector2(w / 5, h * 4 / 10)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w/5, h*4/10), new Vector2(w/4, h*7/10)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w/4, h*7/10), new Vector2(w*7/24, h*11/12),
+                new Vector2(w*10/24, h*11/12)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*10/24, h*11/12), new Vector2(w*12/24, h*11/12),
+                new Vector2(w*13/24, h*8/12)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*13/24, h*8/12), new Vector2(w*18/30, h/3)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*18/30, h/3), new Vector2(w*19/30, h/7)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*19/30, h/7), new Vector2(w*2/3, 0-50f)));
+
+
+        path9.add(new Bezier<Vector2>(new Vector2(-50f, h/2), new Vector2(w/8, h/2)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w/8, h/2), new Vector2(w/4, h/2)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*10/40, h/2), new Vector2(w*18/40, h/2)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*18/40, h/2), new Vector2(w*26/40, h/2)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*26/40, h/2), new Vector2(w*34/40, h/2)));
+
+        path9.add(new Bezier<Vector2>(new Vector2(w*34/40, h/2), new Vector2(w + 50f, h/2)));
 
 
 

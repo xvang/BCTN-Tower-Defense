@@ -18,7 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.utils.Array;
 
-/** @author Xoppa */
+
 public class PathRunTest extends ScreenAdapter{
     int SAMPLE_POINTS = 100;
     float SAMPLE_POINT_DISTANCE = 1f / SAMPLE_POINTS;
@@ -27,6 +27,7 @@ public class PathRunTest extends ScreenAdapter{
     final float w = Gdx.graphics.getWidth();
     final float h = Gdx.graphics.getHeight();
 
+    Sprite background;
     SpriteBatch spriteBatch;
     ImmediateModeRenderer20 renderer;
     Sprite obj;
@@ -36,7 +37,7 @@ public class PathRunTest extends ScreenAdapter{
     float t;
     float t2, t3;
     float zt;
-    float speed = 0.2f;
+    float speed = 0.6f;
     float speed2 = 0.1f;
     float zspeed = 1.0f;
     float wait = 0f;
@@ -44,6 +45,8 @@ public class PathRunTest extends ScreenAdapter{
 
     @Override
     public void show () {
+        background = new Sprite(new Texture("tiles/path6.png"));
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         renderer = new ImmediateModeRenderer20(false, false, 0);
         spriteBatch = new SpriteBatch();
         obj = new Sprite(new Texture(Gdx.files.internal("turto.png")));
@@ -56,7 +59,7 @@ public class PathRunTest extends ScreenAdapter{
         obj.setOriginCenter();
 
 
-        ZIGZAG_SCALE = Gdx.graphics.getDensity() * 48; // 48DP
+        ZIGZAG_SCALE = Gdx.graphics.getDensity() * 24; // 48DP
 
 
         addPath();
@@ -112,7 +115,7 @@ public class PathRunTest extends ScreenAdapter{
 
 
             paths.get(currentPath).valueAt(tmpV4, t3);
-            obj.setRotation(tmpV2.angle());
+            //obj.setRotation(tmpV2.angle());
 
 
              tmpV2.nor();
@@ -127,19 +130,24 @@ public class PathRunTest extends ScreenAdapter{
 
         }
 
-        renderer.begin(spriteBatch.getProjectionMatrix(), GL20.GL_LINE_STRIP);
-        float val = 0f;
-        while (val <= 1f) {
-            renderer.color(0f, 0f, 0f, 1f);
-            paths.get(currentPath).valueAt(tmpV, val);
-            renderer.vertex(tmpV.x, tmpV.y, 0);
-            val += SAMPLE_POINT_DISTANCE;
+        for(int x=  0; x < paths.size; x++){
+            renderer.begin(spriteBatch.getProjectionMatrix(), GL20.GL_LINE_STRIP);
+            float val = 0f;
+            while (val <= 1f) {
+                renderer.color(0f, 0f, 0f, 1f);
+                paths.get(x).valueAt(tmpV, val);
+                renderer.vertex(tmpV.x, tmpV.y, 0);
+                val += SAMPLE_POINT_DISTANCE;
+            }
+            renderer.end();
         }
-        renderer.end();
+
 
         spriteBatch.begin();
+        background.draw(spriteBatch);
         obj.draw(spriteBatch);
         //obj2.draw(spriteBatch);
+
         spriteBatch.end();
     }
 
@@ -148,19 +156,36 @@ public class PathRunTest extends ScreenAdapter{
     //paths
     public void addPath(){
         //Path 1
-        paths.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
+        paths.add(new Bezier<Vector2>(new Vector2(w/9, h + 50f), new Vector2(w/8, h*10/12)));
 
-        paths.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
-                new Vector2(w/3, h/4)));
+        paths.add(new Bezier<Vector2>(new Vector2(w/8, h*10/12), new Vector2(w/7, h*7/12)));
 
-        paths.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2),
-                new Vector2(w*5/12, h/2)));
+        paths.add(new Bezier<Vector2>(new Vector2(w/7, h*7/12), new Vector2(w/6, h/3)));
 
-        paths.add(new Bezier<Vector2>(new Vector2(w*5/12, h/2), new Vector2(w*2/3, h/2)));
+        paths.add(new Bezier<Vector2>(new Vector2(w/6, h/3), new Vector2(w/5, h/12),
+                new Vector2(w/4, h/12)));
 
+        paths.add(new Bezier<Vector2>(new Vector2(w/4, h/12), new Vector2(w*7/24, h/14),
+                new Vector2(w*15/48, h/6)));
 
+        paths.add(new Bezier<Vector2>(new Vector2(w*15/48, h/6), new Vector2(w*19/48, h/2)));
 
+        paths.add(new Bezier<Vector2>(new Vector2(w*19/48,  h/2), new Vector2(w*22/48, h*2/3),
+                new Vector2(w*25/48, h/2 )));
 
+        paths.add(new Bezier<Vector2>(new Vector2(w*25/48,h/2), new Vector2(w*30/48, h/6)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*30/48, h/6), new Vector2(w*33/48, h/20),
+                new Vector2(w*37/48, h/6)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*37/48, h/6), new Vector2(w*41/48, h/3),
+                new Vector2(w*41/48, h/2)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*41/48, h/2), new Vector2(w*40/48, h*2/3)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*40/48, h*2/3), new Vector2(w*39/48, h*5/6)));
+
+        paths.add(new Bezier<Vector2>(new Vector2(w*39/48, h*5/6), new Vector2(w*38/48, h+40f)));
 
     }
 }

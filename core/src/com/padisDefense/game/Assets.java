@@ -23,8 +23,8 @@ import aurelienribon.tweenengine.TweenManager;
 public class Assets {
 
     Padi padi;
-    public  static final int w = 1200;
-    public static final int h = 800;
+    public  static final int w = 900;
+    public static final int h = 600;
 
 
     public static int SOUND_LEVEL = 20;
