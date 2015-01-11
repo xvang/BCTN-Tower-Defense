@@ -77,8 +77,8 @@ public class Setting extends ScreenAdapter {
         top.setPosition(0, h);
         bottom.setPosition(0, 0-bottom.getHeight());
         left.setPosition(0-left.getWidth(), 0);
-        right.setPosition(w + right.getWidth(),0);
-
+        //right.setPosition(w + right.getWidth(),0);
+        right.setPosition(w, 0);
 
 
         stage = new Stage();

@@ -68,6 +68,8 @@ public class TowerManager{
             //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
             //towerArray.get(x).getTarget().rotate(10);
 
+
+
             if(!currentTower.hasTarget)
                 assignTargets(game.enemy, currentTower);
 
@@ -80,6 +82,11 @@ public class TowerManager{
             if(currentTower.hasTarget){
                 calcRotate(currentTower, currentTower.getTarget());
                 customRotate(currentTower);
+            }
+
+
+            if(!currentTower.state){
+                currentTower.sparkle.animate(batch, currentTower.getSparkleLocation());
             }
 
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());

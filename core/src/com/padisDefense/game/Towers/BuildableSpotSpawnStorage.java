@@ -25,27 +25,23 @@ public class BuildableSpotSpawnStorage {
 
 
 
+
+
     public void init(){
 
-        //path4.png
-        Array<Vector2> four = new Array<Vector2>();
-        four.add(new Vector2(w*5, h*60));
-        four.add(new Vector2(w*29, h*29));
-        four.add(new Vector2(w*29, h*68));
-        four.add(new Vector2(w*54, h*60));
-        four.add(new Vector2(w*54, h*15));
-        four.add(new Vector2(w*80, h*38));
-
-
-
-        //path3.png
-        Array<Vector2> three = new Array<Vector2>();
-        three.add(new Vector2(w*45, h*18));
-        three.add(new Vector2(w*29, h*52));
-        three.add(new Vector2(w*65, h*52));
-        three.add(new Vector2(w*3, h*25));
-        three.add(new Vector2(w*63, h*81));
-        three.add(new Vector2(w*27, h*82));
+        //path1.png
+        Array<Vector2> one = new Array<Vector2>();
+        one.add(new Vector2(w, h*50));
+        one.add(new Vector2(w*99, h*50));
+        one.add(new Vector2(w*50, h));
+        one.add(new Vector2(w*50, h*99));
+        one.add(new Vector2(w*3, h*66));
+        one.add(new Vector2(w*25, h*30));
+        one.add(new Vector2(w*37, h*66));
+        one.add(new Vector2(w*45, h*30));
+        one.add(new Vector2(w*55, h*66));
+        one.add(new Vector2(w*62, h*30));
+        one.add(new Vector2(w*72, h*66));
 
 
         //path2.png
@@ -62,16 +58,25 @@ public class BuildableSpotSpawnStorage {
         two.add(new Vector2(w*74, h*65));
 
 
-        //path6.png
-        Array<Vector2> six = new Array<Vector2>();
-        six.add(new Vector2(w*5, h*76));
-        six.add(new Vector2(w*15, h*27));
-        six.add(new Vector2(w*27, h*57));
-        six.add(new Vector2(w*38, h*49));
-        six.add(new Vector2(w*49, h*26));
-        six.add(new Vector2(w*65, h*26));
-        six.add(new Vector2(w*66, h*75));
+        //path3.png
+        Array<Vector2> three = new Array<Vector2>();
+        three.add(new Vector2(w*45, h*18));
+        three.add(new Vector2(w*29, h*52));
+        three.add(new Vector2(w*65, h*52));
+        three.add(new Vector2(w*3, h*25));
+        three.add(new Vector2(w*63, h*81));
+        three.add(new Vector2(w*27, h*82));
 
+
+
+        //path4.png
+        Array<Vector2> four = new Array<Vector2>();
+        four.add(new Vector2(w*5, h*60));
+        four.add(new Vector2(w*29, h*29));
+        four.add(new Vector2(w*29, h*68));
+        four.add(new Vector2(w*54, h*60));
+        four.add(new Vector2(w*54, h*15));
+        four.add(new Vector2(w*80, h*38));
 
 
         //path5.png
@@ -87,15 +92,15 @@ public class BuildableSpotSpawnStorage {
         five.add(new Vector2(w*15, h*22));
 
 
-        //path1.png
-        Array<Vector2> one = new Array<Vector2>();
-        one.add(new Vector2(w*3, h*66));
-        one.add(new Vector2(w*25, h*30));
-        one.add(new Vector2(w*37, h*66));
-        one.add(new Vector2(w*45, h*30));
-        one.add(new Vector2(w*55, h*66));
-        one.add(new Vector2(w*62, h*30));
-        one.add(new Vector2(w*72, h*66));
+        //path6.png
+        Array<Vector2> six = new Array<Vector2>();
+        six.add(new Vector2(w*5, h*76));
+        six.add(new Vector2(w*15, h*27));
+        six.add(new Vector2(w*27, h*57));
+        six.add(new Vector2(w*38, h*49));
+        six.add(new Vector2(w*49, h*26));
+        six.add(new Vector2(w*65, h*26));
+        six.add(new Vector2(w*66, h*75));
 
 
 

@@ -254,13 +254,17 @@ public class UIManager implements InputProcessor{
                     //charge.setText(tower.getBuildableArray().get(s).getMessage());
                 }
 
+
+                //positions of 'clickedOptionTable' and 'clickedTowerTable'
+                //are set in checkBorders().
+                //function checks the borders to make sure the tables are not out of screen.
+                //tables will be positioned relative to 'currentBuildable'.
+                checkBorders(currentBuildable);
+
+
                 //setting the optiontable's location to where clicked tower is.
-                clickedOptionTable.setPosition(currentBuildable.getX() - (clickedOptionTable.getWidth()/2),
-                        game.tower.getBuildableArray().get(s).getY() - (clickedOptionTable.getHeight() - 5f));
 
                 //setting the clickedTowerTable's location.
-                clickedTowerTable.setPosition(currentBuildable.getX() - (clickedTowerTable.getWidth()/2),
-                        currentBuildable.getY() + currentBuildable.getHeight() + 40f);
 
                 //'currentBuildable' is local to this function.
                 //'currentBS' is global in this class.
@@ -280,6 +284,110 @@ public class UIManager implements InputProcessor{
         }
     }
 
+
+    //checks the borders to see if tables will appear offscreen.
+    //rectangles are copied from the settings screen.
+    public void checkBorders(BuildableSpot b){
+
+        System.out.println("checking borders...");
+        Rectangle top, bottom, left, right;
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        //not using new Rectangle(x,y,width,height) constructor
+        //because position depends on height. it's only a few more lines.
+        top = new Rectangle();
+        bottom = new Rectangle();
+        left = new Rectangle();
+        right = new Rectangle();
+
+        top.setSize(w, 10f);
+        bottom.setSize(w, 10f);
+        left.setSize(10f, h);
+        right.setSize(10f, h);
+
+        top.setPosition(0, h);
+        bottom.setPosition(0, 0-bottom.getHeight());
+        left.setPosition(0-left.getWidth(), 0);
+        right.setPosition(w,0);
+
+        //initial positions. if no overlapping, then these position will not be chanced.
+        clickedOptionTable.setPosition(b.getX() - (clickedOptionTable.getWidth()/2),
+                b.getY() - (clickedOptionTable.getHeight() - 5f));
+
+        clickedTowerTable.setPosition(b.getX() - (clickedTowerTable.getWidth()/2),
+                b.getY() + b.getHeight() + 40f);
+
+
+        //draw rectangle around table.
+        Rectangle optionRec = new Rectangle(clickedOptionTable.getX(), clickedOptionTable.getY(),
+                clickedOptionTable.getWidth(), clickedOptionTable.getHeight());
+
+        Rectangle towerRec = new Rectangle(clickedTowerTable.getX(), clickedTowerTable.getY(),
+                clickedTowerTable.getWidth(), clickedTowerTable.getHeight());
+        Rectangle chargeOption = new Rectangle(charge.getScaleX(), charge.getScaleY(),
+                charge.getWidth(), charge.getHeight());
+        //rectangle drawn around the buildablespot
+        Rectangle bsRec = new Rectangle(b.getX(), b.getY(),
+                b.getWidth(), b.getHeight());
+
+
+        System.out.println(chargeOption.getX());
+        //the two tables should never appear together.
+        //clickedOptionTable always appears below tower, so it should never go out of bounds at top
+        //likewise, clickedTowerTable appears above tower, and should never go out of bounds at bottom
+        //by checking the four condition independently, all conditions should be checked
+        //even the ones at the corner where tables overlaps multiple sides.
+        if(towerRec.overlaps(top)){
+            System.out.println("overlap top");
+            //checking if overlap buildablespot because clickedTowerTable's
+            //original position is above bs, and it might be lowered to be within screen,
+            //but in that case it ends up in front of tower.
+            while(towerRec.overlaps(top) || towerRec.overlaps(bsRec)){
+                clickedTowerTable.setPosition(clickedTowerTable.getX(),
+                        clickedTowerTable.getY() - 1);
+                towerRec.setPosition(clickedTowerTable.getX(), clickedTowerTable.getY());
+            }
+        }
+
+        //similar logic for overlapping top, but reversed.
+        if(optionRec.overlaps(bottom)){System.out.println("overlap bottom");
+
+            while(optionRec.overlaps(bottom) || optionRec.overlaps(bsRec)){
+                clickedOptionTable.setPosition(clickedOptionTable.getX(),
+                        clickedOptionTable.getY() + 1);
+            }
+
+        }
+
+        //for overlapping left or right, tables are moved in the opposite direction.
+        //moving lateral should never overlap with buildablespot, so need to check that.
+        if (chargeOption.overlaps(left) || towerRec.overlaps(left)){System.out.println("overlap left");
+
+            while(chargeOption.overlaps(left)){
+                clickedTowerTable.setPosition(clickedTowerTable.getX() + 1,
+                        clickedTowerTable.getY());
+            }
+
+            while(towerRec.overlaps(left)){
+                clickedOptionTable.setPosition(clickedOptionTable.getX() + 1,
+                        clickedOptionTable.getY());
+            }
+        }
+
+        if (optionRec.overlaps(right) || towerRec.overlaps(right)){System.out.println("overlap right");
+
+            while(optionRec.overlaps(left)){
+                clickedTowerTable.setPosition(clickedTowerTable.getX() - 1,
+                        clickedTowerTable.getY());
+            }
+
+            while(towerRec.overlaps(left)){
+                clickedOptionTable.setPosition(clickedOptionTable.getX() - 1,
+                        clickedOptionTable.getY());
+            }
+        }
+    }
 
     public void gameOver(){
         GAME_OVER = true;
@@ -428,6 +536,7 @@ public class UIManager implements InputProcessor{
 
     public void createOptionTable(){
         clickedOptionTable = new Table();
+        clickedOptionTable.setName("clickedOptionTable");
         charge = new TextButton("Charge", padi.assets.skin2, "default");
         upgrade = new TextButton("Upgrade", padi.assets.skin2, "default");
         final TextButton sell = new TextButton("Sell", padi.assets.skin2, "default");
@@ -520,6 +629,7 @@ public class UIManager implements InputProcessor{
     public void createTowerTable(){
         //tower option table. it shows up with all the towers the user can make.
         clickedTowerTable = new Table();
+        clickedTowerTable.setName("clickedTowerTable");
         towerOptions = new Array<TextButton>();
 
         String[] names = {"strength", "laser", "aoe", "speed", "sniper", "rogue"};
@@ -539,6 +649,9 @@ public class UIManager implements InputProcessor{
                 @Override
                 public void clicked(InputEvent e, float x, float y){
                     game.spawn.buildATower("build",currentBS, towerOptions.get(xx).getName().toUpperCase(), 1);
+
+                    clickedTowerTable.setVisible(false);
+                    clickedOptionTable.setVisible(false);
                 }
             });
         }
@@ -560,17 +673,14 @@ public class UIManager implements InputProcessor{
 
 
         //adding listeners. hiding the tables.
-        for(int x = 0; x < towerOptions.size; x++){
+        /*for(int x = 0; x < towerOptions.size; x++){
             towerOptions.get(x).addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent e, float x, float y){
 
-
-                    clickedTowerTable.setVisible(false);
-                    clickedOptionTable.setVisible(false);
                 }
             });
-        }
+        }*/
     }
 
     public void createEndGameTable(){
@@ -794,7 +904,7 @@ public class UIManager implements InputProcessor{
     }
 
     public void reset(){
-        //nothing for now.
+
         countDownTable.setVisible(true);
         endGameTable.setVisible(false);
         clickedTowerTable.setVisible(false);

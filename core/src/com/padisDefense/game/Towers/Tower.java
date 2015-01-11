@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.MiscellaniousCharacters.IceSparkle;
 
 
 /**
@@ -60,6 +61,9 @@ public class Tower extends Sprite{
     public float rotateDestination;
     public boolean lockedOnTarget = false;
     public float radius = this.getHeight()/2;
+
+
+    public IceSparkle sparkle;
     //Constructor #1
     public Tower(Texture picture){
         super(picture);
@@ -79,6 +83,7 @@ public class Tower extends Sprite{
             }
         };
 
+        sparkle = new IceSparkle();
     }
 
     //Constructor #2
@@ -96,10 +101,13 @@ public class Tower extends Sprite{
             }
         };
 
+
+        sparkle = new IceSparkle();
     }
 
     public Tower( Sprite sprite){
         super(sprite);
+        this.setSize(sprite.getWidth(), sprite.getHeight());
         hasTarget = false;
         ID = "";
         customArc = 25f;
@@ -116,6 +124,8 @@ public class Tower extends Sprite{
             }
         };
 
+
+        sparkle = new IceSparkle();
     }
 
     public void setCost(int newCost){cost = newCost;}
@@ -186,6 +196,9 @@ public class Tower extends Sprite{
         return new Vector2(getX() + (this.getWidth()/2), getY()+ (this.getHeight()*2 / 3));
     }
 
+    public Vector2 getSparkleLocation(){
+        return new Vector2(getX() - getWidth(), getY() - getHeight());
+    }
 
     //This function calculates the bullet's spawn location relative to the tower.
     //bullet should spawn where the "gun" on the tower is pointed.
