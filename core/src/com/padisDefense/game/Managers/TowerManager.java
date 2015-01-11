@@ -68,7 +68,7 @@ public class TowerManager{
             //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
             //towerArray.get(x).getTarget().rotate(10);
 
-            if(!currentTower.getHasTarget())
+            if(!currentTower.hasTarget)
                 assignTargets(game.enemy, currentTower);
 
             game.bullet.shooting(batch, currentTower,
@@ -77,7 +77,7 @@ public class TowerManager{
             checkRange(currentTower);
             checkForDead(currentTower);
 
-            if(currentTower.getHasTarget()){
+            if(currentTower.hasTarget){
                 calcRotate(currentTower, currentTower.getTarget());
                 customRotate(currentTower);
             }
@@ -98,7 +98,7 @@ public class TowerManager{
 
         //System.out.println((int)distance);
         if(distance > t.getRange()){
-            t.setHasTarget(false);
+            t.hasTarget = false;
             t.lockedOnTarget = false;
         }
 
@@ -110,10 +110,10 @@ public class TowerManager{
     public void checkForDead(Tower t){
 
         //setting oldTargetPosition, like in checkRange().
-        if(t.getHasTarget()){
+        if(t.hasTarget){
 
             if(!t.getTarget().alive){
-                t.setHasTarget(false);
+                t.hasTarget = false;
                 t.lockedOnTarget = false;
                 Bullet b;
 
@@ -156,7 +156,7 @@ public class TowerManager{
             //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
                 t.setTarget(temp);
-                t.setHasTarget(true);
+                t.hasTarget = true;
                 t.setOldTargetPosition(temp.getLocation());
                 t.pause = 0.8f;
                 t.lockedOnTarget = false;
@@ -198,15 +198,18 @@ public class TowerManager{
         return false;
     }
 
-    public void customRotate(Tower t){
-        if(t.getRotation() != t.rotateDestination){
-            if( t.getRotation() + 2 <= t.rotateDestination){
-                t.rotate(2);
-            }
-            else if(t.getRotation() - 2 >= t.rotateDestination){
-                t.rotate(-2);
+    public void customRotate(Tower t){//TODO: different rotation speed for towers??
+        if(t.hasTarget && t.state){
+            if(t.getRotation() != t.rotateDestination){
+                if( t.getRotation() + 2 <= t.rotateDestination){
+                    t.rotate(2);
+                }
+                else if(t.getRotation() - 2 >= t.rotateDestination){
+                    t.rotate(-2);
+                }
             }
         }
+
 
         //System.out.println(Math.abs(t.getRotation() - t.rotateDestination) + " , " + t.lockedOnTarget);
         if(Math.abs(t.getRotation() - t.rotateDestination) <= 3)
@@ -217,6 +220,8 @@ public class TowerManager{
     //an arbitrary point, the tower, and the enemy will make up a right triangle.
     //figures out the rotation by calculating the the sin of an angle in the triangle.
     public void calcRotate(Tower t, Enemy d){
+
+
         //finding the hypotenuse.
         Vector2 tt = new Vector2(t.getX(), t.getY());
         Vector2 dd = new Vector2(d.getX(), d.getY());
@@ -273,16 +278,26 @@ public class TowerManager{
      private int inGameMoney = 3000;
      * */
     public void dispose() {
-        this.reset();
-    }
 
-    public void reset(){
         for (int x = 0; x < towerArray.size; x++)
             towerArray.get(x).getTexture().dispose();
 
         for(int x = 0; x < buildableArray.size; x++)
             buildableArray.get(x).setCurrentTower(null);
+
         towerArray.clear();
+        buildableArray.clear();
+    }
+
+    public void reset(){
+
+        for(int x = 0; x < buildableArray.size; x++)
+            buildableArray.get(x).setCurrentTower(null);
+
+        //buildableArray.clear();
+        towerArray.clear();
+
+
 
     }
 

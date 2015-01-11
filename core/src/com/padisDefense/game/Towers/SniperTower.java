@@ -19,7 +19,7 @@ public class SniperTower extends Tower {
         setRange(450f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
-        setState(true);
+        state = true;
         setFireRate(0.5f);
         setID("SNIPER");
         setBulletTexture(new Texture("redbullet.png"));

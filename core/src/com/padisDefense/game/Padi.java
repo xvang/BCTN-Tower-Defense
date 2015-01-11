@@ -11,12 +11,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.padisDefense.game.Tests.AnimationTest;
 import com.padisDefense.game.Tests.AtlasTest;
+import com.padisDefense.game.Tests.BuildableSpotSpawnTest;
 import com.padisDefense.game.Tests.DefaultAnimationTest2;
 import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
 import com.padisDefense.game.Tests.GeneralTesting;
+import com.padisDefense.game.Tests.JsonTest;
 import com.padisDefense.game.Tests.PathRunTest;
 import com.padisDefense.game.Tests.PathRunTest2;
 import com.padisDefense.game.Tests.RotateTest;
+import com.padisDefense.game.Tests.WidgetTest;
 import com.padisDefense.game.TransitionScreens.Splash;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -50,7 +53,7 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
-        /*assets = new Assets(this);
+        assets = new Assets(this);
         assets.initGameScreen();
 
         main_menu = new MainMenu(this);
@@ -60,12 +63,14 @@ public class Padi extends Game implements ApplicationListener{
         store = new Store(this);
         instruction = new Instruction(this);
 
-        this.setScreen(new Splash(this));*/
+        this.setScreen(new Splash(this));
         //this.setScreen(new RotateTest());
+        //this.setScreen(new WidgetTest());
         //this.setScreen(new GeneralTesting(this));
-        this.setScreen(new PathRunTest());
+        //this.setScreen(new PathRunTest());
         //this.setScreen(new PathRunTest2());
 
+        //this.setScreen(new BuildableSpotSpawnTest());
         //this.setScreen(new AnimationTest());
         //this.setScreen(new DefaultSpriteSheetTest());
         //this.setScreen(new AtlasTest());

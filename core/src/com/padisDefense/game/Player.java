@@ -28,13 +28,14 @@ public class Player {
 
     //Constructor
     Player(){
-
+        //TODO: lock the levels.
         //only the first level is unlocked.
         for(int x = 0; x < levels.length; x++){
-            if(x == 0)
+            /*if(x == 0)
                 levels[x] = true;
             else
-                levels[x] = false;
+                levels[x] = false;*/
+            levels[x] = true;
         }
         money = 5000;
         name = "Guest" +  (int)(Math.random()*1000);

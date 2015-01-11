@@ -182,30 +182,6 @@ public class PathRunTest2 extends ScreenAdapter {
 
     public void addPaths() {
 
-        //Path 1
-        path.add(new Bezier<Vector2>(new Vector2(-50f, h/10), new Vector2(w/5, h/10)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),
-                new Vector2(w/3, h/4)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/3, h/4), new Vector2(w/3, h/2)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/3, h/2), new Vector2(w/3, h*5/6)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/3, h*5/6), new Vector2(w/3, h*12/13),
-                new Vector2(w/2, h*12/13)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w/2, h*12/13), new Vector2(w*2/3, h*12/13),
-                new Vector2(w*2/3, h*5/6)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3, h*5/6), new Vector2(w*2/3, h/2)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*2/3, h/2), new Vector2(w*2/3, h/3),
-                new Vector2(w*3/4, h/3)));
-
-        path.add(new Bezier<Vector2>(new Vector2(w*3/4, h/3), new Vector2(w*11/12, h/3)));
-        path.add(new Bezier<Vector2>(new Vector2(w*11/12, h/3), new Vector2(w+50f, h/3)));
-
 
     }
 }
@@ -218,3 +194,4 @@ public class PathRunTest2 extends ScreenAdapter {
  path.add(new Bezier<Vector2>(new Vector2(),
  new Vector2(), new Vector2()));
  * */
+

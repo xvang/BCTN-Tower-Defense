@@ -19,7 +19,7 @@ public class LaserTower extends Tower {
         setRange(250f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
-        setState(true);
+        state = true;
         setFireRate(0.07f);
         setID("LASER");
         setBulletTexture(new Texture("redbullet.png"));

@@ -14,7 +14,7 @@ public class RedSpider extends Enemy{
         //health, armor, texture
         super(100, 1, "bestgoblin.png");
         setName("redspider");
-        setRate(0.08f + (float)Math.random()*0.035f);
+        setRate(0.21f + (float)Math.random()*0.035f);
 
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

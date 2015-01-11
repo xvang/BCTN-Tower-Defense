@@ -23,6 +23,7 @@ public class BuildableSpot extends Tower {
     public BuildableSpot(Vector2 p){
         super(new Texture("buildablespot.png"));
         setSize(40f, 40f);
+        this.setPosition(p.x, p.y);
     }
 
 

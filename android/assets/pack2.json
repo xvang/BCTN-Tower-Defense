@@ -24,8 +24,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle:{
 
     pause: {
-        up: BTN_GREEN_CIRCLE_OUT,
-        down: BTN_GREEN_CIRCLE_IN
+        up: BTN_ORANGE_CIRCLE_OUT,
+        down: BTN_ORANGE_CIRCLE_IN
     }
 
 }

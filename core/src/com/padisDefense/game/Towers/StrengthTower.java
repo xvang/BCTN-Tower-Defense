@@ -22,7 +22,7 @@ public class StrengthTower extends Tower {
         setRange(250f);
         setChargeRate(0.01f);
         setIncomeRate(4f);
-        setState(true);
+        state = true;
         setFireRate(0.01f);
         setID("STRENGTH");
         setBulletTexture(new Texture("redbullet.png"));

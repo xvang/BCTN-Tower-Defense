@@ -22,7 +22,7 @@ public class SpeedTower extends Tower {
         setAttack(1f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
-        setState(true);
+        state = true;
         setFireRate(0.12f);
         setID("SPEED");
         setBulletTexture(new Texture("redbullet.png"));

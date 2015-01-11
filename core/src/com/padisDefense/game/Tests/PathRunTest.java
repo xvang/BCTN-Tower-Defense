@@ -45,7 +45,7 @@ public class PathRunTest extends ScreenAdapter{
 
     @Override
     public void show () {
-        background = new Sprite(new Texture("tiles/path6.png"));
+        background = new Sprite(new Texture("tiles/path1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         renderer = new ImmediateModeRenderer20(false, false, 0);
         spriteBatch = new SpriteBatch();
@@ -155,37 +155,44 @@ public class PathRunTest extends ScreenAdapter{
 
     //paths
     public void addPath(){
-        //Path 1
-        paths.add(new Bezier<Vector2>(new Vector2(w/9, h + 50f), new Vector2(w/8, h*10/12)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w/8, h*10/12), new Vector2(w/7, h*7/12)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w/7, h*7/12), new Vector2(w/6, h/3)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w/6, h/3), new Vector2(w/5, h/12),
-                new Vector2(w/4, h/12)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w/4, h/12), new Vector2(w*7/24, h/14),
-                new Vector2(w*15/48, h/6)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*15/48, h/6), new Vector2(w*19/48, h/2)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*19/48,  h/2), new Vector2(w*22/48, h*2/3),
-                new Vector2(w*25/48, h/2 )));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*25/48,h/2), new Vector2(w*30/48, h/6)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*30/48, h/6), new Vector2(w*33/48, h/20),
-                new Vector2(w*37/48, h/6)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*37/48, h/6), new Vector2(w*41/48, h/3),
-                new Vector2(w*41/48, h/2)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*41/48, h/2), new Vector2(w*40/48, h*2/3)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*40/48, h*2/3), new Vector2(w*39/48, h*5/6)));
-
-        paths.add(new Bezier<Vector2>(new Vector2(w*39/48, h*5/6), new Vector2(w*38/48, h+40f)));
 
     }
 }
+
+/*
+
+
+
+
+
+
+ Array<Path<Vector2>> path4 = new Array<Path<Vector2>>();
+ //straight
+
+
+
+
+
+
+
+
+
+ Array<Path<Vector2>> path6 = new Array<Path<Vector2>>();
+
+
+
+
+ Array<Path<Vector2>> path7 = new Array<Path<Vector2>>();
+
+
+
+ Array<Path<Vector2>> path8 = new Array<Path<Vector2>>();
+
+
+
+ Array<Path<Vector2>> path9 = new Array<Path<Vector2>>();
+
+
+
+
+ */

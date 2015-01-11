@@ -27,9 +27,9 @@ public class Tower extends Sprite{
     private float range = 1;
     private float chargeRate = 1;//Used in gameScreen. gatherCharge().
     private float incomeRate = 1;//unused for now.
-    private Boolean state = true;//TRUE is shooting. FALSE is charging.
+    public boolean state = true;//TRUE is shooting. FALSE is charging.
     private float fireRate = 1;//Used in bulletManager. shooting(). How often a new Bullet is created.
-    private Boolean hasTarget = false;
+    public Boolean hasTarget = false;
     private Enemy target;
     private int upgradeCost = 1;
     private Array<String> weakAgainst;
@@ -123,10 +123,10 @@ public class Tower extends Sprite{
     public void setRange(float newRange){range = newRange;}
     public void setChargeRate(float newCharge){chargeRate = newCharge;}
     public void setIncomeRate(float newIncome) {incomeRate = newIncome;}
-    public void setState(Boolean newState){state = newState;}
+
     public void setFireRate(float newFire){fireRate = newFire;}
     public void setTarget(Enemy newE){target = newE;}
-    public void setHasTarget(Boolean t){hasTarget = t;}
+
     public void setID(String id){
         ID = id;
     }
@@ -156,10 +156,10 @@ public class Tower extends Sprite{
     public float getRange(){return range;}
     public float getChargeRate(){return chargeRate;}
     public float getIncomeRate() {return incomeRate;}
-    public Boolean getState(){return state;}
+
     public float getFireRate(){return fireRate;}
     public Enemy getTarget(){return target;}
-    public Boolean getHasTarget(){return hasTarget;}
+
     public Pool<Bullet> getPool(){return pool;}
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}

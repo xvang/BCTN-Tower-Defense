@@ -14,7 +14,7 @@ public class BlueSpider extends Enemy{
         super(100,1, "biggergoblin.png");
         setName("bluespider");
 
-        setRate(0.07f + (float)Math.random()*0.1f);
+        setRate(0.15f + (float)Math.random()*0.17f);
 
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

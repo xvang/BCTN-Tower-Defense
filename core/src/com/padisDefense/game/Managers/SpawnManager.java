@@ -23,6 +23,7 @@ import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Player;
 import com.padisDefense.game.Towers.AoeTower;
+import com.padisDefense.game.Towers.BuildableSpotSpawnStorage;
 import com.padisDefense.game.Towers.StrengthTower;
 import com.padisDefense.game.Towers.Tower;
 import com.padisDefense.game.Towers.LaserTower;
@@ -98,6 +99,8 @@ public class SpawnManager {
         weak = new Array<String>();
         mostType = new Array<Tower>();
         leastType = new Array<Tower>();
+
+
     }
 
 
@@ -312,20 +315,7 @@ public class SpawnManager {
     }
 
 /************FOR BUILDABLE SPOTS***********************************************************/
-    public void spawnBuildableSpots(TowerManager tower){
-        //For testing purposes only.
-        //BuildableSpots are manually spawned here.
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        tower.addBuildableSpots(new Vector2(w/12f, h/3));
-        tower.addBuildableSpots(new Vector2(w/2f, h/6));
-        tower.addBuildableSpots(new Vector2(w*2/3, h/2));
-        tower.addBuildableSpots(new Vector2(w/2f, h*2/3));
-        tower.addBuildableSpots(new Vector2(w*3/4f, h*2/3));
-        tower.addBuildableSpots(new Vector2(w/2f, h*3/4));
-        tower.addBuildableSpots(new Vector2(w*5/6f, h*5/6));
 
-    }
 
 
     //TODO: find out if setting the old tower to NULL messes anything up. memory leaks?
@@ -363,7 +353,7 @@ public class SpawnManager {
      * */
     public void buildATower(String action, BuildableSpot b, String type, int level){
 
-        System.out.println("action: " + action);
+        //System.out.println("action: " + action);
 
         Tower newTower = null;
         Sprite picture;
@@ -422,7 +412,7 @@ public class SpawnManager {
             }
 
             else if(action.equals("upgrade")){
-                System.out.println("DOES THIS EVEN WORK?");
+
 
                 float oldRotate = b.getCurrentTower().getRotation();
                 newTower.setRotation(oldRotate);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -31,6 +32,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public Padi padi;
     private Sprite background;
+    private SpriteBatch batch;
     private boolean  GAME_OVER = false;
     private EndGameAnimation endGameAnimation;
 
@@ -58,9 +60,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public GameScreen(Padi p){
 
         padi = p;
-        background = new Sprite(new Texture("test1.png"));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setOrigin(0, 0);
+
+
         endGameAnimation = new EndGameAnimation();
         tower = new TowerManager(this, p);
         enemy = new EnemyManager(this, p);
@@ -70,6 +71,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         damage = new DamageManager(this, p);
         bullet = new BulletManager(this, p);
         multi = new InputMultiplexer();
+
+        batch = new SpriteBatch();
 
 
 
@@ -83,12 +86,21 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //enemy amount and path is stored in enemy.
     //information about those things are stored in levelManager.
     public void assignLevel(int L){
-        level.setLevel(L);
-        level.determineLevel();
-        enemy.setEnemyAmount(level.getEnemyAmount());
-        enemy.setPath(level.getPath());
-        spawn.spawnBuildableSpots(tower);
+        level.setLevel(L);//stores the level.
+
+        level.determineLevelSettings();//determines how many enemies to spawn, pathing, etc.
+
+        enemy.setEnemyAmount(level.getEnemyAmount());//telling enemyManager how many enemy to spawn.
+
+        enemy.setPath(level.getPath());//setting the path where all enemy will travel.
+
+        level.spawnBuildableSpots(tower, L);//getting locations for buildableSpots.
+
+        background = level.getBackground();//getting background for level.
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setOrigin(0, 0);
     }
+
 
     boolean do_once = true;
     @Override
@@ -99,6 +111,11 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         if(!UI.PAUSED){
             //background.draw(padi.batch);
             oldEnemyCount = enemy.getEnemyCounter();
+
+
+            batch.begin();
+            background.draw(batch);
+            batch.end();
 
             enemy.startEnemy();
 
@@ -156,6 +173,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             }
             UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
+
         }
 
 
@@ -182,7 +200,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         float temp = 0;
         for(int x = 0; x < tower.getTowerArray().size; x++){
-            if(!tower.getTowerArray().get(x).getState())
+            if(!tower.getTowerArray().get(x).state)
                 temp += tower.getTowerArray().get(x).getChargeRate();
 
         }

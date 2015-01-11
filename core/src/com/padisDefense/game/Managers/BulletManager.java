@@ -44,11 +44,11 @@ public class BulletManager {
 
         //if-statement wraps around every relevant code in shooting().
         //if tower is NOT in shooting mode, no code involving moving bullets should execute.
-        if(t.getState()){
+        if(t.state){
 
             towerLocation = new Vector2(t.getBulletSpawnLocation());
 
-            if(t.getHasTarget())
+            if(t.hasTarget)
                 enemyLocation = new Vector2(e.getLocation());
             else
                 enemyLocation = new Vector2(t.getOldTargetPosition());
@@ -70,7 +70,7 @@ public class BulletManager {
 
 
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                    &&t.getHasTarget() && t.lockedOnTarget){
+                    &&t.hasTarget && t.lockedOnTarget){
 
                 item = t.getPool().obtain();
                 //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));

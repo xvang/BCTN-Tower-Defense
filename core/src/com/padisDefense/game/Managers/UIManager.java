@@ -87,6 +87,7 @@ public class UIManager implements InputProcessor{
     public Table pauseTable;
     public Stage pauseStage;
     private ImageButton pauseButton;
+    private Table pauseButtonTable; // to resize button
 
 
     public UIManager(GameScreen g, Padi p){
@@ -148,7 +149,7 @@ public class UIManager implements InputProcessor{
         stage.addActor(masterTable);
         stage.addActor(hideButton);
         stage.addActor(clickedTowerTable);
-        stage.addActor(pauseButton);
+        stage.addActor(pauseButtonTable);
 
     }
 
@@ -327,9 +328,9 @@ public class UIManager implements InputProcessor{
                 game.multi.addProcessor(pauseStage);
             }
         });
-        //pauseButton.setScale(0.2f, 0.2f);
+        pauseButton.scaleBy(0.2f);
 
-        pauseButton.setPosition(20f, Gdx.graphics.getHeight() - 20f - pauseButton.getHeight());
+
 
         pauseTable = new Table();
         pauseStage = new Stage();
@@ -376,9 +377,13 @@ public class UIManager implements InputProcessor{
         });
 
 
-        pauseTable.add(quit);
-        pauseTable.add(resume);
-        pauseTable.add(mute);
+        pauseButtonTable = new Table();
+        pauseButtonTable.add(pauseButton).width(Gdx.graphics.getWidth()/30).height(Gdx.graphics.getHeight()/20f);
+        pauseButtonTable.setPosition(20f, Gdx.graphics.getHeight() - 20f );
+
+        pauseTable.add(quit).width(100f).height(40f).pad(30f);
+        pauseTable.add(resume).width(100f).height(40f).pad(30f);
+        pauseTable.add(mute).width(150f).height(40f).pad(30f);
         pauseTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 
         pauseStage.addActor(pauseTable);
@@ -413,10 +418,10 @@ public class UIManager implements InputProcessor{
         countDownMessage2 = new Label("Time Left: " + String.valueOf((int)temp),
                 padi.assets.someUIskin, "default");
 
-        startButton.setSize(40f, 30f);
-        countDownTable.add(startButton).row().pad(15f);
-        countDownTable.add(countDownMessage1).row().pad(15f);
-        countDownTable.add(countDownMessage2).row().pad(15f);
+
+        countDownTable.add(startButton).width(100f).height(40f).row().pad(5f);
+        countDownTable.add(countDownMessage1).row().pad(5f);
+        countDownTable.add(countDownMessage2).row().pad(5f);
 
 
     }
@@ -426,9 +431,9 @@ public class UIManager implements InputProcessor{
         charge = new TextButton("Charge", padi.assets.skin2, "default");
         upgrade = new TextButton("Upgrade", padi.assets.skin2, "default");
         final TextButton sell = new TextButton("Sell", padi.assets.skin2, "default");
-        clickedOptionTable.add(charge).width(70f).height(40f).pad(5f);
-        clickedOptionTable.add(upgrade).width(70f).height(40f).pad(5f);
-        clickedOptionTable.add(sell).width(70f).height(40f).pad(5f);
+        clickedOptionTable.add(charge).width(50f).height(35f).pad(5f);
+        clickedOptionTable.add(upgrade).width(50f).height(35f).pad(5f);
+        clickedOptionTable.add(sell).width(50f).height(35f).pad(5f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
         //adding clicklisteners for option table.
@@ -448,11 +453,11 @@ public class UIManager implements InputProcessor{
 
                     //getState() returns true if in shooting mode.
                     //changes the state, and the button message.
-                    if (currentBS.getCurrentTower().getState()) {
-                        currentBS.getCurrentTower().setState(false);
+                    if (currentBS.getCurrentTower().state) {
+                        currentBS.getCurrentTower().state = false;
                         charge.setText(currentBS.getCurrentTower().getMessage());
                     } else {
-                        currentBS.getCurrentTower().setState(true);
+                        currentBS.getCurrentTower().state = true;
                         charge.setText(currentBS.getCurrentTower().getMessage());
                     }
 
@@ -486,10 +491,10 @@ public class UIManager implements InputProcessor{
                     //if buildablespot has a tower built on it
                     //that tower's state is saved.
                     if(!currentBS.emptyCurrentTower()){
-                        oldState = currentBS.getCurrentTower().getState();
+                        oldState = currentBS.getCurrentTower().state;
                     }
                     game.spawn.upgradeTower(currentBS);
-                    currentBS.getCurrentTower().setState(oldState);
+                    currentBS.getCurrentTower().state = oldState;
 
                     clickedOptionTable.setVisible(false);
                 }
@@ -636,13 +641,13 @@ public class UIManager implements InputProcessor{
         image.add(laser);
         image.add(sniper);
         image.add(rogue);
-        image.add(aoe);
+        image.add(strength);
 
         dragTowers.clear();
         for(int w = 0; w < image.size; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
-            dragTowers.add(image.get(w)).width(50f).height(50f).pad(25f);
+            dragTowers.add(image.get(w)).width(30f).height(30f).pad(10f);
 
 
         }
@@ -672,7 +677,7 @@ public class UIManager implements InputProcessor{
                     for(int w = 0; w < image.size; w++) {
 
                         if (w % 2 == 0 && w != 0) dragTowers.row();
-                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(30f);
+                        dragTowers.add(image.get(w)).width(30f).height(30f).pad(10f);
                     }
                 }
             });
@@ -709,7 +714,7 @@ public class UIManager implements InputProcessor{
 
         masterTable.setBackground(background);
         masterTable.add(countDownTable).row();
-        masterTable.add(messageTable).padBottom(20f).row();
+        masterTable.add(messageTable).padBottom(5f).row();
         masterTable.add(dragTowers);
 
     }

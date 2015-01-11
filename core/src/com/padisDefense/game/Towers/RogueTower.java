@@ -14,7 +14,7 @@ public class RogueTower extends Tower {
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setState(true);
+        state = true;
         setID("ROGUE");
         setCost(25);
         setAttack(45f);

@@ -81,8 +81,8 @@ public class EnemyManager {
 
     public void startEnemy(){
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(1, 1, 1, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(countDownTimer >= 0f){//no enemy should spawn until countdown ends.
             countDownTimer -= Gdx.graphics.getDeltaTime();
@@ -210,7 +210,7 @@ public class EnemyManager {
                     currentTower = game.tower.getTowerArray().get(s);
 
                     if(currentTower.getTarget().equals(e)){
-                        currentTower.setHasTarget(false);
+                        currentTower.hasTarget = false;
 
 
                         Bullet b;
@@ -300,7 +300,6 @@ public class EnemyManager {
     public void reset(){
 
         activeEnemy.clear();
-
         countDownTimer  = 10f;
 
     }
