@@ -255,16 +255,11 @@ public class UIManager implements InputProcessor{
                 }
 
 
-                //positions of 'clickedOptionTable' and 'clickedTowerTable'
-                //are set in checkBorders().
-                //function checks the borders to make sure the tables are not out of screen.
-                //tables will be positioned relative to 'currentBuildable'.
-                checkBorders(currentBuildable);
+                clickedOptionTable.setPosition(currentBuildable.getX(),
+                        currentBuildable.getY() - 10f);
 
-
-                //setting the optiontable's location to where clicked tower is.
-
-                //setting the clickedTowerTable's location.
+                clickedTowerTable.setPosition(currentBuildable.getX(),
+                        currentBuildable.getY() - 10f);
 
                 //'currentBuildable' is local to this function.
                 //'currentBS' is global in this class.
@@ -272,11 +267,18 @@ public class UIManager implements InputProcessor{
 
                 //if buildable is empty, choices of towers to build should pop up.
                 if(currentBuildable.emptyCurrentTower()){
+                    checkBorders(currentBuildable, clickedTowerTable);
                     clickedTowerTable.setVisible(true);
+
+                    //System.out.println("clickedTower visible");
                 }
                 //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
-                else
+                else{
+                    checkBorders(currentBuildable, clickedOptionTable);
                     clickedOptionTable.setVisible(true);
+                    //System.out.println("clickedOption visible");
+                }
+
 
                 break;//breaks the forloop.
                 // if clicked buildablespot is found, no need to keep checking
@@ -285,107 +287,75 @@ public class UIManager implements InputProcessor{
     }
 
 
-    //checks the borders to see if tables will appear offscreen.
-    //rectangles are copied from the settings screen.
-    public void checkBorders(BuildableSpot b){
+    //TODO: update checkBorders(). do something. its horrible.
+    public void checkBorders(BuildableSpot b, Table t){
 
-        System.out.println("checking borders...");
-        Rectangle top, bottom, left, right;
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-
-        //not using new Rectangle(x,y,width,height) constructor
-        //because position depends on height. it's only a few more lines.
-        top = new Rectangle();
-        bottom = new Rectangle();
-        left = new Rectangle();
-        right = new Rectangle();
-
-        top.setSize(w, 10f);
-        bottom.setSize(w, 10f);
-        left.setSize(10f, h);
-        right.setSize(10f, h);
-
-        top.setPosition(0, h);
-        bottom.setPosition(0, 0-bottom.getHeight());
-        left.setPosition(0-left.getWidth(), 0);
-        right.setPosition(w,0);
-
-        //initial positions. if no overlapping, then these position will not be chanced.
-        clickedOptionTable.setPosition(b.getX() - (clickedOptionTable.getWidth()/2),
-                b.getY() - (clickedOptionTable.getHeight() - 5f));
-
-        clickedTowerTable.setPosition(b.getX() - (clickedTowerTable.getWidth()/2),
-                b.getY() + b.getHeight() + 40f);
+        final float w = Gdx.graphics.getWidth();
+        final float h = Gdx.graphics.getHeight();
+        System.out.println("gdx.graphics.getWidth() = " + w + " ... assets.width = " + padi.assets.getScreenWidth());
+        Rectangle bsRec, towerRec, tRec, top, bottom, left, right;
+        bsRec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
 
-        //draw rectangle around table.
-        Rectangle optionRec = new Rectangle(clickedOptionTable.getX(), clickedOptionTable.getY(),
-                clickedOptionTable.getWidth(), clickedOptionTable.getHeight());
-
-        Rectangle towerRec = new Rectangle(clickedTowerTable.getX(), clickedTowerTable.getY(),
-                clickedTowerTable.getWidth(), clickedTowerTable.getHeight());
-        Rectangle chargeOption = new Rectangle(charge.getScaleX(), charge.getScaleY(),
-                charge.getWidth(), charge.getHeight());
-        //rectangle drawn around the buildablespot
-        Rectangle bsRec = new Rectangle(b.getX(), b.getY(),
-                b.getWidth(), b.getHeight());
 
 
-        System.out.println(chargeOption.getX());
-        //the two tables should never appear together.
-        //clickedOptionTable always appears below tower, so it should never go out of bounds at top
-        //likewise, clickedTowerTable appears above tower, and should never go out of bounds at bottom
-        //by checking the four condition independently, all conditions should be checked
-        //even the ones at the corner where tables overlaps multiple sides.
-        if(towerRec.overlaps(top)){
-            System.out.println("overlap top");
-            //checking if overlap buildablespot because clickedTowerTable's
-            //original position is above bs, and it might be lowered to be within screen,
-            //but in that case it ends up in front of tower.
-            while(towerRec.overlaps(top) || towerRec.overlaps(bsRec)){
-                clickedTowerTable.setPosition(clickedTowerTable.getX(),
-                        clickedTowerTable.getY() - 1);
-                towerRec.setPosition(clickedTowerTable.getX(), clickedTowerTable.getY());
-            }
-        }
+        //http://stackoverflow.com/questions/18075414/getting-stage-coordinates-of-actor-in-table-in-libgdx
+        //starting point was the answer found above. below is where I ended up. I don't know what happened.
+        Vector2 loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+        Vector2 realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
+        tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
 
-        //similar logic for overlapping top, but reversed.
-        if(optionRec.overlaps(bottom)){System.out.println("overlap bottom");
+        top = new Rectangle(0, h, w, 250f);
+        bottom = new Rectangle(0, -250f, w, 250f);
+        left = new Rectangle(-250f, 0, 250f, h);
+        right = new Rectangle(w, 0, 250f, h);
 
-            while(optionRec.overlaps(bottom) || optionRec.overlaps(bsRec)){
-                clickedOptionTable.setPosition(clickedOptionTable.getX(),
-                        clickedOptionTable.getY() + 1);
-            }
+        System.out.println("top : " + top);
+        System.out.println("bottom : " + bottom);
+        System.out.println("left : " + left);
+        System.out.println("right : " + right);
+        System.out.println("tRec : " + tRec);
+        System.out.println("t : " + t.getX() + ", " + t.getY() + ", " + t.getWidth() + ", " + t.getHeight());
+        System.out.println();
+        System.out.println();
+
+
+        while (tRec.overlaps(left)){System.out.println("LEFT");
+            t.setPosition(t.getX() + 1, t.getY());
+
+            loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+            realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
+
+            tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
 
         }
 
-        //for overlapping left or right, tables are moved in the opposite direction.
-        //moving lateral should never overlap with buildablespot, so need to check that.
-        if (chargeOption.overlaps(left) || towerRec.overlaps(left)){System.out.println("overlap left");
+        while (tRec.overlaps(right)){
+            t.setPosition(t.getX() - 1, t.getY());
+            loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+            realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
 
-            while(chargeOption.overlaps(left)){
-                clickedTowerTable.setPosition(clickedTowerTable.getX() + 1,
-                        clickedTowerTable.getY());
-            }
+            tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
 
-            while(towerRec.overlaps(left)){
-                clickedOptionTable.setPosition(clickedOptionTable.getX() + 1,
-                        clickedOptionTable.getY());
-            }
         }
 
-        if (optionRec.overlaps(right) || towerRec.overlaps(right)){System.out.println("overlap right");
 
-            while(optionRec.overlaps(left)){
-                clickedTowerTable.setPosition(clickedTowerTable.getX() - 1,
-                        clickedTowerTable.getY());
-            }
+        //'clickedTowerTable' appears above tower and will never go out of screen at 'bottom'
+       /* if(t.getName().equals("clickedTowerTable")){
+            while (tRec.overlaps(top)){
+                t.setPosition(t.getX(), t.getY() - 1);
+                loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+                realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
 
-            while(towerRec.overlaps(left)){
-                clickedOptionTable.setPosition(clickedOptionTable.getX() - 1,
-                        clickedOptionTable.getY());
+                tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
             }
+        }*/
+        while (tRec.overlaps(bottom)) {
+            t.setPosition(t.getX(), t.getY() + 1);
+            loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+            realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
+
+            tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
         }
     }
 
@@ -403,7 +373,7 @@ public class UIManager implements InputProcessor{
         //create Rectangle around BuildableSpot.
         for(int x = 0; x < BS.size; x++){
             Rectangle rec = new Rectangle(BS.get(x).getX(), BS.get(x).getY(),
-                    BS.get(x).getWidth(), BS.get(x).getHeight());
+                    BS.get(x).getWidth()*1.4f, BS.get(x).getHeight()*1.4f); //40% bigger?
 
             if(rec.overlaps(r) && BS.get(x).emptyCurrentTower()){
                 game.spawn.buildATower("build", BS.get(x), type.toUpperCase(), 1);//passes in the buildablespot, name of tower, and level.
@@ -540,11 +510,14 @@ public class UIManager implements InputProcessor{
         charge = new TextButton("Charge", padi.assets.skin2, "default");
         upgrade = new TextButton("Upgrade", padi.assets.skin2, "default");
         final TextButton sell = new TextButton("Sell", padi.assets.skin2, "default");
-        clickedOptionTable.add(charge).width(50f).height(35f).pad(5f);
-        clickedOptionTable.add(upgrade).width(50f).height(35f).pad(5f);
-        clickedOptionTable.add(sell).width(50f).height(35f).pad(5f);
+        clickedOptionTable.add(charge).width(100f).height(35f).pad(5f);
+        clickedOptionTable.add(upgrade).width(100f).height(35f).pad(5f);
+        clickedOptionTable.add(sell).width(100f).height(35f).pad(5f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
+
+
+
         //adding clicklisteners for option table.
 
         //'currentBS' points to the BuildableSpot that was clicked.
@@ -584,29 +557,19 @@ public class UIManager implements InputProcessor{
                 b = !b;
                 clickedOptionTable.setVisible(b);
 
-                //If the button says "build" then we want it to
-                //open up the option of choosing towers.
-                if(String.valueOf(upgrade.getText()).equals("Build")){
+                //stores old state of the tower: charge or shoot.
+                //default is shoot. maybe 'oldState' is already true when it is declared?
+                boolean oldState = true;
 
-                    clickedTowerTable.setVisible(true);
-                    clickedOptionTable.setVisible(true);
+                //if buildablespot has a tower built on it
+                //that tower's state is saved.
+                if(!currentBS.emptyCurrentTower()){
+                    oldState = currentBS.getCurrentTower().state;
                 }
+                game.spawn.upgradeTower(currentBS);
+                currentBS.getCurrentTower().state = oldState;
 
-                else{
-                    //stores old state of the tower: charge or shoot.
-                    //default is shoot.
-                    boolean oldState = true;
-
-                    //if buildablespot has a tower built on it
-                    //that tower's state is saved.
-                    if(!currentBS.emptyCurrentTower()){
-                        oldState = currentBS.getCurrentTower().state;
-                    }
-                    game.spawn.upgradeTower(currentBS);
-                    currentBS.getCurrentTower().state = oldState;
-
-                    clickedOptionTable.setVisible(false);
-                }
+                clickedOptionTable.setVisible(false);
 
 
 
@@ -662,13 +625,13 @@ public class UIManager implements InputProcessor{
 
             if(x % 3 == 0 && x != 0) clickedTowerTable.row();
 
-            clickedTowerTable.add(towerOptions.get(x)).width(70f).height(35f).pad(8f);
+            clickedTowerTable.add(towerOptions.get(x)).width(100f).height(35f).pad(8f);
             clickedTowerTable.pad(5f);
         }
 
 
 
-        //clickedTowerTable.setSize(100f, 100f);
+
         clickedTowerTable.setVisible(false);
 
 

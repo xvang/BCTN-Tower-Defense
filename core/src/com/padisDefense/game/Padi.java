@@ -53,7 +53,7 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
-        assets = new Assets(this);
+       assets = new Assets(this);
         assets.initGameScreen();
 
         main_menu = new MainMenu(this);

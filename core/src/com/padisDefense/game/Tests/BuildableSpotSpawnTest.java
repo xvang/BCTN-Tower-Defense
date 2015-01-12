@@ -25,8 +25,8 @@ public class BuildableSpotSpawnTest extends ScreenAdapter {
     public BuildableSpotSpawnTest(){
         batch = new SpriteBatch();
 
-        background = new Sprite(new Texture("tiles/path6.png"));
-
+        background = new Sprite(new Texture("tiles/path3.png"));
+        level = 3;
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         billy = new Array<BuildableSpot>();
@@ -52,6 +52,11 @@ public class BuildableSpotSpawnTest extends ScreenAdapter {
 
     public void addBuildableSpots(){
 
-        billy.add(new BuildableSpot(new Vector2()));
+        //billy.add(new BuildableSpot(new Vector2()));
+        Array<Vector2> positions = storage.getBuildableLocations(level);
+
+        for(int x = 0; x < positions.size; x++){
+            billy.add(new BuildableSpot(positions.get(x)));
+        }
     }
 }
