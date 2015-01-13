@@ -32,7 +32,7 @@ public class Assets {
     //if user mutes in game, SOUND_LEVEL is set to zero, but SOUND_LEVEL_ORIGINAL
     //should still have the original value if user wishes to un-mute.
 
-    public static int DIFFICULTY = 49;
+    public static int DIFFICULTY = 99;
 
     public Array<String> splash_Pages;
 

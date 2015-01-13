@@ -150,6 +150,7 @@ public class UIManager implements InputProcessor{
         stage.addActor(hideButton);
         stage.addActor(clickedTowerTable);
         stage.addActor(pauseButtonTable);
+        stage.addActor(messageTable);
 
     }
 
@@ -163,7 +164,7 @@ public class UIManager implements InputProcessor{
     }
 
     public void updateMoneyMessage(int m){
-        moneyMessage.setText("$ " + String.valueOf(m));
+        moneyMessage.setText("Bank: $ " + String.valueOf(m));
     }
 
     public void updateTimerMessage(){
@@ -281,7 +282,7 @@ public class UIManager implements InputProcessor{
     }
 
 
-    //TODO: update checkBorders(). do something. its horrible. we failed. we are judged on our worst function, xeng.
+    //TODO: update checkBorders(). do something. its horrible. we failed. we are judged on our worst functions, xeng.
     public void checkBorders(BuildableSpot b, Table t){
 
         final float w = Gdx.graphics.getWidth();
@@ -393,6 +394,45 @@ public class UIManager implements InputProcessor{
     }
 
 
+    public void createMessageTable(){
+        moneyMessage = new Label("Bank: $ ", padi.assets.someUIskin);
+        enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
+        timeMessage = new Label("Total time: " + String.valueOf(TIMER), padi.assets.someUIskin);
+
+        //making table for messages.
+        messageTable = new Table();
+
+
+        // messageTable.setSize(200f, Gdx.graphics.getHeight());
+        // messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
+
+        messageTable.add(enemyMessage).padRight(40f);
+        messageTable.add(moneyMessage).padRight(40f);
+        messageTable.add(timeMessage).padRight(40f);
+        messageTable.setSize(200f, 30f);
+        messageTable.setPosition(200f, Gdx.graphics.getHeight() - 30f);
+       // messageTable.setPosition(0,0);
+
+    }
+
+
+
+    public void createMasterTable(){
+        masterTable = new Table();
+        masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
+        masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
+
+
+
+        //creating the background for  the table.
+        TextureRegionDrawable background = new TextureRegionDrawable(
+                new TextureRegion(new Texture("uitablebackground.png")));
+
+        masterTable.add(countDownTable).row();
+        masterTable.add(dragTowers);
+
+    }
+
     public void createPauseTable(){
 
         TextureRegion r = padi.assets.skin3.getRegion("SYMB_PAUSE");
@@ -419,6 +459,7 @@ public class UIManager implements InputProcessor{
 
         final TextButton resume = new TextButton("Resume", padi.assets.skin2, "default");
         final TextButton quit = new TextButton("Quit", padi.assets.skin2, "default");
+        final TextButton restart = new TextButton("Restart", padi.assets.skin2, "default");
         final TextButton mute = new TextButton("Mute", padi.assets.skin2, "default");
 
 
@@ -458,13 +499,19 @@ public class UIManager implements InputProcessor{
             }
         });
 
-
+        restart.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                game.reset();
+            }
+        });
         pauseButtonTable = new Table();
         pauseButtonTable.add(pauseButton).width(Gdx.graphics.getWidth()/30).height(Gdx.graphics.getHeight()/20f);
         pauseButtonTable.setPosition(20f, Gdx.graphics.getHeight() - 20f );
 
         pauseTable.add(quit).width(100f).height(40f).pad(30f);
-        pauseTable.add(resume).width(100f).height(40f).pad(30f);
+        pauseTable.add(resume).width(100f).height(40f).pad(30f).row();
+        pauseTable.add(restart).width(100f).height(40f).pad(30f);
         pauseTable.add(mute).width(150f).height(40f).pad(30f);
         pauseTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 
@@ -698,12 +745,13 @@ public class UIManager implements InputProcessor{
         shapeRenderer = new ShapeRenderer();
 
         //Creating the images for the towers.
-        final Image rogue = new Image(new Texture("icetower_small.png"));
-        final Image speed = new Image(new Texture("strengthtower_small.png"));
-        final Image laser = new Image(new Texture("roguetower_small.png"));
-        final Image sniper = new Image(new Texture("ghosttower_small.png"));
-        final Image strength = new Image(new Texture("speedtower_small.png"));
-        final Image aoe = new Image(new Texture("aoetower_small.png"));
+
+        final Image rogue = new Image(new Texture("towers/ROGUE_1.png"));
+        final Image speed = new Image(new Texture("towers/SPEED_1.png"));
+        final Image laser = new Image(new Texture("towers/LASER_1.png"));
+        final Image sniper = new Image(new Texture("towers/SNIPER_1.png"));
+        final Image strength = new Image(new Texture("towers/STRENGTH_1.png"));
+        final Image aoe = new Image(new Texture("towers/AOE_1.png"));
 
         //giving each image the appropriate names.
         rogue.setName("rogue");
@@ -725,7 +773,7 @@ public class UIManager implements InputProcessor{
         for(int w = 0; w < image.size; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
-            dragTowers.add(image.get(w)).width(30f).height(30f).pad(10f);
+            dragTowers.add(image.get(w)).width(50f).height(50f).pad(40f);
 
 
         }
@@ -737,10 +785,6 @@ public class UIManager implements InputProcessor{
                 @Override
                 public void drag(InputEvent e, float x, float y, int pointer){
                     image.get(ss).setCenterPosition(image.get(ss).getX() + x, image.get(ss).getY() + y);
-                    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-                    shapeRenderer.setColor(1, 1, 1, 1);
-                    shapeRenderer.circle(image.get(ss).getCenterX(),image.get(ss).getCenterY(), 200f);
-                    shapeRenderer.end();
                 }
 
                 @Override
@@ -755,47 +799,15 @@ public class UIManager implements InputProcessor{
                     for(int w = 0; w < image.size; w++) {
 
                         if (w % 2 == 0 && w != 0) dragTowers.row();
-                        dragTowers.add(image.get(w)).width(30f).height(30f).pad(10f);
+                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(40f);
                     }
                 }
             });
 
-
         }
     }
 
-    public void createMessageTable(){
-        moneyMessage = new Label("$ ", padi.assets.someUIskin);
-        enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
 
-        //making table for messages.
-        messageTable = new Table();
-        timeMessage = new Label("Total time: " + String.valueOf(TIMER), padi.assets.someUIskin);
-
-        messageTable.setSize(200f, Gdx.graphics.getHeight());
-        messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
-        messageTable.add(enemyMessage).pad(20f).row();
-        messageTable.add(moneyMessage).pad(20f).row();
-        messageTable.add(timeMessage).row();
-    }
-
-    public void createMasterTable(){
-        masterTable = new Table();
-        masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
-        masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
-
-
-
-        //creating the background for  the table.
-        TextureRegionDrawable background = new TextureRegionDrawable(
-                new TextureRegion(new Texture("uitablebackground.png")));
-
-        masterTable.setBackground(background);
-        masterTable.add(countDownTable).row();
-        masterTable.add(messageTable).padBottom(5f).row();
-        masterTable.add(dragTowers);
-
-    }
 
     @Override
     public boolean keyDown(int keycode) {return false;}
@@ -879,6 +891,7 @@ public class UIManager implements InputProcessor{
         endGameTable.setVisible(false);
         clickedTowerTable.setVisible(false);
         clickedOptionTable.setVisible(false);
+
         masterTable.setVisible(true);
         TIMER = 0f;
         GAME_OVER = false;

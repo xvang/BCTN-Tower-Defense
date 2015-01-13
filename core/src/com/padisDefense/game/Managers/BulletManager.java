@@ -69,8 +69,9 @@ public class BulletManager {
             Bullet item;
 
 
+
             if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                    &&t.hasTarget && t.lockedOnTarget){
+                    && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
 
                 item = t.getPool().obtain();
                 //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
@@ -124,6 +125,12 @@ public class BulletManager {
                 if(hitEnemy(currentBullet, e) /*|| arrivedAtOldLocation(currentBullet, e)*/){
                     game.damage.hit(t, e);
 
+                    //telling game to show tower's animation for when bullet hits enemy.
+                    //setting location of explosion to where enemy is currently located.
+                    //if(t.getID().equals("AOE")){
+                   //     t.explosion.setExplosionPosition(e.getLocation());
+                   //     t.explode = true;
+                   // }
                     currentBullet.setTime(0);//to activate below.
                     //item = t.getActiveBullets().get(x);
                     t.getActiveBullets().removeIndex(x);

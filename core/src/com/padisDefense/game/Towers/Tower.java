@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 import com.padisDefense.game.MiscellaniousCharacters.IceSparkle;
 
 
@@ -64,6 +65,10 @@ public class Tower extends Sprite{
 
 
     public IceSparkle sparkle;
+
+    //for when bullet hits enemy.
+    public Explosion explosion;
+    public boolean explode = false;//if true, then bullet hit enemy and run the animation.
 
     public boolean clicked = false;//used to display the range circle.
     //Constructor #1
@@ -353,6 +358,7 @@ public class Tower extends Sprite{
     public void print(){
         System.out.print(ID);
     }
+
 
 
 

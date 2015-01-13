@@ -16,11 +16,11 @@ public class SniperTower extends Tower {
         setBulletLimit(1);
         setCost(50);
         setAttack(20f);
-        setRange(10f);
+        setRange(200f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.5f);
+        setFireRate(0.1f);
         setID("SNIPER");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.07f);

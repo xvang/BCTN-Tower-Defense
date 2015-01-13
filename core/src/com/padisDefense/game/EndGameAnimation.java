@@ -47,7 +47,9 @@ public class EndGameAnimation {
         explosionPool = new Pool<Explosion>() {
             @Override
             protected Explosion newObject() {
-                return new Explosion();
+                Explosion e = new Explosion();
+                e.initMovement(0,8,8);
+                return e;
             }
         };
         activeExplosion = new Array<Explosion>();

@@ -11,15 +11,22 @@ public class Explosion extends Miscellaneous {
 
 
     public Explosion(){
-        initMovement();
+
     }
 
     public Vector2 explosionPosition;
 
-    public void initMovement(){
-        int ROW = 8;
-        int COL = 8;
-        Texture walkSheet = new Texture(Gdx.files.internal("animation/particlefx_06.png")); // #9
+    public void initMovement(int explosion,int ROW,int COL){
+
+        Texture walkSheet;
+        if(explosion == 1){
+            walkSheet = new Texture(Gdx.files.internal("animation/explosion_1.png"));
+        }
+        else{
+            walkSheet = new Texture(Gdx.files.internal("animation/particlefx_06.png"));
+        }
+
+
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/COL, walkSheet.getHeight()/ROW);              // #10
         TextureRegion[] walkFrames = new TextureRegion[COL * ROW];
 
@@ -37,6 +44,9 @@ public class Explosion extends Miscellaneous {
 
     }
 
+    public void setExplosionPosition(Vector2 p){
+        explosionPosition = p;
+    }
 
     public void animate(SpriteBatch batch){
         if(alive){
@@ -58,5 +68,10 @@ public class Explosion extends Miscellaneous {
         alive = true;
         stateTime = 0f;
 
+    }
+
+
+    public boolean finished(){
+        return animation.isAnimationFinished(stateTime);
     }
 }

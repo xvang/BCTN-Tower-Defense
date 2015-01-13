@@ -37,7 +37,7 @@ public class Player {
                 levels[x] = false;*/
             levels[x] = true;
         }
-        money = 5000;
+        money = 1000;
         name = "Guest" +  (int)(Math.random()*1000);
         itemsUnlocked = new Array<MainItem>();
 

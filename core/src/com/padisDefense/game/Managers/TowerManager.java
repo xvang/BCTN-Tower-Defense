@@ -97,6 +97,20 @@ public class TowerManager{
                 currentTower.sparkle.animate(batch, currentTower.getSparkleLocation());
             }
 
+            //explosion animation for when the bullet hits enemy.
+            //the nested if-statement checks if animation is finished.
+            if(currentTower.explode){
+                currentTower.explosion.animate(batch);
+                if(currentTower.explosion.finished()){
+                    currentTower.explode = false;
+                    currentTower.explosion.stateTime = 0;
+                }
+
+
+
+            }
+
+
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
 
         }

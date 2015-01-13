@@ -30,10 +30,10 @@ public class DefaultSpriteSheetTest extends ScreenAdapter {
     @Override
     public void show() {
 
-        final int        FRAME_ROWS = 8;
-        final int        FRAME_COLS = 8;
+        final int        FRAME_ROWS = 4;
+        final int        FRAME_COLS = 16;
 
-        Texture walkSheet = new Texture(Gdx.files.internal("animation/particlefx_07.png")); // #9
+        Texture walkSheet = new Texture(Gdx.files.internal("animation/Sparks1.png")); // #9
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, walkSheet.getHeight()/FRAME_ROWS);              // #10
 
         //walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS*2];

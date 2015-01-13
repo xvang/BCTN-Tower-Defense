@@ -23,7 +23,7 @@ public class RogueTower extends Tower {
         setChargeRate(0.10f);
 
         setBulletLimit(1);
-        setFireRate(2f);
+        setFireRate(0.9f);
         setBulletRate(0.07f);
         setCustomArc(120f);
         setWeakAgainst("bestgoblin");

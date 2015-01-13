@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 
 
 public class AoeTower extends Tower {
 
-    private float rangeAOE = 120f;
+    private float rangeAOE = 60f;
+
     public AoeTower(Vector2 position, Sprite picture){
         super(picture);
 
@@ -17,7 +19,7 @@ public class AoeTower extends Tower {
 
         setBulletLimit(1);
         setCost(80);
-        setAttack(35f);
+        setAttack(20f);
         setRange(150f);
         setChargeRate(0.14f);
         setIncomeRate(4f);
@@ -28,7 +30,11 @@ public class AoeTower extends Tower {
         setBulletRate(0.06f);
         setWeakAgainst("goblin");
         setStrongAgainst("bestgoblin");
+
     }
+
+
+
 
     public float getRangeAOE(){return rangeAOE;}
 }
