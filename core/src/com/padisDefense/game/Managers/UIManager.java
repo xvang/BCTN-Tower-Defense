@@ -255,11 +255,6 @@ public class UIManager implements InputProcessor{
                 }
 
 
-                clickedOptionTable.setPosition(currentBuildable.getX(),
-                        currentBuildable.getY() - 10f);
-
-                clickedTowerTable.setPosition(currentBuildable.getX(),
-                        currentBuildable.getY() - 10f);
 
                 //'currentBuildable' is local to this function.
                 //'currentBS' is global in this class.
@@ -276,10 +271,9 @@ public class UIManager implements InputProcessor{
                 else{
                     checkBorders(currentBuildable, clickedOptionTable);
                     clickedOptionTable.setVisible(true);
+                    currentBuildable.getCurrentTower().clicked = true;
                     //System.out.println("clickedOption visible");
                 }
-
-
                 break;//breaks the forloop.
                 // if clicked buildablespot is found, no need to keep checking
             }
@@ -287,7 +281,7 @@ public class UIManager implements InputProcessor{
     }
 
 
-    //TODO: update checkBorders(). do something. its horrible.
+    //TODO: update checkBorders(). do something. its horrible. we failed. we are judged on our worst function, xeng.
     public void checkBorders(BuildableSpot b, Table t){
 
         final float w = Gdx.graphics.getWidth();
@@ -296,31 +290,43 @@ public class UIManager implements InputProcessor{
         Rectangle bsRec, towerRec, tRec, top, bottom, left, right;
         bsRec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
-
-
-
         //http://stackoverflow.com/questions/18075414/getting-stage-coordinates-of-actor-in-table-in-libgdx
         //starting point was the answer found above. below is where I ended up. I don't know what happened.
+        //I think 'realLoc' is the coord of the first element of the table,
+        //and 'realLoc2' is the coord of the last element of the table.
         Vector2 loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
         Vector2 realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
-        tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
+
+        Vector2 loc2 = t.localToStageCoordinates(new Vector2(t.getCells().get(t.getCells().size - 1).getActorX() +
+                t.getCells().get(t.getCells().size - 1).getPrefWidth(),
+                t.getCells().get(t.getCells().size - 1).getActorY() +
+        t.getCells().get(t.getCells().size - 1).getPrefHeight()));
+
+        Vector2 realLoc2 = t.getCells().get(t.getCells().size - 1).getActor().getStage().stageToScreenCoordinates(loc2);
+        tRec = new Rectangle( realLoc.x - 10f,  h - realLoc.y - 10f, Math.abs(realLoc.x - realLoc2.x), Math.abs(realLoc.y - realLoc2.y));
+
 
         top = new Rectangle(0, h, w, 250f);
         bottom = new Rectangle(0, -250f, w, 250f);
         left = new Rectangle(-250f, 0, 250f, h);
         right = new Rectangle(w, 0, 250f, h);
 
-        System.out.println("top : " + top);
+        /*System.out.println("top : " + top);
         System.out.println("bottom : " + bottom);
         System.out.println("left : " + left);
         System.out.println("right : " + right);
         System.out.println("tRec : " + tRec);
         System.out.println("t : " + t.getX() + ", " + t.getY() + ", " + t.getWidth() + ", " + t.getHeight());
         System.out.println();
-        System.out.println();
+        System.out.println();*/
+
+        //default position. if it isn't out of bounds, it should not move.
+        //'t' is a local variable that points to the table.
+        //it could point to 'clickedTowerTable' or 'clickedOptionTable'
+        t.setPosition(b.getX(), b.getY() - 30f);
 
 
-        while (tRec.overlaps(left)){System.out.println("LEFT");
+        while (tRec.overlaps(left)){
             t.setPosition(t.getX() + 1, t.getY());
 
             loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
@@ -339,17 +345,14 @@ public class UIManager implements InputProcessor{
 
         }
 
+        while (tRec.overlaps(top)){
+            t.setPosition(t.getX(), t.getY() - 1);
+            loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
+            realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
 
-        //'clickedTowerTable' appears above tower and will never go out of screen at 'bottom'
-       /* if(t.getName().equals("clickedTowerTable")){
-            while (tRec.overlaps(top)){
-                t.setPosition(t.getX(), t.getY() - 1);
-                loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
-                realLoc = t.getCells().get(0).getActor().getStage().stageToScreenCoordinates(loc);
+            tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
+        }
 
-                tRec = new Rectangle( realLoc.x,  h - realLoc.y, t.getPrefWidth(), t.getPrefHeight());
-            }
-        }*/
         while (tRec.overlaps(bottom)) {
             t.setPosition(t.getX(), t.getY() + 1);
             loc = t.localToStageCoordinates(new Vector2(t.getCells().get(0).getActorX(),t.getCells().get(0).getActorY()));
@@ -373,12 +376,13 @@ public class UIManager implements InputProcessor{
         //create Rectangle around BuildableSpot.
         for(int x = 0; x < BS.size; x++){
             Rectangle rec = new Rectangle(BS.get(x).getX(), BS.get(x).getY(),
-                    BS.get(x).getWidth()*1.4f, BS.get(x).getHeight()*1.4f); //40% bigger?
+                    BS.get(x).getWidth()*2, BS.get(x).getHeight()*2); //100% bigger?
 
             if(rec.overlaps(r) && BS.get(x).emptyCurrentTower()){
                 game.spawn.buildATower("build", BS.get(x), type.toUpperCase(), 1);//passes in the buildablespot, name of tower, and level.
                 clickedOptionTable.setVisible(false);
                 clickedTowerTable.setVisible(false);
+                BS.get(x).getCurrentTower().clicked = false;
             }
 
 
@@ -545,6 +549,7 @@ public class UIManager implements InputProcessor{
 
                     clickedOptionTable.setVisible(false);
                     clickedTowerTable.setVisible(false);
+                    currentBS.getCurrentTower().clicked = true;
                 }
             }
         });
@@ -805,6 +810,8 @@ public class UIManager implements InputProcessor{
     public boolean touchDown(int x, int y, int pointer, int button) {
         clickedOptionTable.setVisible(false);
         clickedTowerTable.setVisible(false);
+        for(int s = 0; s < game.tower.getTowerArray().size; s++)
+            game.tower.getTowerArray().get(s).clicked = false;
         return false;}
 
     @Override
@@ -881,6 +888,8 @@ public class UIManager implements InputProcessor{
 
         loadingBar.setSize(0, loadingBar.getHeight());
         currentCharge = 0;
+
+
     }
 }
 

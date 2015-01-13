@@ -16,7 +16,7 @@ public class SniperTower extends Tower {
         setBulletLimit(1);
         setCost(50);
         setAttack(20f);
-        setRange(450f);
+        setRange(10f);
         setChargeRate(0.2f);
         setIncomeRate(4f);
         state = true;

@@ -2,10 +2,12 @@ package com.padisDefense.game.Tests;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
 
@@ -34,9 +36,10 @@ public class RotateTest extends ScreenAdapter {
 
     double  radius;
 
+    ShapeRenderer shape;
 
     public RotateTest(){
-        tower = new RogueTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4), new Sprite(new Texture("SNIPER_3.png")));
+        tower = new RogueTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4), new Sprite(new Texture("towers/SNIPER_3.png")));
         //tower = new Sprite(new Texture("towers/strength_level_three.png"));
         //bullet = new Sprite(new Texture("redbullet.png"));
         bullet = new Bullet(new Vector2(tower.getBulletSpawnLocation()), new Texture("redbullet.png"));
@@ -74,6 +77,9 @@ public class RotateTest extends ScreenAdapter {
 
         //System.out.println(tower.getWidth()+ " , " +  tower.getHeight());
 
+
+        shape = new ShapeRenderer();
+        System.out.println("Tower's Range = " + tower.getRange());
     }
 
 
@@ -113,17 +119,30 @@ public class RotateTest extends ScreenAdapter {
         bulletLocate();
         //tower.rotate(2);
 
-
         batch.begin();
         tower.draw(batch, 1);
         duck.draw(batch, 1);
-        bullet.draw(batch, 1);
+        if(inRange())
+            bullet.draw(batch, 1);
 
         batch.end();
 
-       //System.out.println(tower.getRotation());
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.setColor(new Color(0,1,0,0));
+        shape.setColor(0, 1, 0, 0.1f);
+        shape.circle(tower.getCenterX(), tower.getCenterY(), tower.getRange());
+        shape.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+
+
+
     }
 
+    public boolean inRange(){
+        return (findDistance(duck.getLocation(), tower.getLocation()) <= tower.getRange());
+    }
 
     //The bullet's location will be relative to the tower's center point.
     //it's location should move accordingly to the tower's rotation value.
@@ -153,7 +172,7 @@ public class RotateTest extends ScreenAdapter {
 
 
         currentRotation = Math.toRadians(currentRotation);
-        System.out.println(convertedRotation);
+
 
 
 
@@ -162,13 +181,12 @@ public class RotateTest extends ScreenAdapter {
         //the cases where the rotation equals 90, 180, and 270 are checked first.
 
         if(convertedRotation == 0){
-            System.out.println("=0");
 
             deltaX = 0;
             deltaY = (float)radius;
         }
         else if(convertedRotation == 90){
-            System.out.println("=90");
+
             if(currentRotation > 0){
                 deltaX = - (float)radius;
                 deltaY = 0;
@@ -177,10 +195,8 @@ public class RotateTest extends ScreenAdapter {
                 deltaX = - (float)radius;
                 deltaY = 0;
             }
-
-
         }
-        else if(convertedRotation == 180){System.out.println("=180");
+        else if(convertedRotation == 180){
             if(currentRotation > 0){
                 deltaX = 0;
                 deltaY = - (float)radius;
@@ -192,7 +208,7 @@ public class RotateTest extends ScreenAdapter {
 
         }
 
-        else if(convertedRotation == 270){System.out.println("=270");
+        else if(convertedRotation == 270){
             if(currentRotation > 0){
                 deltaX = (float)radius;
                 deltaY = 0;
@@ -208,7 +224,7 @@ public class RotateTest extends ScreenAdapter {
             deltaX = 0;
             deltaY = (float) radius;
         }
-        else if(convertedRotation < 90){System.out.println("<90");
+        else if(convertedRotation < 90){
 
             if(currentRotation > 0){
                 deltaX = -(float)(Math.sin(currentRotation)*radius);
@@ -222,7 +238,7 @@ public class RotateTest extends ScreenAdapter {
 
         }
 
-        else if( convertedRotation < 180){System.out.println("<180");
+        else if( convertedRotation < 180){
             if(currentRotation > 0){
                 deltaX = - (float)(Math.cos(currentRotation)*radius);
                 deltaY = - (float)(Math.sin(currentRotation)*radius);
@@ -235,7 +251,7 @@ public class RotateTest extends ScreenAdapter {
 
 
         }
-        else if ( convertedRotation < 270){System.out.println("<270");
+        else if ( convertedRotation < 270){
             if(currentRotation > 0){
                 deltaX =  (float)(Math.sin(currentRotation)*radius);
                 deltaY = - (float)(Math.cos(currentRotation)*radius);
@@ -247,7 +263,7 @@ public class RotateTest extends ScreenAdapter {
 
         }
 
-        else if( convertedRotation < 360){System.out.println("<360");
+        else if( convertedRotation < 360){
 
             if(currentRotation > 0){
                 deltaX = (float)(Math.cos(currentRotation)*radius);
@@ -339,6 +355,8 @@ public class RotateTest extends ScreenAdapter {
                 rotateDestination = 180;
         }
     }
+
+
 
     public double findDistance(Vector2 a, Vector2 b){
         float x2x1 = a.x - b.x;

@@ -64,6 +64,8 @@ public class Tower extends Sprite{
 
 
     public IceSparkle sparkle;
+
+    public boolean clicked = false;//used to display the range circle.
     //Constructor #1
     public Tower(Texture picture){
         super(picture);

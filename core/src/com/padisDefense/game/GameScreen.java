@@ -117,6 +117,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             background.draw(batch);
             batch.end();
 
+            tower.drawCircles();
+
             enemy.startEnemy();
 
             tower.startTowers();

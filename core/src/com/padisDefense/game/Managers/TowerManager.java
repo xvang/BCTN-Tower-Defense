@@ -1,8 +1,11 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Bullets.Bullet;
@@ -30,6 +33,7 @@ public class TowerManager{
     private int inGameMoney = 3000;
     SpriteBatch batch;
     Vector2 arbitraryPoint;
+    ShapeRenderer shape;
 
     public TowerManager(GameScreen g, Padi p){
         game = g;
@@ -38,6 +42,7 @@ public class TowerManager{
         buildableArray = new Array<BuildableSpot>();
         batch = new SpriteBatch();
         arbitraryPoint = new Vector2();
+        shape = new ShapeRenderer();
     }
 
 
@@ -58,6 +63,9 @@ public class TowerManager{
         for(int x = 0; x < towerArray.size; x++){
             Tower currentTower = towerArray.get(x);
             //towerArray.get(x).spinning();
+
+
+
             currentTower.draw(batch);
 
 
@@ -165,7 +173,7 @@ public class TowerManager{
                 t.setTarget(temp);
                 t.hasTarget = true;
                 t.setOldTargetPosition(temp.getLocation());
-                t.pause = 0.8f;
+                t.pause = 0.2f;
                 t.lockedOnTarget = false;
             }
         }
@@ -270,6 +278,24 @@ public class TowerManager{
         }
     }
 
+    public void drawCircles(){
+        for(int x = 0; x < towerArray.size; x++){
+            Tower t = towerArray.get(x);
+
+            if(t.clicked){
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                shape.begin(ShapeRenderer.ShapeType.Filled);
+                shape.setColor(new Color(0,1,0,0));
+                shape.setColor(1,0, 0, 0.3f);
+                shape.circle(t.getCenterX(), t.getCenterY(), t.getRange());
+                shape.end();
+                Gdx.gl.glDisable(GL20.GL_BLEND);
+            }
+
+        }
+
+    }
 
     public double findDistance(Vector2 a, Vector2 b){
 
@@ -304,6 +330,9 @@ public class TowerManager{
         //buildableArray.clear();
         towerArray.clear();
 
+
+        for(int s = 0; s < game.tower.getTowerArray().size; s++)
+            game.tower.getTowerArray().get(s).clicked = false;
 
 
     }
