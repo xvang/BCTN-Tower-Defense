@@ -124,9 +124,12 @@ public class EnemyManager {
         float time;
         Enemy currentEnemy;
 
-        if(activeEnemy.size == 1){
-            System.out.println("One left: " + activeEnemy.get(0).getLocation());
-        }
+        /*if(activeEnemy.size == 1){
+            System.out.println("One left: " + activeEnemy.get(0).getLocation() + "      enemyCounter = " +
+                    enemyCounter + "    spawnsLeft = "  + spawnsLeft +
+                    " , Time = " + activeEnemy.get(0).getTime() +
+            ",  HP = " + activeEnemy.get(0).getHealth());
+        }*/
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
 
@@ -137,7 +140,7 @@ public class EnemyManager {
 
             path.get(currentEnemy.getCurrentPath()).derivativeAt(position2, currentEnemy.getTime());
 
-            time = currentEnemy.getTime()+ (currentEnemy.getRate()*Gdx.graphics.getDeltaTime())/position2.len();
+            time = currentEnemy.getTime()+ (currentEnemy.getRate()*Gdx.graphics.getDeltaTime())/*/position2.len()*/;
             currentEnemy.setTime(time);
 
             path.get(currentEnemy.getCurrentPath()).valueAt(position, currentEnemy.getTime());
@@ -190,6 +193,8 @@ public class EnemyManager {
 
             if(currentEnemy.getHealth() != currentEnemy.getOriginalHealth())
                 currentEnemy.displayHealth(batch);
+
+            currentEnemy.updateAlteredStats();
         }
 
 
@@ -198,10 +203,9 @@ public class EnemyManager {
     public void  checkForDead(){
 
         Tower currentTower;
-        Enemy e;
         for(int x = 0; x < activeEnemy.size; x++){
 
-            e = activeEnemy.get(x);
+            Enemy e = activeEnemy.get(x);
 
             e.isDead();
             if(e.isDead()) {
@@ -211,16 +215,17 @@ public class EnemyManager {
 
                     if(currentTower.getTarget().equals(e)){
                         currentTower.hasTarget = false;
+                        currentTower.lockedOnTarget = false;
 
 
-                        Bullet b;
+
                         //Resetting the tower's bullets.
                         for(int w = 0; w < currentTower.getActiveBullets().size; w++){
                             //currentTower.getActiveBullets().get(w).setTime(0f);
 
-                            b = currentTower.getActiveBullets().get(w);
+                            Bullet b = currentTower.getActiveBullets().get(w);
                             //b.setTime(0f);
-                            currentTower.getActiveBullets().removeIndex(w);
+                            currentTower.getActiveBullets().removeValue(b, false);
                             currentTower.getPool().free(b);
                         }
 
@@ -229,10 +234,9 @@ public class EnemyManager {
                 }
 
                 enemyCounter--;
-                //activeEnemy.get(x).dispose();
-                activeEnemy.removeIndex(x);
+                activeEnemy.removeValue(e, false);
                 //game.spawn.enemyPool.free(e);
-                game.spawn.enemyCustomPool.free(e);
+                padi.assets.enemyCustomPoolL.free(e);
 
             }
 
@@ -254,7 +258,6 @@ public class EnemyManager {
      * End of path should be off the screen.
      * Currently, I don't want the enemy to die at the end of the path.
      * */
-
     public int getEnemyCounter(){return enemyCounter;}
 
 
@@ -263,7 +266,12 @@ public class EnemyManager {
     public void destroyAllEnemy(){
         spawnsLeft = 0;
         enemyCounter = 0;
-        activeEnemy.clear();
+        for(int x = 0; x < activeEnemy.size; x++){
+            Enemy e = activeEnemy.get(x);
+
+            activeEnemy.removeIndex(x);
+            padi.assets.enemyCustomPoolL.free(e);
+        }
 
     }
 
@@ -299,7 +307,12 @@ public class EnemyManager {
 
     public void reset(){
 
-        activeEnemy.clear();
+        for(int x = 0; x < activeEnemy.size; x++){
+            Enemy e = activeEnemy.get(x);
+
+            activeEnemy.removeIndex(x);
+            padi.assets.enemyCustomPoolL.free(e);
+        }
         countDownTimer  = 10f;
 
     }

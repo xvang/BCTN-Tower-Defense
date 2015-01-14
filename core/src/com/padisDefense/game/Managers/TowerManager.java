@@ -56,7 +56,7 @@ public class TowerManager{
 
         batch.begin();
         for(int x = 0; x < buildableArray.size; x++){
-            buildableArray.get(x).draw(batch, 1);
+            buildableArray.get(x).draw(batch);
         }
 
 
@@ -66,15 +66,16 @@ public class TowerManager{
 
 
 
-            currentTower.draw(batch);
+
 
 
             checkRange(currentTower);
             checkForDead(currentTower);
+            checkSpecialConditions(currentTower);
 
             //System.out.println(towerArray.get(x).getTarget().isDead());
             //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
-            //towerArray.get(x).getTarget().rotate(10);
+            //towerArraycurrentTower.draw(batch);.get(x).getTarget().rotate(10);
 
 
 
@@ -86,6 +87,7 @@ public class TowerManager{
 
             checkRange(currentTower);
             checkForDead(currentTower);
+            checkSpecialConditions(currentTower);
 
             if(currentTower.hasTarget){
                 calcRotate(currentTower, currentTower.getTarget());
@@ -97,6 +99,7 @@ public class TowerManager{
                 currentTower.sparkle.animate(batch, currentTower.getSparkleLocation());
             }
 
+            //TODO: implement explosions?
             //explosion animation for when the bullet hits enemy.
             //the nested if-statement checks if animation is finished.
             if(currentTower.explode){
@@ -105,14 +108,15 @@ public class TowerManager{
                     currentTower.explode = false;
                     currentTower.explosion.stateTime = 0;
                 }
-
-
-
             }
 
-
+            currentTower.draw(batch);
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
 
+            /*if(currentTower.getID().equals("STRENGTH")){
+                System.out.println("Strength: hastarget = " + currentTower.hasTarget + " ,  targetLocation: " + currentTower.getTarget().getLocation() +
+                        ",  targetHealth = " + currentTower.getTarget().getHealth());
+            }*/
         }
 
 
@@ -120,6 +124,25 @@ public class TowerManager{
 
     }
 
+
+    //the general conditions that would cause a tower to lose its target are:
+    //if target goes out of range
+    //if target dies
+    //here, we check the special conditions for each tower.
+    public void checkSpecialConditions(Tower t){
+
+
+        //strength tower's special ability is to freeze the enemy.
+        //if enemy is frozen, tower should look for new enemy.
+        if(t.getID().equals("STRENGTH")){
+            if(t.getTarget().getRate() == 0){
+                t.hasTarget = false;
+                t.lockedOnTarget = false;
+            }
+        }
+
+
+    }
     //Checks to see if target enemy object is out of range.
     public void checkRange(Tower t){
 
@@ -144,10 +167,10 @@ public class TowerManager{
             if(!t.getTarget().alive){
                 t.hasTarget = false;
                 t.lockedOnTarget = false;
-                Bullet b;
+
 
                 for(int x = 0; x < t.getActiveBullets().size; x++){
-                    b = t.getActiveBullets().get(x);
+                    Bullet b = t.getActiveBullets().get(x);
 
                     b.setTime(0f);
                     t.getPool().free(b);
@@ -164,13 +187,14 @@ public class TowerManager{
     //Assigns targets to towers. Has a small pause.
     public void assignTargets(EnemyManager enemy, Tower t){
         double currentMin, previousMin = 2000;
-        Enemy temp = null;
+
 
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
         }
         else{
 
+            Enemy temp = null;
             //checks all the  enemies, and finds the closest one.
             for(int x = 0; x < enemy.getActiveEnemy().size; x++){
 
@@ -184,11 +208,29 @@ public class TowerManager{
 
             //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
-                t.setTarget(temp);
-                t.hasTarget = true;
-                t.setOldTargetPosition(temp.getLocation());
-                t.pause = 0.2f;
-                t.lockedOnTarget = false;
+
+                //if the tower is a strength tower, then one extra condition
+                //needs to be checked.
+                //else, tower's target is set and we are good to go.
+                //the nullpointer warnings are not errors.
+                if(t.getID().equals("STRENGTH")){
+                    if(temp.getRate() >= 0f){
+                        t.setTarget(temp);
+                        t.hasTarget = true;
+                        t.setOldTargetPosition(temp.getLocation());
+                        t.pause = 0.2f;
+                        t.lockedOnTarget = false;
+                    }
+                }
+
+                else{
+                    t.setTarget(temp);
+                    t.hasTarget = true;
+                    t.setOldTargetPosition(temp.getLocation());
+                    t.pause = 0.2f;
+                    t.lockedOnTarget = false;
+                }
+
             }
         }
     }
@@ -227,14 +269,14 @@ public class TowerManager{
         return false;
     }
 
-    public void customRotate(Tower t){//TODO: different rotation speed for towers??
+    public void customRotate(Tower t){
         if(t.hasTarget && t.state){
             if(t.getRotation() != t.rotateDestination){
                 if( t.getRotation() + 2 <= t.rotateDestination){
-                    t.rotate(2);
+                    t.rotate(t.getRotateRate());
                 }
                 else if(t.getRotation() - 2 >= t.rotateDestination){
-                    t.rotate(-2);
+                    t.rotate(-t.getRotateRate());
                 }
             }
         }

@@ -84,7 +84,23 @@ public class Assets {
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();
 
-        createEnemyPool();
+        //createEnemyPool();
+        enemyCustomPoolL = new CustomPool<Enemy>() {
+            @Override
+            protected Enemy newObject(String type) {
+
+                if(type.equals("bluespider")) return new BlueSpider();
+                else if(type.equals("ironspider")) return new IronSpider();
+                else if (type.equals("redspider")) return new RedSpider();
+                else if(type.equals("mage")) return new Mage();
+                else if(type.equals("golem")) return new Golem();
+                else if(type.equals("cobra")) return new Cobra();
+                else if(type.equals("bipedaldragon")) return new BipedalDragon();
+
+                System.out.println("RETURNING NULL");
+                return null;
+            }
+        };
     }
 
 

@@ -71,7 +71,7 @@ public class SpawnManager {
     private Array<String> allEnemies;//list of all enemies.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
-    public CustomPool<Enemy> enemyCustomPool;//TODO: REMEMBER TO DELETE THE FREE() IN ENEMYMANAGER
+
 
     Array<String> weak;
     Array<Tower> mostType;//Array of least and most frequent type towers.
@@ -82,7 +82,7 @@ public class SpawnManager {
     public SpawnManager(GameScreen g, Padi p){
         game = g;
         padi = p;
-        enemyCustomPool = padi.assets.enemyCustomPoolL;
+
 
         data = new HashMap<Tower, Integer>();
         allEnemies = new Array<String>();
@@ -114,16 +114,16 @@ public class SpawnManager {
             Enemy e;
             int r = (int)(Math.random()*10);
 
-            if(r == 0) e = enemyCustomPool.obtain("bipedaldragon");
-            else if(r == 1) e = enemyCustomPool.obtain("bluespider");
-            else if(r == 2) e = enemyCustomPool.obtain("cobra");
-            else if(r == 3) e = enemyCustomPool.obtain("golem");
-            else if(r == 4) e = enemyCustomPool.obtain("ironspider");
-            else if(r == 5) e = enemyCustomPool.obtain("mage");
-            else if(r == 6) e = enemyCustomPool.obtain("redspider");
+            if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
+            else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
+            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("cobra");
+            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("golem");
+            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("ironspider");
+            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("mage");
+            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redspider");
 
 
-            else e = enemyCustomPool.obtain("mage");
+            else e = padi.assets.enemyCustomPoolL.obtain("mage");
 
 
             e.init(-100f, 0);

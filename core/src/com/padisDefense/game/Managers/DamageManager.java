@@ -23,26 +23,25 @@ public class DamageManager {
         e.updateHealth(t.getAttack());//no matter the tower, targeted enemy will take SOME damage.
 
 
-        if(t.getID().equals("ICE")){
+        if(t.getID().equals("STRENGTH")){
             iceHit((StrengthTower) t, e);
         }
 
         else if(t.getID().equals("AOE")){
             aoeHit((AoeTower) t, e);
         }
-        for(int x = 0; x < game.enemy.getActiveEnemy().size; x++)
-            game.enemy.getActiveEnemy().get(x).updateAlteredStats();
+
     }
 
 
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
     public void iceHit(StrengthTower t, Enemy e){
-        e.affectRate(e.getRate()*0.6f, 3f);
+        e.affectRate(0, 3f);
 
         double distance;
         Enemy temp;
-        int fourLimit = 0;//Limits the numbe of enemies affected to four.
+        int fourLimit = 0;//Limits the number of enemies affected to four.
         for(int x = 0;x < game.enemy.getActiveEnemy().size; x++){
             temp = game.enemy.getActiveEnemy().get(x);
 
@@ -50,14 +49,14 @@ public class DamageManager {
                 distance = findDistance(new Vector2(e.getX(), e.getY()),
                         new Vector2(temp.getX(),temp.getY()));
 
+
                 //the further away, the less effects.
                 if (distance < t.getRangeAOE()){
-                    float z = (float)distance / t.getRangeAOE();
-                    if(z >= 0.75f)
-                    z = 0.75f;
-                    temp.affectRate(temp.getRate()*z, 3f);
+                   // temp.affectRate(0, 5f);
                     fourLimit++;
                 }
+
+
             }
         }
 

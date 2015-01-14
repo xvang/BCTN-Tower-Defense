@@ -9,7 +9,7 @@ import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 
 public class AoeTower extends Tower {
 
-    private float rangeAOE = 60f;
+    private float rangeAOE = 100f;
 
     public AoeTower(Vector2 position, Sprite picture){
         super(picture);

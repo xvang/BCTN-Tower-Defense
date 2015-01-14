@@ -182,10 +182,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public void affectRate(float newRate, float time){
         rateTimer = time;
 
-        //if rate was already lowered to less than half,
-        //no further decrease should take place.
-        if(rate > finalRate / 2)
-            rate = newRate;
+        rate = newRate;
     }
     public Boolean isDead(){
         alive = ((int)health >= 0);
@@ -197,6 +194,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
         //if rate==oldRate, then no rate was not changed.
         //no need to enter if-statement.
         if(rate != finalRate){
+            System.out.println("updating..." + rateTimer);
             rateTimer -= Gdx.graphics.getDeltaTime();
             if(rateTimer <= 0f){
                 rate = finalRate;
@@ -233,10 +231,12 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
 
     public void animate(SpriteBatch batch){}
+
+    //this function is overrided by all enemies.
     public Animation getAnimationDirection(){return null;}
 
     public void init(float x, float y){
-
+        rate = finalRate;
         health = originalHealth;
         healthGreen.setSize(healthRed.getWidth(), healthRed.getHeight());
         this.setPosition(x,y);
@@ -252,6 +252,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
         stateTime = 0f;
         setPosition(-50f, 0);
         health = originalHealth;
+        rate = finalRate;
         currentPath = 0;
         time = 0f;
         alive = false;

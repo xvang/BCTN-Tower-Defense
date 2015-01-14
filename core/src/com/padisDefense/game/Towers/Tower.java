@@ -62,6 +62,7 @@ public class Tower extends Sprite{
     public float rotateDestination;
     public boolean lockedOnTarget = false;
     public float radius = this.getHeight()/2;
+    private float rotateRate;
 
 
     public IceSparkle sparkle;
@@ -110,6 +111,7 @@ public class Tower extends Sprite{
 
 
         sparkle = new IceSparkle();
+        rotateRate = 2f;
     }
 
     public Tower( Sprite sprite){
@@ -133,6 +135,7 @@ public class Tower extends Sprite{
 
 
         sparkle = new IceSparkle();
+        rotateRate = 2f;
     }
 
     public void setCost(int newCost){cost = newCost;}
@@ -140,7 +143,6 @@ public class Tower extends Sprite{
     public void setRange(float newRange){range = newRange;}
     public void setChargeRate(float newCharge){chargeRate = newCharge;}
     public void setIncomeRate(float newIncome) {incomeRate = newIncome;}
-
     public void setFireRate(float newFire){fireRate = newFire;}
     public void setTarget(Enemy newE){target = newE;}
 
@@ -153,6 +155,7 @@ public class Tower extends Sprite{
     public void setCustomArc(float c){customArc = c;}
     public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
     public void setUpgradeCost(int n){upgradeCost = n;}
+    public void setRotateRate(float r){rotateRate = r;}
     public void setWeakAgainst(String... s){
         for(int x = 0; x <s.length; x++)
             weakAgainst.add(s[x]);
@@ -188,6 +191,7 @@ public class Tower extends Sprite{
     public Array<String> getWeakAgainst(){return weakAgainst;}
     public Array<String> getStrongAgainst(){return strongAgainst;}
     public int getUpgradeCost(){return upgradeCost;}
+    public float getRotateRate(){return rotateRate;}
     public int getLevel(){return level;}
 
     public String getMessage(){

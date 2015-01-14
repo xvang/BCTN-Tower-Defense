@@ -57,7 +57,7 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 800;
+                enemyAmount = 1000;
                 break;
             case (2):
                 path = 2;
