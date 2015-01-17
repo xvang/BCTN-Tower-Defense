@@ -21,7 +21,10 @@ import com.padisDefense.game.Items.ItemStorage;
 import com.padisDefense.game.Items.MainItem;
 
 
-
+/**
+ * This is where user can unlock items that boosts a tower's stats.
+ *
+ * **/
 public class Store extends ScreenAdapter{
 
     Padi padi;
