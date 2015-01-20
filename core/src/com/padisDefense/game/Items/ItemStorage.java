@@ -2,6 +2,7 @@ package com.padisDefense.game.Items;
 
 
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.Tower;
 
 
@@ -17,117 +18,134 @@ import com.padisDefense.game.Towers.Tower;
  * **/
 public class ItemStorage {
 
+    Padi padi;
     public int size = 0;
     public Array<MainItem> itemArray;
+    MainItem seeker;
 
+    public ItemStorage(Padi p) {
 
-
-
-    public ItemStorage(){
+        padi = p;
         itemArray = new Array<MainItem>();
-        itemArray.add(new MainItem("telescope.png"){
+
+        MainItem item1 = new MainItem("items/coffee.png") {
             @Override
-            public void update(Tower t){
+            public void update(Tower t) {
                 changeRange(t, 1.1f);
             }
-        });//scope.
-        itemArray.add(new MainItem("telescope.png"){
+        };
+
+        item1.setCost(150);
+        item1.addTargets("speed");
+        item1.setDisplayStats("+ 10% Range\n - 5% Attack\n");
+        item1.setName("coffee");
+        size++;
+
+        MainItem item2 = new MainItem("telescope.png") {
             @Override
-            public void update(Tower t){
+            public void update(Tower t) {
                 changeRange(t, 1.1f);
             }
-        });//heat-vision scope
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item2.setCost(50);
+        item2.addTargets("speed");
+        item2.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item2.setName("scope");
+        size++;
+
+        MainItem item3 = new MainItem("telescope.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item3.setCost(50);
+        item3.addTargets("speed");
+        item3.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item3.setName("scope");
+        size++;
+
+        MainItem item4 = new MainItem("telescope.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item4.setCost(50);
+        item4.addTargets("speed");
+        item4.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item4.setName("scope");
+        size++;
+
+        MainItem item5 = new MainItem("telescope.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item5.setCost(50);
+        item5.addTargets("speed");
+        item5.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item5.setName("scope");
+        size++;
+
+        MainItem item6 = new MainItem("telescope.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item6.setCost(50);
+        item6.addTargets("speed");
+        item6.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item6.setName("scope");
+        size++;
+
+        MainItem item7 = new MainItem("shield.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
+        item7.setCost(50);
+        item7.addTargets("speed");
+        item7.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item7.setName("Shield");
+        size++;
+
+        seeker = new MainItem("items/seeker.png") {
             @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
+            public void update(Tower t) {
+                changeRange(t, 1.1f);
             }
-        });//hubble
+        };
 
-        itemArray.add(new MainItem("telescope.png"){
-            @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
-            }
-        });//hubble
-
-        itemArray.add(new MainItem("telescope.png"){
-            @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
-            }
-        });//hubble
-
-        itemArray.add(new MainItem("telescope.png"){
-            @Override
-            public void update(Tower t){
-                changeRange(t, 1.2f);
-            }
-        });//hubble
-
-        itemArray.add(new MainItem("shield.png"){
-            @Override
-            public void update(Tower t){changeAttack(t, 1.1f);}
-        });//shield.
+        seeker.setCost(p.player.getMoney() + 1);
+        seeker.addTargets("?");
+        seeker.setDisplayStats("- ?\n- ?\n");
+        seeker.setName("?");
+        size++;
 
 
-
-        init();
+        itemArray.add(item1);
+        itemArray.add(item2);
+        itemArray.add(item3);
+        itemArray.add(item4);
+        itemArray.add(item5);
+        itemArray.add(item6);
+        itemArray.add(item7);
+        itemArray.add(seeker);
     }
 
-    public void init(){
-        itemArray.get(0).setCost(50);
-        itemArray.get(0).addTargets("speed");
-        itemArray.get(0).setDisplayStats("+ 5% Range\n - 5% Attack\n");
-        itemArray.get(0).setName("scope");
-        size++;
 
-        itemArray.get(1).setCost(50);
-        itemArray.get(1).addTargets("speed");
-        itemArray.get(1).setDisplayStats(("+ 10% Range\n "));
-        itemArray.get(1).setName("heat-vision scope");
-        size++;
+    public void updateSeeker(){
+        seeker.setCost(padi.player.getMoney()+1);
 
-        itemArray.get(2).setCost(50);
-        itemArray.get(2).addTargets("speed");
-        itemArray.get(2).setDisplayStats(("+ 20% Range\n"));
-        itemArray.get(2).setName("hubble");
-        size++;
     }
 }

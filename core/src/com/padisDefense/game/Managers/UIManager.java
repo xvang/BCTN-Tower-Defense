@@ -287,7 +287,7 @@ public class UIManager implements InputProcessor{
 
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
-        System.out.println("gdx.graphics.getWidth() = " + w + " ... assets.width = " + padi.assets.getScreenWidth());
+        //System.out.println("gdx.graphics.getWidth() = " + w + " ... assets.width = " + padi.assets.getScreenWidth());
         Rectangle bsRec, towerRec, tRec, top, bottom, left, right;
         bsRec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 

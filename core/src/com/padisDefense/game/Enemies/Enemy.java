@@ -116,9 +116,10 @@ public class Enemy extends Sprite implements Pool.Poolable{
     }
 
     //constructor just for Duck()
-    Enemy(boolean b, int h, int a, String texture){
-        super(new Texture(texture));
+    Enemy(boolean b, int h, int a, Sprite sprite){
+        super(sprite);
         health = h;
+        originalHealth = h;
         armor = a;
         alive = true;
         rate = (float)(Math.random() % 0.001f );
@@ -194,7 +195,6 @@ public class Enemy extends Sprite implements Pool.Poolable{
         //if rate==oldRate, then no rate was not changed.
         //no need to enter if-statement.
         if(rate != finalRate){
-            System.out.println("updating..." + rateTimer);
             rateTimer -= Gdx.graphics.getDeltaTime();
             if(rateTimer <= 0f){
                 rate = finalRate;
@@ -227,7 +227,27 @@ public class Enemy extends Sprite implements Pool.Poolable{
     }*/
 
 
-    public void displayHealth(SpriteBatch batch){}
+    public void displayHealth(SpriteBatch batch){
+
+        float percentage = health/originalHealth;
+
+        if(percentage <= 0f)
+            healthGreen.setSize(0, healthGreen.getHeight());
+        else if(percentage <= 1f)
+            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
+
+        try{//If enemy is an animation, the healthbars depend on the current frame.
+            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
+            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
+
+        }catch(Exception e){ // if enemy is just a circle, the healthbars should depend on the circle's size.
+            healthRed.setPosition(getX() + this.getWait()/3, getY() + this.getHeight() - 5f);
+            healthGreen.setPosition(getX() + this.getWait()/3, getY() + this.getHeight() - 5f);
+        }
+
+        healthRed.draw(batch, 1);
+        healthGreen.draw(batch, 1);
+    }
 
 
     public void animate(SpriteBatch batch){}

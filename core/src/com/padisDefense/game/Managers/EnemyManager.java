@@ -91,7 +91,7 @@ public class EnemyManager {
 
         else{
             batch.begin();
-            run(batch);
+            run();
             batch.end();
             checkForDead();
 
@@ -118,7 +118,7 @@ public class EnemyManager {
     //public int getSpawnsLeft(){return spawnsLeft;}
     public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
 
-    public void run(SpriteBatch batch){
+    public void run(){
         Vector2 position = new Vector2();
         Vector2 position2 = new Vector2();
         float time;

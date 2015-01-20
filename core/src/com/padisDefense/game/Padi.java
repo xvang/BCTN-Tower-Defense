@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.padisDefense.game.Tests.AnimationTest;
 import com.padisDefense.game.Tests.AtlasTest;
+import com.padisDefense.game.Tests.BallSpawnTest;
 import com.padisDefense.game.Tests.BuildableSpotSpawnTest;
 import com.padisDefense.game.Tests.DefaultAnimationTest2;
 import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
@@ -64,6 +65,7 @@ public class Padi extends Game implements ApplicationListener{
         instruction = new Instruction(this);
 
         this.setScreen(new Splash(this));
+        //this.setScreen(new BallSpawnTest());
         //this.setScreen(new RotateTest());
         //this.setScreen(new WidgetTest());
         //this.setScreen(new GeneralTesting(this));

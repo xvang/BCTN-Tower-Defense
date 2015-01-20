@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.CustomPool;
+import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.BipedalDragon;
 import com.padisDefense.game.Enemies.BlueSpider;
 import com.padisDefense.game.Enemies.Cobra;
@@ -88,13 +89,18 @@ public class SpawnManager {
         allEnemies = new Array<String>();
 
         //ADD ENEMIES HERE.
-        allEnemies.add("bipedaldragon");
-        allEnemies.add("bluespider");
-        allEnemies.add("cobra");
-        allEnemies.add("golem");
-        allEnemies.add("ironspider");
-        allEnemies.add("mage");
-        allEnemies.add("redspider");
+        /*allEnemies.add("bipedaldragon");    allEnemies.add("bluespider");
+        allEnemies.add("cobra");            allEnemies.add("golem");
+        allEnemies.add("ironspider");       allEnemies.add("mage");
+        allEnemies.add("redspider");        allEnemies.add("purpleball");
+        allEnemies.add("blueimp");*/
+
+        allEnemies.add("armyball");         allEnemies.add("blueball");
+        allEnemies.add("yellowball");       allEnemies.add("violetball");
+        allEnemies.add("greenball");        allEnemies.add("orangeball");
+        allEnemies.add("pinkball");         allEnemies.add("purpleball");
+
+
 
         weak = new Array<String>();
         mostType = new Array<Tower>();
@@ -112,9 +118,9 @@ public class SpawnManager {
         if(first50 < 50){
 
             Enemy e;
-            int r = (int)(Math.random()*10);
+            int r = (int)(Math.random()*25);
 
-            if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
+            /*if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
             else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("cobra");
             else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("golem");
@@ -122,9 +128,19 @@ public class SpawnManager {
             else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("mage");
             else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redspider");
 
+            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("blueimp");*/
+            if(r == 9) e = padi.assets.enemyCustomPoolL.obtain("armyball");
+            else if(r == 10) e = padi.assets.enemyCustomPoolL.obtain("blueball");
+            else if(r == 11) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
+            else if(r == 12) e = padi.assets.enemyCustomPoolL.obtain("violetball");
+            else if(r == 13) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
+            else if(r == 14) e = padi.assets.enemyCustomPoolL.obtain("greenball");
+            else if(r == 15) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
+            else if(r == 16) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
 
-            else e = padi.assets.enemyCustomPoolL.obtain("mage");
 
+            //else e = padi.assets.enemyCustomPoolL.obtain("mage");
+            else e = padi.assets.enemyCustomPoolL.obtain("orangeball");
 
             e.init(-100f, 0);
             e.setTime(0f);
@@ -288,7 +304,7 @@ public class SpawnManager {
     private Enemy spawnRandom() {
 
         int x = (int)(Math.random()*7);
-        Enemy e;
+        /*Enemy e;
         if(x == 0) e = new IronSpider();
         else if (x == 1) e =  new BlueSpider();
         else if (x == 2) e =  new RedSpider();
@@ -298,12 +314,22 @@ public class SpawnManager {
         else if (x == 6) e = new Mage();
 
         else e = new IronSpider();
-        return e;
+        return e;*/
+
+        if(x == 0) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
+        else if (x == 1) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (x == 2) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (x == 3) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
+        else if (x == 4) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
+        else if (x == 5) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
+        else if (x == 6) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-        if(type.equals("ironspider")) return new IronSpider();
+        /*if(type.equals("ironspider")) return new IronSpider();
         else if (type.equals("bluespider")) return new BlueSpider();
         else if (type.equals("redspider")) return new RedSpider();
         else if (type.equals("golem")) return new Golem();
@@ -311,7 +337,20 @@ public class SpawnManager {
         else if (type.equals("mage")) return new Mage();
         else if (type.equals("bipedaldragon")) return new BipedalDragon();
 
+
         else return new IronSpider();
+        */
+
+        if(type.equals("orange")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
+        else if (type.equals("yellow")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (type.equals("yellow")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (type.equals("army")) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
+        else if (type.equals("green")) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
+        else if (type.equals("violet")) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
+        else if (type.equals("blue")) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+
+
     }
 
 /************FOR BUILDABLE SPOTS***********************************************************/
@@ -459,6 +498,7 @@ public class SpawnManager {
 
     public void reset(){
         data.clear();
+        first50 = 0;
     }
 }
 

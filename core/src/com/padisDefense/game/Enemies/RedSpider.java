@@ -108,7 +108,9 @@ public class RedSpider extends Enemy{
         return currentAnimation;
     }
 
-    @Override
+
+
+    /*@Override
     public void displayHealth(SpriteBatch batch){
 
         float percentage = health/originalHealth;
@@ -128,5 +130,5 @@ public class RedSpider extends Enemy{
 
         healthRed.draw(batch, 1);
         healthGreen.draw(batch, 1);
-    }
+    }*/
 }

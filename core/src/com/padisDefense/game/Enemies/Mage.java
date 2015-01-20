@@ -105,26 +105,4 @@ public class Mage extends Enemy {
         //if no major changes, then return the current animation.
         return currentAnimation;
     }
-
-    @Override
-    public void displayHealth(SpriteBatch batch){
-
-        float percentage = health/originalHealth;
-
-        if(percentage <= 0f)
-            healthGreen.setSize(0, healthGreen.getHeight());
-        else if(percentage <= 1f)
-            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
-
-        try{
-            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
-            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
-
-        }catch(Exception e){
-            System.out.println("ENEMY IS NULL SOMEHOW");
-        }
-
-        healthRed.draw(batch, 1);
-        healthGreen.draw(batch, 1);
-    }
 }

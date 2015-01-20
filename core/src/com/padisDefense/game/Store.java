@@ -23,6 +23,9 @@ import com.padisDefense.game.Items.MainItem;
 
 /**
  * This is where user can unlock items that boosts a tower's stats.
+ * The list of items is in ItemStorage.java
+ * The stats and info about the items are in itemstorage.java
+ * The array here is an array of just pictures of the items
  *
  * **/
 public class Store extends ScreenAdapter{
@@ -51,7 +54,7 @@ public class Store extends ScreenAdapter{
         padi = p;
         stage = new Stage();
         imageList = new Array<Image>();
-        itemStorage = new ItemStorage();
+        itemStorage = new ItemStorage(p);
 
         TextButton menu = new TextButton("Back to Menu", padi.assets.skin2, "default");
         TextButton worldMap = new TextButton("Back to Map", padi.assets.skin2, "default");
@@ -91,7 +94,7 @@ public class Store extends ScreenAdapter{
         final ScrollPane scrollPane = new ScrollPane(imageTable);
         final Table t = new Table();
         t.setFillParent(true);
-        t.add(scrollPane).padRight(150f);
+        t.add(scrollPane).padRight(250f);
 
         //background image.
         final Image background = new Image(new Texture("test9.png"));
@@ -133,7 +136,7 @@ public class Store extends ScreenAdapter{
                         }
 
                         else{//item is not unlocked, but not enough credits.
-                            message.setColor(Color.DARK_GRAY);
+                            message.setColor(Color.ORANGE);
                             message.setText("Not enough credits.");
                         }
                     }
@@ -180,7 +183,20 @@ public class Store extends ScreenAdapter{
 
 
     @Override public void show() {
+
+        itemStorage.updateSeeker();
         Gdx.input.setInputProcessor(stage);
+        name.setText("");
+        info.setText("");
+        cost.setText("");
+        affects.setText("");
+        message.setText("");
+
+        for(int x = 0; x < imageList.size; x++){
+            imageList.get(x).setColor(Color.WHITE);
+        }
+
+
     }
 
     @Override public void render(float delta) {
@@ -207,6 +223,7 @@ public class Store extends ScreenAdapter{
                     for(int t = 0; t < itemStorage.itemArray.size; t++){
                         imageList.get(t).setColor(Color.WHITE);
                     }
+
 
                     clickedItemCost = itemStorage.itemArray.get(ww).getCost();
                     clickedItem = itemStorage.itemArray.get(ww);

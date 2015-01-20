@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.BipedalDragon;
+import com.padisDefense.game.Enemies.BlueImp;
 import com.padisDefense.game.Enemies.BlueSpider;
 import com.padisDefense.game.Enemies.Cobra;
 import com.padisDefense.game.Enemies.Enemy;
@@ -14,8 +16,6 @@ import com.padisDefense.game.Enemies.Golem;
 import com.padisDefense.game.Enemies.IronSpider;
 import com.padisDefense.game.Enemies.Mage;
 import com.padisDefense.game.Enemies.RedSpider;
-
-import java.util.Vector;
 
 import aurelienribon.tweenengine.TweenManager;
 
@@ -41,7 +41,7 @@ public class Assets {
     public Sprite background;
     public TweenManager tweenManager;
 
-    public Skin skin2, skin3, someUIskin;
+    public Skin skin2, skin3, someUIskin, skin_balls;
     public TextureAtlas towerAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public GameScreen gameScreen;
@@ -79,6 +79,8 @@ public class Assets {
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
         skin3 = new Skin(new TextureAtlas("symbolsandtext.pack"));
         skin2 = new Skin(Gdx.files.internal("pack2.json"));
+        skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
+
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         background = new Sprite(new Texture("test1.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -89,13 +91,23 @@ public class Assets {
             @Override
             protected Enemy newObject(String type) {
 
-                if(type.equals("bluespider")) return new BlueSpider();
+                /*if(type.equals("bluespider")) return new BlueSpider();
                 else if(type.equals("ironspider")) return new IronSpider();
                 else if (type.equals("redspider")) return new RedSpider();
                 else if(type.equals("mage")) return new Mage();
                 else if(type.equals("golem")) return new Golem();
                 else if(type.equals("cobra")) return new Cobra();
                 else if(type.equals("bipedaldragon")) return new BipedalDragon();
+                else if(type.equals("blueimp")) return new BlueImp();*/
+                if(type.equals("armyball")) return new Ball("orange", skin_balls.getSprite("orangeball"));
+                else if(type.equals("blueball")) return new Ball("blue", skin_balls.getSprite("blueball"));
+                else if(type.equals("greenball")) return new Ball("green", skin_balls.getSprite("greenball"));
+                else if(type.equals("orangeball")) return new Ball("orange", skin_balls.getSprite("orangeball"));
+                else if(type.equals("pinkball")) return new Ball("pink", skin_balls.getSprite("pinkball"));
+                else if(type.equals("purpleball")) return new Ball("purple", skin_balls.getSprite("purpleball"));
+                else if(type.equals("violetball")) return new Ball("violet", skin_balls.getSprite("violetball"));
+                else if(type.equals("yellowball")) return new Ball("yellow", skin.getSprite("yellowball"));
+
 
                 System.out.println("RETURNING NULL");
                 return null;
@@ -129,7 +141,7 @@ public class Assets {
 
 
 
-    public void createEnemyPool(){
+    /*public void createEnemyPool(){
         enemyCustomPoolL = new CustomPool<Enemy>() {
             @Override
             protected Enemy newObject(String type) {
@@ -141,6 +153,7 @@ public class Assets {
                 else if(type.equals("golem")) return new Golem();
                 else if(type.equals("cobra")) return new Cobra();
                 else if(type.equals("bipedaldragon")) return new BipedalDragon();
+
 
                 System.out.println("RETURNING NULL");
                 return null;
@@ -162,7 +175,7 @@ public class Assets {
 
         System.out.println("Size of eArray: " + eArray.size);
         enemyCustomPoolL.freeAll(eArray);
-    }
+    }*/
 
     public void initGameScreen(){
         gameScreen = new GameScreen(padi);

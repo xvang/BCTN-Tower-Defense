@@ -25,8 +25,6 @@ public class BulletManager {
     Padi padi;
     GameScreen game;
     private float spawnTimer = 0;
-    Vector2 towerLocation, enemyLocation;
-    Bullet currentBullet;
 
     //Constructor
     public BulletManager(GameScreen g, Padi p){game = g;padi = p;}
@@ -41,125 +39,106 @@ public class BulletManager {
     public void shooting(SpriteBatch batch, Tower t, Enemy e){
 
         spawnTimer += Gdx.graphics.getDeltaTime();
-
         //if-statement wraps around every relevant code in shooting().
         //if tower is NOT in shooting mode, no code involving moving bullets should execute.
         if(t.state){
-
-            towerLocation = new Vector2(t.getBulletSpawnLocation());
-
-            if(t.hasTarget)
-                enemyLocation = new Vector2(e.getLocation());
-            else
-                enemyLocation = new Vector2(t.getOldTargetPosition());
-
-
-
-
+            Vector2 enemyLocation;
+            Vector2 towerLocation = new Vector2(t.getBulletSpawnLocation());
+            if(t.hasTarget)  enemyLocation = new Vector2(e.getLocation());
+            else enemyLocation = new Vector2(t.getOldTargetPosition());
             //Vector2 midpoint = almostMidPoint(towerLocation, enemyLocation, t.getCustomArc());
 
 
 
-            //Creating path between the two points.
-            //final Path<Vector2> path = new Bezier<Vector2>(towerLocation,midpoint,  enemyLocation);
-            final Path<Vector2> path = new Bezier<Vector2>(towerLocation, enemyLocation);
-            Vector2 out = new Vector2();
-            Vector2 angle = new Vector2();//used to get the angle rotation for path...
-                                            //example: make an arrow curve along a path.
-            Bullet item;
+            //Here is where the different firing towers are implemented...?
+            if(t.getID().equals("LASER")){
 
-
-
-            if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                    && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
-
-                item = t.getPool().obtain();
-                //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
-                item.init(t.getBulletSpawnLocation());
-                item.setTexture(t.getBulletTexture());
-                item.setTime(0);
-
-                t.getActiveBullets().add(item);
-
-                spawnTimer = 0;
-
+                //System.out.println("FIRIN MA LASER");
+                //laserShot(batch,enemyLocation, towerLocation);
             }
+            else{
 
 
-            for(int x = 0;x < t.getActiveBullets().size; x++){
+                //Creating path between the two points.
+                //final Path<Vector2> path = new Bezier<Vector2>(towerLocation,midpoint,  enemyLocation);
+                final Path<Vector2> path = new Bezier<Vector2>(towerLocation, enemyLocation);
+                Vector2 out = new Vector2();
+                Vector2 angle = new Vector2();//used to get the angle rotation for path...
+                //example: make an arrow curve along a path.
 
-                currentBullet = t.getActiveBullets().get(x);
 
-                //time is from the bullet
-                float time = (currentBullet.getTime() + t.getBulletRate());
+                if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
+                        && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
 
-                //calculates the bullet's location on the path
-                //using the bullet's time.
-                //stores the bullet's location in a Vector2 'out'
-                if(time <= 1f){
-                    path.valueAt(out, time);
-                    path.derivativeAt(angle, time);
+                    Bullet item = t.getPool().obtain();
+                    //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
+                    item.init(t.getBulletSpawnLocation());
+                    item.setTexture(t.getBulletTexture());
+                    item.setTime(0);
+
+                    t.getActiveBullets().add(item);
+
+                    spawnTimer = 0;
+
                 }
 
 
+                for(int x = 0;x < t.getActiveBullets().size; x++){
 
+                    Bullet currentBullet = t.getActiveBullets().get(x);
+                    //time is from the bullet
+                    float time = (currentBullet.getTime() + t.getBulletRate());
 
-                //This little bugger here gave me the most difficult time.
-                //There is a moment where path.valueAt() returns (0,0) for 'out'.
-                //That made the bullets briefly spawn at (0,0).
-                if(out.x != 0f && out.y != 0f){
-                    //update new time, go to new position, draw
-                    currentBullet.setTime(time);
-                    if(findDistance(out, t.getLocation())< t.getRange()){
-                        currentBullet.goTo(new Vector2(out.x, out.y));
+                    //calculates the bullet's location on the path
+                    //using the bullet's time.
+                    //stores the bullet's location in a Vector2 'out'
+                    if(time <= 1f){
+                        path.valueAt(out, time);
+                        path.derivativeAt(angle, time);
                     }
 
-                    else{
+                    //This little bugger here gave me the most difficult time.
+                    //There is a moment where path.valueAt() returns (0,0) for 'out'.
+                    //That made the bullets briefly spawn at (0,0).
+                    if(out.x != 0f && out.y != 0f){
+                        //update new time, go to new position, draw
+                        currentBullet.setTime(time);
+                        if(findDistance(out, t.getLocation())< t.getRange()){
+                            currentBullet.goTo(new Vector2(out.x, out.y));
+                        }
+                        else{
+                            currentBullet.goTo(t.getOldTargetPosition());
+                        }
 
-                        currentBullet.goTo(t.getOldTargetPosition());
+                        currentBullet.draw(batch);
                     }
 
-                    currentBullet.draw(batch);
-                }
+                    if(hitEnemy(currentBullet, e)){
+                        game.damage.hit(t, e);
 
-                if(hitEnemy(currentBullet, e) /*|| arrivedAtOldLocation(currentBullet, e)*/){
-                    game.damage.hit(t, e);
-
-                    //telling game to show tower's animation for when bullet hits enemy.
-                    //setting location of explosion to where enemy is currently located.
-                    //if(t.getID().equals("AOE")){
-                   //     t.explosion.setExplosionPosition(e.getLocation());
-                   //     t.explode = true;
-                   // }
-                    currentBullet.setTime(0);//to activate below.
-                    //item = t.getActiveBullets().get(x);
-                    t.getActiveBullets().removeIndex(x);
-                    t.getPool().free(currentBullet);
-                }
-
-
-                /*//not sure what this is for
-                if (time >= 1f){
-                    if(t.getHasTarget())//if no target, no need for bullet to restart.
-                        currentBullet.setTime(0f);
-
-                    item = t.getActiveBullets().get(x);
-                    if(!item.alive || item.getTime() > 1f){
-                        item.setTime(0f);
+                        //telling game to show tower's animation for when bullet hits enemy.
+                        //setting location of explosion to where enemy is currently located.
+                        //if(t.getID().equals("AOE")){
+                        //     t.explosion.setExplosionPosition(e.getLocation());
+                        //     t.explode = true;
+                        // }
+                        currentBullet.setTime(0);//to activate below.
+                        //item = t.getActiveBullets().get(x);
                         t.getActiveBullets().removeIndex(x);
-                        t.getPool().free(item);
+                        t.getPool().free(currentBullet);
                     }
-
-                }*/
+                }
             }
-
         }
+
+
 
     }// end shooting();
 
+    //todo: laser shots?
+    public void laserShot(SpriteBatch batch, Vector2 enemy, Vector2 tower){
 
-    public boolean notAlmostDead(Tower t, Enemy e){
-        return e.getHealth() - t.getAttack() > 0;
+
     }
     //TODO: work 'arc' into the midpoint formula.
     //midpoint formula.
@@ -231,3 +210,22 @@ public class BulletManager {
  return t_rec.overlaps(e_rec);
  }
  * */
+
+
+
+
+
+
+/*//not sure what this is for
+                if (time >= 1f){
+                    if(t.getHasTarget())//if no target, no need for bullet to restart.
+                        currentBullet.setTime(0f);
+
+                    item = t.getActiveBullets().get(x);
+                    if(!item.alive || item.getTime() > 1f){
+                        item.setTime(0f);
+                        t.getActiveBullets().removeIndex(x);
+                        t.getPool().free(item);
+                    }
+
+                }*/

@@ -1,0 +1,61 @@
+
+balls.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+armyball
+  rotate: false
+  xy: 1, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+blueball
+  rotate: false
+  xy: 38, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+greenball
+  rotate: false
+  xy: 75, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+orangeball
+  rotate: false
+  xy: 112, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+pinkball
+  rotate: false
+  xy: 149, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+purpleball
+  rotate: false
+  xy: 186, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+violetball
+  rotate: false
+  xy: 223, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+yellowball
+  rotate: false
+  xy: 260, 1
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1

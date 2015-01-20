@@ -62,7 +62,7 @@ public class BipedalDragon extends Enemy{
         batch.draw(currentFrame, this.getX(), this.getY());
 
         iteration += Gdx.graphics.getDeltaTime();
-        //this.currentAnimation = this.getAnimationDirection();
+        this.currentAnimation = this.getAnimationDirection();
         this.oldPosition.set(this.newPosition);
         iteration = 0;
 
@@ -79,29 +79,5 @@ public class BipedalDragon extends Enemy{
             return animation.get(1);
         //if no major changes, then return the current animation.
 
-    }
-
-    @Override
-    public void displayHealth(SpriteBatch batch){
-
-        float percentage = health/originalHealth;
-
-        if(percentage <= 0f)
-            healthGreen.setSize(0, healthGreen.getHeight());
-        else if(percentage <= 1f)
-            healthGreen.setSize(healthRed.getWidth()*percentage, healthGreen.getHeight());
-
-
-        try{
-            healthRed.setPosition(getX() + currentFrame.getRegionWidth()/3, getY() + currentFrame.getRegionHeight() - 5f);
-            healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
-
-        }catch(Exception e){
-            if(currentFrame == null)
-                System.out.println("CURRENTFRAME IS OUR CUPLRIT GODDAM");
-        }
-
-        healthRed.draw(batch, 1);
-        healthGreen.draw(batch, 1);
     }
 }
