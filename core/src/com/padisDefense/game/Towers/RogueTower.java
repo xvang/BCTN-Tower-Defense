@@ -9,7 +9,7 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class RogueTower extends Tower {
 
-    public RogueTower(Vector2 position, Sprite picture){
+    public RogueTower(Vector2 position, Sprite picture, int level){
         super(picture);
         setBulletTexture(new Texture("redbullet.png"));
         setTarget(new Enemy());
@@ -21,7 +21,7 @@ public class RogueTower extends Tower {
         setRange(300f);
         setIncomeRate(4f);
         setChargeRate(0.10f);
-
+        setLevel(level);
         setBulletLimit(1);
         setFireRate(0.9f);
         setBulletRate(0.07f);
@@ -31,6 +31,9 @@ public class RogueTower extends Tower {
     }
 
 
+    public RogueTower(int level){
+        setLevel(level);
+    }
 
 
 }

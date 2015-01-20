@@ -64,9 +64,11 @@ public class WorldMap implements Screen {
                     public void clicked(InputEvent e, float a, float b) {
 
                         if(padi.player.isLevelUnlocked(g)){
-                            padi.assets.gameScreen.assignLevel(g);
+                            /*padi.assets.gameScreen.assignLevel(g);
                             padi.assets.gameScreen.reset();
-                            padi.setScreen(padi.assets.gameScreen);
+                            padi.setScreen(padi.assets.gameScreen);*/
+                            padi.gameScreen.assignLevel(g);
+                            padi.setScreen(padi.gameScreen);
                         }
                         else{
                             System.out.println("No No No! No Bueno!");

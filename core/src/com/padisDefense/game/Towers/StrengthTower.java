@@ -10,12 +10,12 @@ public class StrengthTower extends Tower {
 
 
     private float rangeAOE = 80f;
-    public StrengthTower(Vector2 position, Sprite picture){
+    public StrengthTower(Vector2 position, Sprite picture, int level){
         super(picture);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-
+        setLevel(level);
         setBulletLimit(1);
         setCost(70);
         setAttack(4f);
@@ -33,6 +33,10 @@ public class StrengthTower extends Tower {
 
         setRotateRate(5f);
 
+    }
+
+    public StrengthTower(int level){
+        setLevel(level);
     }
 
     public float getRangeAOE(){return rangeAOE;}

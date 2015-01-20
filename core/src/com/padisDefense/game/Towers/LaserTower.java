@@ -8,11 +8,12 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class LaserTower extends Tower {
 
-    public LaserTower(Vector2 position, Sprite picture){
+    public LaserTower(Vector2 position, Sprite picture, int level){
         super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
+        setLevel(level);
         setBulletLimit(1);
         setCost(100);
         setAttack(5f);
@@ -27,5 +28,9 @@ public class LaserTower extends Tower {
         setCustomArc(40f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
+    }
+
+    public LaserTower(int level){
+        setLevel(level);
     }
 }

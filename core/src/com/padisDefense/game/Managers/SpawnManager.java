@@ -118,7 +118,7 @@ public class SpawnManager {
         if(first50 < 50){
 
             Enemy e;
-            int r = (int)(Math.random()*25);
+            int r = (int)(Math.random()*18);
 
             /*if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
@@ -394,16 +394,15 @@ public class SpawnManager {
 
         //System.out.println("action: " + action);
 
-        Tower newTower = null;
-        Sprite picture;
         Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
                 b.getY() + (b.getHeight() / 8));
 
-
-        //Create RogueTower
+        Tower newTower = padi.assets.towerCustomPool.obtain(type, level, spawnPosition);
+        newTower.setPosition(spawnPosition.x, spawnPosition.y);
+        System.out.println("buildaTower(): "  + type);
+        /*//Create RogueTower
         if(type.equals("ROGUE")){
-            picture = padi.assets.towerAtlas.createSprite("ROGUE", level);
-            newTower = new RogueTower(spawnPosition, picture);
+            newTower = padi.assets.towerCustomPool.obtain("ROGUE", level, spawnPosition);
 
         }
 
@@ -433,7 +432,8 @@ public class SpawnManager {
             picture = padi.assets.towerAtlas.createSprite("LASER", level);
             newTower = new LaserTower(spawnPosition, picture);
 
-        }
+        }*/
+
 
         //TODO: apply stat changes.
         if(newTower != null){
@@ -452,17 +452,17 @@ public class SpawnManager {
 
             else if(action.equals("upgrade")){
 
-
                 float oldRotate = b.getCurrentTower().getRotation();
                 newTower.setRotation(oldRotate);
 
+                Tower pointer = b.getCurrentTower();
                 game.tower.getTowerArray().removeValue(b.getCurrentTower(), false);
+                padi.assets.towerCustomPool.free(pointer);
                 b.setCurrentTower(null);
 
 
                 game.tower.getTowerArray().add(newTower);
                 b.setCurrentTower(newTower);
-
             }
 
         }

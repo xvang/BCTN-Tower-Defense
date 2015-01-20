@@ -2,6 +2,7 @@ package com.padisDefense.game;
 
 
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 /** A pool of objects that can be reused to avoid allocation.
@@ -31,11 +32,24 @@ abstract public class CustomPool<T> {
     }
 
     abstract protected T newObject (String type);
+    abstract protected T newObject (String type, int level, Vector2 spawnPosition);
 
     /** Returns an object from this pool. The object may be new (from {@link #newObject(String type)}) or reused (previously
      * {@link #free(Object) freed}). */
     public T obtain (String type) {
         return freeObjects.size == 0 ? newObject(type) : freeObjects.pop();
+    }
+
+
+    public T obtain (String type, int level, Vector2 spawnPosition) {
+
+        if(freeObjects.size == 0){
+            return newObject(type, level, spawnPosition);
+        }
+        else{
+            return freeObjects.pop();
+        }
+       // return freeObjects.size == 0 ? newObject(type, level, spawnPosition) : freeObjects.pop();
     }
 
     /** Puts the specified object in the pool, making it eligible to be returned by {@link #obtain(String type)}. If the pool already contains

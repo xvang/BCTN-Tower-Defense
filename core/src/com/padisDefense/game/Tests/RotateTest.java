@@ -39,7 +39,8 @@ public class RotateTest extends ScreenAdapter {
     ShapeRenderer shape;
 
     public RotateTest(){
-        tower = new RogueTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4), new Sprite(new Texture("towers/SNIPER_3.png")));
+        tower = new RogueTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4),
+                new Sprite(new Texture("towers/SNIPER_3.png")), 1);
         //tower = new Sprite(new Texture("towers/strength_level_three.png"));
         //bullet = new Sprite(new Texture("redbullet.png"));
         bullet = new Bullet(new Vector2(tower.getBulletSpawnLocation()), new Texture("redbullet.png"));

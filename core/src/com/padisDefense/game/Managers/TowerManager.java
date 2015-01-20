@@ -43,6 +43,27 @@ public class TowerManager{
         batch = new SpriteBatch();
         arbitraryPoint = new Vector2();
         shape = new ShapeRenderer();
+
+        Array<Tower> tempStorage = new Array<Tower>();
+
+
+        //creating some instances of the towers to be released into tower pool.
+        for(int x = 0; x < 2; x++){
+            for(int y = 1; y <= 3; y++){
+                Tower t = padi.assets.towerCustomPool.obtain("ROGUE", y, new Vector2(-50f, -50f));
+                Tower t2 = padi.assets.towerCustomPool.obtain("SPEED", y, new Vector2(-50f, -50f));
+                Tower t3 = padi.assets.towerCustomPool.obtain("SNIPER", y, new Vector2(-50f, -50f));
+                Tower t4 = padi.assets.towerCustomPool.obtain("STRENGTH", y, new Vector2(-50f, -50f));
+                Tower t5 = padi.assets.towerCustomPool.obtain("AOE", y, new Vector2(-50f, -50f));
+                Tower t6 = padi.assets.towerCustomPool.obtain("LASER", y, new Vector2(-50f, -50f));
+
+                tempStorage.add(t); tempStorage.add(t2);
+                tempStorage.add(t3); tempStorage.add(t4);
+                tempStorage.add(t5); tempStorage.add(t6);
+            }
+        }
+
+        padi.assets.towerCustomPool.freeAll(tempStorage);
     }
 
 
@@ -248,11 +269,16 @@ public class TowerManager{
     }
 
 
+    //returns the tower to the tower pool.
     public void clearBuildable(BuildableSpot t){
 
         if(t.getCurrentTower() != null){
+
+            Tower pointer = t.getCurrentTower();
             inGameMoney += (int)(t.getCurrentTower().getCost()*0.6);
             towerArray.removeValue(t.getCurrentTower(), false);
+
+            padi.assets.towerCustomPool.free(pointer);
             t.setCurrentTower(null);
             t.setHasTower(false);
         }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Ball;
@@ -16,6 +17,13 @@ import com.padisDefense.game.Enemies.Golem;
 import com.padisDefense.game.Enemies.IronSpider;
 import com.padisDefense.game.Enemies.Mage;
 import com.padisDefense.game.Enemies.RedSpider;
+import com.padisDefense.game.Towers.AoeTower;
+import com.padisDefense.game.Towers.LaserTower;
+import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.SniperTower;
+import com.padisDefense.game.Towers.SpeedTower;
+import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.Tower;
 
 import aurelienribon.tweenengine.TweenManager;
 
@@ -44,7 +52,8 @@ public class Assets {
     public Skin skin2, skin3, someUIskin, skin_balls;
     public TextureAtlas towerAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
-    public GameScreen gameScreen;
+    public TowerPool towerCustomPool;
+    //public GameScreen gameScreen;
 
 
 
@@ -86,6 +95,9 @@ public class Assets {
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();
 
+
+
+
         //createEnemyPool();
         enemyCustomPoolL = new CustomPool<Enemy>() {
             @Override
@@ -106,13 +118,39 @@ public class Assets {
                 else if(type.equals("pinkball")) return new Ball("pink", skin_balls.getSprite("pinkball"));
                 else if(type.equals("purpleball")) return new Ball("purple", skin_balls.getSprite("purpleball"));
                 else if(type.equals("violetball")) return new Ball("violet", skin_balls.getSprite("violetball"));
-                else if(type.equals("yellowball")) return new Ball("yellow", skin.getSprite("yellowball"));
+                else if(type.equals("yellowball")) return new Ball("yellow", skin_balls.getSprite("yellowball"));
 
 
                 System.out.println("RETURNING NULL");
                 return null;
             }
+
+            @Override
+            protected Enemy newObject(String type, int level, Vector2 spawnPosition){return null;}
         };
+
+
+
+
+        //TODO: find a way to combine these two functions in pool declaration.
+        towerCustomPool = new TowerPool() {
+            @Override
+            protected Tower newObject(String type, int level, Vector2 spawnPosition) {
+
+
+                Sprite picture = padi.assets.towerAtlas.createSprite(type, level);
+
+                if(type.equals("ROGUE")) return new RogueTower(spawnPosition, picture, level);
+                else if(type.equals("SNIPER")) return new SniperTower(spawnPosition, picture, level);
+                else if(type.equals("STRENGTH")) return new StrengthTower(spawnPosition, picture, level);
+                else if(type.equals("SPEED")) return new SpeedTower(spawnPosition, picture, level);
+                else if(type.equals("AOE")) return new AoeTower(spawnPosition, picture, level);
+                else if(type.equals("LASER")) return new LaserTower(spawnPosition, picture, level);
+                else  return new RogueTower(spawnPosition, picture, 1);
+            }
+        };
+
+
     }
 
 
@@ -141,45 +179,7 @@ public class Assets {
 
 
 
-    /*public void createEnemyPool(){
-        enemyCustomPoolL = new CustomPool<Enemy>() {
-            @Override
-            protected Enemy newObject(String type) {
 
-                if(type.equals("bluespider")) return new BlueSpider();
-                else if(type.equals("ironspider")) return new IronSpider();
-                else if (type.equals("redspider")) return new RedSpider();
-                else if(type.equals("mage")) return new Mage();
-                else if(type.equals("golem")) return new Golem();
-                else if(type.equals("cobra")) return new Cobra();
-                else if(type.equals("bipedaldragon")) return new BipedalDragon();
-
-
-                System.out.println("RETURNING NULL");
-                return null;
-            }
-        };
-
-        Array<Enemy> eArray = new Array<Enemy>();
-        for(int x = 0; x < 25; x++){
-
-            eArray.add(enemyCustomPoolL.obtain("bipedaldragon"));
-            eArray.add(enemyCustomPoolL.obtain("bluespider"));
-            eArray.add(enemyCustomPoolL.obtain("cobra"));
-            eArray.add(enemyCustomPoolL.obtain("golem"));
-            eArray.add(enemyCustomPoolL.obtain("ironspider"));
-            eArray.add(enemyCustomPoolL.obtain("mage"));
-            eArray.add(enemyCustomPoolL.obtain("redspider"));
-
-        }
-
-        System.out.println("Size of eArray: " + eArray.size);
-        enemyCustomPoolL.freeAll(eArray);
-    }*/
-
-    public void initGameScreen(){
-        gameScreen = new GameScreen(padi);
-    }
     public void dispose(){
 
 

@@ -43,6 +43,7 @@ public class Padi extends Game implements ApplicationListener{
     public WorldMap worldmap;
     public Player player;
     public Store store;
+    GameScreen gameScreen;
     //public LogIn login;
 
 
@@ -55,8 +56,8 @@ public class Padi extends Game implements ApplicationListener{
     public void create(){
 
         assets = new Assets(this);
-        assets.initGameScreen();
-
+        //assets.initGameScreen();
+        gameScreen = new GameScreen(this);
         main_menu = new MainMenu(this);
         setting = new Setting(this);
         worldmap = new WorldMap(this);

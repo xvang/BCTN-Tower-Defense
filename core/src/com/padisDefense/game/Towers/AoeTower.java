@@ -11,12 +11,12 @@ public class AoeTower extends Tower {
 
     private float rangeAOE = 100f;
 
-    public AoeTower(Vector2 position, Sprite picture){
+    public AoeTower(Vector2 position, Sprite picture, int level){
         super(picture);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-
+        setLevel(level);
         setBulletLimit(1);
         setCost(80);
         setAttack(40f);
@@ -31,6 +31,10 @@ public class AoeTower extends Tower {
         setWeakAgainst("goblin");
         setStrongAgainst("bestgoblin");
 
+    }
+
+    public AoeTower(int level){
+        setLevel(level);
     }
 
 

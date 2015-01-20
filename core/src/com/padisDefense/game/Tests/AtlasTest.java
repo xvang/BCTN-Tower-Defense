@@ -45,7 +45,7 @@ public class AtlasTest extends ScreenAdapter {
         sprite = atlas.createSprite("AOE", 1);
         System.out.println(sprite.getWidth() + ", " + sprite.getHeight());
 
-        snipe = new SniperTower(new Vector2(w/2, h/2), sprite);
+        snipe = new SniperTower(new Vector2(w/2, h/2), sprite, 1);
 
         snipe.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch = new SpriteBatch();

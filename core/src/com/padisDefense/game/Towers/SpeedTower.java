@@ -11,11 +11,11 @@ public class SpeedTower extends Tower {
     private float attack = 30;
 
 
-    public SpeedTower(Vector2 position, Sprite picture){
+    public SpeedTower(Vector2 position, Sprite picture, int level){
         super(picture);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-
+        setLevel(level);
         setBulletLimit(1);
         setCost(100);
         setRange(350f);
@@ -29,6 +29,10 @@ public class SpeedTower extends Tower {
         setBulletRate(0.09f);
         setWeakAgainst("bestgoblin");
         setStrongAgainst("goblin");
+    }
+
+    public SpeedTower(int level){
+        setLevel(level);
     }
 
     @Override

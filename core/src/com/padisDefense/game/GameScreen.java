@@ -80,7 +80,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     @Override
     public void show(){
+        multi.clear();
 
+        multi.addProcessor(UI.getStage());
+        multi.addProcessor(UI);
+        multi.addProcessor(this);
+        Gdx.input.setInputProcessor(multi);
     }
 
     //enemy amount and path is stored in enemy.

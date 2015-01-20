@@ -20,7 +20,7 @@ import com.padisDefense.game.MiscellaniousCharacters.IceSparkle;
  * @author Xeng
  *
  * */
-public class Tower extends Sprite{
+public class Tower extends Sprite implements  Pool.Poolable{
 
 
     private String ID;
@@ -31,7 +31,7 @@ public class Tower extends Sprite{
     private float incomeRate = 1;//unused for now.
     public boolean state = true;//TRUE is shooting. FALSE is charging.
     private float fireRate = 1;//Used in bulletManager. shooting(). How often a new Bullet is created.
-    public Boolean hasTarget = false;
+    public boolean hasTarget = false;
     private Enemy target;
     private int upgradeCost = 1;
     private Array<String> weakAgainst;
@@ -41,6 +41,7 @@ public class Tower extends Sprite{
     private float bulletRate;//How fast a bullet travels.
     public float pause = 0.2f;
     private int level = 1;
+
 
 
     //Creating a pool method thing.
@@ -64,6 +65,9 @@ public class Tower extends Sprite{
     public float radius = this.getHeight()/2;
     private float rotateRate;
 
+
+    //pooling the towers.
+    public boolean alive = false;
 
     public IceSparkle sparkle;
 
@@ -364,6 +368,16 @@ public class Tower extends Sprite{
     }
 
 
+
+    @Override
+    public void reset(){
+        lockedOnTarget = false;
+        hasTarget = false;
+        clicked = false;
+        explode = false;
+        state = true;
+        alive = false;
+    }
 
 
     public void dispose(){
