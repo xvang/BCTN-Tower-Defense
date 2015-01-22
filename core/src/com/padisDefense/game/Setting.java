@@ -30,19 +30,10 @@ import com.badlogic.gdx.utils.Array;
  * */
 public class Setting extends ScreenAdapter {
 
-    final float w = Gdx.graphics.getWidth();
-    final float h = Gdx.graphics.getHeight();
+
 
     final Padi padi;
     private Stage stage;
-    Group background, foreground;
-
-
-
-    TextureRegionDrawable textureBar;
-    ProgressBar.ProgressBarStyle bar_style;
-
-
 
     public Array<Slider> slider;
     public Array<TextureRegion> textures;//SOUND, DIFFICULTY, SPEED.
@@ -61,9 +52,13 @@ public class Setting extends ScreenAdapter {
     //Name of pictures for textures. Currently, random pictures are assigned.
 
 
-
     public Setting(Padi p){
         padi = p;
+    }
+    @Override
+    public void show(){
+        final float w = Gdx.graphics.getWidth();
+        final float h = Gdx.graphics.getHeight();
         top = new Rectangle();
         bottom = new Rectangle();
         left = new Rectangle();
@@ -83,8 +78,13 @@ public class Setting extends ScreenAdapter {
 
         stage = new Stage();
 
+
+        Group background, foreground;
         background = new Group();
         foreground = new Group();
+
+        TextureRegionDrawable textureBar;
+        ProgressBar.ProgressBarStyle bar_style;
         textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("limegreen.png"))));
         bar_style = new ProgressBar.ProgressBarStyle(padi.assets.skin.newDrawable("white", Color.CYAN), textureBar);
         slider = new Array<Slider>();
@@ -165,15 +165,15 @@ public class Setting extends ScreenAdapter {
 
 
         //setting the input to this stage on this screen.
+        Gdx.input.setInputProcessor(stage);
+
+    }//end show();
 
 
-    }
-
-
-    @Override
+    /*@Override
     public void show(){
         Gdx.input.setInputProcessor(stage);
-    }
+    }*/
 
 
     //Save settings into assets.

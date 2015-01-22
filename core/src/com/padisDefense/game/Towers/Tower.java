@@ -24,11 +24,11 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
     private String ID;
-    private float cost = 1;
-    private float attack = 1;
-    private float range = 1;
-    private float chargeRate = 1;//Used in gameScreen. gatherCharge().
-    private float incomeRate = 1;//unused for now.
+    private float cost = 1, originalCost = 1;
+    private float attack = 1, originalAttack = 1;
+    private float range = 1, originalRange = 1;
+    private float chargeRate = 1, originalChargeRate = 1;//Used in gameScreen. gatherCharge().
+    private float incomeRate = 1, originalIncomeRate = 1;//unused for now.
     public boolean state = true;//TRUE is shooting. FALSE is charging.
     private float fireRate = 1;//Used in bulletManager. shooting(). How often a new Bullet is created.
     public boolean hasTarget = false;
@@ -76,6 +76,8 @@ public class Tower extends Sprite implements  Pool.Poolable{
     public boolean explode = false;//if true, then bullet hit enemy and run the animation.
 
     public boolean clicked = false;//used to display the range circle.
+
+    public String originalSprite;
     //Constructor #1
     public Tower(Texture picture){
         super(picture);
@@ -96,6 +98,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         };
 
         sparkle = new IceSparkle();
+
     }
 
     //Constructor #2
@@ -115,7 +118,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 2f;
+        rotateRate = 3f;
     }
 
     public Tower( Sprite sprite){
@@ -139,11 +142,46 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 2f;
+        rotateRate = 3f;
+    }
+
+    public Tower(Sprite sprite, float attack, float chargeRate, float range, float cost, float incomeRate){
+        super(sprite);
+        this.attack = attack;
+        this.originalAttack = attack;
+        this.chargeRate = chargeRate;
+        this.originalChargeRate = chargeRate;
+        this.range = range;
+        this.originalRange = range;
+        this.cost = cost;
+        this.originalCost = cost;
+        this.incomeRate = incomeRate;
+        this.originalIncomeRate = incomeRate;
+
+        this.setSize(sprite.getWidth(), sprite.getHeight());
+        hasTarget = false;
+        ID = "";
+        customArc = 25f;
+        oldTargetPosition = new Vector2();
+        activeBullets = new Array<Bullet>();
+
+        weakAgainst = new Array<String>();
+        strongAgainst = new Array<String>();
+
+        pool = new Pool<Bullet>() {
+            @Override
+            protected Bullet newObject() {
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
+            }
+        };
+
+
+        sparkle = new IceSparkle();
+        rotateRate = 3f;
     }
 
     public void setCost(int newCost){cost = newCost;}
-    public void setAttack(float newAttack){attack = newAttack; }
+    public void setAttack(float newAttack){attack = newAttack;}
     public void setRange(float newRange){range = newRange;}
     public void setChargeRate(float newCharge){chargeRate = newCharge;}
     public void setIncomeRate(float newIncome) {incomeRate = newIncome;}
@@ -172,6 +210,9 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
 
+    public boolean isWeakAgainst(String type){
+        return weakAgainst.contains(type, false);
+    }
 
 
 
@@ -377,8 +418,18 @@ public class Tower extends Sprite implements  Pool.Poolable{
         explode = false;
         state = true;
         alive = false;
+        target = null;
+        target = new Enemy(new Vector2(-50f, -100f));//dummy pointer.
+        attack = originalAttack;
+        range = originalRange;
+        cost = originalCost;
+        incomeRate = originalIncomeRate;
+        chargeRate = originalChargeRate;
+        bulletLimit = 1;
+        level = 1;
     }
 
+    public void userReset(){}
 
     public void dispose(){
         //getTexture().dispose();

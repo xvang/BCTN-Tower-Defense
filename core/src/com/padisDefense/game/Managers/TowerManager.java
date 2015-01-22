@@ -38,35 +38,36 @@ public class TowerManager{
     public TowerManager(GameScreen g, Padi p){
         game = g;
         padi = p;
+
         towerArray = new Array<Tower>();
         buildableArray = new Array<BuildableSpot>();
         batch = new SpriteBatch();
         arbitraryPoint = new Vector2();
         shape = new ShapeRenderer();
-
-        Array<Tower> tempStorage = new Array<Tower>();
-
-
-        //creating some instances of the towers to be released into tower pool.
-        for(int x = 0; x < 2; x++){
-            for(int y = 1; y <= 3; y++){
-                Tower t = padi.assets.towerCustomPool.obtain("ROGUE", y, new Vector2(-50f, -50f));
-                Tower t2 = padi.assets.towerCustomPool.obtain("SPEED", y, new Vector2(-50f, -50f));
-                Tower t3 = padi.assets.towerCustomPool.obtain("SNIPER", y, new Vector2(-50f, -50f));
-                Tower t4 = padi.assets.towerCustomPool.obtain("STRENGTH", y, new Vector2(-50f, -50f));
-                Tower t5 = padi.assets.towerCustomPool.obtain("AOE", y, new Vector2(-50f, -50f));
-                Tower t6 = padi.assets.towerCustomPool.obtain("LASER", y, new Vector2(-50f, -50f));
-
-                tempStorage.add(t); tempStorage.add(t2);
-                tempStorage.add(t3); tempStorage.add(t4);
-                tempStorage.add(t5); tempStorage.add(t6);
-            }
-        }
-
-        padi.assets.towerCustomPool.freeAll(tempStorage);
+        populateTowerPool();
     }
 
 
+    public void populateTowerPool(){
+        //creating some instances of the towers to be released into tower pool.
+        //3 of each type. currently, 6 towers, so 18 total.
+        Array<Tower> tempStorage = new Array<Tower>();
+        for(int x = 0; x < 3; x++){
+            Tower t = padi.assets.towerCustomPool.obtain("ROGUE", 1, new Vector2(-50f, -50f));
+            Tower t2 = padi.assets.towerCustomPool.obtain("SPEED", 1, new Vector2(-50f, -50f));
+            Tower t3 = padi.assets.towerCustomPool.obtain("SNIPER", 1, new Vector2(-50f, -50f));
+            Tower t4 = padi.assets.towerCustomPool.obtain("STRENGTH", 1, new Vector2(-50f, -50f));
+            Tower t5 = padi.assets.towerCustomPool.obtain("AOE", 1, new Vector2(-50f, -50f));
+            Tower t6 = padi.assets.towerCustomPool.obtain("LASER", 1, new Vector2(-50f, -50f));
+
+            tempStorage.add(t);     tempStorage.add(t2);
+            tempStorage.add(t3);    tempStorage.add(t4);
+            tempStorage.add(t5);    tempStorage.add(t6);
+        }
+
+        //freeing all towers into pool.
+        padi.assets.towerCustomPool.freeAll(tempStorage);
+    }
 
     /**
      * renders all the towers and buildablespots
@@ -84,9 +85,6 @@ public class TowerManager{
         for(int x = 0; x < towerArray.size; x++){
             Tower currentTower = towerArray.get(x);
             //towerArray.get(x).spinning();
-
-
-
 
 
 
@@ -167,17 +165,20 @@ public class TowerManager{
     //Checks to see if target enemy object is out of range.
     public void checkRange(Tower t){
 
-        double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
+        if(t.hasTarget){
+            double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
 
-        //System.out.println((int)distance);
-        if(distance > t.getRange()){
-            t.hasTarget = false;
-            t.lockedOnTarget = false;
+            //System.out.println((int)distance);
+            if(distance > t.getRange()){
+                t.hasTarget = false;
+                t.lockedOnTarget = false;
+            }
+
+            else{
+                t.setOldTargetPosition(t.getTarget().getLocation());
+            }
         }
 
-        else{
-            t.setOldTargetPosition(t.getTarget().getLocation());
-        }
     }
 
     public void checkForDead(Tower t){
@@ -219,6 +220,8 @@ public class TowerManager{
             //checks all the  enemies, and finds the closest one.
             for(int x = 0; x < enemy.getActiveEnemy().size; x++){
 
+                if(enemy.getActiveEnemy().get(x) == null)
+                    System.out.println("enemy is null in towermanager.java");
                 currentMin = findDistance(enemy.getActiveEnemy().get(x).getLocation(), t.getLocation());
 
                 if(currentMin < previousMin){
@@ -295,6 +298,10 @@ public class TowerManager{
         return false;
     }
 
+
+    //Rotating the towers to destination.
+    //at the moment, all towers have rotateSpeed of 5f.
+    //rotateSpeed is assigned a value in tower.java constructor(s).
     public void customRotate(Tower t){
         if(t.hasTarget && t.state){
             if(t.getRotation() != t.rotateDestination){
@@ -387,11 +394,6 @@ public class TowerManager{
     }
 
 
-    /**
-     * private Array<Tower> towerArray;
-     private Array<BuildableSpot> buildableArray;
-     private int inGameMoney = 3000;
-     * */
     public void dispose() {
 
         for (int x = 0; x < towerArray.size; x++)
@@ -406,15 +408,21 @@ public class TowerManager{
 
     public void reset(){
 
-        for(int x = 0; x < buildableArray.size; x++)
-            buildableArray.get(x).setCurrentTower(null);
 
-        //buildableArray.clear();
+        //resetting all the images to level 1
+        for(int x = 0; x < towerArray.size; x++){
+            towerArray.get(x).state = true;
+            towerArray.get(x).hasTarget = false;
+            towerArray.get(x).reset();
+            Sprite sprite = padi.assets.towerAtlas.createSprite(towerArray.get(x).getID(), 1);
+            towerArray.get(x).set(sprite);
+        }
+        padi.assets.towerCustomPool.freeAll(towerArray);
         towerArray.clear();
 
-
-        for(int s = 0; s < game.tower.getTowerArray().size; s++)
-            game.tower.getTowerArray().get(s).clicked = false;
+        //resetting pointer in buildablespot.
+        for(int x = 0; x < buildableArray.size; x++)
+            buildableArray.get(x).setCurrentTower(null);
 
 
     }

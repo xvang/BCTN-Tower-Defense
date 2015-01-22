@@ -9,24 +9,26 @@ import com.padisDefense.game.Enemies.Enemy;
 public class LaserTower extends Tower {
 
     public LaserTower(Vector2 position, Sprite picture, int level){
-        super(picture);
+        //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
+
+        super(picture, 15, 0.025f, 150f, 60, 1);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
         setLevel(level);
         setBulletLimit(1);
-        setCost(100);
-        setAttack(5f);
-        setRange(250f);
-        setChargeRate(0.2f);
+        setCost(60);
+        setAttack(15);
+        setRange(150f);
+        setChargeRate(0.025f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.07f);
+        setFireRate(0.008f);
         setID("LASER");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.07f);
+        setBulletRate(0.10f);
         setCustomArc(40f);
-        setWeakAgainst("bestgoblin");
+        setWeakAgainst("purpleball");
         setStrongAgainst("goblin");
     }
 

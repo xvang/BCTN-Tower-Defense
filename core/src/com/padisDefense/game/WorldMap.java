@@ -30,9 +30,14 @@ public class WorldMap implements Screen {
 
     Sprite background;
     Stage stage;
-    WorldMap(Padi p){
 
+    public WorldMap(Padi p){
         padi = p;
+    }
+
+    @Override
+    public void show(){
+
         background_texture = new Texture("worldmap.png");
         background = new Sprite(background_texture);
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -67,7 +72,8 @@ public class WorldMap implements Screen {
                             /*padi.assets.gameScreen.assignLevel(g);
                             padi.assets.gameScreen.reset();
                             padi.setScreen(padi.assets.gameScreen);*/
-                            padi.gameScreen.assignLevel(g);
+                            padi.gameScreen.reset();
+                            padi.gameScreen.setLevel(g);
                             padi.setScreen(padi.gameScreen);
                         }
                         else{
@@ -122,17 +128,8 @@ public class WorldMap implements Screen {
         for(int x = 0; x < buttons.size; x++)
             stage.addActor(buttons.get(x));
 
-
-    }//End of Worldmap() Constructor.
-
-
-    @Override
-    public void show() {
         Gdx.input.setInputProcessor(stage);
-
-    }
-
-
+    }//End of Worldmap() Constructor.
 
     @Override
     public void render(float delta){

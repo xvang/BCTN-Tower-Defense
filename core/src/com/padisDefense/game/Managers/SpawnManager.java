@@ -79,10 +79,11 @@ public class SpawnManager {
     Array<Tower> leastType;
 
 
-
     public SpawnManager(GameScreen g, Padi p){
         game = g;
         padi = p;
+
+
 
 
         data = new HashMap<Tower, Integer>();
@@ -105,12 +106,10 @@ public class SpawnManager {
         weak = new Array<String>();
         mostType = new Array<Tower>();
         leastType = new Array<Tower>();
-
-
     }
 
 
-    private int first50 = 0;//the first 25 enemies should be random,
+    private int first50 = 0;//the first 50 enemies should be random,
     //but after that, spawning will take into account the user's tower types.
     public void spawnEnemy(EnemyManager enemy){
 
@@ -118,7 +117,7 @@ public class SpawnManager {
         if(first50 < 50){
 
             Enemy e;
-            int r = (int)(Math.random()*18);
+            int r = (int)(Math.random()*9);
 
             /*if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
@@ -129,14 +128,14 @@ public class SpawnManager {
             else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redspider");
 
             else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("blueimp");*/
-            if(r == 9) e = padi.assets.enemyCustomPoolL.obtain("armyball");
-            else if(r == 10) e = padi.assets.enemyCustomPoolL.obtain("blueball");
-            else if(r == 11) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
-            else if(r == 12) e = padi.assets.enemyCustomPoolL.obtain("violetball");
-            else if(r == 13) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
-            else if(r == 14) e = padi.assets.enemyCustomPoolL.obtain("greenball");
-            else if(r == 15) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
-            else if(r == 16) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
+            if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("armyball");
+            else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("blueball");
+            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
+            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("violetball");
+            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
+            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("greenball");
+            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
+            else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
 
 
             //else e = padi.assets.enemyCustomPoolL.obtain("mage");
@@ -149,6 +148,7 @@ public class SpawnManager {
 
             e.alive = true;
 
+
             enemy.getActiveEnemy().add(e);
 
             first50++;
@@ -158,16 +158,16 @@ public class SpawnManager {
 
             gatherTowerData();
             if(data.size() == 0){
-                //System.out.println("no towers built.");
+
                 Enemy e = spawnRandom();
+                e.reset();
                 enemy.getActiveEnemy().add(e);
-                //System.out.println("Spawned " + e.getName());
             }
             else{
                 Enemy e = spawnResponse();
+                e.reset();
                 enemy.getActiveEnemy().add(e);
 
-                //System.out.println("Spawned " + e.getName());
 
             }
 
@@ -224,20 +224,13 @@ public class SpawnManager {
             leastValue = 0;
         }
 
-
         //no need to assign these a value unless mostValue < 4
-        //Array<Tower> mostType;//Array of least and most frequent type towers.
-        //Array<Tower> leastType;
-        //System.out.println("Most: " + mostValue);
-
-
         if(mostValue < 3){
             if(duckTime){//The duck should only spawn once to signify the start of bullrushing.
                 newEnemy = new Duck();
 
                 duckTime = false;
                 chosenEnemyType = (int)(Math.random()*allEnemies.size);
-                //System.out.println("DUCK TIME!" + " ... Chosen enemy: " + allEnemies.get(chosenEnemyType));
                 return newEnemy;
             }
             else return spawnBullRush();
@@ -245,7 +238,6 @@ public class SpawnManager {
         }
         else{
             duckTime = true;
-            //System.out.println("duck time over...");
 
             //mostType = new Array<Tower>();
             //leastType = new Array<Tower>();
@@ -258,14 +250,14 @@ public class SpawnManager {
             double x = Math.random()*100;
 
             //Example: if DIFFICULTY was 55, then there is a
-            //55% chance the enemy spawn will counter the user's towers.
+            //55% chance the enemy spawn will counter the user's dominant tower.
             if(x >= padi.assets.getDifficulty()){
                 newEnemy = spawnRandom();
-                //System.out.println("spawn Random()");
+                System.out.println("spawn Random()");
             }
             else{
                 newEnemy = spawnCustom(mostType);
-                //System.out.println("spawn Custom()");
+                System.out.println("spawn Custom()");
             }
         }
 
@@ -317,12 +309,15 @@ public class SpawnManager {
         return e;*/
 
         if(x == 0) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
-        else if (x == 1) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-        else if (x == 2) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (x == 1) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
+        else if (x == 2) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
         else if (x == 3) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
         else if (x == 4) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
         else if (x == 5) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
         else if (x == 6) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        else if (x == 6) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+
+
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
 
     }
@@ -340,14 +335,18 @@ public class SpawnManager {
 
         else return new IronSpider();
         */
+        System.out.println("Spawning type: " + type);
 
-        if(type.equals("orange")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
-        else if (type.equals("yellow")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-        else if (type.equals("yellow")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-        else if (type.equals("army")) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
-        else if (type.equals("green")) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
-        else if (type.equals("violet")) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
-        else if (type.equals("blue")) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        if(type.equals("orangeball")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
+        else if (type.equals("pinkball")) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
+        else if (type.equals("purpleball")) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
+        else if (type.equals("armyball")) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
+        else if (type.equals("greenball")) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
+        else if (type.equals("violetball")) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
+        else if (type.equals("blueball")) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        else if (type.equals("yellowball")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+
+
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
 
 
@@ -364,18 +363,31 @@ public class SpawnManager {
     public void upgradeTower(BuildableSpot b){
         System.out.println("upgradeTower called");
         Tower t = b.getCurrentTower();
-        int newLevel;
-        String name;
+
+
         if(t.getLevel() < 3 && game.tower.getInGameMoney() >= t.getUpgradeCost()){
 
             game.tower.updateInGameMoney(game.tower.getInGameMoney() - t.getUpgradeCost());
 
+            Tower localTower = b.getCurrentTower();
 
-            //gather info
-            newLevel = t.getLevel() + 1;
-            name = t.getID();
+            Sprite sprite = padi.assets.towerAtlas.createSprite(localTower.getID() , (localTower.getLevel()+1));
 
-            buildATower("upgrade", b,name, newLevel );
+            Vector2 location = new Vector2(localTower.getX(), localTower.getY());
+            sprite.setPosition(location.x, location.y);
+
+            sprite.setRotation(localTower.getRotation());
+
+
+            //TODO: also upgrade tower abilities. freeze, aoe, etc.
+            //The stat upgrades should go here.
+            localTower.setLevel(localTower.getLevel() + 1);
+            localTower.setAttack(localTower.getAttack()*1.10f); // + 10% attack.
+            localTower.setRange(localTower.getRange() * 1.05f); // + 5% range.
+            localTower.setCost((int)((double)(localTower.getCost())*1.20)); // + 20% cost. might be overkill with the castings.
+            localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge.
+            localTower.setBulletLimit(2);
+            localTower.set(sprite);
 
         }
 
@@ -399,7 +411,7 @@ public class SpawnManager {
 
         Tower newTower = padi.assets.towerCustomPool.obtain(type, level, spawnPosition);
         newTower.setPosition(spawnPosition.x, spawnPosition.y);
-        System.out.println("buildaTower(): "  + type);
+
         /*//Create RogueTower
         if(type.equals("ROGUE")){
             newTower = padi.assets.towerCustomPool.obtain("ROGUE", level, spawnPosition);
@@ -467,7 +479,6 @@ public class SpawnManager {
 
         }
 
-        //System.out.println("towerArray size = " + towerArray.size);
     }
 
 

@@ -5,6 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Enemies.BipedalDragon;
+import com.padisDefense.game.Enemies.BlueImp;
+import com.padisDefense.game.Enemies.BlueSpider;
+import com.padisDefense.game.Enemies.Cobra;
+import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.Enemies.IronSpider;
+import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpotSpawnStorage;
@@ -28,6 +35,7 @@ public class LevelManager {
     private int level = 0;
     private Array<String> bgPics;
     BuildableSpotSpawnStorage bssStorage;
+    private Enemy boss;
 
     public LevelManager(GameScreen g, Padi p){
         game = g;
@@ -57,28 +65,34 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 10000;
+                enemyAmount = 40;
+                boss = new RedSpider();
                 break;
             case (2):
                 path = 2;
                 enemyAmount = 400;
+                boss = new BlueSpider();
                 break;
             case (3):
                 path = 3;
                 enemyAmount = 200;
+                boss = new IronSpider();
                 break;
             case (4):
                 path = 4;
                 enemyAmount = 200;
+                boss = new Cobra();
                 break;
             case (5):
                 path = 5;
                 enemyAmount = 100;
+                boss = new BipedalDragon();
                 break;
 
             default:
-                path = 1;
+                path = 6;
                 enemyAmount = 500;
+                boss = new BlueImp();
                 break;
         }
     }
@@ -89,7 +103,7 @@ public class LevelManager {
     public void setLevel(int l){level = l;}
 
 
-
+    public Enemy getBoss(){return boss;}
 
     public Sprite getBackground(){
         return new Sprite(new Texture(bgPics.get(level-1)));

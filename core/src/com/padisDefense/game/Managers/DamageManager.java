@@ -15,12 +15,22 @@ public class DamageManager {
 
 
     public DamageManager(GameScreen g, Padi p){
-        game = g; padi = p;
+        game = g;
+        padi = p;
     }
 
     public void hit(Tower t, Enemy e){
 
-        e.updateHealth(t.getAttack());//no matter the tower, targeted enemy will take SOME damage.
+        float attack;
+
+        //if tower is weak against enemy, its attack is reduced to 10%
+        if(t.isWeakAgainst(e.getName())){
+            attack = t.getAttack()*0.2f;
+        }
+        else{
+            attack = t.getAttack();
+        }
+        e.updateHealth(attack);//no matter the tower, targeted enemy will take SOME damage.
 
 
         if(t.getID().equals("STRENGTH")){
@@ -89,6 +99,9 @@ public class DamageManager {
                     float z = (float) distance / t.getRangeAOE();
                     float damage = (1 - z)*t.getAttack();
 
+                    if(t.isWeakAgainst(temp.getName())){
+                        damage = damage*0.2f;
+                    }
                     temp.updateHealth(damage);
                 }
             }//end if(!temp.equals(e)).

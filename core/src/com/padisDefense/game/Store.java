@@ -48,13 +48,17 @@ public class Store extends ScreenAdapter{
     private TextButton money, dollarSign;
     private Label message;//Prints out a message: item unlocked, not enough money, no item selected.
 
+
     public Store(Padi p){
-
-
         padi = p;
+    }
+
+    @Override
+    public void show(){
+
         stage = new Stage();
         imageList = new Array<Image>();
-        itemStorage = new ItemStorage(p);
+        itemStorage = new ItemStorage(padi);
 
         TextButton menu = new TextButton("Back to Menu", padi.assets.skin2, "default");
         TextButton worldMap = new TextButton("Back to Map", padi.assets.skin2, "default");
@@ -71,8 +75,6 @@ public class Store extends ScreenAdapter{
                 padi.setScreen(padi.main_menu);
             }
         });
-
-
 
         //array of images.
         for(int x = 0; x < itemStorage.itemArray.size; x++)
@@ -97,7 +99,7 @@ public class Store extends ScreenAdapter{
         t.add(scrollPane).padRight(250f);
 
         //background image.
-        final Image background = new Image(new Texture("test9.png"));
+        final Image background = new Image(new Texture("badlogic.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
@@ -177,12 +179,12 @@ public class Store extends ScreenAdapter{
         stage.addActor(t);
         stage.addActor(allTables);
 
-
+        Gdx.input.setInputProcessor(stage);
     }
 
 
 
-    @Override public void show() {
+  /*  @Override public void show() {
 
         itemStorage.updateSeeker();
         Gdx.input.setInputProcessor(stage);
@@ -198,7 +200,7 @@ public class Store extends ScreenAdapter{
 
 
     }
-
+*/
     @Override public void render(float delta) {
         this.stage.act();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

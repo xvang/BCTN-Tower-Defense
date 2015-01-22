@@ -23,16 +23,23 @@ public class PathStorage {
 
 
     public PathStorage(){
+
         allPaths = new Array<Array<Path<Vector2>>>();
         init();
     }
 
 
-    public Array<Path<Vector2>> getPath(int level){return allPaths.get(level);}
+    public Array<Path<Vector2>> getPath(int level){
+
+        return allPaths.get(level);
+
+
+    }
 
 
 
     public void init(){
+
 
         Array<Path<Vector2>> path1 = new Array<Path<Vector2>>();
         path1.add(new Bezier<Vector2>(new Vector2(w+100f, h*5/6), new Vector2(w*9/10, h*5/6)));

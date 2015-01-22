@@ -13,6 +13,7 @@ import com.padisDefense.game.Tests.AnimationTest;
 import com.padisDefense.game.Tests.AtlasTest;
 import com.padisDefense.game.Tests.BallSpawnTest;
 import com.padisDefense.game.Tests.BuildableSpotSpawnTest;
+import com.padisDefense.game.Tests.ChangeTextureInSpriteTest;
 import com.padisDefense.game.Tests.DefaultAnimationTest2;
 import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
 import com.padisDefense.game.Tests.GeneralTesting;
@@ -66,6 +67,7 @@ public class Padi extends Game implements ApplicationListener{
         instruction = new Instruction(this);
 
         this.setScreen(new Splash(this));
+        //this.setScreen(new ChangeTextureInSpriteTest());
         //this.setScreen(new BallSpawnTest());
         //this.setScreen(new RotateTest());
         //this.setScreen(new WidgetTest());

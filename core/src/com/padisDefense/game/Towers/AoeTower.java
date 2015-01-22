@@ -9,36 +9,34 @@ import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 
 public class AoeTower extends Tower {
 
-    private float rangeAOE = 100f;
+
 
     public AoeTower(Vector2 position, Sprite picture, int level){
-        super(picture);
+        //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
+        super(picture, 80f, 0.53f, 150f, 80, 4f);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setLevel(level);
+        setRotateRate(4);
         setBulletLimit(1);
         setCost(80);
-        setAttack(40f);
+        setAttack(80f);
         setRange(150f);
-        setChargeRate(0.14f);
+        setChargeRate(0.53f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.15f);
+        setFireRate(0.4f);
         setID("AOE");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.06f);
-        setWeakAgainst("goblin");
+        setBulletRate(0.08f);
+        setWeakAgainst("orangeball", "blueball");
         setStrongAgainst("bestgoblin");
 
     }
 
-    public AoeTower(int level){
-        setLevel(level);
-    }
 
 
-
-
+    private float rangeAOE = 100f;
     public float getRangeAOE(){return rangeAOE;}
 }

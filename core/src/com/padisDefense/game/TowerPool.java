@@ -50,7 +50,6 @@ abstract public class TowerPool {
 
 
             int i = inPool(type, level);
-            System.out.println("i = " + i);
             if(i >= 0){//if i > 0, then it is in pool.
                 Tower temp = freeObjects.get(i);
                 temp.setPosition(spawnPosition.x, spawnPosition.y);
@@ -111,9 +110,11 @@ abstract public class TowerPool {
 
         for(int x = 0; x < freeObjects.size; x++){
             if(freeObjects.get(x).getID().equals(type)){
-                if(freeObjects.get(x).getLevel() == level){
+                return x;
+                //for now the level is not tested.
+                /*if(freeObjects.get(x).getLevel() == level){
                     return x;
-                }
+                }*/
             }
         }
         return -1;

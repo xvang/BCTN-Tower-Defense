@@ -5,16 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
@@ -24,10 +16,6 @@ import com.padisDefense.game.Managers.TowerManager;
 import com.padisDefense.game.Managers.UIManager;
 
 
-/**
- *
- *
- * */
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public Padi padi;
@@ -58,48 +46,49 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 
     public GameScreen(Padi p){
-
         padi = p;
-
-
-        endGameAnimation = new EndGameAnimation();
-        tower = new TowerManager(this, p);
-        enemy = new EnemyManager(this, p);
-        level = new LevelManager(this, p);
-        spawn = new SpawnManager(this, p);
-        UI = new UIManager(this, p);
-        damage = new DamageManager(this, p);
-        bullet = new BulletManager(this, p);
-        multi = new InputMultiplexer();
-
         batch = new SpriteBatch();
-
-
-
+        endGameAnimation = new EndGameAnimation();
+        tower = new TowerManager(this, padi);
+        level = new LevelManager(this, padi);
+        enemy = new EnemyManager(this, padi);
+        spawn = new SpawnManager(this, padi);
+        UI = new UIManager(this, padi);
+        damage = new DamageManager(this, padi);
+        bullet = new BulletManager(this, padi);
+        multi = new InputMultiplexer();
     }
 
     @Override
     public void show(){
-        multi.clear();
 
+        assignLevel();
+        multi.clear();
         multi.addProcessor(UI.getStage());
         multi.addProcessor(UI);
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
+
+    }
+
+    int playLevel;
+    public void setLevel(int L){
+        playLevel = L;
     }
 
     //enemy amount and path is stored in enemy.
     //information about those things are stored in levelManager.
-    public void assignLevel(int L){
-        level.setLevel(L);//stores the level.
+    public void assignLevel(){
 
+        level.setLevel(playLevel);
         level.determineLevelSettings();//determines how many enemies to spawn, pathing, etc.
 
         enemy.setEnemyAmount(level.getEnemyAmount());//telling enemyManager how many enemy to spawn.
 
+
         enemy.setPath(level.getPath());//setting the path where all enemy will travel.
 
-        level.spawnBuildableSpots(tower, L);//getting locations for buildableSpots.
+        level.spawnBuildableSpots(tower, playLevel);//getting locations for buildableSpots.
 
         background = level.getBackground();//getting background for level.
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -217,14 +206,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     @Override
     public void dispose(){
-        System.out.println("DISPOSING GAME SCREEN NOW!");
-
         endGameAnimation.dispose();
+        level.dispose();
         enemy.dispose();
         tower.dispose();
         bullet.dispose();
         UI.dispose();
-        level.dispose();
+
         spawn.dispose();
         damage.dispose();
 
@@ -247,13 +235,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         oldEnemyCount = 0;
         newEnemyCount = 0;
 
-        multi.clear();
 
+        //below is probably unecessary. doesn't hurt to have?
+        multi.clear();
         multi.addProcessor(UI.getStage());
         multi.addProcessor(UI);
         multi.addProcessor(this);
-
-
         Gdx.input.setInputProcessor(multi);
     }
     @Override

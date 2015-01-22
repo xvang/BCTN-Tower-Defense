@@ -12,9 +12,6 @@ import com.padisDefense.game.MiscellaniousCharacters.FireBall;
 public class EndGameAnimation {
 
 
-    public EndGameAnimation(){
-        show();
-    }
     private Array<FireBall> activeFireBall;
     private Pool<FireBall> fireBallPool;
 
@@ -24,7 +21,8 @@ public class EndGameAnimation {
 
     private SpriteBatch batch;
 
-    public void show() {
+    public EndGameAnimation(){
+
         batch = new SpriteBatch();
         //FIREBALL
         activeFireBall = new Array<FireBall>();
@@ -61,7 +59,6 @@ public class EndGameAnimation {
         explosionPool.freeAll(activeExplosion);
         activeExplosion.clear();
     }
-
 
     public void run() {
 

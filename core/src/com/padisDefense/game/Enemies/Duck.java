@@ -9,9 +9,9 @@ public class Duck extends Enemy{
     public Duck(){
 
         //health, armor, texture.
-        super(true, 170,100,  new Sprite(new Texture("duck.png")));
+        super(true, 170,1,  new Sprite(new Texture("duck.png")));
         setName("duck");
-        setRate(0.11f + (float)Math.random()*0.009f);
+        setRate(0.18f + (float)Math.random()*0.009f);
 
     }
 

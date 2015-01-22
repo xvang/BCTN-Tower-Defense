@@ -12,8 +12,7 @@ import com.badlogic.gdx.utils.Array;
 //for the buildable spots.
 public class BuildableSpotSpawnStorage {
 
-    final float w = Gdx.graphics.getWidth()/100;
-    final float h = Gdx.graphics.getHeight()/100;
+
     private int level;
 
     private Array<Array<Vector2>> locations;
@@ -28,6 +27,9 @@ public class BuildableSpotSpawnStorage {
 
 
     public void init(){
+
+        final float w = Gdx.graphics.getWidth()/100;
+        final float h = Gdx.graphics.getHeight()/100;
 
         //path1.png
         Array<Vector2> one = new Array<Vector2>();

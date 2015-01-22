@@ -53,35 +53,20 @@ public class Assets {
     public TextureAtlas towerAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public TowerPool towerCustomPool;
-    //public GameScreen gameScreen;
-
 
 
     public Assets(Padi p){
 
         padi = p;
 
-        background = new Sprite(new Texture("test8.png"));
+        background = new Sprite(new Texture("badlogic.jpg"));
         //test_comment
         splash_Pages = new Array<String>();
 
         //ADD MORE SPLASH SCREENS HERE
-
-
         splash_Pages.add("limegreen.png");
 
-        splash_Pages.add("test10.png");
-        splash_Pages.add("test9.png");
-        splash_Pages.add("test8.png");
-        splash_Pages.add("test7.png");
-        splash_Pages.add("test6.png");
-        splash_Pages.add("test5.png");
-        splash_Pages.add("test4.png");
-        splash_Pages.add("test3.png");
-        splash_Pages.add("test2.png");
-        splash_Pages.add("test1.png");
         splash_Pages.add("badlogic.jpg");
-
 
         batch = new SpriteBatch();
         towerAtlas = new TextureAtlas("towers/tower.pack");
@@ -91,7 +76,7 @@ public class Assets {
         skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        background = new Sprite(new Texture("test1.png"));
+        background = new Sprite(new Texture("badlogic.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();
 
@@ -181,7 +166,6 @@ public class Assets {
 
 
     public void dispose(){
-
 
     }
 

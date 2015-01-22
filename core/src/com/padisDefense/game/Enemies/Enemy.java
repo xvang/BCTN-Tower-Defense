@@ -127,8 +127,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
         healthGreen = new Sprite(new Texture("healthbargreen.png"));
         healthRed = new Sprite(new Texture("healthbarred.png"));
 
-        healthGreen.setSize(this.getWidth()+5f, 2f);
-        healthRed.setSize(this.getWidth()+5f, 2f);
+        healthGreen.setSize(this.getWidth()+5f, 4f);
+        healthRed.setSize(this.getWidth()+5f, 4f);
         oldPosition = new Vector2();
         newPosition = new Vector2();
 

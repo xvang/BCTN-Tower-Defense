@@ -8,26 +8,25 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class SpeedTower extends Tower {
 
-    private float attack = 30;
-
 
     public SpeedTower(Vector2 position, Sprite picture, int level){
-        super(picture);
+        //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
+        super(picture, 5f, 0.02f, 150f, 50, 4f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setLevel(level);
         setBulletLimit(1);
-        setCost(100);
-        setRange(350f);
-        setAttack(1f);
-        setChargeRate(0.2f);
+        setCost(50);
+        setRange(150f);
+        setAttack(5f);
+        setChargeRate(0.02f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.12f);
+        setFireRate(0.001f);
         setID("SPEED");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.09f);
-        setWeakAgainst("bestgoblin");
+        setBulletRate(0.12f);
+        setWeakAgainst("armyball", "yellowball");
         setStrongAgainst("goblin");
     }
 
@@ -35,16 +34,6 @@ public class SpeedTower extends Tower {
         setLevel(level);
     }
 
-    @Override
-    //rogue tower has a chance of healing the enemy
-    //50% chance of healing by 50% of its attack.
-    public float getAttack(){
-        if(Math.random()*100f > 60f){
-            return -attack/2;
-        }
 
-
-        return attack;
-    }
 
 }

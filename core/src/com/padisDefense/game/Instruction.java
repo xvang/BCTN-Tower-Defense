@@ -40,9 +40,13 @@ public class Instruction extends ScreenAdapter {
     String displayPage;
     Label pagesLeft;
 
-    Instruction(Padi p){
-
+    public Instruction(Padi p){
         padi = p;
+    }
+    @Override
+    public void show(){
+
+
         slides = new Array<Image>();
         final Group buttons = new Group();
         stage = new Stage();
@@ -133,13 +137,14 @@ public class Instruction extends ScreenAdapter {
         stage.addActor(buttons);
         stage.addActor(pagesLeft);
 
-    }
-
-    @Override
-    public void show(){
         Gdx.input.setInputProcessor(stage);
     }
 
+  /*  @Override
+    public void show(){
+        Gdx.input.setInputProcessor(stage);
+    }
+*/
 
     @Override
     public void render(float delta){

@@ -35,8 +35,12 @@ public class MainMenu extends ScreenAdapter {
     private TweenManager tweenManager;
     Table table;
 
-    public MainMenu (Padi p){
+    public MainMenu(Padi p){
         padi = p;
+    }
+    @Override
+    public void show(){
+
 
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
@@ -150,13 +154,24 @@ public class MainMenu extends ScreenAdapter {
 
 
 
+        Gdx.input.setInputProcessor(stage);
+        //Fading Animation
+        aurelienribon.tweenengine.Timeline.createSequence().beginSequence()
+                .push(Tween.from(padi.assets.background, FadeActor.ALPHA, 3f).target(0))
+                        //.push(Tween.from(foreground, FadeActor.ALPHA, 2f).target(0))
+                .start(tweenManager);
+
+        //Table fade-in
+        Tween.from(table, FadeActor.ALPHA, 0.1f).target(0).start(tweenManager);
+        Tween.from(table, FadeActor.Y, 1f).target(Gdx.graphics.getHeight()).start(tweenManager);
+
 
     }
 
     //Sprite background;
 
 
-    @Override
+    /*@Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         //Fading Animation
@@ -169,7 +184,7 @@ public class MainMenu extends ScreenAdapter {
         Tween.from(table, FadeActor.ALPHA, 0.1f).target(0).start(tweenManager);
         Tween.from(table, FadeActor.Y, 1f).target(Gdx.graphics.getHeight()).start(tweenManager);
 
-    }
+    }*/
 
 
     @Override

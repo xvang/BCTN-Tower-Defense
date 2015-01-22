@@ -36,6 +36,7 @@ public class EnemyManager {
     private float spawnPause = 0f;
 
     protected Array<Enemy>  activeEnemy;
+    Enemy boss;
 
 
     //TODO: find out why a high arc value makes the bullet disappear.
@@ -45,7 +46,6 @@ public class EnemyManager {
 
     /**CONSTRUCTOR**/
     public EnemyManager(GameScreen g, Padi p){
-
         padi = p;
         game = g;
         renderer = new ImmediateModeRenderer20(false, false, 0);
@@ -56,9 +56,13 @@ public class EnemyManager {
     }
 
 
+
     public void setEnemyAmount(int newEA){spawnsLeft = newEA;enemyCounter = newEA;}
 
     public void setPath(int p){
+
+        if(storage == null)
+            System.out.println("null storage");
         switch(p){
 
             case(1):
@@ -93,20 +97,54 @@ public class EnemyManager {
             batch.begin();
             run();
             batch.end();
-            checkForDead();
+
+            if(activeEnemy.size > 0)
+                checkForDead();
 
             spawnPause += Gdx.graphics.getDeltaTime();
             //Calculating if spawning is necessary.
+
+
             if(activeEnemy.size < 50 && spawnsLeft > 0 && spawnPause >= 1.0f){
+                //Every second, 1 to 4 enemies will spawn.
+                //if the number of enemies left is less, then the # of enemies minus one will spawn instead.
+                //And then in the next iteration, the boss will spawn.
+                //TODO:once game.reset() is called, boss will be thrown into enemy pool.
+                // It should never be created, but it's still in there. Remove it somehow?
+
 
                 spawnPause = 0f;
-                int amount = (int)((Math.random()* 3) + 1);
-                if(spawnsLeft <= 4)
-                    amount = spawnsLeft;
 
-                for(int x = 0; x < amount; x++){
-                    spawnsLeft--;
-                    game.spawn.spawnEnemy(this);
+                if(spawnsLeft == 1){
+                    if(activeEnemy.size == 0){
+                        try{
+                            boss = game.level.getBoss();
+                            boss.init(-100f, 0);
+                            boss.setTime(0f);
+                            boss.setCurrentPath(0);
+                            boss.setHealth(boss.getOriginalHealth());
+
+                            boss.alive = true;
+                            activeEnemy.add(boss);
+                            spawnsLeft--;
+                        }catch(Exception e){
+                            System.out.println("BOSS IS A NO GO");
+                        }
+
+                    }
+
+                }
+                else{
+                    int amount = (int)((Math.random()* 4) + 1);
+
+                    if(spawnsLeft <= 4 && spawnsLeft > 0)
+                        amount = spawnsLeft - 1;
+
+
+                    for(int x = 0; x < amount; x++){
+                        spawnsLeft--;
+                        game.spawn.spawnEnemy(this);
+                    }
                 }
             }
         }
@@ -124,12 +162,12 @@ public class EnemyManager {
         float time;
         Enemy currentEnemy;
 
-        /*if(activeEnemy.size == 1){
+        if(activeEnemy.size == 1){
             System.out.println("One left: " + activeEnemy.get(0).getLocation() + "      enemyCounter = " +
                     enemyCounter + "    spawnsLeft = "  + spawnsLeft +
                     " , Time = " + activeEnemy.get(0).getTime() +
             ",  HP = " + activeEnemy.get(0).getHealth());
-        }*/
+        }
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
 
@@ -244,9 +282,12 @@ public class EnemyManager {
                 for(int s = 0; s < game.tower.getTowerArray().size;s++){
                     currentTower = game.tower.getTowerArray().get(s);
 
-                    if(currentTower.getTarget().equals(activeEnemy.get(x))){
-                        currentTower.setOldTargetPosition(activeEnemy.get(x).getLocation());
-                    }
+                    //when game.reset() is called the tower's target is set to null.
+                    //this seems to be a bandaid solution.
+                    if(currentTower.getTarget() != null)
+                        if(currentTower.getTarget().equals(activeEnemy.get(x))){
+                            currentTower.setOldTargetPosition(activeEnemy.get(x).getLocation());
+                        }
                 }
             }
         }
@@ -307,12 +348,13 @@ public class EnemyManager {
 
     public void reset(){
 
-        for(int x = 0; x < activeEnemy.size; x++){
-            Enemy e = activeEnemy.get(x);
 
-            activeEnemy.removeIndex(x);
-            padi.assets.enemyCustomPoolL.free(e);
-        }
+
+        padi.assets.enemyCustomPoolL.freeAll(activeEnemy);
+        activeEnemy.clear();
+        padi.assets.enemyCustomPoolL.clear();
+
+
         countDownTimer  = 10f;
 
     }

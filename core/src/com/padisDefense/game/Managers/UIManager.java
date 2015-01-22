@@ -33,7 +33,7 @@ public class UIManager implements InputProcessor{
     Padi padi;
     GameScreen game;
     //Used to create/upgrade towers
-    public boolean  GAME_OVER = false;
+    public boolean GAME_OVER = false;
     Stage stage;
     public Table masterTable;
     public TextButton hideButton;
@@ -49,7 +49,7 @@ public class UIManager implements InputProcessor{
     private Label timeMessage;
 
     private Table dragTowers;//table containing towers that can be dragged to build.
-    private Array<Image> image;
+
 
 
 
@@ -93,19 +93,6 @@ public class UIManager implements InputProcessor{
     public UIManager(GameScreen g, Padi p){
         game = g;
         padi = p;
-        this.init();
-    }
-
-    public UIManager(){
-        this.init();
-    }
-
-    public void setGame(GameScreen g){
-        game = g;
-    }
-
-    public void init(){
-
         stage = new Stage();
 
         createDragTowers();
@@ -152,6 +139,10 @@ public class UIManager implements InputProcessor{
         stage.addActor(pauseButtonTable);
         stage.addActor(messageTable);
 
+    }
+
+    public void setGame(GameScreen g){
+        game = g;
     }
 
     public Stage getStage(){return stage;}
@@ -312,18 +303,6 @@ public class UIManager implements InputProcessor{
         left = new Rectangle(-250f, 0, 250f, h);
         right = new Rectangle(w, 0, 250f, h);
 
-        /*System.out.println("top : " + top);
-        System.out.println("bottom : " + bottom);
-        System.out.println("left : " + left);
-        System.out.println("right : " + right);
-        System.out.println("tRec : " + tRec);
-        System.out.println("t : " + t.getX() + ", " + t.getY() + ", " + t.getWidth() + ", " + t.getHeight());
-        System.out.println();
-        System.out.println();*/
-
-        //default position. if it isn't out of bounds, it should not move.
-        //'t' is a local variable that points to the table.
-        //it could point to 'clickedTowerTable' or 'clickedOptionTable'
         t.setPosition(b.getX(), b.getY() - 30f);
 
 
@@ -652,7 +631,7 @@ public class UIManager implements InputProcessor{
 
         for(String s: names){
             TextButton t = new TextButton(s, padi.assets.skin2, "default");
-            t.setSize(60f, 20f);
+            t.setSize(60f, 35f);
             t.setName(s);
             towerOptions.add(t);
         }
@@ -677,7 +656,7 @@ public class UIManager implements InputProcessor{
 
             if(x % 3 == 0 && x != 0) clickedTowerTable.row();
 
-            clickedTowerTable.add(towerOptions.get(x)).width(100f).height(35f).pad(8f);
+            clickedTowerTable.add(towerOptions.get(x)).width(100f).height(45f).pad(8f);
             clickedTowerTable.pad(5f);
         }
 
@@ -740,18 +719,19 @@ public class UIManager implements InputProcessor{
 
     public void createDragTowers(){
 
+        final Array<Image> image;
         dragTowers = new Table();
         image = new Array<Image>();
         shapeRenderer = new ShapeRenderer();
 
         //Creating the images for the towers.
 
-        final Image rogue = new Image(new Texture("towers/ROGUE_1.png"));
-        final Image speed = new Image(new Texture("towers/SPEED_1.png"));
-        final Image laser = new Image(new Texture("towers/LASER_1.png"));
-        final Image sniper = new Image(new Texture("towers/SNIPER_1.png"));
-        final Image strength = new Image(new Texture("towers/STRENGTH_1.png"));
-        final Image aoe = new Image(new Texture("towers/AOE_1.png"));
+        final Image rogue = new Image(padi.assets.towerAtlas.findRegion("ROGUE", 1));
+        final Image speed = new Image(padi.assets.towerAtlas.findRegion("SPEED", 1));
+        final Image laser = new Image(padi.assets.towerAtlas.findRegion("LASER", 1));
+        final Image sniper = new Image(padi.assets.towerAtlas.findRegion("SNIPER", 1));
+        final Image strength = new Image(padi.assets.towerAtlas.findRegion("STRENGTH", 1));
+        final Image aoe = new Image(padi.assets.towerAtlas.findRegion("AOE", 1));
 
         //giving each image the appropriate names.
         rogue.setName("rogue");
@@ -773,7 +753,7 @@ public class UIManager implements InputProcessor{
         for(int w = 0; w < image.size; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
-            dragTowers.add(image.get(w)).width(50f).height(50f).pad(40f);
+            dragTowers.add(image.get(w)).width(50f).height(50f).pad(20f);
 
 
         }
@@ -797,9 +777,8 @@ public class UIManager implements InputProcessor{
 
                     dragTowers.clear();
                     for(int w = 0; w < image.size; w++) {
-
                         if (w % 2 == 0 && w != 0) dragTowers.row();
-                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(40f);
+                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(20f);
                     }
                 }
             });
@@ -881,8 +860,8 @@ public class UIManager implements InputProcessor{
         for(int x = 0; x < towerOptions.size; x++)
             towerOptions.get(x).clear();
 
-        for(int x = 0; x < image.size; x++)
-            image.get(x).clear();
+        //for(int x = 0; x < image.size; x++)
+        //    image.get(x).clear();
     }
 
     public void reset(){
@@ -898,6 +877,8 @@ public class UIManager implements InputProcessor{
         stopUpdatingChargeMeter = false;
         PAUSED = false;
         updateTimerMessage();
+        hideButton.setText("Hide");
+
 
         loadingBar.setSize(0, loadingBar.getHeight());
         currentCharge = 0;
