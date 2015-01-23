@@ -30,7 +30,7 @@ public class TowerManager{
     GameScreen game;
     private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
-    private int inGameMoney = 3000;
+    private int inGameMoney = 1000;
     SpriteBatch batch;
     Vector2 arbitraryPoint;
     ShapeRenderer shape;
@@ -44,7 +44,7 @@ public class TowerManager{
         batch = new SpriteBatch();
         arbitraryPoint = new Vector2();
         shape = new ShapeRenderer();
-        populateTowerPool();
+        //populateTowerPool();
     }
 
 
@@ -281,6 +281,21 @@ public class TowerManager{
             inGameMoney += (int)(t.getCurrentTower().getCost()*0.6);
             towerArray.removeValue(t.getCurrentTower(), false);
 
+
+            //so if tower was upgraded, when it returns to pool, it should revert to level 1.
+            //resets the stat.
+            System.out.println("Before reset clearBuildable(): " + pointer.getLevel());
+            pointer.reset();
+            System.out.println("After reset clearBuildable(): " + pointer.getLevel());
+            //reset the picture.
+
+            Sprite sprite = padi.assets.towerAtlas.createSprite(pointer.getID(), 1);
+            pointer.set(sprite);
+
+
+
+
+            //return to pool.
             padi.assets.towerCustomPool.free(pointer);
             t.setCurrentTower(null);
             t.setHasTower(false);
@@ -380,10 +395,13 @@ public class TowerManager{
                 shape.circle(t.getCenterX(), t.getCenterY(), t.getRange());
                 shape.end();
                 Gdx.gl.glDisable(GL20.GL_BLEND);
+
+                //calls the UI object to display tower's stats.
+                game.UI.updateStatsTable(t);
+                game.UI.statsTable.setVisible(true);
+                break;//only 1 tower can be clicked, so no point in checking the remaining towers.
             }
-
         }
-
     }
 
     public double findDistance(Vector2 a, Vector2 b){
@@ -410,21 +428,23 @@ public class TowerManager{
 
 
         //resetting all the images to level 1
-        for(int x = 0; x < towerArray.size; x++){
-            towerArray.get(x).state = true;
-            towerArray.get(x).hasTarget = false;
+        /*for(int x = 0; x < towerArray.size; x++){
             towerArray.get(x).reset();
             Sprite sprite = padi.assets.towerAtlas.createSprite(towerArray.get(x).getID(), 1);
             towerArray.get(x).set(sprite);
-        }
+        }*/
+
         padi.assets.towerCustomPool.freeAll(towerArray);
         towerArray.clear();
+        padi.assets.towerCustomPool.clear();
 
         //resetting pointer in buildablespot.
         for(int x = 0; x < buildableArray.size; x++)
             buildableArray.get(x).setCurrentTower(null);
 
 
+
+        inGameMoney = 1000;
     }
 
 }

@@ -253,11 +253,11 @@ public class SpawnManager {
             //55% chance the enemy spawn will counter the user's dominant tower.
             if(x >= padi.assets.getDifficulty()){
                 newEnemy = spawnRandom();
-                System.out.println("spawn Random()");
+                //System.out.println("spawn Random()");
             }
             else{
                 newEnemy = spawnCustom(mostType);
-                System.out.println("spawn Custom()");
+                //System.out.println("spawn Custom()");
             }
         }
 
@@ -324,18 +324,7 @@ public class SpawnManager {
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-        /*if(type.equals("ironspider")) return new IronSpider();
-        else if (type.equals("bluespider")) return new BlueSpider();
-        else if (type.equals("redspider")) return new RedSpider();
-        else if (type.equals("golem")) return new Golem();
-        else if (type.equals("cobra")) return new Cobra();
-        else if (type.equals("mage")) return new Mage();
-        else if (type.equals("bipedaldragon")) return new BipedalDragon();
-
-
-        else return new IronSpider();
-        */
-        System.out.println("Spawning type: " + type);
+       // System.out.println("Spawning type: " + type);
 
         if(type.equals("orangeball")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
         else if (type.equals("pinkball")) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
@@ -361,13 +350,15 @@ public class SpawnManager {
     //it gathers the necessary information, then its suppose to delete the current tower
     //then it calls buildATower() on the buildablespot.
     public void upgradeTower(BuildableSpot b){
-        System.out.println("upgradeTower called");
+        //System.out.println("upgradeTower called");
         Tower t = b.getCurrentTower();
 
 
-        if(t.getLevel() < 3 && game.tower.getInGameMoney() >= t.getUpgradeCost()){
+        if(t.getLevel() < 3 && game.tower.getInGameMoney() >= t.getCost()){
 
-            game.tower.updateInGameMoney(game.tower.getInGameMoney() - t.getUpgradeCost());
+
+            game.tower.updateInGameMoney(-(int)t.getCost());
+
 
             Tower localTower = b.getCurrentTower();
 

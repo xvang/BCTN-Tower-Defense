@@ -417,7 +417,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         clicked = false;
         explode = false;
         state = true;
-        alive = false;
+        alive = true;
         target = null;
         target = new Enemy(new Vector2(-50f, -100f));//dummy pointer.
         attack = originalAttack;

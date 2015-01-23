@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpot;
+import com.padisDefense.game.Towers.Tower;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -90,6 +91,11 @@ public class UIManager implements InputProcessor{
     private Table pauseButtonTable; // to resize button
 
 
+    //displays tower stats in mastertable.
+    public Table statsTable;
+    private Label attackLabel, rangeLabel, costLabel, levelLabel, nameLabel;
+
+
     public UIManager(GameScreen g, Padi p){
         game = g;
         padi = p;
@@ -103,7 +109,7 @@ public class UIManager implements InputProcessor{
         createOptionTable();
         createMessageTable();
         createPauseTable();
-
+        createStatsTable();
         createMasterTable();
 
         //button to hide the UI
@@ -191,6 +197,15 @@ public class UIManager implements InputProcessor{
         }
     }
 
+    public void updateStatsTable(Tower t){
+
+        attackLabel.setText("Attack: " + String.valueOf((int)t.getAttack()));
+        rangeLabel.setText("Range: " + String.valueOf((int)t.getRange()));
+        costLabel.setText("Upgrade Cost: $" + String.valueOf((int)t.getCost()));
+        levelLabel.setText("Level: " + String.valueOf(t.getLevel()));
+        nameLabel.setText("Name: " + t.getID());
+
+    }
     public void updateUIStuff(int enemyCounter, int inGameMoney){
         if(!GAME_OVER){
             updateEnemyMessage(enemyCounter);
@@ -363,6 +378,7 @@ public class UIManager implements InputProcessor{
                 clickedOptionTable.setVisible(false);
                 clickedTowerTable.setVisible(false);
                 BS.get(x).getCurrentTower().clicked = false;
+                statsTable.setVisible(false);
             }
 
 
@@ -373,6 +389,25 @@ public class UIManager implements InputProcessor{
     }
 
 
+    public void createStatsTable(){
+        statsTable = new Table();
+
+        nameLabel = new Label("\n", padi.assets.someUIskin);
+        attackLabel = new Label("\n", padi.assets.someUIskin);
+        rangeLabel = new Label("\n", padi.assets.someUIskin);
+        costLabel = new Label("\n", padi.assets.someUIskin);
+        levelLabel = new Label("\n", padi.assets.someUIskin);
+
+
+        statsTable.add(nameLabel).row();
+        statsTable.add(attackLabel).row();
+        statsTable.add(rangeLabel).row();
+        statsTable.add(costLabel).row();
+        statsTable.add(levelLabel).row();
+
+        statsTable.setVisible(false);
+
+    }
     public void createMessageTable(){
         moneyMessage = new Label("Bank: $ ", padi.assets.someUIskin);
         enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
@@ -408,7 +443,8 @@ public class UIManager implements InputProcessor{
                 new TextureRegion(new Texture("uitablebackground.png")));
 
         masterTable.add(countDownTable).row();
-        masterTable.add(dragTowers);
+        masterTable.add(statsTable).row();
+        masterTable.add(dragTowers).row();
 
     }
 
@@ -801,8 +837,10 @@ public class UIManager implements InputProcessor{
     public boolean touchDown(int x, int y, int pointer, int button) {
         clickedOptionTable.setVisible(false);
         clickedTowerTable.setVisible(false);
-        for(int s = 0; s < game.tower.getTowerArray().size; s++)
+        for(int s = 0; s < game.tower.getTowerArray().size; s++){
             game.tower.getTowerArray().get(s).clicked = false;
+        }
+        statsTable.setVisible(false);
         return false;}
 
     @Override

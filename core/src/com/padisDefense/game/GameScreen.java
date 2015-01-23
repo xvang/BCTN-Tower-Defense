@@ -63,6 +63,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public void show(){
 
         assignLevel();
+        tower.populateTowerPool();
         multi.clear();
         multi.addProcessor(UI.getStage());
         multi.addProcessor(UI);
@@ -112,6 +113,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             batch.end();
 
             tower.drawCircles();
+
 
             enemy.startEnemy();
 
@@ -185,7 +187,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     //TODO: make different types of enemies worth differently.
     public void calcMoney(){
-        tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 10));
+        tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 2));
         oldEnemyCount = newEnemyCount;
     }
 

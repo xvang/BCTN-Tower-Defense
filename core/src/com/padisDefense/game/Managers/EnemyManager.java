@@ -162,12 +162,12 @@ public class EnemyManager {
         float time;
         Enemy currentEnemy;
 
-        if(activeEnemy.size == 1){
+       /* if(activeEnemy.size == 1){
             System.out.println("One left: " + activeEnemy.get(0).getLocation() + "      enemyCounter = " +
                     enemyCounter + "    spawnsLeft = "  + spawnsLeft +
                     " , Time = " + activeEnemy.get(0).getTime() +
             ",  HP = " + activeEnemy.get(0).getHealth());
-        }
+        }*/
         for(int x = 0; x < activeEnemy.size; x++){
             currentEnemy = activeEnemy.get(x);
 

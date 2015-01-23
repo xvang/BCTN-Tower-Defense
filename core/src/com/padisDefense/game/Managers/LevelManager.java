@@ -65,7 +65,7 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 40;
+                enemyAmount = 10000;
                 boss = new RedSpider();
                 break;
             case (2):
