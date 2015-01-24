@@ -13,6 +13,8 @@ import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpot;
+import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.SniperTower;
 import com.padisDefense.game.Towers.Tower;
 
 /**
@@ -135,6 +137,11 @@ public class TowerManager{
                 }
             }
 
+
+            if(currentTower.getID().equals("ROGUE") && currentTower.getLevel() == 3){
+                ((RogueTower)currentTower).flower.draw(batch);
+                currentTower.spin();
+            }
             currentTower.draw(batch);
             //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
 

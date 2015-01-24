@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.CustomPool;
 import com.padisDefense.game.Enemies.Ball;
@@ -379,6 +380,13 @@ public class SpawnManager {
             localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge
             localTower.set(sprite);
 
+            if(localTower.getID().equals("ROGUE") && localTower.getLevel() == 3){
+
+                ((RogueTower)(localTower)).flower = padi.assets.towerAtlas.createSprite("roguespin");
+                ((RogueTower)(localTower)).flower.setCenter(localTower.getCenterX(), localTower.getCenterY());
+                System.out.println(localTower.getLocation());
+            }
+
         }
 
     }
@@ -401,40 +409,6 @@ public class SpawnManager {
 
         Tower newTower = padi.assets.towerCustomPool.obtain(type, level, spawnPosition);
         newTower.setPosition(spawnPosition.x, spawnPosition.y);
-
-        /*//Create RogueTower
-        if(type.equals("ROGUE")){
-            newTower = padi.assets.towerCustomPool.obtain("ROGUE", level, spawnPosition);
-
-        }
-
-        //Create SniperTower
-        else if(type.equals("SNIPER")) {
-            picture = padi.assets.towerAtlas.createSprite("SNIPER", level);
-            newTower = new SniperTower(spawnPosition, picture);
-        }
-
-        //Create StrengthTower
-        else if(type.equals("STRENGTH")) {
-            picture = padi.assets.towerAtlas.createSprite("STRENGTH", level);
-            newTower = new StrengthTower(spawnPosition, picture);
-        }
-
-        else if(type.equals("SPEED")){
-            picture = padi.assets.towerAtlas.createSprite("SPEED", level);
-            newTower = new SpeedTower(spawnPosition, picture);
-        }
-
-        else if(type.equals("AOE")){
-            picture = padi.assets.towerAtlas.createSprite("AOE", level);
-            newTower = new AoeTower(spawnPosition, picture);
-        }
-
-        else if(type.equals("LASER")){
-            picture = padi.assets.towerAtlas.createSprite("LASER", level);
-            newTower = new LaserTower(spawnPosition, picture);
-
-        }*/
 
 
         //TODO: apply stat changes.

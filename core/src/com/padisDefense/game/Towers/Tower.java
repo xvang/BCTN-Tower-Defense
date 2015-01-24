@@ -71,6 +71,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
     public IceSparkle sparkle;
 
+
     //for when bullet hits enemy.
     public Explosion explosion;
     public boolean explode = false;//if true, then bullet hit enemy and run the animation.
@@ -430,7 +431,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     }
 
     public void userReset(){}
-
+    public void spin(){}
     public void dispose(){
         //getTexture().dispose();
         activeBullets.clear();

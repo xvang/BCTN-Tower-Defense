@@ -9,6 +9,7 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class RogueTower extends Tower {
 
+    public Sprite flower; // only rogue tower uses this. for now.
     public RogueTower(Vector2 position, Sprite picture, int level){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 20f, 0.021f, 150f, 25, 4f);
@@ -18,7 +19,7 @@ public class RogueTower extends Tower {
         state = true;
         setID("ROGUE");
         setCost(25);
-        setAttack(20);
+        setAttack(20f);
         setRange(200f);
         setIncomeRate(4f);
         setChargeRate(0.021f);
@@ -32,12 +33,17 @@ public class RogueTower extends Tower {
     }
 
 
-    private float attack = 20;
+    public void spin(){
+        flower.rotate(1);
+    }
+
+
+    private float attack = 20f;
     @Override
     //rogue tower has a chance of healing the enemy
     //50% chance of healing by 50% of its attack.
     public float getAttack(){
-        if(Math.random()*100f > 60f){
+        if(Math.random()*100f > 50f){
             return -attack/2;
         }
 
