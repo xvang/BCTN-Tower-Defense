@@ -17,7 +17,7 @@ public class SniperTower extends Tower {
         setBulletLimit(1);
         setCost(100);
         setAttack(100f);
-        setRange(300f);
+        setRange(200f);
         setChargeRate(0.04f);
         setIncomeRate(4f);
         state = true;
@@ -29,7 +29,4 @@ public class SniperTower extends Tower {
         setStrongAgainst("goblin");
     }
 
-    public SniperTower(int level){
-        setLevel(level);
-    }
 }

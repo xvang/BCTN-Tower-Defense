@@ -118,7 +118,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 3f;
+        rotateRate = 3.5f;
     }
 
     public Tower( Sprite sprite){
@@ -142,7 +142,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 3f;
+        rotateRate = 6f;
     }
 
     public Tower(Sprite sprite, float attack, float chargeRate, float range, float cost, float incomeRate){
@@ -177,7 +177,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 3f;
+        rotateRate = 6f;
     }
 
     public void setCost(int newCost){cost = newCost;}

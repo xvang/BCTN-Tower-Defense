@@ -19,7 +19,7 @@ public class RogueTower extends Tower {
         setID("ROGUE");
         setCost(25);
         setAttack(20);
-        setRange(150f);
+        setRange(200f);
         setIncomeRate(4f);
         setChargeRate(0.021f);
         setLevel(level);

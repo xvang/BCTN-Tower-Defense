@@ -11,19 +11,19 @@ public class LaserTower extends Tower {
     public LaserTower(Vector2 position, Sprite picture, int level){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
 
-        super(picture, 15, 0.025f, 150f, 60, 1);
+        super(picture, 15, 0.025f, 150f, 60, 1f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
         setLevel(level);
         setBulletLimit(1);
         setCost(60);
-        setAttack(15);
-        setRange(150f);
+        setAttack(20f);
+        setRange(200f);
         setChargeRate(0.025f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.008f);
+        setFireRate(0.08f);
         setID("LASER");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.10f);
@@ -32,7 +32,4 @@ public class LaserTower extends Tower {
         setStrongAgainst("goblin");
     }
 
-    public LaserTower(int level){
-        setLevel(level);
-    }
 }

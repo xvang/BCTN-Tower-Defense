@@ -19,10 +19,10 @@ public class AoeTower extends Tower {
         setPosition(position.x, position.y);
         setLevel(level);
         setRotateRate(4);
-        setBulletLimit(2);
+        setBulletLimit(1);
         setCost(80);
         setAttack(80f);
-        setRange(150f);
+        setRange(200f);
         setChargeRate(0.53f);
         setIncomeRate(4f);
         state = true;

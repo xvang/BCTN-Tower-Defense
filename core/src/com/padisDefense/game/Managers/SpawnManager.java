@@ -376,8 +376,7 @@ public class SpawnManager {
             localTower.setAttack(localTower.getAttack()*1.10f); // + 10% attack.
             localTower.setRange(localTower.getRange() * 1.05f); // + 5% range.
             localTower.setCost((int)((double)(localTower.getCost())*1.20)); // + 20% cost. might be overkill with the castings.
-            localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge.
-            localTower.setBulletLimit(2);
+            localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge
             localTower.set(sprite);
 
         }

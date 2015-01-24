@@ -86,27 +86,33 @@ public class TowerManager{
             Tower currentTower = towerArray.get(x);
             //towerArray.get(x).spinning();
 
+            if(stillActiveBullets(currentTower)){
+                //System.out.println(currentTower.getActiveBullets().get(0).getLocation());
+                //currentTower.getActiveBullets().get(0).draw(batch);
+                //System.out.println(currentTower.getActiveBullets().get(0).getTime());
+            }
+
+            //Example: if tower's target dies, then no need
+            //to check if tower's target went out of range.
+            //tower.hasTarget would have been set to false in checkForDead()
+            //the goal of the check___() functions is to toggle the hasTarget boolean
+            if(currentTower.hasTarget) checkForDead(currentTower);
+            if(currentTower.hasTarget) checkRange(currentTower);
+            if(currentTower.hasTarget) checkSpecialConditions(currentTower);
 
 
-            checkRange(currentTower);
-            checkForDead(currentTower);
-            checkSpecialConditions(currentTower);
+            if(!currentTower.hasTarget) assignTargets(game.enemy, currentTower);
 
-            //System.out.println(towerArray.get(x).getTarget().isDead());
-            //System.out.println("Target distance: " + findDistance(towerArray.get(x).getLocation(), towerArray.get(x).getTarget().getLocation()));
-            //towerArraycurrentTower.draw(batch);.get(x).getTarget().rotate(10);
-
-
-
-            if(!currentTower.hasTarget)
-                assignTargets(game.enemy, currentTower);
-
-            game.bullet.shooting(batch, currentTower,
+            //System.out.println("before: " + currentTower.getActiveBullets().size);
+            if (currentTower.hasTarget) game.bullet.shooting(batch, currentTower,
                     currentTower.getTarget());
 
-            checkRange(currentTower);
-            checkForDead(currentTower);
-            checkSpecialConditions(currentTower);
+
+            //System.out.println("after: " + currentTower.getActiveBullets().size);
+
+            if(currentTower.hasTarget) checkForDead(currentTower);
+            if(currentTower.hasTarget) checkRange(currentTower);
+            if(currentTower.hasTarget) checkSpecialConditions(currentTower);
 
             if(currentTower.hasTarget){
                 calcRotate(currentTower, currentTower.getTarget());
@@ -157,6 +163,9 @@ public class TowerManager{
             if(t.getTarget().getRate() == 0){
                 t.hasTarget = false;
                 t.lockedOnTarget = false;
+                t.rotateDestination = 0;
+                t.getPool().freeAll(t.getActiveBullets());
+                t.getActiveBullets().clear();
             }
         }
 
@@ -167,11 +176,13 @@ public class TowerManager{
 
         if(t.hasTarget){
             double distance = findDistance(t.getLocation(), t.getTarget().getLocation());
-
-            //System.out.println((int)distance);
+            //System.out.println("distance: " + (int)distance + ", " + t.getRange());
             if(distance > t.getRange()){
                 t.hasTarget = false;
                 t.lockedOnTarget = false;
+                t.rotateDestination = 0;
+                t.getPool().freeAll(t.getActiveBullets());
+                t.getActiveBullets().clear();
             }
 
             else{
@@ -185,18 +196,12 @@ public class TowerManager{
 
         //setting oldTargetPosition, like in checkRange().
         if(t.hasTarget){
-
             if(!t.getTarget().alive){
                 t.hasTarget = false;
                 t.lockedOnTarget = false;
-
-
-                for(int x = 0; x < t.getActiveBullets().size; x++){
-                    Bullet b = t.getActiveBullets().get(x);
-
-                    b.setTime(0f);
-                    t.getPool().free(b);
-                }
+                t.rotateDestination = 0;
+                t.getPool().freeAll(t.getActiveBullets());
+                t.getActiveBullets().clear();
             }
             else{
                 t.setOldTargetPosition(t.getTarget().getLocation());
@@ -208,9 +213,8 @@ public class TowerManager{
 
     //Assigns targets to towers. Has a small pause.
     public void assignTargets(EnemyManager enemy, Tower t){
-        double currentMin, previousMin = 2000;
-
-
+        double currentMin, previousMin = 20000;//20000 is just a random value to make things work.
+        //System.out.println("assigneing targets");
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
         }
@@ -220,16 +224,12 @@ public class TowerManager{
             //checks all the  enemies, and finds the closest one.
             for(int x = 0; x < enemy.getActiveEnemy().size; x++){
 
-                if(enemy.getActiveEnemy().get(x) == null)
-                    System.out.println("enemy is null in towermanager.java");
                 currentMin = findDistance(enemy.getActiveEnemy().get(x).getLocation(), t.getLocation());
-
                 if(currentMin < previousMin){
                     temp = enemy.getActiveEnemy().get(x);
                     previousMin = currentMin;
                 }
             }
-
             //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
 
@@ -237,8 +237,8 @@ public class TowerManager{
                 //needs to be checked.
                 //else, tower's target is set and we are good to go.
                 //the nullpointer warnings are not errors.
-                if(t.getID().equals("STRENGTH")){
-                    if(temp.getRate() >= 0f){
+                if(t.getID().equals("STRENGTH")){//strength stops attacking after enemy's speed = 0
+                    if(temp.getRate() >= 0f){   //strength's ability is to make enemy's speed = 0
                         t.setTarget(temp);
                         t.hasTarget = true;
                         t.setOldTargetPosition(temp.getLocation());
@@ -246,7 +246,6 @@ public class TowerManager{
                         t.lockedOnTarget = false;
                     }
                 }
-
                 else{
                     t.setTarget(temp);
                     t.hasTarget = true;
@@ -254,7 +253,6 @@ public class TowerManager{
                     t.pause = 0.2f;
                     t.lockedOnTarget = false;
                 }
-
             }
         }
     }
@@ -284,11 +282,9 @@ public class TowerManager{
 
             //so if tower was upgraded, when it returns to pool, it should revert to level 1.
             //resets the stat.
-            System.out.println("Before reset clearBuildable(): " + pointer.getLevel());
             pointer.reset();
-            System.out.println("After reset clearBuildable(): " + pointer.getLevel());
-            //reset the picture.
 
+            //reset the picture.
             Sprite sprite = padi.assets.towerAtlas.createSprite(pointer.getID(), 1);
             pointer.set(sprite);
 
@@ -318,7 +314,7 @@ public class TowerManager{
     //at the moment, all towers have rotateSpeed of 5f.
     //rotateSpeed is assigned a value in tower.java constructor(s).
     public void customRotate(Tower t){
-        if(t.hasTarget && t.state){
+        if(t.state){
             if(t.getRotation() != t.rotateDestination){
                 if( t.getRotation() + 2 <= t.rotateDestination){
                     t.rotate(t.getRotateRate());

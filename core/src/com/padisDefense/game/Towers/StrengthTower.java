@@ -20,7 +20,7 @@ public class StrengthTower extends Tower {
         setBulletLimit(1);
         setCost(70);
         setAttack(60f);
-        setRange(150f);
+        setRange(200f);
         setChargeRate(0.001f);
         setIncomeRate(4f);
         state = true;
@@ -34,10 +34,6 @@ public class StrengthTower extends Tower {
 
         setRotateRate(5f);
 
-    }
-
-    public StrengthTower(int level){
-        setLevel(level);
     }
 
     public float getRangeAOE(){return rangeAOE;}

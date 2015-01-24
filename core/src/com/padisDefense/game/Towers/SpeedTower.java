@@ -17,7 +17,7 @@ public class SpeedTower extends Tower {
         setLevel(level);
         setBulletLimit(1);
         setCost(50);
-        setRange(150f);
+        setRange(200f);
         setAttack(5f);
         setChargeRate(0.02f);
         setIncomeRate(4f);

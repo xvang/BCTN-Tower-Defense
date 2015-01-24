@@ -35,20 +35,18 @@ public class BulletManager {
      * Creates a line (bezier) between the points where bullet will travel along.
      * Every iteration, a new line is calculated.
      *
+     *
+     * This function should only be called when tower has a target that is not dead and within range.
      * */
     public void shooting(SpriteBatch batch, Tower t, Enemy e){
 
-        spawnTimer += Gdx.graphics.getDeltaTime();
+        //TODO: spawnTimer, getRate() thing. make the tower.rate useful.
         //if-statement wraps around every relevant code in shooting().
         //if tower is NOT in shooting mode, no code involving moving bullets should execute.
-        if(t.state){
+        if(t.state && t.hasTarget){
             Vector2 enemyLocation;
             Vector2 towerLocation = new Vector2(t.getBulletSpawnLocation());
-            if(t.hasTarget)  enemyLocation = new Vector2(e.getLocation());
-            else enemyLocation = new Vector2(t.getOldTargetPosition());
-            //Vector2 midpoint = almostMidPoint(towerLocation, enemyLocation, t.getCustomArc());
-
-
+            enemyLocation = new Vector2(e.getLocation());
 
             //Here is where the different firing towers are implemented...?
             if(t.getID().equals(/*"LASER"*/"")){
@@ -66,20 +64,15 @@ public class BulletManager {
                 Vector2 angle = new Vector2();//used to get the angle rotation for path...
                 //example: make an arrow curve along a path.
 
-
-                if(t.getActiveBullets().size < t.getBulletLimit() && spawnTimer > t.getFireRate()
-                        && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
+                //if needed, spawn a new bullet.
+                if(t.getActiveBullets().size < t.getBulletLimit() && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
 
                     Bullet item = t.getPool().obtain();
-                    //item.init(t.getX()+ (t.getWidth() / 2), t.getY()+ (t.getHeight() / 2));
                     item.init(t.getBulletSpawnLocation());
-                    item.setTexture(t.getBulletTexture());
+
                     item.setTime(0);
 
                     t.getActiveBullets().add(item);
-
-                    spawnTimer = 0;
-
                 }
 
 
@@ -96,6 +89,11 @@ public class BulletManager {
                         path.valueAt(out, time);
                         path.derivativeAt(angle, time);
                     }
+                    else{
+                        game.damage.hit(t, e);
+                        currentBullet.alive = false;
+                    }
+
 
                     //This little bugger here gave me the most difficult time.
                     //There is a moment where path.valueAt() returns (0,0) for 'out'.
@@ -113,17 +111,9 @@ public class BulletManager {
                         currentBullet.draw(batch);
                     }
 
-                    if(hitEnemy(currentBullet, e)){
-                        game.damage.hit(t, e);
+                    if(!currentBullet.alive){
 
-                        //telling game to show tower's animation for when bullet hits enemy.
-                        //setting location of explosion to where enemy is currently located.
-                        //if(t.getID().equals("AOE")){
-                        //     t.explosion.setExplosionPosition(e.getLocation());
-                        //     t.explode = true;
-                        // }
-                        currentBullet.setTime(0);//to activate below.
-                        //item = t.getActiveBullets().get(x);
+                        currentBullet.setTime(0f);
                         t.getActiveBullets().removeIndex(x);
                         t.getPool().free(currentBullet);
                     }
@@ -131,8 +121,7 @@ public class BulletManager {
             }
         }
 
-
-
+        //System.out.println("after shooting bullet size : " + t.getActiveBullets().size);
     }// end shooting();
 
     //todo: laser shots?
@@ -148,32 +137,6 @@ public class BulletManager {
     public Vector2 almostMidPoint(Vector2 t, Vector2 e, float arc){
         return new Vector2((t.x+ arc + e.x)/2, (t.y + arc + e.y)/2);
     }
-
-    /**Takes the location of the bullet and location of the enemy.
-     * If the distance between the two is ~1f, then bullet has "hit" the enemy.
-     *
-     * */
-
-
-    //The bullet's destination is the bottom left coordinate of the enemy.
-    //But the bullet will overlap the enemy for many iterations before
-    //reaching the bottom left. So damage is calculated many times before
-    //bullet reaches its destination.
-    //This feature might be useful later on.
-    /*public boolean hitEnemy(Bullet b, Enemy e){
-        Rectangle b_rec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
-        Rectangle e_rec = new Rectangle(e.getX(), e.getY(), e.getWidth(), e.getHeight());
-        return b_rec.overlaps(e_rec);
-    }*/
-
-
-    public boolean hitEnemy(Bullet b, Enemy e){
-        double x  =findDistance(new Vector2(b.getX(), b.getY()),
-                new Vector2(e.getX() + e.getWidth()/2, e.getY()+e.getHeight()/2));
-        return x < 8f;
-    }
-
-
 
 
     public double findDistance(Vector2 a, Vector2 b){
