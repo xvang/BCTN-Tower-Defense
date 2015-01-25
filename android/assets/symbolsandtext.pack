@@ -1,0 +1,264 @@
+
+symbolsandtext.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+TEXT_HIGHSCORE
+  rotate: false
+  xy: 1, 447
+  size: 451, 61
+  orig: 451, 61
+  offset: 0, 0
+  index: -1
+TEXT_START
+  rotate: false
+  xy: 1, 385
+  size: 247, 60
+  orig: 247, 60
+  offset: 0, 0
+  index: -1
+TEXT_PAUSE
+  rotate: false
+  xy: 454, 447
+  size: 244, 61
+  orig: 244, 61
+  offset: 0, 0
+  index: -1
+TEXT_MENU
+  rotate: false
+  xy: 1, 323
+  size: 222, 60
+  orig: 222, 60
+  offset: 0, 0
+  index: -1
+TEXT_NEXT
+  rotate: false
+  xy: 250, 386
+  size: 205, 59
+  orig: 205, 59
+  offset: 0, 0
+  index: -1
+TEXT_HELP
+  rotate: false
+  xy: 700, 450
+  size: 197, 58
+  orig: 197, 58
+  offset: 0, 0
+  index: -1
+SYMB_LEADER
+  rotate: false
+  xy: 1, 244
+  size: 98, 77
+  orig: 98, 77
+  offset: 0, 0
+  index: -1
+SYMB_VOLUME
+  rotate: false
+  xy: 1, 157
+  size: 89, 85
+  orig: 89, 85
+  offset: 0, 0
+  index: -1
+SYMB_SETTINGS
+  rotate: false
+  xy: 1, 69
+  size: 87, 86
+  orig: 87, 86
+  offset: 0, 0
+  index: -1
+SYMB_REPLAY
+  rotate: false
+  xy: 101, 242
+  size: 92, 79
+  orig: 92, 79
+  offset: 0, 0
+  index: -1
+SYMB_ BIGX
+  rotate: false
+  xy: 92, 160
+  size: 88, 80
+  orig: 88, 80
+  offset: 0, 0
+  index: -1
+SYMB_FF
+  rotate: false
+  xy: 457, 384
+  size: 99, 61
+  orig: 99, 61
+  offset: 0, 0
+  index: -1
+SYMB_RR
+  rotate: false
+  xy: 558, 380
+  size: 96, 65
+  orig: 96, 65
+  offset: 0, 0
+  index: -1
+SYMB_ RIGHTARROW
+  rotate: false
+  xy: 899, 450
+  size: 96, 58
+  orig: 96, 58
+  offset: 0, 0
+  index: -1
+SYMB_LEFTARROW
+  rotate: false
+  xy: 1, 1
+  size: 93, 66
+  orig: 93, 66
+  offset: 0, 0
+  index: -1
+SYMB_AWARD
+  rotate: false
+  xy: 195, 236
+  size: 82, 85
+  orig: 82, 85
+  offset: 0, 0
+  index: -1
+SYMB_CHECK
+  rotate: false
+  xy: 182, 151
+  size: 81, 83
+  orig: 81, 83
+  offset: 0, 0
+  index: -1
+SYMB_MENU
+  rotate: false
+  xy: 225, 323
+  size: 79, 60
+  orig: 79, 60
+  offset: 0, 0
+  index: -1
+SYMB_MUTE
+  rotate: false
+  xy: 306, 320
+  size: 75, 64
+  orig: 75, 64
+  offset: 0, 0
+  index: -1
+SYMB_PLAY
+  rotate: false
+  xy: 383, 308
+  size: 71, 76
+  orig: 71, 76
+  offset: 0, 0
+  index: -1
+SYMB_STOP
+  rotate: false
+  xy: 456, 308
+  size: 74, 74
+  orig: 74, 74
+  offset: 0, 0
+  index: -1
+SYMB_PLUS
+  rotate: false
+  xy: 532, 308
+  size: 69, 70
+  orig: 69, 70
+  offset: 0, 0
+  index: -1
+SYMB_HELP
+  rotate: false
+  xy: 603, 290
+  size: 56, 88
+  orig: 56, 88
+  offset: 0, 0
+  index: -1
+SYMB_WARNING
+  rotate: false
+  xy: 279, 234
+  size: 18, 87
+  orig: 18, 87
+  offset: 0, 0
+  index: -1
+SYMB_X
+  rotate: false
+  xy: 299, 257
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+SYMB
+  rotate: false
+  xy: 656, 385
+  size: 44, 60
+  orig: 44, 60
+  offset: 0, 0
+  index: 6
+SYMB_INFO
+  rotate: false
+  xy: 661, 299
+  size: 32, 84
+  orig: 32, 84
+  offset: 0, 0
+  index: -1
+SYMB_PAUSE
+  rotate: false
+  xy: 702, 373
+  size: 44, 75
+  orig: 44, 75
+  offset: 0, 0
+  index: -1
+SYMB
+  rotate: false
+  xy: 748, 390
+  size: 48, 58
+  orig: 48, 58
+  offset: 0, 0
+  index: 4
+SYMB
+  rotate: false
+  xy: 798, 389
+  size: 46, 59
+  orig: 46, 59
+  offset: 0, 0
+  index: 0
+SYMB
+  rotate: false
+  xy: 846, 390
+  size: 45, 58
+  orig: 45, 58
+  offset: 0, 0
+  index: 2
+SYMB
+  rotate: false
+  xy: 893, 389
+  size: 44, 59
+  orig: 44, 59
+  offset: 0, 0
+  index: 3
+SYMB
+  rotate: false
+  xy: 939, 389
+  size: 44, 59
+  orig: 44, 59
+  offset: 0, 0
+  index: 5
+SYMB
+  rotate: false
+  xy: 695, 311
+  size: 44, 60
+  orig: 44, 60
+  offset: 0, 0
+  index: 9
+SYMB
+  rotate: false
+  xy: 265, 173
+  size: 44, 59
+  orig: 44, 59
+  offset: 0, 0
+  index: 7
+SYMB
+  rotate: false
+  xy: 311, 197
+  size: 44, 58
+  orig: 44, 58
+  offset: 0, 0
+  index: 8
+SYMB
+  rotate: false
+  xy: 985, 390
+  size: 34, 58
+  orig: 34, 58
+  offset: 0, 0
+  index: 1

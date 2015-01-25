@@ -16,11 +16,12 @@ public class Ball extends Enemy {
         if(type.equals("orange")) initOrange();
         else if(type.equals("blue")) initBlue();
         else if(type.equals("green")) initGreen();
-        else if(type.equals("pinkball")) initPink();
+        else if(type.equals("pink")) initPink();
         else if(type.equals("purple")) initPurple();
         else if(type.equals("violet")) initViolet();
         else if(type.equals("army")) initArmy();
         else if(type.equals("yellow")) initYellow();
+        else if(type.equals("red")) initRed();
 
 
 
@@ -89,6 +90,14 @@ public class Ball extends Enemy {
         setRate(0.17f + (float)Math.random()*0.009f);
         setOriginalArmor(10);
         setHealth(50);
+    }
+
+    public void initRed(){
+        setName("redball");
+        setRate(0.17f + (float)Math.random()*0.009f);
+        setOriginalArmor(10);
+        setHealth(50);
+
     }
 
 

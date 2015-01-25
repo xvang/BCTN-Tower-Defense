@@ -59,10 +59,15 @@ public class TowerManager{
             Tower t4 = padi.assets.towerCustomPool.obtain("YELLOW", 1, new Vector2(-50f, -50f));
             Tower t5 = padi.assets.towerCustomPool.obtain("GREEN", 1, new Vector2(-50f, -50f));
             Tower t6 = padi.assets.towerCustomPool.obtain("RED", 1, new Vector2(-50f, -50f));
+            Tower t7 = padi.assets.towerCustomPool.obtain("ORANGE", 1, new Vector2(-50f, -50f));
+            Tower t8 = padi.assets.towerCustomPool.obtain("VIOLET", 1, new Vector2(-50f, -50f));
+            Tower t9 = padi.assets.towerCustomPool.obtain("ARMY", 1, new Vector2(-50f, -50f));
 
             tempStorage.add(t);     tempStorage.add(t2);
             tempStorage.add(t3);    tempStorage.add(t4);
             tempStorage.add(t5);    tempStorage.add(t6);
+            tempStorage.add(t7);    tempStorage.add(t8);
+            tempStorage.add(t9);
         }
 
         //freeing all towers into pool.

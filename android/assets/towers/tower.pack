@@ -3,136 +3,199 @@ tower.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+VIOLET
+  rotate: false
+  xy: 1, 64
+  size: 65, 62
+  orig: 65, 62
+  offset: 0, 0
+  index: 2
+ARMY
+  rotate: false
+  xy: 1, 1
+  size: 60, 61
+  orig: 60, 61
+  offset: 0, 0
+  index: 1
+ARMY
+  rotate: false
+  xy: 68, 65
+  size: 60, 61
+  orig: 60, 61
+  offset: 0, 0
+  index: 2
+ARMY
+  rotate: false
+  xy: 130, 75
+  size: 70, 51
+  orig: 70, 51
+  offset: 0, 0
+  index: 3
 YELLOW
   rotate: false
-  xy: 1, 53
+  xy: 202, 76
   size: 65, 50
   orig: 65, 50
   offset: 0, 0
   index: 2
+VIOLET
+  rotate: false
+  xy: 269, 65
+  size: 60, 61
+  orig: 60, 61
+  offset: 0, 0
+  index: 1
+VIOLET
+  rotate: false
+  xy: 331, 65
+  size: 60, 61
+  orig: 60, 61
+  offset: 0, 0
+  index: 3
 YELLOW
   rotate: false
-  xy: 1, 1
+  xy: 393, 76
   size: 60, 50
   orig: 60, 50
   offset: 0, 0
   index: 1
 YELLOW
   rotate: false
-  xy: 68, 58
+  xy: 455, 81
   size: 65, 45
   orig: 65, 45
   offset: 0, 0
   index: 3
+PINK
+  rotate: false
+  xy: 522, 76
+  size: 55, 50
+  orig: 55, 50
+  offset: 0, 0
+  index: 1
 roguespin
   rotate: false
-  xy: 135, 49
+  xy: 579, 72
   size: 55, 54
   orig: 55, 54
   offset: 0, 0
   index: -1
 BLUE
   rotate: false
-  xy: 192, 45
+  xy: 636, 68
   size: 51, 58
   orig: 51, 58
   offset: 0, 0
   index: 2
-RED
+ORANGE
   rotate: false
-  xy: 245, 45
+  xy: 689, 68
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: 2
+ORANGE
+  rotate: false
+  xy: 741, 68
   size: 50, 58
   orig: 50, 58
   offset: 0, 0
   index: 3
 PINK
   rotate: false
-  xy: 297, 45
+  xy: 793, 68
   size: 50, 58
   orig: 50, 58
   offset: 0, 0
   index: 3
-GREEN
-  rotate: false
-  xy: 349, 46
-  size: 50, 57
-  orig: 50, 57
-  offset: 0, 0
-  index: 2
-GREEN
-  rotate: false
-  xy: 401, 46
-  size: 50, 57
-  orig: 50, 57
-  offset: 0, 0
-  index: 3
 RED
   rotate: false
-  xy: 453, 46
-  size: 50, 57
-  orig: 50, 57
+  xy: 845, 68
+  size: 50, 58
+  orig: 50, 58
   offset: 0, 0
-  index: 2
-PURPLE
-  rotate: false
-  xy: 505, 46
-  size: 50, 57
-  orig: 50, 57
-  offset: 0, 0
-  index: 1
-PURPLE
-  rotate: false
-  xy: 557, 46
-  size: 50, 57
-  orig: 50, 57
-  offset: 0, 0
-  index: 2
+  index: 3
 BLUE
   rotate: false
-  xy: 609, 46
+  xy: 897, 69
   size: 50, 57
   orig: 50, 57
   offset: 0, 0
   index: 1
 BLUE
   rotate: false
-  xy: 661, 46
+  xy: 949, 69
   size: 50, 57
   orig: 50, 57
   offset: 0, 0
   index: 3
-GREEN
-  rotate: false
-  xy: 713, 48
-  size: 50, 55
-  orig: 50, 55
-  offset: 0, 0
-  index: 1
-RED
-  rotate: false
-  xy: 765, 48
-  size: 50, 55
-  orig: 50, 55
-  offset: 0, 0
-  index: 1
 PINK
   rotate: false
-  xy: 817, 53
-  size: 55, 50
-  orig: 55, 50
-  offset: 0, 0
-  index: 1
-PINK
-  rotate: false
-  xy: 874, 52
+  xy: 393, 23
   size: 54, 51
   orig: 54, 51
   offset: 0, 0
   index: 2
+GREEN
+  rotate: false
+  xy: 63, 5
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 2
+GREEN
+  rotate: false
+  xy: 115, 6
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 3
+ORANGE
+  rotate: false
+  xy: 167, 16
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 1
 PURPLE
   rotate: false
-  xy: 930, 52
+  xy: 219, 23
   size: 34, 51
   orig: 34, 51
   offset: 0, 0
   index: 3
+GREEN
+  rotate: false
+  xy: 255, 8
+  size: 50, 55
+  orig: 50, 55
+  offset: 0, 0
+  index: 1
+PURPLE
+  rotate: false
+  xy: 307, 6
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 1
+PURPLE
+  rotate: false
+  xy: 449, 17
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 2
+RED
+  rotate: false
+  xy: 501, 17
+  size: 50, 57
+  orig: 50, 57
+  offset: 0, 0
+  index: 2
+RED
+  rotate: false
+  xy: 553, 15
+  size: 50, 55
+  orig: 50, 55
+  offset: 0, 0
+  index: 1

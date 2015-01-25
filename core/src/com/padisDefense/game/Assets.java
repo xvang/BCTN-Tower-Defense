@@ -9,11 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.Towers.ArmyTower;
 import com.padisDefense.game.Towers.GreenTower;
 import com.padisDefense.game.Towers.BlueTower;
+import com.padisDefense.game.Towers.OrangeTower;
 import com.padisDefense.game.Towers.RedTower;
 import com.padisDefense.game.Towers.PurpleTower;
 import com.padisDefense.game.Towers.PinkTower;
+import com.padisDefense.game.Towers.VioletTower;
 import com.padisDefense.game.Towers.YellowTower;
 import com.padisDefense.game.Towers.Tower;
 
@@ -96,7 +99,7 @@ public class Assets {
                 else if(type.equals("purpleball")) return new Ball("purple", skin_balls.getSprite("purpleball"));
                 else if(type.equals("violetball")) return new Ball("violet", skin_balls.getSprite("violetball"));
                 else if(type.equals("yellowball")) return new Ball("yellow", skin_balls.getSprite("yellowball"));
-
+                else if (type.equals("redball")) return new Ball("red", skin_balls.getSprite("redball"));
 
                 System.out.println("RETURNING NULL");
                 return null;
@@ -110,6 +113,7 @@ public class Assets {
 
 
         //TODO: find a way to combine these two functions in pool declaration.
+        //right now they use two different pools.
         towerCustomPool = new TowerPool() {
             @Override
             protected Tower newObject(String type, int level, Vector2 spawnPosition) {
@@ -140,6 +144,19 @@ public class Assets {
                 else if(type.equals("RED")){
                     Sprite bullet = bulletAtlas.createSprite("red_bullet");
                     return new RedTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("ARMY")){
+                    Sprite bullet = bulletAtlas.createSprite("army_bullet");
+                    return new ArmyTower(spawnPosition, picture, level, bullet);
+                }
+
+                else if(type.equals("VIOLET")){
+                    Sprite bullet = bulletAtlas.createSprite("violet_bullet");
+                    return new VioletTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("ORANGE")){
+                    Sprite bullet = bulletAtlas.createSprite("orange_bullet");
+                    return new OrangeTower(spawnPosition, picture, level, bullet);
                 }
                 else{
                     Sprite bullet = bulletAtlas.createSprite("purple_bullet");

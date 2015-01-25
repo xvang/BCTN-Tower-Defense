@@ -3,44 +3,65 @@ bullet.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+orange_bullet
+  rotate: false
+  xy: 1, 13
+  size: 83, 90
+  orig: 83, 90
+  offset: 0, 0
+  index: -1
 red_bullet
   rotate: false
-  xy: 1, 20
+  xy: 86, 20
   size: 81, 83
   orig: 81, 83
   offset: 0, 0
   index: -1
+army_bullet
+  rotate: false
+  xy: 169, 53
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 blue_bullet
   rotate: false
-  xy: 84, 53
+  xy: 221, 53
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 green_bullet
   rotate: false
-  xy: 136, 53
+  xy: 273, 53
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 pink_bullet
   rotate: false
-  xy: 188, 53
+  xy: 325, 53
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 purple_bullet
   rotate: false
-  xy: 84, 1
+  xy: 377, 53
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+violet_bullet
+  rotate: false
+  xy: 429, 53
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 yellow_bullet
   rotate: false
-  xy: 136, 1
+  xy: 169, 1
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

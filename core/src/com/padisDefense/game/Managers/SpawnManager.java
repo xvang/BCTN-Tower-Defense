@@ -78,6 +78,7 @@ public class SpawnManager {
         allEnemies.add("yellowball");       allEnemies.add("violetball");
         allEnemies.add("greenball");        allEnemies.add("orangeball");
         allEnemies.add("pinkball");         allEnemies.add("purpleball");
+        allEnemies.add("redball");
 
 
 
@@ -95,7 +96,7 @@ public class SpawnManager {
         if(first50 < 50){
 
             Enemy e;
-            int r = (int)(Math.random()*9);
+            int r = (int)(Math.random()*10);
 
             /*if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
@@ -114,6 +115,7 @@ public class SpawnManager {
             else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("greenball");
             else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
             else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
+            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("redball");
 
 
             //else e = padi.assets.enemyCustomPoolL.obtain("mage");
@@ -238,7 +240,7 @@ public class SpawnManager {
         }
         else{
             duckTime = true;
-
+            spawnedDuck = false;
             //mostType = new Array<Tower>();
             //leastType = new Array<Tower>();
 

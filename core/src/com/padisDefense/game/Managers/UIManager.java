@@ -658,7 +658,9 @@ public class UIManager implements InputProcessor{
         clickedTowerTable.setName("clickedTowerTable");
         towerOptions = new Array<TextButton>();
 
-        String[] names = {"yellow", "red", "green", "pink", "blue", "purple"};
+        String[] names = {"yellow", "red", "green",
+                          "pink", "blue", "purple",
+                          "army", "violet", "orange"};
 
 
         for(String s: names){
@@ -684,11 +686,11 @@ public class UIManager implements InputProcessor{
 
         //creating the images and adding them to the table.
         //table should be 3 to a row.
-        for(int x = 0; x < 6; x++) {
+        for(int x = 0; x < names.length; x++) {
 
             if(x % 3 == 0 && x != 0) clickedTowerTable.row();
 
-            clickedTowerTable.add(towerOptions.get(x)).width(100f).height(45f).pad(8f);
+            clickedTowerTable.add(towerOptions.get(x)).width(100f).height(45f).pad(4f);
             clickedTowerTable.pad(5f);
         }
 
@@ -762,6 +764,9 @@ public class UIManager implements InputProcessor{
         final Image blue = new Image(padi.assets.towerAtlas.findRegion("BLUE", 1));
         final Image yellow = new Image(padi.assets.towerAtlas.findRegion("YELLOW", 1));
         final Image green = new Image(padi.assets.towerAtlas.findRegion("GREEN", 1));
+        final Image orange = new Image(padi.assets.towerAtlas.findRegion("ORANGE", 1));
+        final Image violet = new Image(padi.assets.towerAtlas.findRegion("VIOLET", 1));
+        final Image army = new Image(padi.assets.towerAtlas.findRegion("ARMY", 1));
 
         //giving each image the appropriate names.
         purple.setName("PURPLE");
@@ -770,6 +775,9 @@ public class UIManager implements InputProcessor{
         blue.setName("BLUE");
         yellow.setName("YELLOW");
         green.setName("GREEN");
+        orange.setName("ORANGE");
+        violet.setName("VIOLET");
+        army.setName("ARMY");
 
         //adding the images to the images array.
         image.add(purple);
@@ -778,12 +786,15 @@ public class UIManager implements InputProcessor{
         image.add(blue);
         image.add(yellow);
         image.add(green);
+        image.add(orange);
+        image.add(violet);
+        image.add(army);
 
         dragTowers.clear();
         for(int w = 0; w < image.size; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
-            dragTowers.add(image.get(w)).width(50f).height(50f).pad(20f);
+            dragTowers.add(image.get(w)).width(50f).height(50f).pad(10f);
 
 
         }
@@ -808,7 +819,7 @@ public class UIManager implements InputProcessor{
                     dragTowers.clear();
                     for(int w = 0; w < image.size; w++) {
                         if (w % 2 == 0 && w != 0) dragTowers.row();
-                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(20f);
+                        dragTowers.add(image.get(w)).width(50f).height(50f).pad(10f);
                     }
                 }
             });
