@@ -2,11 +2,9 @@ package com.padisDefense.game.Tests;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.padisDefense.game.Towers.SniperTower;
+import com.padisDefense.game.Towers.BlueTower;
 
 
 public class AtlasTest extends ScreenAdapter {
@@ -23,7 +21,7 @@ public class AtlasTest extends ScreenAdapter {
     final float w = Gdx.graphics.getWidth();
     final float h = Gdx.graphics.getHeight();
 
-    SniperTower snipe;
+    BlueTower snipe;
     Sprite sprite;
     TextureAtlas atlas;
     SpriteBatch batch;
@@ -45,7 +43,7 @@ public class AtlasTest extends ScreenAdapter {
         sprite = atlas.createSprite("AOE", 1);
         System.out.println(sprite.getWidth() + ", " + sprite.getHeight());
 
-        snipe = new SniperTower(new Vector2(w/2, h/2), sprite, 1);
+        snipe = new BlueTower(new Vector2(w/2, h/2), sprite, 1);
 
         snipe.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch = new SpriteBatch();

@@ -61,7 +61,7 @@ public class WorldMap implements Screen {
             final int g = x+1;
             //Adds a button. The last two buttons are 'menu' and 'store'.
             if(x < 9) {
-                buttons.add(new TextButton(String.valueOf(x + 1), padi.assets.skin2, "default"));
+                buttons.add(new TextButton(String.valueOf(x + 1), padi.assets.bubbleUI, "green"));
 
 
                 buttons.get(x).addListener(new ClickListener() {
@@ -85,7 +85,7 @@ public class WorldMap implements Screen {
 
             }
             else if(x == 9) {
-                buttons.add(new TextButton(" menu ", padi.assets.skin2, "default"));
+                buttons.add(new TextButton(" menu ", padi.assets.bubbleUI, "red"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){
@@ -94,7 +94,7 @@ public class WorldMap implements Screen {
                 });
             }
             else if(x == 10) {
-                buttons.add(new TextButton(" store ", padi.assets.skin2, "default"));
+                buttons.add(new TextButton(" store ", padi.assets.bubbleUI, "red"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){

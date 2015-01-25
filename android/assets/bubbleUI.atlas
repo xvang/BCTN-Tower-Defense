@@ -1,0 +1,129 @@
+
+bubbleUI.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+gray_rectangle
+  rotate: false
+  xy: 1, 599
+  size: 700, 350
+  orig: 700, 350
+  offset: 0, 0
+  index: -1
+green_rectangle
+  rotate: false
+  xy: 1, 247
+  size: 700, 350
+  orig: 700, 350
+  offset: 0, 0
+  index: -1
+charge_down
+  rotate: false
+  xy: 703, 869
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+charge_up
+  rotate: false
+  xy: 1, 165
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+green_circle
+  rotate: false
+  xy: 703, 787
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+locked
+  rotate: false
+  xy: 785, 869
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+music
+  rotate: false
+  xy: 1, 83
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+pause_down
+  rotate: false
+  xy: 83, 165
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+pause_up
+  rotate: false
+  xy: 703, 705
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+red_circle
+  rotate: false
+  xy: 785, 787
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+trash_down
+  rotate: false
+  xy: 867, 869
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+trash_up
+  rotate: false
+  xy: 1, 1
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+unlocked
+  rotate: false
+  xy: 83, 83
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+upgrade_up
+  rotate: false
+  xy: 165, 165
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+upgrade_down
+  rotate: false
+  xy: 703, 623
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+
+bubbleUI2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+red_rectangle
+  rotate: false
+  xy: 1, 353
+  size: 700, 350
+  orig: 700, 350
+  offset: 0, 0
+  index: -1
+yellow_rectangle
+  rotate: false
+  xy: 1, 1
+  size: 700, 350
+  orig: 700, 350
+  offset: 0, 0
+  index: -1

@@ -60,8 +60,8 @@ public class Store extends ScreenAdapter{
         imageList = new Array<Image>();
         itemStorage = new ItemStorage(padi);
 
-        TextButton menu = new TextButton("Back to Menu", padi.assets.skin2, "default");
-        TextButton worldMap = new TextButton("Back to Map", padi.assets.skin2, "default");
+        TextButton menu = new TextButton("Back to Menu", padi.assets.bubbleUI, "red");
+        TextButton worldMap = new TextButton("Back to Map", padi.assets.bubbleUI, "green");
         worldMap.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -116,7 +116,7 @@ public class Store extends ScreenAdapter{
 
 
 
-        final TextButton unlockButton = new TextButton("Unlock Now", padi.assets.skin2, "default");
+        final TextButton unlockButton = new TextButton("Unlock Now", padi.assets.bubbleUI, "yellow");
         message = new Label("\n", padi.assets.skin, "default");
         unlockButton.addListener(new ClickListener(){
             @Override
@@ -168,10 +168,10 @@ public class Store extends ScreenAdapter{
         allTables.add(info).padBottom(0).row();
         allTables.add(affects).padBottom(0).row();
         allTables.add(cost).padBottom(0).row();
-        allTables.add(unlockButton).width(200f).height(40f).row().padTop(0).row();
+        allTables.add(unlockButton).width(200f).height(60f).row().padTop(0).row();
         allTables.add(message).padBottom(20f).row();
-        allTables.add(menu).width(200f).height(40f).row().padBottom(10f).padTop(10f).row();
-        allTables.add(worldMap).width(200f).height(40f).padBottom(10f).padTop(20f).row();
+        allTables.add(menu).width(200f).height(60f).row().padBottom(10f).padTop(10f).row();
+        allTables.add(worldMap).width(200f).height(60f).padBottom(10f).padTop(20f).row();
         allTables.setPosition(Gdx.graphics.getWidth()*7/8, Gdx.graphics.getHeight()/2);
 
 

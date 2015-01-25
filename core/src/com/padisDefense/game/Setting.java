@@ -115,7 +115,7 @@ public class Setting extends ScreenAdapter {
 
 
         //'return to menu' button
-        final TextButton back_button = new TextButton("Back to Menu", padi.assets.skin2, "default");
+        final TextButton back_button = new TextButton("Back to Menu", padi.assets.bubbleUI, "gray");
 
 
         //on click, return to menu.
@@ -146,7 +146,7 @@ public class Setting extends ScreenAdapter {
         }
 
         back_button.setPosition(Gdx.graphics.getWidth() / 2 - 75f, 30f);
-        back_button.setSize(180f, 60f);
+        back_button.setSize(250f, 60f);
 
 
 

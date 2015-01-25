@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.MiscellaniousCharacters.Explosion;
 
+//aoe
+public class GreenTower extends Tower {
 
-public class AoeTower extends Tower {
 
 
-
-    public AoeTower(Vector2 position, Sprite picture, int level){
+    public GreenTower(Vector2 position, Sprite picture, int level){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 80f, 0.53f, 150f, 80, 4f);
 
@@ -27,7 +27,7 @@ public class AoeTower extends Tower {
         setIncomeRate(4f);
         state = true;
         setFireRate(0.1f);
-        setID("AOE");
+        setID("GREEN");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.08f);
         setWeakAgainst("orangeball", "blueball");

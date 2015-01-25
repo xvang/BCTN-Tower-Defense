@@ -113,7 +113,7 @@ public class UIManager implements InputProcessor{
         createMasterTable();
 
         //button to hide the UI
-        hideButton = new TextButton("Hide", padi.assets.skin2, "default");
+        hideButton = new TextButton("Hide", padi.assets.bubbleUI, "yellow");
         hideButton.setSize(80f, 50f);
         hideButton.setPosition(Gdx.graphics.getWidth()-hideButton.getWidth() - 10f, 10f);
         hideButton.addListener(new ClickListener(){
@@ -318,7 +318,7 @@ public class UIManager implements InputProcessor{
         left = new Rectangle(-250f, 0, 250f, h);
         right = new Rectangle(w, 0, 250f, h);
 
-        t.setPosition(b.getX(), b.getY() - 30f);
+        t.setPosition(b.getCenterX(), b.getCenterY() - 40f);
 
 
         while (tRec.overlaps(left)){
@@ -449,13 +449,8 @@ public class UIManager implements InputProcessor{
     }
 
     public void createPauseTable(){
-
-        TextureRegion r = padi.assets.skin3.getRegion("SYMB_PAUSE");
-
-        Image pauseImage = new Image(r);
-        //pauseImage.setScale(0.5f, 0.5f);
-        pauseButton = new ImageButton(padi.assets.skin2, "pause");
-        pauseButton.add(pauseImage);
+        ImageButton pauseButton = new ImageButton(padi.assets.bubbleUI, "pause");
+        pauseButton.setSize(60f, 60f);
         pauseButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -465,17 +460,17 @@ public class UIManager implements InputProcessor{
                 game.multi.addProcessor(pauseStage);
             }
         });
-        pauseButton.scaleBy(0.2f);
+        //pauseButton.scaleBy(0.2f);
 
 
 
         pauseTable = new Table();
         pauseStage = new Stage();
 
-        final TextButton resume = new TextButton("Resume", padi.assets.skin2, "default");
-        final TextButton quit = new TextButton("Quit", padi.assets.skin2, "default");
-        final TextButton restart = new TextButton("Restart", padi.assets.skin2, "default");
-        final TextButton mute = new TextButton("Mute", padi.assets.skin2, "default");
+        final TextButton resume = new TextButton("Resume", padi.assets.bubbleUI, "green");
+        final TextButton quit = new TextButton("Quit", padi.assets.bubbleUI, "green");
+        final TextButton restart = new TextButton("Restart", padi.assets.bubbleUI, "green");
+        final TextButton mute = new TextButton("Mute", padi.assets.bubbleUI, "green");
 
 
         resume.addListener(new ClickListener(){
@@ -524,10 +519,10 @@ public class UIManager implements InputProcessor{
         pauseButtonTable.add(pauseButton).width(Gdx.graphics.getWidth()/30).height(Gdx.graphics.getHeight()/20f);
         pauseButtonTable.setPosition(20f, Gdx.graphics.getHeight() - 20f );
 
-        pauseTable.add(quit).width(100f).height(40f).pad(30f);
-        pauseTable.add(resume).width(100f).height(40f).pad(30f).row();
-        pauseTable.add(restart).width(100f).height(40f).pad(30f);
-        pauseTable.add(mute).width(150f).height(40f).pad(30f);
+        pauseTable.add(quit).width(150f).height(60f).pad(30f);
+        pauseTable.add(resume).width(150f).height(60f).pad(30f).row();
+        pauseTable.add(restart).width(150f).height(60f).pad(30f);
+        pauseTable.add(mute).width(200f).height(60f).pad(30f);
         pauseTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 
         pauseStage.addActor(pauseTable);
@@ -548,7 +543,7 @@ public class UIManager implements InputProcessor{
     }
     public void createCountDownTable(){
         countDownTable = new Table();
-        final TextButton startButton = new TextButton("START", padi.assets.skin2, "default");
+        final TextButton startButton = new TextButton("start", padi.assets.bubbleUI, "red");
         startButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -563,7 +558,7 @@ public class UIManager implements InputProcessor{
                 padi.assets.someUIskin, "default");
 
 
-        countDownTable.add(startButton).width(100f).height(40f).row().pad(5f);
+        countDownTable.add(startButton).width(180f).height(50f).row().pad(5f);
         countDownTable.add(countDownMessage1).row().pad(5f);
         countDownTable.add(countDownMessage2).row().pad(5f);
 
@@ -573,12 +568,13 @@ public class UIManager implements InputProcessor{
     public void createOptionTable(){
         clickedOptionTable = new Table();
         clickedOptionTable.setName("clickedOptionTable");
-        charge = new TextButton("Charge", padi.assets.skin2, "default");
-        upgrade = new TextButton("Upgrade", padi.assets.skin2, "default");
-        final TextButton sell = new TextButton("Sell", padi.assets.skin2, "default");
-        clickedOptionTable.add(charge).width(100f).height(35f).pad(5f);
-        clickedOptionTable.add(upgrade).width(100f).height(35f).pad(5f);
-        clickedOptionTable.add(sell).width(100f).height(35f).pad(5f);
+
+        ImageButton charge = new ImageButton(padi.assets.bubbleUI, "charge");
+        ImageButton upgrade = new ImageButton(padi.assets.bubbleUI, "upgrade");
+        ImageButton sell = new ImageButton(padi.assets.bubbleUI, "trash");
+        clickedOptionTable.add(charge).width(45f).height(45f).pad(15f);
+        clickedOptionTable.add(upgrade).width(45f).height(45f).pad(15f);
+        clickedOptionTable.add(sell).width(45f).height(45f).pad(15f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
 
@@ -603,10 +599,10 @@ public class UIManager implements InputProcessor{
                     //changes the state, and the button message.
                     if (currentBS.getCurrentTower().state) {
                         currentBS.getCurrentTower().state = false;
-                        charge.setText(currentBS.getCurrentTower().getMessage());
+                        //charge.setText(currentBS.getCurrentTower().getMessage());
                     } else {
                         currentBS.getCurrentTower().state = true;
-                        charge.setText(currentBS.getCurrentTower().getMessage());
+                        //charge.setText(currentBS.getCurrentTower().getMessage());
                     }
 
                     clickedOptionTable.setVisible(false);
@@ -662,11 +658,11 @@ public class UIManager implements InputProcessor{
         clickedTowerTable.setName("clickedTowerTable");
         towerOptions = new Array<TextButton>();
 
-        String[] names = {"strength", "laser", "aoe", "speed", "sniper", "rogue"};
+        String[] names = {"yellow", "red", "green", "pink", "blue", "purple"};
 
 
         for(String s: names){
-            TextButton t = new TextButton(s, padi.assets.skin2, "default");
+            TextButton t = new TextButton(s, padi.assets.bubbleUI, "green");
             t.setSize(60f, 35f);
             t.setName(s);
             towerOptions.add(t);
@@ -720,8 +716,8 @@ public class UIManager implements InputProcessor{
         Label winMessage = new Label("You Won!", padi.assets.someUIskin, "default");
         Label loseMessage = new Label("You Lost!", padi.assets.someUIskin, "default");
         endGameTimeMessage = new Label("Time: ", padi.assets.someUIskin, "default");
-        final TextButton returnButton = new TextButton(" World Map ", padi.assets.skin2, "default");
-        final TextButton retryButton = new TextButton("Try Level Again", padi.assets.skin2, "default");
+        final TextButton returnButton = new TextButton(" World Map ", padi.assets.bubbleUI, "red");
+        final TextButton retryButton = new TextButton("Try Level Again", padi.assets.bubbleUI, "red");
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -762,28 +758,28 @@ public class UIManager implements InputProcessor{
 
         //Creating the images for the towers.
 
-        final Image rogue = new Image(padi.assets.towerAtlas.findRegion("ROGUE", 1));
-        final Image speed = new Image(padi.assets.towerAtlas.findRegion("SPEED", 1));
-        final Image laser = new Image(padi.assets.towerAtlas.findRegion("LASER", 1));
-        final Image sniper = new Image(padi.assets.towerAtlas.findRegion("SNIPER", 1));
-        final Image strength = new Image(padi.assets.towerAtlas.findRegion("STRENGTH", 1));
-        final Image aoe = new Image(padi.assets.towerAtlas.findRegion("AOE", 1));
+        final Image purple = new Image(padi.assets.towerAtlas.findRegion("PURPLE", 1));
+        final Image pink = new Image(padi.assets.towerAtlas.findRegion("PINK", 1));
+        final Image red = new Image(padi.assets.towerAtlas.findRegion("RED", 1));
+        final Image blue = new Image(padi.assets.towerAtlas.findRegion("BLUE", 1));
+        final Image yellow = new Image(padi.assets.towerAtlas.findRegion("YELLOW", 1));
+        final Image green = new Image(padi.assets.towerAtlas.findRegion("GREEN", 1));
 
         //giving each image the appropriate names.
-        rogue.setName("rogue");
-        speed.setName("speed");
-        laser.setName("laser");
-        sniper.setName("sniper");
-        strength.setName("strength");
-        aoe.setName("aoe");
+        purple.setName("PURPLE");
+        pink.setName("PINK");
+        red.setName("RED");
+        blue.setName("BLUE");
+        yellow.setName("YELLOW");
+        green.setName("GREEN");
 
         //adding the images to the images array.
-        image.add(aoe);
-        image.add(speed);
-        image.add(laser);
-        image.add(sniper);
-        image.add(rogue);
-        image.add(strength);
+        image.add(purple);
+        image.add(pink);
+        image.add(red);
+        image.add(blue);
+        image.add(yellow);
+        image.add(green);
 
         dragTowers.clear();
         for(int w = 0; w < image.size; w++){

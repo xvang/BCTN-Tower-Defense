@@ -59,9 +59,9 @@ public class Instruction extends ScreenAdapter {
         currentSlide = slides.get(0);
 
         //declaring buttons
-        TextButton next = new TextButton("Next", padi.assets.skin2, "default");
-        TextButton back = new TextButton("Back", padi.assets.skin2, "default");
-        TextButton menu = new TextButton("Menu", padi.assets.skin2, "default");
+        TextButton next = new TextButton("Next", padi.assets.bubbleUI, "red");
+        TextButton back = new TextButton("Back", padi.assets.bubbleUI, "red");
+        TextButton menu = new TextButton("Menu", padi.assets.bubbleUI, "red");
 
         next.setSize(150f, 50f);
         back.setSize(150f, 50f);

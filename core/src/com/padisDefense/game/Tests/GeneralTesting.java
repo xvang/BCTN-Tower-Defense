@@ -27,15 +27,14 @@ public class GeneralTesting extends ScreenAdapter {
         padi = p;
     }
 
-    //TODO: find out how to resize a TextureRegion.
     @Override
     public void show(){
         batch = new SpriteBatch();
         stage = new Stage();
         Image pause = new Image(new TextureRegion(padi.assets.skin3.getRegion("SYMB_PAUSE")));
         Image pause1 = new Image(new TextureRegion(padi.assets.skin3.getRegion("SYMB_PAUSE")));
-        button = new ImageButton(padi.assets.skin2, "pause");
-        button1 = new ImageButton(padi.assets.skin2, "pause");
+        button = new ImageButton(padi.assets.bubbleUI, "red");
+        button1 = new ImageButton(padi.assets.bubbleUI, "red");
 
         button.add(pause);
         button1.add(pause1);

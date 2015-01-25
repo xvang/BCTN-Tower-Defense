@@ -8,13 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.RogueTower;
-import com.padisDefense.game.Towers.SniperTower;
+import com.padisDefense.game.Towers.PurpleTower;
 import com.padisDefense.game.Towers.Tower;
 
 /**
@@ -55,12 +53,12 @@ public class TowerManager{
         //3 of each type. currently, 6 towers, so 18 total.
         Array<Tower> tempStorage = new Array<Tower>();
         for(int x = 0; x < 3; x++){
-            Tower t = padi.assets.towerCustomPool.obtain("ROGUE", 1, new Vector2(-50f, -50f));
-            Tower t2 = padi.assets.towerCustomPool.obtain("SPEED", 1, new Vector2(-50f, -50f));
-            Tower t3 = padi.assets.towerCustomPool.obtain("SNIPER", 1, new Vector2(-50f, -50f));
-            Tower t4 = padi.assets.towerCustomPool.obtain("STRENGTH", 1, new Vector2(-50f, -50f));
-            Tower t5 = padi.assets.towerCustomPool.obtain("AOE", 1, new Vector2(-50f, -50f));
-            Tower t6 = padi.assets.towerCustomPool.obtain("LASER", 1, new Vector2(-50f, -50f));
+            Tower t = padi.assets.towerCustomPool.obtain("PURPLE", 1, new Vector2(-50f, -50f));
+            Tower t2 = padi.assets.towerCustomPool.obtain("PINK", 1, new Vector2(-50f, -50f));
+            Tower t3 = padi.assets.towerCustomPool.obtain("BLUE", 1, new Vector2(-50f, -50f));
+            Tower t4 = padi.assets.towerCustomPool.obtain("YELLOW", 1, new Vector2(-50f, -50f));
+            Tower t5 = padi.assets.towerCustomPool.obtain("GREEN", 1, new Vector2(-50f, -50f));
+            Tower t6 = padi.assets.towerCustomPool.obtain("RED", 1, new Vector2(-50f, -50f));
 
             tempStorage.add(t);     tempStorage.add(t2);
             tempStorage.add(t3);    tempStorage.add(t4);
@@ -138,8 +136,8 @@ public class TowerManager{
             }
 
 
-            if(currentTower.getID().equals("ROGUE") && currentTower.getLevel() == 3){
-                ((RogueTower)currentTower).flower.draw(batch);
+            if(currentTower.getID().equals("PURPLE") && currentTower.getLevel() == 3){
+                ((PurpleTower)currentTower).flower.draw(batch);
                 currentTower.spin();
             }
             currentTower.draw(batch);
@@ -166,7 +164,7 @@ public class TowerManager{
 
         //strength tower's special ability is to freeze the enemy.
         //if enemy is frozen, tower should look for new enemy.
-        if(t.getID().equals("STRENGTH")){
+        if(t.getID().equals("YELLOW")){
             if(t.getTarget().getRate() == 0){
                 t.hasTarget = false;
                 t.lockedOnTarget = false;
@@ -175,8 +173,6 @@ public class TowerManager{
                 t.getActiveBullets().clear();
             }
         }
-
-
     }
     //Checks to see if target enemy object is out of range.
     public void checkRange(Tower t){
@@ -244,7 +240,7 @@ public class TowerManager{
                 //needs to be checked.
                 //else, tower's target is set and we are good to go.
                 //the nullpointer warnings are not errors.
-                if(t.getID().equals("STRENGTH")){//strength stops attacking after enemy's speed = 0
+                if(t.getID().equals("YELLOW")){//strength stops attacking after enemy's speed = 0
                     if(temp.getRate() >= 0f){   //strength's ability is to make enemy's speed = 0
                         t.setTarget(temp);
                         t.hasTarget = true;

@@ -61,11 +61,11 @@ public class MainMenu extends ScreenAdapter {
         Tween.registerAccessor(Actor.class, new FadeActor());
 
 
-        final TextButton button = new TextButton("Play", padi.assets.skin2, "default");
-        final TextButton button1 = new TextButton("Setting", padi.assets.skin2, "default");
-        final TextButton button2 = new TextButton("Store", padi.assets.skin2, "default");
-        final TextButton button3 = new TextButton("Instructions", padi.assets.skin2, "default");
-        final TextButton button5 = new TextButton("Log in", padi.assets.skin2, "default");
+        final TextButton button = new TextButton("Play", padi.assets.bubbleUI, "green");
+        final TextButton button1 = new TextButton("Setting", padi.assets.bubbleUI, "green");
+        final TextButton button2 = new TextButton("Store", padi.assets.bubbleUI, "green");
+        final TextButton button3 = new TextButton("Instructions", padi.assets.bubbleUI, "green");
+        final TextButton button5 = new TextButton("Log in", padi.assets.bubbleUI, "green");
 
         table.add(button).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();

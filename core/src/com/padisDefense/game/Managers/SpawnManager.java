@@ -1,38 +1,18 @@
 package com.padisDefense.game.Managers;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.CustomPool;
 import com.padisDefense.game.Enemies.Ball;
-import com.padisDefense.game.Enemies.BipedalDragon;
-import com.padisDefense.game.Enemies.BlueSpider;
-import com.padisDefense.game.Enemies.Cobra;
-import com.padisDefense.game.Enemies.Golem;
-import com.padisDefense.game.Enemies.IronSpider;
-import com.padisDefense.game.Enemies.Mage;
-import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Player;
-import com.padisDefense.game.Towers.AoeTower;
-import com.padisDefense.game.Towers.BuildableSpotSpawnStorage;
-import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.PurpleTower;
 import com.padisDefense.game.Towers.Tower;
-import com.padisDefense.game.Towers.LaserTower;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.SpeedTower;
-import com.padisDefense.game.Towers.RogueTower;
-import com.padisDefense.game.Towers.SniperTower;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -380,10 +360,10 @@ public class SpawnManager {
             localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge
             localTower.set(sprite);
 
-            if(localTower.getID().equals("ROGUE") && localTower.getLevel() == 3){
+            if(localTower.getID().equals("PURPLE") && localTower.getLevel() == 3){
 
-                ((RogueTower)(localTower)).flower = padi.assets.towerAtlas.createSprite("roguespin");
-                ((RogueTower)(localTower)).flower.setCenter(localTower.getCenterX(), localTower.getCenterY());
+                ((PurpleTower)(localTower)).flower = padi.assets.towerAtlas.createSprite("roguespin");
+                ((PurpleTower)(localTower)).flower.setCenter(localTower.getCenterX(), localTower.getCenterY());
                 System.out.println(localTower.getLocation());
             }
 
@@ -479,50 +459,3 @@ public class SpawnManager {
 
 
 
-/***
- *
- //TODO: possible duplicate function. Keeping for now. If no errors pop up later, delete.
- public void dragBuildTower(BuildableSpot b, String type){
-
- Tower newTower = new Tower();
- Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
- b.getY() + (b.getHeight() / 8));
-
- //Create RogueTower
- if(type.equals("speed")){
- newTower = new RogueTower(spawnPosition);
- }
-
- //Create SniperTower
- else if(type.equals("strength")) {
- newTower = new SniperTower(spawnPosition); //Create SniperTower
- }
-
- //Create StrengthTower
- else if(type.equals("ice")) {
- newTower = new StrengthTower(spawnPosition);
- }
-
- else if(type.equals("rogue")){
- newTower = new SpeedTower(spawnPosition);
- }
-
- else if(type.equals("aoe")){
- newTower = new AoeTower(spawnPosition);
- }
-
- else if(type.equals("ghost")){
- newTower = new LaserTower(spawnPosition);
- }
-
- if(game.tower.getInGameMoney() >= newTower.getCost()){
- game.tower.getTowerArray().add(newTower);
- b.setCurrentTower(newTower);//points to the tower.
- game.tower.updateInGameMoney(-(int)newTower.getCost());
-
- }
-
-
- }//end dragBuildTower();
- *
- * */

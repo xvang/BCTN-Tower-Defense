@@ -1,0 +1,76 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: { default-font: { file: pack2f.fnt } },
+com.badlogic.gdx.graphics.Color: {
+	green: { a: 1, b: 0, g: 1, r: 0 },
+	white: { a: 1, b: 1, g: 1, r: 1 },
+	red: { a: 1, b: 0, g: 0, r: 1 },
+	black: { a: 1, b: 0, g: 0, r: 0 }
+},
+
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+	    down: green_circle,
+	    up: red_circle
+	}
+},
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	green: {
+	    down: red_rectangle,
+	    up: green_rectangle,
+	    font: default-font,
+	    fontColor: white
+	},
+
+    yellow: {
+    	    down: gray_rectangle,
+    	    up: yellow_rectangle,
+    	    font: default-font,
+    	    fontColor: white
+    },
+
+
+    gray: {
+    	    down: gray_rectangle,
+    	    up: green_rectangle,
+    	    font: default-font,
+    	    fontColor: white
+    },
+
+    red: {
+        	    down: green_rectangle,
+        	    up: red_rectangle,
+        	    font: default-font,
+        	    fontColor: white
+    }
+
+
+},
+
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle:{
+
+    pause: {
+        up: pause_up,
+        down: pause_down
+    },
+
+    trash:{
+        up: trash_up,
+        down: trash_down
+    },
+
+    upgrade:{
+        up: upgrade_up,
+        down: upgrade_down
+    },
+
+    charge:{
+        up: charge_up,
+        down: charge_down
+    }
+
+
+
+}
+
+
+}

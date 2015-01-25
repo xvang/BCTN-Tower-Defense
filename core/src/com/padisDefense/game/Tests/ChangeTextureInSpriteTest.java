@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.padisDefense.game.Towers.SniperTower;
-import com.padisDefense.game.Towers.SpeedTower;
-import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.BlueTower;
+import com.padisDefense.game.Towers.YellowTower;
 
 
 public class ChangeTextureInSpriteTest extends ScreenAdapter {
@@ -18,9 +17,9 @@ public class ChangeTextureInSpriteTest extends ScreenAdapter {
 
     SpriteBatch batch;
 
-    SniperTower sniper;
+    BlueTower sniper;
 
-    StrengthTower strength;
+    YellowTower strength;
     public ChangeTextureInSpriteTest(){
         towerAtlas = new TextureAtlas("towers/tower.pack");
         batch = new SpriteBatch();
@@ -29,9 +28,9 @@ public class ChangeTextureInSpriteTest extends ScreenAdapter {
         Sprite sprite2 = towerAtlas.createSprite("STRENGTH", 3);
 
 
-        strength = new StrengthTower(new Vector2(Gdx.graphics.getWidth()/2 - 100f, Gdx.graphics.getHeight()/2 - 100f),
+        strength = new YellowTower(new Vector2(Gdx.graphics.getWidth()/2 - 100f, Gdx.graphics.getHeight()/2 - 100f),
                 sprite2, 3);
-        sniper = new SniperTower(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2),
+        sniper = new BlueTower(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2),
                 sprite, 3);
 
 

@@ -9,12 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Towers.AoeTower;
-import com.padisDefense.game.Towers.LaserTower;
-import com.padisDefense.game.Towers.RogueTower;
-import com.padisDefense.game.Towers.SniperTower;
-import com.padisDefense.game.Towers.SpeedTower;
-import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.GreenTower;
+import com.padisDefense.game.Towers.BlueTower;
+import com.padisDefense.game.Towers.RedTower;
+import com.padisDefense.game.Towers.PurpleTower;
+import com.padisDefense.game.Towers.PinkTower;
+import com.padisDefense.game.Towers.YellowTower;
 import com.padisDefense.game.Towers.Tower;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -41,7 +41,7 @@ public class Assets {
     public Sprite background;
     public TweenManager tweenManager;
 
-    public Skin skin2, skin3, someUIskin, skin_balls;
+    public Skin skin3, someUIskin, skin_balls, bubbleUI;
     public TextureAtlas towerAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public TowerPool towerCustomPool;
@@ -64,9 +64,8 @@ public class Assets {
         towerAtlas = new TextureAtlas("towers/tower.pack");
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
         skin3 = new Skin(new TextureAtlas("symbolsandtext.pack"));
-        skin2 = new Skin(Gdx.files.internal("pack2.json"));
         skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
-
+        bubbleUI = new Skin(Gdx.files.internal("bubbleUI.json"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         background = new Sprite(new Texture("badlogic.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -117,13 +116,13 @@ public class Assets {
 
                 Sprite picture = padi.assets.towerAtlas.createSprite(type, level);
 
-                if(type.equals("ROGUE")) return new RogueTower(spawnPosition, picture, level);
-                else if(type.equals("SNIPER")) return new SniperTower(spawnPosition, picture, level);
-                else if(type.equals("STRENGTH")) return new StrengthTower(spawnPosition, picture, level);
-                else if(type.equals("SPEED")) return new SpeedTower(spawnPosition, picture, level);
-                else if(type.equals("AOE")) return new AoeTower(spawnPosition, picture, level);
-                else if(type.equals("LASER")) return new LaserTower(spawnPosition, picture, level);
-                else  return new RogueTower(spawnPosition, picture, 1);
+                if(type.equals("PURPLE")) return new PurpleTower(spawnPosition, picture, level);
+                else if(type.equals("BLUE")) return new BlueTower(spawnPosition, picture, level);
+                else if(type.equals("YELLOW")) return new YellowTower(spawnPosition, picture, level);
+                else if(type.equals("PINK")) return new PinkTower(spawnPosition, picture, level);
+                else if(type.equals("GREEN")) return new GreenTower(spawnPosition, picture, level);
+                else if(type.equals("RED")) return new RedTower(spawnPosition, picture, level);
+                else  return new PurpleTower(spawnPosition, picture, 1);
             }
         };
 

@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
-import com.padisDefense.game.Towers.AoeTower;
-import com.padisDefense.game.Towers.StrengthTower;
+import com.padisDefense.game.Towers.GreenTower;
+import com.padisDefense.game.Towers.YellowTower;
 import com.padisDefense.game.Towers.Tower;
 
 public class DamageManager {
@@ -34,11 +34,11 @@ public class DamageManager {
 
 
         if(t.getID().equals("STRENGTH")){
-            iceHit((StrengthTower) t, e);
+            iceHit((YellowTower) t, e);
         }
 
         else if(t.getID().equals("AOE")){
-            aoeHit((AoeTower) t, e);
+            aoeHit((GreenTower) t, e);
         }
 
     }
@@ -46,7 +46,7 @@ public class DamageManager {
 
     //All enemies within a certain range will be slowed for a certain amount of time.
     //effect proportional to distances from targeted enemy.
-    public void iceHit(StrengthTower t, Enemy e){
+    public void iceHit(YellowTower t, Enemy e){
         e.affectRate(0, 3f);
 
         double distance;
@@ -80,7 +80,7 @@ public class DamageManager {
     //damage proportional to distance from targeted enemy.
     //Pretty much the same as iceHit(), except damage is taken instead of rate changes.
     //Will keep separate for now. Might be useful later.
-    public void aoeHit(AoeTower t, Enemy e) {
+    public void aoeHit(GreenTower t, Enemy e) {
         double distance;
         Enemy temp;
         for (int x = 0; x < game.enemy.getActiveEnemy().size; x++) {

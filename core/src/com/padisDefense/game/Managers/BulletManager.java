@@ -49,7 +49,7 @@ public class BulletManager {
             enemyLocation = new Vector2(e.getLocation());
 
             //Here is where the different firing towers are implemented...?
-            if(t.getID().equals(/*"LASER"*/"")){
+            if(t.getID().equals(/*"RED"*/"")){
 
                 //System.out.println("FIRIN MA LASER");
                 //laserShot(batch,enemyLocation, towerLocation);

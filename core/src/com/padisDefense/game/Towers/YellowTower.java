@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
-
-public class StrengthTower extends Tower {
+//aoe
+public class YellowTower extends Tower {
 
 
     private float rangeAOE = 80f;
-    public StrengthTower(Vector2 position, Sprite picture, int level){
+    public YellowTower(Vector2 position, Sprite picture, int level){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 60f, 0.001f, 150f, 70, 4f);
 
@@ -25,7 +25,7 @@ public class StrengthTower extends Tower {
         setIncomeRate(4f);
         state = true;
         setFireRate(0.4f);
-        setID("STRENGTH");
+        setID("YELLOW");
         setBulletTexture(new Texture("redbullet.png"));
         setBulletRate(0.08f);
         setCustomArc(50f);

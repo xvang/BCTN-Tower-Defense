@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
-import com.padisDefense.game.Towers.RogueTower;
+import com.padisDefense.game.Towers.PurpleTower;
 
 import com.padisDefense.game.Towers.Tower;
 
@@ -39,7 +39,7 @@ public class RotateTest extends ScreenAdapter {
     ShapeRenderer shape;
 
     public RotateTest(){
-        tower = new RogueTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4),
+        tower = new PurpleTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4),
                 new Sprite(new Texture("towers/SNIPER_3.png")), 1);
         //tower = new Sprite(new Texture("towers/strength_level_three.png"));
         //bullet = new Sprite(new Texture("redbullet.png"));

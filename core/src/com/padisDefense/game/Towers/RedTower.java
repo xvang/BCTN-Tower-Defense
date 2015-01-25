@@ -5,35 +5,31 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
+//laser
+public class RedTower extends Tower {
 
-public class SpeedTower extends Tower {
-
-
-    public SpeedTower(Vector2 position, Sprite picture, int level){
+    public RedTower(Vector2 position, Sprite picture, int level){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
-        super(picture, 5f, 0.02f, 150f, 50, 4f);
+
+        super(picture, 15, 0.025f, 150f, 60, 1f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
+
         setLevel(level);
         setBulletLimit(1);
-        setCost(50);
+        setCost(60);
+        setAttack(20f);
         setRange(200f);
-        setAttack(5f);
-        setChargeRate(0.02f);
+        setChargeRate(0.025f);
         setIncomeRate(4f);
         state = true;
-        setFireRate(0.001f);
-        setID("SPEED");
+        setFireRate(0.08f);
+        setID("RED");
         setBulletTexture(new Texture("redbullet.png"));
-        setBulletRate(0.12f);
-        setWeakAgainst("armyball", "yellowball");
+        setBulletRate(0.10f);
+        setCustomArc(40f);
+        setWeakAgainst("purpleball");
         setStrongAgainst("goblin");
     }
-
-    public SpeedTower(int level){
-        setLevel(level);
-    }
-
-
 
 }
