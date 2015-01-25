@@ -26,8 +26,8 @@ public class BlueTower extends Tower {
         setID("BLUE");
         setBulletSprite(bullet);
         setBulletRate(0.07f);
-        setWeakAgainst("orangeball", "blueball");
-        setStrongAgainst("goblin");
+        setWeakAgainst("yellowball");
+        setStrongAgainst("blueball");
     }
 
 }

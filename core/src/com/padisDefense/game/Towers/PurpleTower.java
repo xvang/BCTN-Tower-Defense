@@ -29,8 +29,8 @@ public class PurpleTower extends Tower {
         setFireRate(0.3f);
         setBulletRate(0.08f);
         setCustomArc(120f);
-        setWeakAgainst("violetball");
-        setStrongAgainst("goblin");
+        setWeakAgainst("blueball");
+        setStrongAgainst("purpleball", "violetball");
     }
 
 
@@ -39,7 +39,7 @@ public class PurpleTower extends Tower {
     }
 
 
-    private float attack = 20f;
+    private float attack = 50f;
     @Override
     //rogue tower has a chance of healing the enemy
     //50% chance of healing by 50% of its attack.

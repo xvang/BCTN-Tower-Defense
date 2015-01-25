@@ -23,14 +23,22 @@ public class DamageManager {
 
         float attack;
 
+        //if tower is strong against enemy, its attack is increased 100%
+        if(t.isStrongAgainst(e.getName())){
+            attack = t.getAttack()*2f;
+            e.originalHit(attack);//bypasses increased armor.
+        }
         //if tower is weak against enemy, its attack is reduced to 10%
-        if(t.isWeakAgainst(e.getName())){
-            attack = t.getAttack()*0.2f;
+        else if(t.isWeakAgainst(e.getName())){
+            attack = t.getAttack()*0.1f;
+            e.hit(attack);
         }
         else{
             attack = t.getAttack();
+            e.hit(attack);
         }
-        e.updateHealth(attack);//no matter the tower, targeted enemy will take SOME damage.
+
+        //no matter the tower, targeted enemy will take SOME damage.
 
 
         if(t.getID().equals("STRENGTH")){
@@ -99,10 +107,16 @@ public class DamageManager {
                     float z = (float) distance / t.getRangeAOE();
                     float damage = (1 - z)*t.getAttack();
 
-                    if(t.isWeakAgainst(temp.getName())){
-                        damage = damage*0.2f;
+                    if(t.isStrongAgainst(e.getName())){
+                        e.originalHit(damage);//bypasses increased armor.
                     }
-                    temp.updateHealth(damage);
+                    //if tower is weak against enemy, its attack is reduced to 10%
+                    else if(t.isWeakAgainst(e.getName())){
+                        e.hit(damage);
+                    }
+                    else{
+                        e.hit(damage);
+                    }
                 }
             }//end if(!temp.equals(e)).
 

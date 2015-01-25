@@ -1,6 +1,7 @@
 package com.padisDefense.game.Managers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -48,7 +49,9 @@ public class SpawnManager {
     GameScreen game;
     private Map<Tower, Integer> data;
 
-    private boolean duckTime = true;//spawns one duck to signify start of bullrushing.
+    private boolean duckTime = true, spawnedDuck = false;//spawns one duck to signify start of bullrushing.
+    private float duckTimer = 0f;
+
 
     private Array<String> allEnemies;//list of all enemies.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
@@ -71,12 +74,6 @@ public class SpawnManager {
         allEnemies = new Array<String>();
 
         //ADD ENEMIES HERE.
-        /*allEnemies.add("bipedaldragon");    allEnemies.add("bluespider");
-        allEnemies.add("cobra");            allEnemies.add("golem");
-        allEnemies.add("ironspider");       allEnemies.add("mage");
-        allEnemies.add("redspider");        allEnemies.add("purpleball");
-        allEnemies.add("blueimp");*/
-
         allEnemies.add("armyball");         allEnemies.add("blueball");
         allEnemies.add("yellowball");       allEnemies.add("violetball");
         allEnemies.add("greenball");        allEnemies.add("orangeball");
@@ -126,6 +123,7 @@ public class SpawnManager {
             e.setTime(0f);
             e.setCurrentPath(0);
             e.setHealth(e.getOriginalHealth());
+            e.setArmor(e.getOriginalArmor());
 
             e.alive = true;
 
@@ -205,13 +203,34 @@ public class SpawnManager {
             leastValue = 0;
         }
 
-        //no need to assign these a value unless mostValue < 4
-        if(mostValue < 3){
-            if(duckTime){//The duck should only spawn once to signify the start of bullrushing.
-                newEnemy = new Duck();
 
-                duckTime = false;
+        //spawns either the duck, or a bull rush spawn.
+        if(mostValue < 3){
+            duckTimer++;
+
+            //every 5 seconds, every active enemy has a chance to have increased armor,
+            //up to a maximum of 300% of the intial armor value.
+            //the chance is based on the difficulty level.
+            if(duckTimer >= 8){
+                duckTimer = 0;
+                double x = Math.random()*100;
+                if(x <= padi.assets.getDifficulty()){
+                    System.out.println("ENEMY IS ARMORING");
+                    for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
+                        Enemy e = game.enemy.getActiveEnemy().get(s);
+
+                        if(e.getArmor() < e.getOriginalArmor()*3)
+                            e.setArmor(e.getArmor()*1.1f);
+                    }
+
+                }
+            }
+            if(!spawnedDuck){//The duck should only spawn once to signify the start of bullrushing.
+                newEnemy = new Duck();
+                System.out.println("Watch out its' the duck!");
+                spawnedDuck = true;
                 chosenEnemyType = (int)(Math.random()*allEnemies.size);
+                System.out.println("SPAWNING TYPE: " + allEnemies.get(chosenEnemyType));
                 return newEnemy;
             }
             else return spawnBullRush();
@@ -277,17 +296,6 @@ public class SpawnManager {
     private Enemy spawnRandom() {
 
         int x = (int)(Math.random()*7);
-        /*Enemy e;
-        if(x == 0) e = new IronSpider();
-        else if (x == 1) e =  new BlueSpider();
-        else if (x == 2) e =  new RedSpider();
-        else if (x == 3) e = new IronSpider();
-        else if (x == 4) e = new Cobra();
-        else if (x == 5) e = new BipedalDragon();
-        else if (x == 6) e = new Mage();
-
-        else e = new IronSpider();
-        return e;*/
 
         if(x == 0) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
         else if (x == 1) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));

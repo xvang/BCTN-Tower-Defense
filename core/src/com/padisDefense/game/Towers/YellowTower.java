@@ -29,8 +29,8 @@ public class YellowTower extends Tower {
         setBulletSprite(bullet);
         setBulletRate(0.08f);
         setCustomArc(50f);
-        setWeakAgainst("pinkball");
-        setStrongAgainst("bestgoblin", "biggergoblin");
+        setWeakAgainst("greenball");
+        setStrongAgainst("yellowball");
 
         setRotateRate(5f);
 

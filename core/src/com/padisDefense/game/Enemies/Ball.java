@@ -8,7 +8,7 @@ public class Ball extends Enemy {
 
     public Ball(String type, Sprite sprite){
 
-        super(true, 100, 1, sprite);
+        super(true, 100, 1, sprite);//sends to enemy.java
         setRate(0.08f + (float)Math.random()*0.035f);
 
         //some of the stats are declared in the constructor in enemy.java
@@ -37,58 +37,58 @@ public class Ball extends Enemy {
     public void initOrange(){
         setName("orangeball");
         setRate(0.25f + (float)Math.random()*0.009f);
-        setArmor(2);
-        setHealth(20);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
     public void initGreen(){
         setName("greenball");
         setRate(0.15f + (float)Math.random()*0.009f);
-        setArmor(6);
-        setHealth(20);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
     public void initViolet(){
         setName("violetball");
         setRate(0.15f + (float)Math.random()*0.009f);
-        setArmor(5);
-        setHealth(35);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
     public void initArmy(){
         setName("armyball");
         setRate(0.11f + (float)Math.random()*0.009f);
-        setArmor(8);
-        setHealth(40);
+        setOriginalArmor(10);
+        setHealth(50);
 
     }
 
     public void initBlue(){
         setName("blueball");
         setRate(0.21f + (float)Math.random()*0.009f);
-        setArmor(2);
-        setHealth(20);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
     public void initYellow(){
         setName("yellowball");
         setRate(0.09f + (float)Math.random()*0.009f);
-        setArmor(9);
+        setOriginalArmor(10);
         setHealth(50);
     }
 
     public void initPink(){
         setName("pinkball");
         setRate(0.19f + (float)Math.random()*0.009f);
-        setArmor(6);
-        setHealth(20);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
     public void initPurple(){
         setName("purpleball");
         setRate(0.17f + (float)Math.random()*0.009f);
-        setArmor(4);
-        setHealth(30);
+        setOriginalArmor(10);
+        setHealth(50);
     }
 
 

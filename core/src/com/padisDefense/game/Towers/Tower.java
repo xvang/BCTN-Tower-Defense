@@ -211,11 +211,13 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
 
-    public boolean isWeakAgainst(String type){
+    public boolean isWeakAgainst(String type) {
         return weakAgainst.contains(type, false);
     }
 
-
+    public boolean isStrongAgainst(String type){
+        return strongAgainst.contains(type, false);
+    }
 
     public float getCost(){return cost;}
     public float getAttack(){return attack;}

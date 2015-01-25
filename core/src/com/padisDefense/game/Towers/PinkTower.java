@@ -26,8 +26,8 @@ public class PinkTower extends Tower {
         setID("PINK");
         setBulletSprite(bullet);
         setBulletRate(0.12f);
-        setWeakAgainst("armyball", "yellowball");
-        setStrongAgainst("goblin");
+        setWeakAgainst("purpleball");
+        setStrongAgainst("pinkball");
     }
 
     public PinkTower(int level){
