@@ -23,7 +23,7 @@ public class AtlasTest extends ScreenAdapter {
 
     BlueTower snipe;
     Sprite sprite;
-    TextureAtlas atlas;
+    TextureAtlas atlas, bulletAtlas;
     SpriteBatch batch;
     Skin skin2;
     TextButton charge, upgrade;
@@ -42,8 +42,10 @@ public class AtlasTest extends ScreenAdapter {
 
         sprite = atlas.createSprite("AOE", 1);
         System.out.println(sprite.getWidth() + ", " + sprite.getHeight());
+        bulletAtlas = new TextureAtlas("bullets/bullet.pack");
+        Sprite bullet1 = bulletAtlas.createSprite("blue_bullet");
 
-        snipe = new BlueTower(new Vector2(w/2, h/2), sprite, 1);
+        snipe = new BlueTower(new Vector2(w/2, h/2), sprite, 1, bullet1);
 
         snipe.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch = new SpriteBatch();

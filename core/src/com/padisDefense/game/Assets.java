@@ -42,7 +42,7 @@ public class Assets {
     public TweenManager tweenManager;
 
     public Skin skin3, someUIskin, skin_balls, bubbleUI;
-    public TextureAtlas towerAtlas;
+    public TextureAtlas towerAtlas, bulletAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public TowerPool towerCustomPool;
 
@@ -62,6 +62,7 @@ public class Assets {
 
         batch = new SpriteBatch();
         towerAtlas = new TextureAtlas("towers/tower.pack");
+        bulletAtlas = new TextureAtlas("bullets/bullet.pack");
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
         skin3 = new Skin(new TextureAtlas("symbolsandtext.pack"));
         skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
@@ -116,13 +117,34 @@ public class Assets {
 
                 Sprite picture = padi.assets.towerAtlas.createSprite(type, level);
 
-                if(type.equals("PURPLE")) return new PurpleTower(spawnPosition, picture, level);
-                else if(type.equals("BLUE")) return new BlueTower(spawnPosition, picture, level);
-                else if(type.equals("YELLOW")) return new YellowTower(spawnPosition, picture, level);
-                else if(type.equals("PINK")) return new PinkTower(spawnPosition, picture, level);
-                else if(type.equals("GREEN")) return new GreenTower(spawnPosition, picture, level);
-                else if(type.equals("RED")) return new RedTower(spawnPosition, picture, level);
-                else  return new PurpleTower(spawnPosition, picture, 1);
+                if(type.equals("PURPLE")){
+                    Sprite bullet = bulletAtlas.createSprite("purple_bullet");
+                    return new PurpleTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("BLUE")){
+                    Sprite bullet = bulletAtlas.createSprite("blue_bullet");
+                    return new BlueTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("YELLOW")){
+                    Sprite bullet = bulletAtlas.createSprite("yellow_bullet");
+                    return new YellowTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("PINK")){
+                    Sprite bullet = bulletAtlas.createSprite("pink_bullet");
+                    return new PinkTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("GREEN")){
+                    Sprite bullet = bulletAtlas.createSprite("green_bullet");
+                    return new GreenTower(spawnPosition, picture, level, bullet);
+                }
+                else if(type.equals("RED")){
+                    Sprite bullet = bulletAtlas.createSprite("red_bullet");
+                    return new RedTower(spawnPosition, picture, level, bullet);
+                }
+                else{
+                    Sprite bullet = bulletAtlas.createSprite("purple_bullet");
+                    return new PurpleTower(spawnPosition, picture, 1, bullet);
+                }
             }
         };
 

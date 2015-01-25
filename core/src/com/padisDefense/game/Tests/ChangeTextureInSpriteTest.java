@@ -13,25 +13,32 @@ import com.padisDefense.game.Towers.YellowTower;
 public class ChangeTextureInSpriteTest extends ScreenAdapter {
 
 
-    TextureAtlas towerAtlas;
+    TextureAtlas towerAtlas, bulletAtlas;
 
     SpriteBatch batch;
 
     BlueTower sniper;
 
     YellowTower strength;
+
+
     public ChangeTextureInSpriteTest(){
         towerAtlas = new TextureAtlas("towers/tower.pack");
+
+
         batch = new SpriteBatch();
         Sprite sprite = towerAtlas.createSprite("SNIPER", 3);
 
         Sprite sprite2 = towerAtlas.createSprite("STRENGTH", 3);
 
+        bulletAtlas = new TextureAtlas("bullets/bullet.pack");
+        Sprite bullet1 = bulletAtlas.createSprite("blue_bullet");
+        Sprite bullet2 = bulletAtlas.createSprite("red_bullet");
 
         strength = new YellowTower(new Vector2(Gdx.graphics.getWidth()/2 - 100f, Gdx.graphics.getHeight()/2 - 100f),
-                sprite2, 3);
+                sprite2, 3, bullet1);
         sniper = new BlueTower(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2),
-                sprite, 3);
+                sprite, 3, bullet2);
 
 
         strength.setAttack(123f);

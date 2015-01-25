@@ -718,6 +718,7 @@ public class UIManager implements InputProcessor{
         endGameTimeMessage = new Label("Time: ", padi.assets.someUIskin, "default");
         final TextButton returnButton = new TextButton(" World Map ", padi.assets.bubbleUI, "red");
         final TextButton retryButton = new TextButton("Try Level Again", padi.assets.bubbleUI, "red");
+
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
@@ -734,15 +735,12 @@ public class UIManager implements InputProcessor{
             }
         });
 
-        returnButton.setSize(40, 20f);
-        retryButton.setSize(40, 20f);
-
 
         endGameTable.add(winMessage).row().pad(15f);
         //endGameTable.add(loseMessage).row().pad(15f);
         endGameTable.add(endGameTimeMessage).row().pad(15f);
-        endGameTable.add(returnButton).padRight(30f);
-        endGameTable.add(retryButton).row().pad(15f);
+        endGameTable.add(returnButton).width(Gdx.graphics.getWidth()/3).height(Gdx.graphics.getHeight()/9).padRight(30f);
+        endGameTable.add(retryButton).width(Gdx.graphics.getWidth()/3).height(Gdx.graphics.getHeight()/9).row().pad(15f);
 
         endGameTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         //endGameTable.setVisible(true);
@@ -904,7 +902,7 @@ public class UIManager implements InputProcessor{
         endGameTable.setVisible(false);
         clickedTowerTable.setVisible(false);
         clickedOptionTable.setVisible(false);
-
+        statsTable.setVisible(false);
         masterTable.setVisible(true);
         TIMER = 0f;
         GAME_OVER = false;

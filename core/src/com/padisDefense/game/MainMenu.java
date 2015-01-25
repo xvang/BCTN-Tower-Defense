@@ -20,7 +20,6 @@ import aurelienribon.tweenengine.TweenManager;
 
 /**
  * Menu class.
- * Another class that needs cleaning.
  *
  * 'show()' is executed ONCE every time the mainmenu object is accessed.
  * so if everything is declared in show, then show keeps declaring every time

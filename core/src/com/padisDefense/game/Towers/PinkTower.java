@@ -9,7 +9,7 @@ import com.padisDefense.game.Enemies.Enemy;
 public class PinkTower extends Tower {
 
 
-    public PinkTower(Vector2 position, Sprite picture, int level){
+    public PinkTower(Vector2 position, Sprite picture, int level, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 5f, 0.02f, 150f, 50, 4f);
         setTarget(new Enemy());
@@ -18,13 +18,13 @@ public class PinkTower extends Tower {
         setBulletLimit(1);
         setCost(50);
         setRange(200f);
-        setAttack(5f);
+        setAttack(50f);
         setChargeRate(0.02f);
         setIncomeRate(4f);
         state = true;
         setFireRate(0.001f);
         setID("PINK");
-        setBulletTexture(new Texture("redbullet.png"));
+        setBulletSprite(bullet);
         setBulletRate(0.12f);
         setWeakAgainst("armyball", "yellowball");
         setStrongAgainst("goblin");

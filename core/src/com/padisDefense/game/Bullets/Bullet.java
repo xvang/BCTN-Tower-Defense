@@ -26,10 +26,10 @@ public class Bullet extends Sprite implements Pool.Poolable {
     private float time;
 
 
-    public Bullet (Vector2 p, Texture t){
+    public Bullet (Vector2 p, Sprite t){
 
         super(t);
-        this.setSize(7f, 7f);
+        this.setSize(14f, 14f);
         this.setPosition(p.x, p.y);
         this.alive = false;
         position = new Vector2();

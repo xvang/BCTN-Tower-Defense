@@ -11,7 +11,7 @@ public class GreenTower extends Tower {
 
 
 
-    public GreenTower(Vector2 position, Sprite picture, int level){
+    public GreenTower(Vector2 position, Sprite picture, int level, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 80f, 0.53f, 150f, 80, 4f);
 
@@ -21,14 +21,14 @@ public class GreenTower extends Tower {
         setRotateRate(4);
         setBulletLimit(1);
         setCost(80);
-        setAttack(80f);
+        setAttack(50f);
         setRange(200f);
         setChargeRate(0.53f);
         setIncomeRate(4f);
         state = true;
         setFireRate(0.1f);
         setID("GREEN");
-        setBulletTexture(new Texture("redbullet.png"));
+        setBulletSprite(bullet);
         setBulletRate(0.08f);
         setWeakAgainst("orangeball", "blueball");
         setStrongAgainst("bestgoblin");

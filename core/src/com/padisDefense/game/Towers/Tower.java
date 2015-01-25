@@ -37,7 +37,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     private Array<String> weakAgainst;
     private Array<String> strongAgainst;
 
-    private Texture bulletTexture;
+    private Sprite bulletSprite;
     private float bulletRate;//How fast a bullet travels.
     public float pause = 0.2f;
     private int level = 1;
@@ -94,7 +94,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletTexture);
+                return new Bullet(new Vector2(getLocation()), bulletSprite);
             }
         };
 
@@ -113,7 +113,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletTexture);
+                return new Bullet(new Vector2(getLocation()), bulletSprite);
             }
         };
 
@@ -137,7 +137,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletTexture);
+                return new Bullet(new Vector2(getLocation()), bulletSprite);
             }
         };
 
@@ -172,7 +172,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletTexture);
+                return new Bullet(new Vector2(getLocation()), bulletSprite);
             }
         };
 
@@ -193,7 +193,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         ID = id;
     }
     public void setBulletLimit(int b){bulletLimit = b;}
-    public void setBulletTexture(Texture t){bulletTexture = t;}
+    public void setBulletSprite(Sprite t){bulletSprite = t;}
     public void setBulletRate(float r){bulletRate = r;}
     public void setCustomArc(float c){customArc = c;}
     public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
@@ -230,7 +230,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
-    public Texture getBulletTexture(){return bulletTexture;}
+    public Sprite getBulletSprite(){return bulletSprite;}
     public float getBulletRate(){return bulletRate;}
     public float getCustomArc(){return customArc;}
     public Vector2 getOldTargetPosition(){return oldTargetPosition;}

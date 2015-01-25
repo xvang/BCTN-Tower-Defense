@@ -9,22 +9,22 @@ import com.padisDefense.game.Enemies.Enemy;
 //sniper
 public class BlueTower extends Tower {
 
-    public BlueTower(Vector2 position, Sprite sprite, int level){
+    public BlueTower(Vector2 position, Sprite tower, int level, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
-        super(sprite, 100f, 0.04f, 300f, 100, 4f);
+        super(tower, 100f, 0.04f, 300f, 100, 4f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         setLevel(level);
         setBulletLimit(1);
         setCost(100);
-        setAttack(100f);
+        setAttack(50f);
         setRange(200f);
         setChargeRate(0.04f);
         setIncomeRate(4f);
         state = true;
         setFireRate(0.2f);
         setID("BLUE");
-        setBulletTexture(new Texture("redbullet.png"));
+        setBulletSprite(bullet);
         setBulletRate(0.07f);
         setWeakAgainst("orangeball", "blueball");
         setStrongAgainst("goblin");
