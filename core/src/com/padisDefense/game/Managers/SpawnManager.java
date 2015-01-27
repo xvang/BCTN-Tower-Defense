@@ -263,6 +263,7 @@ public class SpawnManager {
             }
         }
 
+        System.out.println("Spawning response: " + newEnemy.getName());
         return newEnemy;
     }
 

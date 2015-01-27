@@ -19,7 +19,7 @@ public class YellowTower extends Tower {
         setLevel(level);
         setBulletLimit(1);
         setCost(70);
-        setAttack( 50f);
+        setAttack( 80f);
         setRange(200f);
         setChargeRate(0.01f);
         setIncomeRate(4f);
@@ -29,7 +29,7 @@ public class YellowTower extends Tower {
         setBulletSprite(bullet);
         setBulletRate(0.08f);
         setCustomArc(50f);
-        setWeakAgainst("greenball");
+        setWeakAgainst("redball");
         setStrongAgainst("yellowball");
 
         setRotateRate(5f);

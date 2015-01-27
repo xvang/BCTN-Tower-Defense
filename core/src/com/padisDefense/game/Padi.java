@@ -4,27 +4,8 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.padisDefense.game.Tests.AnimationTest;
-import com.padisDefense.game.Tests.AtlasTest;
-import com.padisDefense.game.Tests.BallSpawnTest;
-import com.padisDefense.game.Tests.BuildableSpotSpawnTest;
-import com.padisDefense.game.Tests.ChangeTextureInSpriteTest;
-import com.padisDefense.game.Tests.DefaultAnimationTest2;
-import com.padisDefense.game.Tests.DefaultSpriteSheetTest;
-import com.padisDefense.game.Tests.GeneralTesting;
-import com.padisDefense.game.Tests.JsonTest;
-import com.padisDefense.game.Tests.PathRunTest;
-import com.padisDefense.game.Tests.PathRunTest2;
-import com.padisDefense.game.Tests.RotateTest;
-import com.padisDefense.game.Tests.WidgetTest;
+import com.padisDefense.game.Tests.LocalSaveTest;
 import com.padisDefense.game.TransitionScreens.Splash;
-
-import aurelienribon.tweenengine.TweenManager;
 
 /**
  *
@@ -44,6 +25,7 @@ public class Padi extends Game implements ApplicationListener{
     public WorldMap worldmap;
     public Player player;
     public Store store;
+    public LoadSaveGame loadsave;
     GameScreen gameScreen;
     //public LogIn login;
 
@@ -62,11 +44,12 @@ public class Padi extends Game implements ApplicationListener{
         main_menu = new MainMenu(this);
         setting = new Setting(this);
         worldmap = new WorldMap(this);
-        player = new Player();
         store = new Store(this);
         instruction = new Instruction(this);
-
+        loadsave = new LoadSaveGame();
+        player = loadsave.loadPlayer();
         this.setScreen(new Splash(this));
+        //this.setScreen(new LocalSaveTest());
         //this.setScreen(new ChangeTextureInSpriteTest());
         //this.setScreen(new BallSpawnTest());
         //this.setScreen(new RotateTest());

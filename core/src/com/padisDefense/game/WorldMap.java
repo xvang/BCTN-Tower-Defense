@@ -5,8 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -27,8 +29,9 @@ public class WorldMap implements Screen {
     Texture background_texture;
 
     Array<TextButton> buttons;
+    Array<Image> lockedStatus;
 
-    Sprite background;
+    SpriteBatch batch;
     Stage stage;
 
     public WorldMap(Padi p){
@@ -38,11 +41,11 @@ public class WorldMap implements Screen {
     @Override
     public void show(){
 
+        batch = padi.assets.batch;
         background_texture = new Texture("worldmap.png");
-        background = new Sprite(background_texture);
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setOriginCenter();
         buttons = new Array<TextButton>();
+        lockedStatus = new Array<Image>();
+
         stage = new Stage();
 
 
@@ -57,11 +60,12 @@ public class WorldMap implements Screen {
          * 'x' is not final, so it couldn't be passed into GameScreen.
          * That's why [final int g] was created.
          * **/
-        for(int x = 0; x < 11; x++){
+        for(int x = 0; x < padi.player.getNumberOfLevels() + 2; x++){
             final int g = x+1;
             //Adds a button. The last two buttons are 'menu' and 'store'.
-            if(x < 9) {
+            if(x < padi.player.getNumberOfLevels()) {
                 buttons.add(new TextButton(String.valueOf(x + 1), padi.assets.bubbleUI, "green"));
+
 
 
                 buttons.get(x).addListener(new ClickListener() {
@@ -84,8 +88,8 @@ public class WorldMap implements Screen {
                 });
 
             }
-            else if(x == 9) {
-                buttons.add(new TextButton(" menu ", padi.assets.bubbleUI, "red"));
+            else if(x == padi.player.getNumberOfLevels()) {
+                buttons.add(new TextButton(" menu ", padi.assets.bubbleUI, "yellow"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){
@@ -93,8 +97,8 @@ public class WorldMap implements Screen {
                     }
                 });
             }
-            else if(x == 10) {
-                buttons.add(new TextButton(" store ", padi.assets.bubbleUI, "red"));
+            else if(x == padi.player.getNumberOfLevels() + 1) {
+                buttons.add(new TextButton(" store ", padi.assets.bubbleUI, "yellow"));
                 buttons.get(x).addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent e, float a, float b){
@@ -107,9 +111,7 @@ public class WorldMap implements Screen {
             //This sets the dimensions and color of the buttons.
             buttons.get(x).setSize(100f, 50f);
             //buttons.get(x).setColor(0.2f,0.3f, 0.8f, 0.8f);
-
-
-        }
+        }//end for-loop
 
         //TODO: Get rid of hard code
         //This is to position the buttons. Each button is 50f lower than the previous one.
@@ -120,30 +122,58 @@ public class WorldMap implements Screen {
         buttons.get(4).setPosition(410f, 290f);
         buttons.get(5).setPosition(510f, 360f);
         buttons.get(6).setPosition(610f, 430f);
-        buttons.get(7).setPosition(710f, 50f);
-        buttons.get(8).setPosition(610f, 150f);
-        buttons.get(9).setPosition(300f, 20f);
-        buttons.get(10).setPosition(500f, 50f);
+        buttons.get(7).setPosition(710f, 540f);
+        buttons.get(8).setPosition(500f, 10f);//menu button
+        buttons.get(9).setPosition(650f, 10f);//store button
+
+
+
+        //displays the locked/unlocked symbol next to level button.
+        //'buttons' contains all the buttons, so
+        //the -2 is for the menu button and store button. Those don't need locked/unlocked status.
+        for(int x = 0; x < buttons.size - 2; x++){
+
+            Image s;
+            if(padi.player.levels[x]){
+                s = new Image(padi.assets.bubbleUI.getRegion("unlocked"));
+            }
+            else{
+                s = new Image(padi.assets.bubbleUI.getRegion("locked"));
+            }
+            s.setSize(buttons.get(0).getHeight(), buttons.get(0).getHeight());
+
+            lockedStatus.add(s);
+
+            //setting the status's position to be to the right of buttons.
+            lockedStatus.get(x).setPosition(buttons.get(x).getX() + buttons.get(x).getWidth(),
+                    buttons.get(x).getY());
+        }
+
+
 
         for(int x = 0; x < buttons.size; x++)
             stage.addActor(buttons.get(x));
+
+        for(int x = 0; x < lockedStatus.size; x++)
+            stage.addActor(lockedStatus.get(x));
 
         Gdx.input.setInputProcessor(stage);
     }//End of Worldmap() Constructor.
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        padi.assets.batch.begin();
-
-        background.draw(padi.assets.batch);//Draw background.
+        batch.begin();
 
         for(int x = 0; x < buttons.size; x++)
-            buttons.get(x).draw(padi.assets.batch, 3);//Draw buttons.
+            buttons.get(x).draw(padi.assets.batch, 1);//Draw buttons.
 
-        padi.assets.batch.end();
+        for(int x = 0; x < lockedStatus.size; x++)
+            lockedStatus.get(x).draw(padi.assets.batch, 1);
+
+        batch.end();
     }
 
 

@@ -21,7 +21,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     public Padi padi;
     private Sprite background;
     private SpriteBatch batch;
-    private boolean  GAME_OVER = false;
+    private boolean GAME_OVER = false;
     private EndGameAnimation endGameAnimation;
 
 
@@ -153,8 +153,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                 UI.masterTable.setVisible(false);
                 UI.hideButton.setPosition(Gdx.graphics.getWidth()-UI.hideButton.getWidth() - 10f, 10f);
 
-            /*if(UI.fullChargeMeter())
-                endGameAnimation.run();*/
+                enemy.reset();//clears all the remaining enemy.
+                if(playLevel < padi.player.getNumberOfLevels())
+                    padi.player.setLevelsUnlocked(playLevel);
+                System.out.println("Level: " + playLevel + " unlocked!");
+                padi.loadsave.savePlayer(padi.player);
+
 
 
 

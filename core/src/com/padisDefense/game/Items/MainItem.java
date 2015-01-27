@@ -45,10 +45,10 @@ public class MainItem extends Sprite{
     private String displayStats;
     private Array<String> targets;
     private String name;
-
+    private String pic;
     public MainItem(String pic){
         super(new Texture(pic));
-
+        this.pic = pic;
         targets = new Array<String>();
         displayStats = "";
         name = "";
@@ -60,6 +60,7 @@ public class MainItem extends Sprite{
     public String getDisplayStats(){return displayStats;}
     public Array<String> getTargets(){return targets;}
     public String getName(){return name;}
+    public String getPic(){return pic;}
 
 
     public void setCost(int c){cost = c;}

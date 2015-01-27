@@ -25,7 +25,7 @@ public class DamageManager {
 
         //if tower is strong against enemy, its attack is increased 100%
         if(t.isStrongAgainst(e.getName())){
-            attack = t.getAttack()*2f;
+            attack = t.getAttack()*5f;
             e.originalHit(attack);//bypasses increased armor.
         }
         //if tower is weak against enemy, its attack is reduced to 10%

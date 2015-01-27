@@ -256,7 +256,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     }
 
     public Vector2 getSparkleLocation(){
-        return new Vector2(getX() - getWidth(), getY() - getHeight());
+        return new Vector2(getX() - getWidth()/2, getY() - getHeight()/2);
     }
 
     //This function calculates the bullet's spawn location relative to the tower.

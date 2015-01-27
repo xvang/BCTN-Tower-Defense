@@ -1,5 +1,13 @@
 {
-com.badlogic.gdx.graphics.g2d.BitmapFont: { default-font: { file: poorRichard20.fnt } },
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default-font: {
+        file: poorRichard20.fnt
+    },
+
+    white:{
+        file: poorrichardwhite.fnt
+    }
+},
 com.badlogic.gdx.graphics.Color: {
 	green: { a: 1, b: 0, g: 1, r: 0 },
 	white: { a: 1, b: 1, g: 1, r: 1 },
@@ -10,7 +18,7 @@ com.badlogic.gdx.graphics.Color: {
 
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-	    font: default-font,
+	    font: white,
 	    fontColor: white
 	}
 },

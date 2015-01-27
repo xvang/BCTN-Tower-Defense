@@ -17,7 +17,7 @@ public class BlueTower extends Tower {
         setLevel(level);
         setBulletLimit(1);
         setCost(100);
-        setAttack(50f);
+        setAttack(80f);
         setRange(200f);
         setChargeRate(0.04f);
         setIncomeRate(4f);
@@ -26,7 +26,7 @@ public class BlueTower extends Tower {
         setID("BLUE");
         setBulletSprite(bullet);
         setBulletRate(0.07f);
-        setWeakAgainst("yellowball");
+        setWeakAgainst("greenball");
         setStrongAgainst("blueball");
     }
 

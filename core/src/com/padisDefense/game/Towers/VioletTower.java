@@ -19,7 +19,7 @@ public class VioletTower extends Tower {
         setLevel(level);
         setBulletLimit(1);
         setCost(60);
-        setAttack(50f);
+        setAttack(80f);
         setRange(200f);
         setChargeRate(0.025f);
         setIncomeRate(4f);
@@ -29,7 +29,7 @@ public class VioletTower extends Tower {
         setBulletSprite(bullet);
         setBulletRate(0.10f);
         setCustomArc(40f);
-        setWeakAgainst("pinkball");
+        setWeakAgainst("yellowball");
         setStrongAgainst("violetball");
     }
 }

@@ -20,7 +20,7 @@ public class PurpleTower extends Tower {
         state = true;
         setID("PURPLE");
         setCost(25);
-        setAttack(50f);
+        setAttack(80f);
         setRange(200f);
         setIncomeRate(4f);
         setChargeRate(0.021f);
@@ -30,7 +30,7 @@ public class PurpleTower extends Tower {
         setBulletRate(0.08f);
         setCustomArc(120f);
         setWeakAgainst("blueball");
-        setStrongAgainst("purpleball", "violetball");
+        setStrongAgainst("purpleball");
     }
 
 
@@ -44,9 +44,9 @@ public class PurpleTower extends Tower {
     //rogue tower has a chance of healing the enemy
     //50% chance of healing by 50% of its attack.
     public float getAttack(){
-        if(Math.random()*100f > 50f){
+       /* if(Math.random()*100f > 50f){
             return -attack/2;
-        }
+        }*/
 
 
         return attack;

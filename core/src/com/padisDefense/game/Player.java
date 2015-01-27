@@ -13,32 +13,33 @@ import com.padisDefense.game.Items.MainItem;
  * */
 public class Player {
 
-    public static int numberOfLevels = 9;
-    public static String name;
-    public static int money;
-    public static Array<MainItem> itemsUnlocked;
+    public static int numberOfLevels = 8;
+    public String name;
+    public int money;
+    public Array<MainItem> itemsUnlocked;
     private String password;
 
 
     //Levels
     //has to be this kind of array because Array<> and Vector() do not take primitive types.
     //boolean is apparently a primitive type. Probably along with int, float, char... etc.
-    public static boolean[] levels = new boolean[numberOfLevels];
+    public boolean[] levels = new boolean[numberOfLevels];
 
 
     //Constructor
-    Player(){
+    public Player(){
         //TODO: lock the levels.
         //only the first level is unlocked.
         for(int x = 0; x < levels.length; x++){
-            /*if(x == 0)
+            if(x == 0)
                 levels[x] = true;
             else
-                levels[x] = false;*/
-            levels[x] = true;
+                levels[x] = false;
+            //levels[x] = true;
         }
         money = 1000;
-        name = "Guest" +  (int)(Math.random()*1000);
+        //name = "Guest" +  (int)(Math.random()*1000);
+        name = "";
         itemsUnlocked = new Array<MainItem>();
 
 
@@ -48,12 +49,12 @@ public class Player {
     public void setName(String n){ name = n;}
     public void setScore(int s){money = s;}
     public void addItemsUnlocked(MainItem i){itemsUnlocked.add(i);}
-    public void setLevelsUnlocked(int l){levels[l - 1] = true;}
+    public void setLevelsUnlocked(int l){levels[l] = true;}
     public void setPassword(String p){password = p;}
     public void setMoney(int m){money = m;}
 
     //GET functions.
-    public String get_Name(){return name;}
+    public String getName(){return name;}
     public int getMoney(){return money;}
     public Array<MainItem> getItemsUnlocked(){return itemsUnlocked;}
 
@@ -79,7 +80,7 @@ public class Player {
     }
 
     public String getPassword(){return password;}
-
+    public int getNumberOfLevels(){return numberOfLevels;}
 
 
 

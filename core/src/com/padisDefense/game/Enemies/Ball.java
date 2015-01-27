@@ -38,28 +38,28 @@ public class Ball extends Enemy {
     public void initOrange(){
         setName("orangeball");
         setRate(0.25f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initGreen(){
         setName("greenball");
         setRate(0.15f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initViolet(){
         setName("violetball");
         setRate(0.15f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initArmy(){
         setName("armyball");
         setRate(0.11f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
 
     }
@@ -67,35 +67,35 @@ public class Ball extends Enemy {
     public void initBlue(){
         setName("blueball");
         setRate(0.21f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initYellow(){
         setName("yellowball");
         setRate(0.09f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initPink(){
         setName("pinkball");
         setRate(0.19f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initPurple(){
         setName("purpleball");
         setRate(0.17f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
     }
 
     public void initRed(){
         setName("redball");
         setRate(0.17f + (float)Math.random()*0.009f);
-        setOriginalArmor(10);
+        setOriginalArmor(5);
         setHealth(50);
 
     }

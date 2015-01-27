@@ -99,8 +99,8 @@ public class Store extends ScreenAdapter{
         t.add(scrollPane).padRight(250f);
 
         //background image.
-        final Image background = new Image(new Texture("badlogic.jpg"));
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //final Image background = new Image(new Texture("badlogic.jpg"));
+        //background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 
         //making the stuff on the right.
@@ -113,8 +113,6 @@ public class Store extends ScreenAdapter{
         info = new Label("\n", padi.assets.someUIskin, "default");
         cost = new Label("\n", padi.assets.someUIskin, "default");
         affects = new Label("\n", padi.assets.someUIskin, "default");
-
-
 
         final TextButton unlockButton = new TextButton("Unlock Now", padi.assets.bubbleUI, "yellow");
         message = new Label("\n", padi.assets.skin, "default");
@@ -132,6 +130,9 @@ public class Store extends ScreenAdapter{
                             padi.player.setMoney(padi.player.getMoney() - clickedItemCost);
 
                             padi.player.addItemsUnlocked(clickedItem);
+
+                            padi.loadsave.savePlayer(padi.player);//save the purchase.
+
                             money.setText(String.valueOf(padi.player.getMoney()));
                             message.setColor(Color.GREEN);
                             message.setText("Item unlocked.");
@@ -175,7 +176,8 @@ public class Store extends ScreenAdapter{
         allTables.setPosition(Gdx.graphics.getWidth()*7/8, Gdx.graphics.getHeight()/2);
 
 
-        stage.addActor(background);
+       // stage.addActor(background);
+
         stage.addActor(t);
         stage.addActor(allTables);
 
@@ -202,8 +204,11 @@ public class Store extends ScreenAdapter{
     }
 */
     @Override public void render(float delta) {
-        this.stage.act();
+        Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.stage.act();
+
+
         this.stage.draw();
     }
 
