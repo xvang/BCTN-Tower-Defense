@@ -12,7 +12,7 @@ public class Cobra extends Enemy {
 
     public Cobra(){
         //health, armor, texture
-        super(100, 1, "bestgoblin.png");
+        super(100, 1, "");
         setName("cobra");
         setRate(0.15f + (float)Math.random()*0.039f);
 

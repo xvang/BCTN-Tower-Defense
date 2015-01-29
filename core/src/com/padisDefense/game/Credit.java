@@ -34,11 +34,17 @@ public class Credit extends ScreenAdapter {
         batch = new SpriteBatch();
         animations = new Array<CreditAnimation>();
 
-        //
         animations.add(new CreditAnimation("enemies/bipedalDragon_all.png",6,4));
         animations.add(new CreditAnimation("enemies/blue_walk_updated.png",4,4));
         animations.add(new CreditAnimation("enemies/spider02.png",10,5));
-        //...
+        animations.add(new CreditAnimation("enemies/spider03.png",10,5));
+        animations.add(new CreditAnimation("enemies/spider05.png",10,5));
+        animations.add(new CreditAnimation("enemies/king_cobra.png",3 ,4));
+        animations.add(new CreditAnimation("enemies/golem-walk.png",7,4));
+        animations.add(new CreditAnimation("enemies/mage.png", 8,2));
+        animations.add(new CreditAnimation("animation/fire_02.png", 8,8));
+        animations.add(new CreditAnimation("animation/particlefx_06.png", 8,8));
+        animations.add(new CreditAnimation("animation/particlefx_07.png", 8,8));
 
 
         Table table = new Table();
@@ -61,19 +67,10 @@ public class Credit extends ScreenAdapter {
 
         stage.addActor(scrollWrap);
 
-        for(int x = 0; x < animations.size; x++){
+        /*for(int x = 0; x < animations.size; x++){
             stage.addActor(animations.get(x));
-        }
+        }*/
         Gdx.input.setInputProcessor(stage);
-
-
-        Vector2 bb  = new Vector2();
-        for(int x = 0; x < animations.size; x++){
-            System.out.print(animations.get(x).getX() + ", " + animations.get(x).getY());
-            bb.set(animations.get(x).stageToLocalCoordinates(new Vector2(animations.get(x).getX(), animations.get(x).getY())));
-            System.out.print("bb = " + bb);
-            System.out.println("\n");
-        }
 
     }
 
@@ -83,12 +80,12 @@ public class Credit extends ScreenAdapter {
         Gdx.gl.glClearColor(0f,0f,0f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        this.stage.act();
         this.stage.draw();
 
         batch.begin();
         for(int x = 0 ;x < animations.size; x++){
             animations.get(x).animate(batch);
+
         }
 
         batch.end();

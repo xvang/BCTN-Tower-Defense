@@ -27,6 +27,7 @@ public class Padi extends Game implements ApplicationListener{
     public Store store;
     public LoadSaveGame loadsave;
     public Profile profile;
+    Credit credit;
     GameScreen gameScreen;
     //public LogIn login;
 
@@ -39,7 +40,7 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
-        assets = new Assets(this);
+        /*assets = new Assets(this);
         //assets.initGameScreen();
         gameScreen = new GameScreen(this);
         main_menu = new MainMenu(this);
@@ -50,7 +51,10 @@ public class Padi extends Game implements ApplicationListener{
         profile = new Profile(this);
         loadsave = new LoadSaveGame();
         player = loadsave.loadPlayer();
-        this.setScreen(new Splash(this));
+        credit = new Credit();
+
+        this.setScreen(new Splash(this));*/
+        this.setScreen(new Credit());
         //this.setScreen(new LocalSaveTest());
         //this.setScreen(new ChangeTextureInSpriteTest());
         //this.setScreen(new BallSpawnTest());
