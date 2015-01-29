@@ -19,10 +19,10 @@ import com.padisDefense.game.Managers.UIManager;
 public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public Padi padi;
-    private Sprite background;
-    private SpriteBatch batch;
+
     private boolean GAME_OVER = false;
     private EndGameAnimation endGameAnimation;
+    public String gameStatus = "";
 
 
     public EnemyManager enemy;
@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     public GameScreen(Padi p){
         padi = p;
-        batch = new SpriteBatch();
+
         endGameAnimation = new EndGameAnimation();
         tower = new TowerManager(this, padi);
         level = new LevelManager(this, padi);
@@ -69,6 +69,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         multi.addProcessor(UI);
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
+        gameStatus = "";
+
 
     }
 
@@ -91,16 +93,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         level.spawnBuildableSpots(tower, playLevel);//getting locations for buildableSpots.
 
-        background = level.getBackground();//getting background for level.
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setOrigin(0, 0);
     }
 
 
     boolean do_once = true;
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(!UI.PAUSED){
@@ -108,9 +107,9 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             oldEnemyCount = enemy.getEnemyCounter();
 
 
-            batch.begin();
-            background.draw(batch);
-            batch.end();
+           // batch.begin();
+           // background.draw(batch);
+            //batch.end();
 
             tower.drawCircles();
 
@@ -138,7 +137,26 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             //checks if game ended.
 
 
-            if((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once){
+            if(((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once)
+                    || gameStatus.equals("lose")){
+
+                //updating stats.
+                if(gameStatus.equals("win")){
+
+                    padi.player.wins++;
+                    System.out.println("total wins: "  + padi.player.wins);
+                    UI.winMessage.setVisible(true);
+                    UI.loseMessage.setVisible(false);
+                    padi.player.money +=  100 + padi.assets.getDifficulty() * 2;
+                }
+                else{
+                    padi.player.loss++;
+                    UI.winMessage.setVisible(false);
+                    UI.loseMessage.setVisible(true);
+                    padi.player.money += 100 + padi.assets.getDifficulty();
+                }
+
+                padi.player.gamesPlayed++;
 
                 do_once = false;
                 GAME_OVER = true;
@@ -156,8 +174,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                 enemy.reset();//clears all the remaining enemy.
                 if(playLevel < padi.player.getNumberOfLevels())
                     padi.player.setLevelsUnlocked(playLevel);
-                System.out.println("Level: " + playLevel + " unlocked!");
+
                 padi.loadsave.savePlayer(padi.player);
+
+
 
 
 
@@ -248,6 +268,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         multi.addProcessor(UI);
         multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
+        gameStatus = "";
     }
     @Override
     public void resize(int x, int y){
@@ -294,10 +315,3 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 }
 
 
-
-/**
- * TODO too many calls like "foo.bar.fool.bark.fubar.get().fb()"?
- * Maybe that's why the game slows a bit at the beginning.
- * Return from this screen back to World Map.
- *
- * **/

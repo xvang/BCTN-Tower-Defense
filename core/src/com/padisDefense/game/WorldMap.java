@@ -192,6 +192,7 @@ public class WorldMap implements Screen {
 
     @Override
     public void pause() {
+
     }
 
 

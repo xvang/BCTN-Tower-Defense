@@ -51,12 +51,8 @@ public class Instruction extends ScreenAdapter {
         final Group buttons = new Group();
         stage = new Stage();
 
-        for(int x = 0; x < pages; x++){
-            slides.add(new Image(padi.assets.getRandomPic()));
-            slides.get(x).setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
 
-        currentSlide = slides.get(0);
+
 
         //declaring buttons
         TextButton next = new TextButton("Next", padi.assets.bubbleUI, "red");
@@ -76,10 +72,27 @@ public class Instruction extends ScreenAdapter {
         next.setPosition(w - (next.getWidth() + 20f), h/40);
         back.setPosition(w/45, h/40);
 
+
+        slides.add(new Image(new Texture("page1.png")));
+        slides.add(new Image(new Texture("page2.png")));
+        slides.add(new Image(new Texture("page3.png")));
+        slides.add(new Image(new Texture("page4.png")));
+        slides.add(new Image(new Texture("page5.png")));
+
+
+        for(int x = 0; x < slides.size; x++){
+
+            slides.get(x).setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - menu.getHeight() - menu.getY() - 10f);
+            slides.get(x).setPosition(0, menu.getY() + menu.getHeight() + 10f);
+
+        }
+        currentSlide = slides.get(0);
+
+
         //display page number and pages left.
         displayPage = String.valueOf(currentPage + 1) + " / " + String.valueOf(slides.size);
         pagesLeft = new Label(displayPage, padi.assets.someUIskin, "default");
-        pagesLeft.setPosition(w - pagesLeft.getWidth() - 20f, h - pagesLeft.getHeight() - 20f);
+        pagesLeft.setPosition((menu.getX() + next.getX())/2, h/40);
 
 
         menu.addListener(new ClickListener() {
@@ -148,12 +161,11 @@ public class Instruction extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        padi.assets.batch.begin();
         stage.draw();
-        padi.assets.batch.end();
+
 
     }
 

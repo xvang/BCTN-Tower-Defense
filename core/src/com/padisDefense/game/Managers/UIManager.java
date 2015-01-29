@@ -38,6 +38,7 @@ public class UIManager implements InputProcessor{
     Stage stage;
     public Table masterTable;
     public TextButton hideButton;
+    public int lifepoints = 20;
 
 
     //prints money and enemy left.
@@ -81,6 +82,7 @@ public class UIManager implements InputProcessor{
     public Stage endStage;//This is to make the endgame popup the only thing that takes input.
     public Table endGameTable;
     private Label endGameTimeMessage;
+    public Label winMessage, loseMessage;
 
 
     //pause Screen
@@ -93,7 +95,7 @@ public class UIManager implements InputProcessor{
 
     //displays tower stats in mastertable.
     public Table statsTable;
-    private Label attackLabel, rangeLabel, costLabel, levelLabel, nameLabel;
+    private Label attackLabel, rangeLabel, costLabel, levelLabel, nameLabel, lifeLabel;
 
 
     public UIManager(GameScreen g, Padi p){
@@ -101,6 +103,7 @@ public class UIManager implements InputProcessor{
         padi = p;
         stage = new Stage();
 
+        createPauseTable();
         createDragTowers();
         createCountDownTable();
         createTowerTable();
@@ -108,7 +111,7 @@ public class UIManager implements InputProcessor{
         createChargeMeter();
         createOptionTable();
         createMessageTable();
-        createPauseTable();
+
         createStatsTable();
         createMasterTable();
 
@@ -144,6 +147,7 @@ public class UIManager implements InputProcessor{
         stage.addActor(clickedTowerTable);
         stage.addActor(pauseButtonTable);
         stage.addActor(messageTable);
+        stage.addActor(countDownTable);
 
     }
 
@@ -205,18 +209,26 @@ public class UIManager implements InputProcessor{
         levelLabel.setText("Level: " + String.valueOf(t.getLevel()));
         nameLabel.setText("Name: " + t.getID());
 
+
     }
     public void updateUIStuff(int enemyCounter, int inGameMoney){
         if(!GAME_OVER){
             updateEnemyMessage(enemyCounter);
             updateMoneyMessage(inGameMoney);
             updateCountDownMessage();
+            lifeLabel.setText("LifePoints: " + String.valueOf(lifepoints));
+
+            //lost the game.
+            if(lifepoints <= 0)
+                game.gameStatus = "lose";
         }
-
-
     }
 
     public boolean fullChargeMeter(){
+
+        if(loadingBar.getWidth() == loadingHidden.getWidth())
+            game.gameStatus = "win";
+
         return (loadingBar.getWidth() == loadingHidden.getWidth());
     }
 
@@ -399,6 +411,7 @@ public class UIManager implements InputProcessor{
         levelLabel = new Label("\n", padi.assets.someUIskin);
 
 
+
         statsTable.add(nameLabel).row();
         statsTable.add(attackLabel).row();
         statsTable.add(rangeLabel).row();
@@ -412,6 +425,7 @@ public class UIManager implements InputProcessor{
         moneyMessage = new Label("Bank: $ ", padi.assets.someUIskin);
         enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
         timeMessage = new Label("Total time: " + String.valueOf(TIMER), padi.assets.someUIskin);
+        lifeLabel = new Label("\n", padi.assets.someUIskin);
 
         //making table for messages.
         messageTable = new Table();
@@ -420,11 +434,12 @@ public class UIManager implements InputProcessor{
         // messageTable.setSize(200f, Gdx.graphics.getHeight());
         // messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
 
-        messageTable.add(enemyMessage).padRight(40f);
-        messageTable.add(moneyMessage).padRight(40f);
-        messageTable.add(timeMessage).padRight(40f);
-        messageTable.setSize(200f, 30f);
-        messageTable.setPosition(200f, Gdx.graphics.getHeight() - 30f);
+        messageTable.add(enemyMessage).padRight(30f);
+        messageTable.add(moneyMessage).padRight(30f);
+        messageTable.add(timeMessage).padRight(30f);
+        messageTable.add(lifeLabel).padRight(30f);
+        //messageTable.setSize(300f, 30f);
+        messageTable.setPosition(400f, Gdx.graphics.getHeight() - 20f);
        // messageTable.setPosition(0,0);
 
     }
@@ -442,7 +457,7 @@ public class UIManager implements InputProcessor{
         TextureRegionDrawable background = new TextureRegionDrawable(
                 new TextureRegion(new Texture("uitablebackground.png")));
 
-        masterTable.add(countDownTable).row();
+        //masterTable.add(countDownTable).row();
         masterTable.add(statsTable).row();
         masterTable.add(dragTowers).row();
 
@@ -551,6 +566,7 @@ public class UIManager implements InputProcessor{
                 countDownTable.setVisible(false);
             }
         });
+
         final Label countDownMessage1 = new Label("Click the Start Button to start!", padi.assets.someUIskin);
 
         float temp = game.enemy.getCountDownTimer();
@@ -558,9 +574,10 @@ public class UIManager implements InputProcessor{
                 padi.assets.someUIskin, "default");
 
 
-        countDownTable.add(startButton).width(180f).height(50f).row().pad(5f);
+        countDownTable.add(startButton).width(120f).height(50f).row().pad(5f);
         countDownTable.add(countDownMessage1).row().pad(5f);
         countDownTable.add(countDownMessage2).row().pad(5f);
+        countDownTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 
 
     }
@@ -572,9 +589,9 @@ public class UIManager implements InputProcessor{
         ImageButton charge = new ImageButton(padi.assets.bubbleUI, "charge");
         ImageButton upgrade = new ImageButton(padi.assets.bubbleUI, "upgrade");
         ImageButton sell = new ImageButton(padi.assets.bubbleUI, "trash");
-        clickedOptionTable.add(charge).width(45f).height(45f).pad(15f);
-        clickedOptionTable.add(upgrade).width(45f).height(45f).pad(15f);
-        clickedOptionTable.add(sell).width(45f).height(45f).pad(15f);
+        clickedOptionTable.add(charge).width(45f).height(45f).pad(35f);
+        clickedOptionTable.add(upgrade).width(45f).height(45f).pad(35f);
+        clickedOptionTable.add(sell).width(45f).height(45f).pad(35f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
 
@@ -646,8 +663,6 @@ public class UIManager implements InputProcessor{
                 clickedOptionTable.setVisible(false);
                 clickedTowerTable.setVisible(false);
                 game.tower.clearBuildable(currentBS);
-
-
             }
         });
     }
@@ -698,25 +713,14 @@ public class UIManager implements InputProcessor{
 
 
         clickedTowerTable.setVisible(false);
-
-
-        //adding listeners. hiding the tables.
-        /*for(int x = 0; x < towerOptions.size; x++){
-            towerOptions.get(x).addListener(new ClickListener(){
-                @Override
-                public void clicked(InputEvent e, float x, float y){
-
-                }
-            });
-        }*/
     }
 
     public void createEndGameTable(){
 
         endStage = new Stage();
         endGameTable = new Table();
-        Label winMessage = new Label("You Won!", padi.assets.someUIskin, "default");
-        Label loseMessage = new Label("You Lost!", padi.assets.someUIskin, "default");
+        winMessage = new Label("You Won!", padi.assets.someUIskin, "default");
+        loseMessage = new Label("You Lost!", padi.assets.someUIskin, "default");
         endGameTimeMessage = new Label("Time: ", padi.assets.someUIskin, "default");
         final TextButton returnButton = new TextButton(" World Map ", padi.assets.bubbleUI, "red");
         final TextButton retryButton = new TextButton("Try Level Again", padi.assets.bubbleUI, "red");
@@ -739,7 +743,7 @@ public class UIManager implements InputProcessor{
 
 
         endGameTable.add(winMessage).row().pad(15f);
-        //endGameTable.add(loseMessage).row().pad(15f);
+        endGameTable.add(loseMessage).row().pad(15f);
         endGameTable.add(endGameTimeMessage).row().pad(15f);
         endGameTable.add(returnButton).width(Gdx.graphics.getWidth()/3).height(Gdx.graphics.getHeight()/9).padRight(30f);
         endGameTable.add(retryButton).width(Gdx.graphics.getWidth()/3).height(Gdx.graphics.getHeight()/9).row().pad(15f);
@@ -921,7 +925,7 @@ public class UIManager implements InputProcessor{
         PAUSED = false;
         updateTimerMessage();
         hideButton.setText("Hide");
-
+        lifepoints = 20;
 
         loadingBar.setSize(0, loadingBar.getHeight());
         currentCharge = 0;

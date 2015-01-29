@@ -64,7 +64,8 @@ public class MainMenu extends ScreenAdapter {
         final TextButton button1 = new TextButton("Setting", padi.assets.bubbleUI, "green");
         final TextButton button2 = new TextButton("Store", padi.assets.bubbleUI, "green");
         final TextButton button3 = new TextButton("Instructions", padi.assets.bubbleUI, "green");
-        final TextButton button5 = new TextButton("Log in", padi.assets.bubbleUI, "green");
+        final TextButton button5 = new TextButton("Profile", padi.assets.bubbleUI, "green");
+        final TextButton button6 = new TextButton("Credits", padi.assets.bubbleUI, "green");
 
         table.add(button).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
@@ -137,7 +138,7 @@ public class MainMenu extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y){
 
-                LogIn log = new LogIn();
+                padi.setScreen(padi.profile);
             }
         });
 

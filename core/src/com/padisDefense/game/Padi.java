@@ -26,6 +26,7 @@ public class Padi extends Game implements ApplicationListener{
     public Player player;
     public Store store;
     public LoadSaveGame loadsave;
+    public Profile profile;
     GameScreen gameScreen;
     //public LogIn login;
 
@@ -46,6 +47,7 @@ public class Padi extends Game implements ApplicationListener{
         worldmap = new WorldMap(this);
         store = new Store(this);
         instruction = new Instruction(this);
+        profile = new Profile(this);
         loadsave = new LoadSaveGame();
         player = loadsave.loadPlayer();
         this.setScreen(new Splash(this));

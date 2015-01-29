@@ -15,7 +15,8 @@ public class Player {
 
     public static int numberOfLevels = 8;
     public String name;
-    public int money;
+    public int money, wins, loss, gamesPlayed, kills;
+
     public Array<MainItem> itemsUnlocked;
     private String password;
 
@@ -38,6 +39,10 @@ public class Player {
             //levels[x] = true;
         }
         money = 1000;
+        wins = 0;
+        loss = 0;
+        kills = 0;
+        gamesPlayed = 0;
         //name = "Guest" +  (int)(Math.random()*1000);
         name = "";
         itemsUnlocked = new Array<MainItem>();
@@ -82,6 +87,24 @@ public class Player {
     public String getPassword(){return password;}
     public int getNumberOfLevels(){return numberOfLevels;}
 
+
+    public void deleteAll(){
+        for(int x = 0; x < levels.length; x++){
+            if(x == 0)
+                levels[x] = true;
+            else
+                levels[x] = false;
+            //levels[x] = true;
+        }
+
+        money = 1000;
+        wins = 0;
+        loss = 0;
+        kills = 0;
+
+        name = "";
+        itemsUnlocked.clear();
+    }
 
 
 }

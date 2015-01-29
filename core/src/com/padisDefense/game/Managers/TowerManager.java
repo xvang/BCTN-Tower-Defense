@@ -284,7 +284,7 @@ public class TowerManager{
         if(t.getCurrentTower() != null){
 
             Tower pointer = t.getCurrentTower();
-            inGameMoney += (int)(t.getCurrentTower().getCost()*0.6);
+            inGameMoney += (int)(t.getCurrentTower().getCost()*0.75);
             towerArray.removeValue(t.getCurrentTower(), false);
 
 

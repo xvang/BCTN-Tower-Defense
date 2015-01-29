@@ -41,11 +41,11 @@ public class DamageManager {
         //no matter the tower, targeted enemy will take SOME damage.
 
 
-        if(t.getID().equals("STRENGTH")){
+        /*if(t.getID().equals("BLUE")){
             iceHit((YellowTower) t, e);
-        }
+        }*/
 
-        else if(t.getID().equals("AOE")){
+        if(t.getID().equals("GREEN")){
             aoeHit((GreenTower) t, e);
         }
 

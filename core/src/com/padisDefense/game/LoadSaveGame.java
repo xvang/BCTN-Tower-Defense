@@ -16,11 +16,13 @@ public class LoadSaveGame {
 
     }
 
+    //todo: statsssssssssssssssssss
+
     public static class Playa{
 
         public static int numberOfLevels = 8;
         public String name;
-        public int money;
+        public int money, wins, loss, gamesPlayed, kills;
         public Array<Itemer> itemsUnlocked = new Array<Itemer>();
         public boolean[] levels = new boolean[numberOfLevels];
 
@@ -61,6 +63,11 @@ public class LoadSaveGame {
         Playa playa = new Playa();
         playa.money = player.getMoney();
         playa.name = player.name;
+        playa.wins = player.wins;
+        playa.loss = player.loss;
+        playa.gamesPlayed = player.gamesPlayed;
+        playa.kills = player.kills;
+
         playa.numberOfLevels = player.numberOfLevels;
 
         //copying all the unlocked item array.
@@ -93,6 +100,7 @@ public class LoadSaveGame {
 
         Json json = new Json();
         writeFile("game.sav", json.toJson(playa));
+        writeFile("backup.sav", json.toJson(playa));
 
     }
 
@@ -109,6 +117,10 @@ public class LoadSaveGame {
 
             player.money = playa.money;
             player.name = playa.name;
+            player.wins = playa.wins;
+            player.loss = playa.loss;
+            player.gamesPlayed = playa.gamesPlayed;
+            player.kills = playa.kills;
 
 
             for(int x = 0; x < playa.levels.length; x++){
@@ -139,5 +151,11 @@ public class LoadSaveGame {
 
         //if file is empty, then player just defaults to a new player.
         return player;
+    }
+
+
+    public void clearSavedProfile(){
+        readFile("game.sav");
+        writeFile("game.sav", "");
     }
 }

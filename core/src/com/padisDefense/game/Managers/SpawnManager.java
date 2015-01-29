@@ -205,65 +205,70 @@ public class SpawnManager {
             leastValue = 0;
         }
 
+        //if the difficulty level is less than 50, duck time should not run.
+        if(padi.assets.getDifficulty() > 49){
+            //spawns either the duck, or a bull rush spawn.
+            if(mostValue < 3){
+                duckTimer++;
 
-        //spawns either the duck, or a bull rush spawn.
-        if(mostValue < 3){
-            duckTimer++;
+                //every 8 spawns, every active enemy has a chance to have increased armor,
+                //up to a maximum of 300% of the intial armor value.
+                //the chance is based on the difficulty level.
+                if(duckTimer >= 8){
+                    duckTimer = 0;
+                    double x = Math.random()*100;
+                    if(x <= padi.assets.getDifficulty()){
+                        //System.out.println("ENEMY IS ARMORING");
+                        for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
+                            Enemy e = game.enemy.getActiveEnemy().get(s);
 
-            //every 5 seconds, every active enemy has a chance to have increased armor,
-            //up to a maximum of 300% of the intial armor value.
-            //the chance is based on the difficulty level.
-            if(duckTimer >= 8){
-                duckTimer = 0;
-                double x = Math.random()*100;
-                if(x <= padi.assets.getDifficulty()){
-                    System.out.println("ENEMY IS ARMORING");
-                    for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
-                        Enemy e = game.enemy.getActiveEnemy().get(s);
+                            if(e.getArmor() < e.getOriginalArmor()*3)
+                                e.setArmor(e.getArmor()*1.1f);
+                        }
 
-                        if(e.getArmor() < e.getOriginalArmor()*3)
-                            e.setArmor(e.getArmor()*1.1f);
                     }
-
                 }
-            }
-            if(!spawnedDuck){//The duck should only spawn once to signify the start of bullrushing.
-                newEnemy = new Duck();
-                System.out.println("Watch out its' the duck!");
-                spawnedDuck = true;
-                chosenEnemyType = (int)(Math.random()*allEnemies.size);
-                System.out.println("SPAWNING TYPE: " + allEnemies.get(chosenEnemyType));
-                return newEnemy;
-            }
-            else return spawnBullRush();
+                if(!spawnedDuck){//The duck should only spawn once to signify the start of bullrushing.
+                    newEnemy = new Duck();
+                    // System.out.println("Watch out its' the duck!");
+                    spawnedDuck = true;
+                    chosenEnemyType = (int)(Math.random()*allEnemies.size);
+                    //System.out.println("SPAWNING TYPE: " + allEnemies.get(chosenEnemyType));
+                    return newEnemy;
+                }
+                else return spawnBullRush();
 
-        }
-        else{
-            duckTime = true;
-            spawnedDuck = false;
-            //mostType = new Array<Tower>();
-            //leastType = new Array<Tower>();
-
-            for(Map.Entry<Tower, Integer> k: data.entrySet()){
-                if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
-                else if(k.getValue().equals(leastValue)) leastType.add(k.getKey());
-            }
-
-            double x = Math.random()*100;
-
-            //Example: if DIFFICULTY was 55, then there is a
-            //55% chance the enemy spawn will counter the user's dominant tower.
-            if(x >= padi.assets.getDifficulty()){
-                newEnemy = spawnRandom();
-                //System.out.println("spawn Random()");
             }
             else{
-                newEnemy = spawnCustom(mostType);
-                //System.out.println("spawn Custom()");
+                duckTime = true;
+                spawnedDuck = false;
+                //mostType = new Array<Tower>();
+                //leastType = new Array<Tower>();
+
+                for(Map.Entry<Tower, Integer> k: data.entrySet()){
+                    if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
+                    else if(k.getValue().equals(leastValue)) leastType.add(k.getKey());
+                }
+
+                double x = Math.random()*100;
+
+                //Example: if DIFFICULTY was 55, then there is a
+                //55% chance the enemy spawn will counter the user's dominant tower.
+                if(x >= padi.assets.getDifficulty()){
+                    newEnemy = spawnRandom();
+                    //System.out.println("spawn Random()");
+                }
+                else{
+                    newEnemy = spawnCustom(mostType);
+                    //System.out.println("spawn Custom()");
+                }
             }
         }
+        else{
+            newEnemy = spawnRandom();
+        }
 
-        System.out.println("Spawning response: " + newEnemy.getName());
+        //System.out.println("Spawning response: " + newEnemy.getName());
         return newEnemy;
     }
 
@@ -298,7 +303,7 @@ public class SpawnManager {
     //spawns a random enemy.
     private Enemy spawnRandom() {
 
-        int x = (int)(Math.random()*7);
+        int x = (int)(Math.random()*8);
 
         if(x == 0) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
         else if (x == 1) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
@@ -307,7 +312,7 @@ public class SpawnManager {
         else if (x == 4) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
         else if (x == 5) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
         else if (x == 6) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
-        else if (x == 6) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        else if (x == 7) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
 
 
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
@@ -337,7 +342,7 @@ public class SpawnManager {
 
 
 
-    //TODO: find out if setting the old tower to NULL messes anything up. memory leaks?
+
     //this function upgrades a tower.
     //it gathers the necessary information, then its suppose to delete the current tower
     //then it calls buildATower() on the buildablespot.

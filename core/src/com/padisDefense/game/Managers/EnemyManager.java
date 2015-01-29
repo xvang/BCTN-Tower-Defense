@@ -2,12 +2,15 @@ package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Bullets.Bullet;
+import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
@@ -36,7 +39,8 @@ public class EnemyManager {
     private float spawnPause = 0f;
 
     protected Array<Enemy>  activeEnemy;
-    Enemy boss;
+    public Enemy boss;
+    public Sprite end;
 
 
     //TODO: find out why a high arc value makes the bullet disappear.
@@ -53,6 +57,10 @@ public class EnemyManager {
 
         batch = new SpriteBatch();
         storage = new PathStorage();
+        end = new Sprite(new Texture("enemies/balls/rainbowball.png"));
+        end.setSize(150f, 150f);
+
+
     }
 
 
@@ -63,6 +71,8 @@ public class EnemyManager {
 
         if(storage == null)
             System.out.println("null storage");
+
+        Vector2 endPosition = new Vector2();
         switch(p){
 
             case(1):
@@ -81,6 +91,13 @@ public class EnemyManager {
                 path = storage.getPath(4);
                 break;
         }
+
+        //getting the location for the end of the path.
+        path.get(path.size - 1).valueAt(endPosition, 0.9f);
+        System.out.println(endPosition);
+        end.setCenterX(endPosition.x);
+        end.setCenterY(endPosition.y);
+        //end.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
     }
 
     public void startEnemy(){
@@ -95,6 +112,8 @@ public class EnemyManager {
 
         else{
             batch.begin();
+            end.draw(batch);
+            //end.rotate(1);
             run();
             batch.end();
 
@@ -154,7 +173,12 @@ public class EnemyManager {
     public Array<Enemy> getActiveEnemy(){return activeEnemy;}
     public Array<Path<Vector2>> getPath(){return path;}
     //public int getSpawnsLeft(){return spawnsLeft;}
-    public Boolean noMoreEnemy(){return (spawnsLeft == 0 && activeEnemy.size == 0);}
+    public Boolean noMoreEnemy(){
+        if(spawnsLeft == 0 && activeEnemy.size == 0)
+            game.gameStatus = "win";
+
+        return (spawnsLeft == 0 && activeEnemy.size == 0);
+    }
 
     public void run(){
         Vector2 position = new Vector2();
@@ -217,10 +241,23 @@ public class EnemyManager {
                 }
 
                 else{//end of path.
-                    currentEnemy.setCurrentPath(0);
-                    currentEnemy.stateTime = 0f;
-                    currentEnemy.oldPosition.set(0,0);
-                    currentEnemy.newPosition.set(0,0);
+
+                    //if active enemy size is 1, and no spawns are left, then enemy must be the boss
+                    //enemy should not travel path again.
+                    // which triggers end game in gamescreen.java
+                    if(activeEnemy.size == 1 && spawnsLeft == 0){
+
+                        game.gameStatus = "lose";
+                        break;//breaks the for-loop. activeEnemy array is now empty.
+                    }
+                    else{
+                        game.UI.lifepoints--;//once this gets to zero, game is over.
+                        currentEnemy.setCurrentPath(0);
+                        currentEnemy.stateTime = 0f;
+                        currentEnemy.oldPosition.set(0,0);
+                        currentEnemy.newPosition.set(0,0);
+                    }
+
                 }
                 currentEnemy.setTime(0f);
             }
@@ -247,6 +284,8 @@ public class EnemyManager {
 
             e.isDead();
             if(e.isDead()) {
+                padi.player.kills++;
+
                 //if enemy is dead, the tower that targeted it will have 'hasTarget' set to false.
                 for(int s = 0; s < game.tower.getTowerArray().size;s++){
                     currentTower = game.tower.getTowerArray().get(s);

@@ -180,7 +180,10 @@ public class Assets {
     public void setOriginalSoundLevel(int level){SOUND_LEVEL_ORIGINAL = level;}
 
     public void setDifficulty(int diff){
-        DIFFICULTY = diff;
+        if(diff > 0 && diff <= 100)
+            DIFFICULTY = diff;
+        else
+            DIFFICULTY = 1;
     }
 
 

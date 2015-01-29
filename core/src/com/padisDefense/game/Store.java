@@ -178,6 +178,7 @@ public class Store extends ScreenAdapter{
 
        // stage.addActor(background);
 
+
         stage.addActor(t);
         stage.addActor(allTables);
 
