@@ -15,6 +15,8 @@ abstract public class CustomPool<T> {
 
     private final Array<T> freeObjects;
 
+    public Array<T> returnPool(){return freeObjects;}
+
     /** Creates a pool with an initial capacity of 16 and no maximum. */
     public CustomPool () {
         this(16, Integer.MAX_VALUE);

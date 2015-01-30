@@ -78,7 +78,7 @@ public class Store extends ScreenAdapter{
 
         //array of images.
         for(int x = 0; x < itemStorage.itemArray.size; x++)
-            imageList.add(new Image(itemStorage.itemArray.get(x).getTexture()));
+            imageList.add(new Image(itemStorage.itemArray.get(x)));
 
         //adding clicklisteners to images.
         //It is in another function to avoid cluttering.
@@ -87,7 +87,7 @@ public class Store extends ScreenAdapter{
         final Table imageTable = new Table();
         for(int x = 0; x < itemStorage.itemArray.size; x++){
             imageTable.add(imageList.get(x)).pad(20f);
-            if(x % 3 == 0)
+            if((x+1) % 3 == 0 && x != 0)
                 imageTable.row();
         }
 
@@ -231,7 +231,7 @@ public class Store extends ScreenAdapter{
                         temp += itemStorage.itemArray.get(ww).getTargets().get(a);
 
                         if((a+1) < itemStorage.itemArray.get(ww).getTargets().size)
-                            temp += ", ";
+                            temp += ", \n";
 
 
                     }

@@ -267,12 +267,30 @@ public class Credit extends ScreenAdapter {
                 "\n" +
                 "----------------------------------------", padi.assets.someUIskin);
 
+        Label label10 = new Label("Title:\n" +
+                "\tItem Collection - Fantasy Themed\n" +
+                "\t\n" +
+                "Author:\n" +
+                "\tJana Ochse, 2D-Retroperspectives, www.2d-retroperspectives.org\n" +
+                "\t\n" +
+                "URL:\n" +
+                "\thttp://opengameart.org/content/item-collection-fantasy-themed\n" +
+                "\t\n" +
+                "License(s):\n" +
+                "\t* CC-BY 3.0 ( http://creativecommons.org/licenses/by/3.0/legalcode )\n" +
+                "\t\n" +
+                "File(s):\n" +
+                "\t2DRP_CCArt_FantasyItems.tar.gz\n" +
+                "\t\n" +
+                "----------------------------------------", padi.assets.someUIskin);
+
+
         Table s = new Table();
         s.add(label1).row();         s.add(label2).row();
         s.add(label3).row();         s.add(label4).row();
         s.add(label5).row();         s.add(label6).row();
         s.add(label7).row();         s.add(label8).row();
-        s.add(label9).row();
+        s.add(label9).row();         s.add(label10).row();
 
         final ScrollPane scroll = new ScrollPane(s);
 

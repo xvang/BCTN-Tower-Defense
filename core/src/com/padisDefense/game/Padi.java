@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.padisDefense.game.Tests.ItemTest;
 import com.padisDefense.game.Tests.LocalSaveTest;
 import com.padisDefense.game.TransitionScreens.Splash;
 
@@ -54,6 +55,7 @@ public class Padi extends Game implements ApplicationListener{
         credit = new Credit(this);
 
         this.setScreen(new Splash(this));
+        //this.setScreen(new ItemTest());
         //this.setScreen(credit);
         //this.setScreen(new LocalSaveTest());
         //this.setScreen(new ChangeTextureInSpriteTest());

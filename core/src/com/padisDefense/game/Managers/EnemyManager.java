@@ -95,7 +95,7 @@ public class EnemyManager {
 
         //getting the location for the end of the path.
         path.get(path.size - 1).valueAt(endPosition, 0.9f);
-        System.out.println(endPosition);
+
         end.setCenterX(endPosition.x);
         end.setCenterY(endPosition.y);
         //end.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
@@ -260,7 +260,7 @@ public class EnemyManager {
                     else{
                         if(enhanceBoss < 10)
                             enhanceBoss++;
-                        game.UI.lifepoints--;//once this gets to zero, game is over.
+                        //game.UI.lifepoints--;//once this gets to zero, game is over.
                         currentEnemy.setCurrentPath(0);
                         currentEnemy.stateTime = 0f;
                         currentEnemy.oldPosition.set(0,0);

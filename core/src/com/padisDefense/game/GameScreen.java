@@ -144,7 +144,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                 if(gameStatus.equals("win")){
 
                     padi.player.wins++;
-                    System.out.println("total wins: "  + padi.player.wins);
+
                     UI.winMessage.setVisible(true);
                     UI.loseMessage.setVisible(false);
                     padi.player.money +=  100 + padi.assets.getDifficulty() * 2;
@@ -292,7 +292,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-        //System.out.println(screenX + "  :  " + screenY);
         return false;
     }
 

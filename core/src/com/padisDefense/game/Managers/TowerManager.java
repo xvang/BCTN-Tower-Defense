@@ -30,7 +30,7 @@ public class TowerManager{
     GameScreen game;
     private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
-    private int inGameMoney = 1000;
+    private int inGameMoney = 100000;
     SpriteBatch batch;
     Vector2 arbitraryPoint;
     ShapeRenderer shape;
@@ -91,12 +91,6 @@ public class TowerManager{
             Tower currentTower = towerArray.get(x);
             //towerArray.get(x).spinning();
 
-            if(stillActiveBullets(currentTower)){
-                //System.out.println(currentTower.getActiveBullets().get(0).getLocation());
-                //currentTower.getActiveBullets().get(0).draw(batch);
-                //System.out.println(currentTower.getActiveBullets().get(0).getTime());
-            }
-
             //Example: if tower's target dies, then no need
             //to check if tower's target went out of range.
             //tower.hasTarget would have been set to false in checkForDead()
@@ -144,13 +138,6 @@ public class TowerManager{
                 currentTower.spin();
             }
             currentTower.draw(batch);
-            //System.out.println("Has target: #" + x + "  ...  " + towerArray.get(x).getHasTarget());
-
-            /*if(currentTower.getID().equals("STRENGTH")){
-                System.out.println("Strength: hastarget = " + currentTower.hasTarget + " ,  targetLocation: " + currentTower.getTarget().getLocation() +
-                        ",  targetHealth = " + currentTower.getTarget().getHealth());
-            }*/
-
 
 
         }
@@ -229,7 +216,7 @@ public class TowerManager{
         //System.out.println("assigning targets");
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
-            System.out.println("pauseing");
+
         }
         else{
 
@@ -244,7 +231,7 @@ public class TowerManager{
                     previousMin = currentMin;
                 }
             }
-            System.out.println("PreviousMin: " + previousMin + ".....t.getRange(): " + t.getRange());
+
             //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
 
@@ -456,7 +443,7 @@ public class TowerManager{
 
 
 
-        inGameMoney = 1000;
+        inGameMoney = 10000;
     }
 
 }

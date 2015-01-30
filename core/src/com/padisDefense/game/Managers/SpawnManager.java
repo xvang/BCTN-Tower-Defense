@@ -98,15 +98,6 @@ public class SpawnManager {
             Enemy e;
             int r = (int)(Math.random()*10);
 
-            /*if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("bipedaldragon");
-            else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("bluespider");
-            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("cobra");
-            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("golem");
-            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("ironspider");
-            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("mage");
-            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redspider");
-
-            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("blueimp");*/
             if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("armyball");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("blueball");
             else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
@@ -147,15 +138,12 @@ public class SpawnManager {
             else{
                 Enemy e = spawnResponse();
                 e.reset();
+                //System.out.println("Spawning type: " + e.getName());
                 enemy.getActiveEnemy().add(e);
 
 
             }
 
-           /*for(Map.Entry<Tower, Integer> k: data.entrySet()){
-                System.out.print(k.getKey().getID() + "  " + k.getValue() + " ___ " );
-            }
-            System.out.print("  Total" + "  " + data.size() + "\n");*/
         }
 
         data.clear();
@@ -218,13 +206,14 @@ public class SpawnManager {
                     duckTimer = 0;
                     double x = Math.random()*100;
                     if(x <= padi.assets.getDifficulty()){
-                        //System.out.println("ENEMY IS ARMORING");
+
                         for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
                             Enemy e = game.enemy.getActiveEnemy().get(s);
 
-                            if(e.getArmor() < e.getOriginalArmor()*3)
+                            if(e.getArmor() < e.getOriginalArmor()*4)
                                 e.setArmor(e.getArmor()*1.1f);
                         }
+
 
                     }
                 }
@@ -244,6 +233,18 @@ public class SpawnManager {
                 spawnedDuck = false;
                 //mostType = new Array<Tower>();
                 //leastType = new Array<Tower>();
+
+
+                //duck time is over, reset all the increased armor.
+                for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
+                    Enemy e = game.enemy.getActiveEnemy().get(s);
+                    e.setArmor(e.getOriginalArmor());
+                }
+                //resetting the enemy that was in pool when duck time ended.
+                Array<Enemy> temp = padi.assets.enemyCustomPoolL.returnPool();
+                for(int w = 0; w < temp.size; w++){
+                    temp.get(w).setArmor(temp.get(w).getOriginalArmor());
+                }
 
                 for(Map.Entry<Tower, Integer> k: data.entrySet()){
                     if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
@@ -407,37 +408,34 @@ public class SpawnManager {
         newTower.setPosition(spawnPosition.x, spawnPosition.y);
 
 
-        //TODO: apply stat changes.
-        if(newTower != null){
 
-            //updating level.
-            newTower.setLevel(level);
+        //updating level.
+        newTower.setLevel(level);
 
-            if(action.equals("build")){
-                if(game.tower.getInGameMoney() >= newTower.getCost()){
-                    applyStatChanges(newTower);
-                    game.tower.getTowerArray().add(newTower);
-                    b.setCurrentTower(newTower);//points to the tower.
-                    game.tower.updateInGameMoney(-(int)newTower.getCost());
-                }
-            }
-
-            else if(action.equals("upgrade")){
-
-                float oldRotate = b.getCurrentTower().getRotation();
-                newTower.setRotation(oldRotate);
-
-                Tower pointer = b.getCurrentTower();
-                game.tower.getTowerArray().removeValue(b.getCurrentTower(), false);
-                padi.assets.towerCustomPool.free(pointer);
-                b.setCurrentTower(null);
-
-
+        if(action.equals("build")){
+            if(game.tower.getInGameMoney() >= newTower.getCost()){
+                applyStatChanges(newTower);
                 game.tower.getTowerArray().add(newTower);
-                b.setCurrentTower(newTower);
+                b.setCurrentTower(newTower);//points to the tower.
+                game.tower.updateInGameMoney(-(int)newTower.getCost());
             }
-
         }
+
+        else if(action.equals("upgrade")){
+
+            float oldRotate = b.getCurrentTower().getRotation();
+            newTower.setRotation(oldRotate);
+
+            Tower pointer = b.getCurrentTower();
+            game.tower.getTowerArray().removeValue(b.getCurrentTower(), false);
+            padi.assets.towerCustomPool.free(pointer);
+            b.setCurrentTower(null);
+
+
+            game.tower.getTowerArray().add(newTower);
+            b.setCurrentTower(newTower);
+        }
+
 
     }
 
@@ -447,13 +445,21 @@ public class SpawnManager {
         Player p = padi.player;//pointer to the Player object.
 
         for(int x = 0; x < p.getItemsUnlocked().size;x++){//getTargets() returns a String of towers targeted by item.
+
             for(int y = 0; y < p.getItemsUnlocked().get(x).getTargets().size; y++){
                 String target = p.getItemsUnlocked().get(x).getTargets().get(y);//will point to every element in item's tower target list.
-
+                System.out.print("Name: " + p.getItemsUnlocked().get(x).getName() + ",  target: " + p.getItemsUnlocked().get(x).getTargets().get(y));
+                System.out.println();
                 //if the ID of the newly built tower matches the Name of the item,
                 //item will change the stats of the newly built tower.
                 //update() is declared in ItemStorage.
-                if(t.getID().equals(target)){
+                if(target.equals("ALL")){
+                    System.out.println("t.originalAtk: " + t.getAttack());
+                    p.getItemsUnlocked().get(x).update(t);
+                    System.out.println("t.afterAtk: " + t.getAttack());
+                }
+                else if(target.equals(t.getID())){
+                    System.out.println("changing" + t.getID());
                     p.getItemsUnlocked().get(x).update(t);
                 }
             }

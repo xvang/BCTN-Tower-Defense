@@ -291,7 +291,6 @@ public class UIManager implements InputProcessor{
                     checkBorders(currentBuildable, clickedOptionTable);
                     clickedOptionTable.setVisible(true);
                     currentBuildable.getCurrentTower().clicked = true;
-                    //System.out.println("clickedOption visible");
                 }
                 break;//breaks the forloop.
                 // if clicked buildablespot is found, no need to keep checking
@@ -469,7 +468,7 @@ public class UIManager implements InputProcessor{
         pauseButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
-                System.out.println("CLICKED THE PAUSE BUTTON");
+
                 PAUSED = true;
                 game.multi.clear();
                 game.multi.addProcessor(pauseStage);

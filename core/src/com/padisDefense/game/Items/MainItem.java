@@ -46,8 +46,22 @@ public class MainItem extends Sprite{
     private Array<String> targets;
     private String name;
     private String pic;
+
+    //2 constructors.
+    //If picture is a single, then name of picture is passed in.
+    //If picture is part of a group(spritesheet..?), then sprite containing desired area is passed in.
     public MainItem(String pic){
         super(new Texture(pic));
+        this.pic = pic;
+        targets = new Array<String>();
+        displayStats = "";
+        name = "";
+        cost = 1;
+    }
+
+
+    public MainItem(Sprite sprite){
+        super(sprite);
         this.pic = pic;
         targets = new Array<String>();
         displayStats = "";
