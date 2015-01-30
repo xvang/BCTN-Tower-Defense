@@ -40,7 +40,7 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
-        /*assets = new Assets(this);
+        assets = new Assets(this);
         //assets.initGameScreen();
         gameScreen = new GameScreen(this);
         main_menu = new MainMenu(this);
@@ -51,10 +51,10 @@ public class Padi extends Game implements ApplicationListener{
         profile = new Profile(this);
         loadsave = new LoadSaveGame();
         player = loadsave.loadPlayer();
-        credit = new Credit();
+        credit = new Credit(this);
 
-        this.setScreen(new Splash(this));*/
-        this.setScreen(new Credit());
+        this.setScreen(new Splash(this));
+        //this.setScreen(credit);
         //this.setScreen(new LocalSaveTest());
         //this.setScreen(new ChangeTextureInSpriteTest());
         //this.setScreen(new BallSpawnTest());

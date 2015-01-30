@@ -421,8 +421,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         explode = false;
         state = true;
         alive = true;
-        target = null;
-        target = new Enemy(new Vector2(-50f, -100f));//dummy pointer.
+        target = new Enemy(new Vector2(10f, 5000f));//dummy pointer.
         attack = originalAttack;
         range = originalRange;
         cost = originalCost;
@@ -430,6 +429,9 @@ public class Tower extends Sprite implements  Pool.Poolable{
         chargeRate = originalChargeRate;
         bulletLimit = 1;
         level = 1;
+
+        pool.freeAll(activeBullets);
+        activeBullets.clear();
     }
 
     public void userReset(){}

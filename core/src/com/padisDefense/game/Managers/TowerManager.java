@@ -108,13 +108,11 @@ public class TowerManager{
 
             if(!currentTower.hasTarget) assignTargets(game.enemy, currentTower);
 
-            //System.out.println("before: " + currentTower.getActiveBullets().size);
             if (currentTower.hasTarget) game.bullet.shooting(batch, currentTower,
                     currentTower.getTarget());
 
 
-            //System.out.println("after: " + currentTower.getActiveBullets().size);
-
+            //checking for dead and range again.
             if(currentTower.hasTarget) checkForDead(currentTower);
             if(currentTower.hasTarget) checkRange(currentTower);
             if(currentTower.hasTarget) checkSpecialConditions(currentTower);
@@ -152,10 +150,15 @@ public class TowerManager{
                 System.out.println("Strength: hastarget = " + currentTower.hasTarget + " ,  targetLocation: " + currentTower.getTarget().getLocation() +
                         ",  targetHealth = " + currentTower.getTarget().getHealth());
             }*/
+
+
+
         }
 
 
         batch.end();
+
+
 
     }
 
@@ -221,10 +224,12 @@ public class TowerManager{
 
     //Assigns targets to towers. Has a small pause.
     public void assignTargets(EnemyManager enemy, Tower t){
+
         double currentMin, previousMin = 20000;//20000 is just a random value to make things work.
-        //System.out.println("assigneing targets");
+        //System.out.println("assigning targets");
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
+            System.out.println("pauseing");
         }
         else{
 
@@ -233,11 +238,13 @@ public class TowerManager{
             for(int x = 0; x < enemy.getActiveEnemy().size; x++){
 
                 currentMin = findDistance(enemy.getActiveEnemy().get(x).getLocation(), t.getLocation());
+
                 if(currentMin < previousMin){
                     temp = enemy.getActiveEnemy().get(x);
                     previousMin = currentMin;
                 }
             }
+            System.out.println("PreviousMin: " + previousMin + ".....t.getRange(): " + t.getRange());
             //If potential target is within range, then it becomes target.
             if(previousMin < t.getRange()){
 
@@ -255,6 +262,7 @@ public class TowerManager{
                     }
                 }
                 else{
+
                     t.setTarget(temp);
                     t.hasTarget = true;
                     t.setOldTargetPosition(temp.getLocation());

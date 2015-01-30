@@ -71,6 +71,7 @@ public class MainMenu extends ScreenAdapter {
         table.add(button1).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button2).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
         table.add(button3).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
+        table.add(button6).width(BUTTON_WIDTH).pad(BUTTON_PAD).height(BUTTON_HEIGHT).row();
 
         table.setWidth(w / 3);
         table.setHeight(h / 3);
@@ -142,6 +143,12 @@ public class MainMenu extends ScreenAdapter {
             }
         });
 
+        button6.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent e, float x, float y){
+                padi.setScreen(padi.credit);
+            }
+        });
 
 
         stage.addActor(foreground);

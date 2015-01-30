@@ -3,6 +3,7 @@ package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
-public class CreditAnimation extends Image {
+public class CreditAnimation extends Image  {
 
 
 
@@ -53,7 +54,7 @@ public class CreditAnimation extends Image {
 
 
 
-    public void animate(SpriteBatch batch) {
+    public void draw(Batch batch, float x, float y, float width, float height) {
 
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, true);

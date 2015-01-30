@@ -40,6 +40,7 @@ public class EnemyManager {
 
     protected Array<Enemy>  activeEnemy;
     public Enemy boss;
+    private int enhanceBoss =  0;//counts the number of enemies that reached the end.
     public Sprite end;
 
 
@@ -142,12 +143,18 @@ public class EnemyManager {
                             boss.setTime(0f);
                             boss.setCurrentPath(0);
                             boss.setHealth(boss.getOriginalHealth());
+                            boss.setArmor(boss.getOriginalArmor());
 
+                            for(int sa = 0; sa < enhanceBoss; sa++){
+                                boss.setArmor(boss.getArmor()*1.05f);
+                            }
+
+                            System.out.println("boss def: " + boss.getArmor());
                             boss.alive = true;
                             activeEnemy.add(boss);
                             spawnsLeft--;
                         }catch(Exception e){
-                            System.out.println("BOSS IS A NO GO");
+                            System.out.println("BOSS IS A NO GO. FIX IT YOU.");
                         }
 
                     }
@@ -251,6 +258,8 @@ public class EnemyManager {
                         break;//breaks the for-loop. activeEnemy array is now empty.
                     }
                     else{
+                        if(enhanceBoss < 10)
+                            enhanceBoss++;
                         game.UI.lifepoints--;//once this gets to zero, game is over.
                         currentEnemy.setCurrentPath(0);
                         currentEnemy.stateTime = 0f;
@@ -394,60 +403,8 @@ public class EnemyManager {
         padi.assets.enemyCustomPoolL.clear();
 
 
-        countDownTimer  = 10f;
+        countDownTimer  = 15f;
+        enhanceBoss = 0;
 
     }
 }
-
-
-/***************************************************************************/
-/* public void removeReachedEnd(){
-
-        for(int x = 0; x < activeEnemy.size; x++){
-
-            if(activeEnemy.get(x).getTime() > 1f){
-                activeEnemy.get(x).dispose();
-                activeEnemy.removeIndex(x);
-            }
-        }
-    }*/
-
-
-
-/**
- * This sets every enemy's time to zero.
- * every enemy will respawn at the beginning at the same time.
- * */
-/*public void toZero(){
-
-    for(int x = 0; x < activeEnemy.size; x++){
-        activeEnemy.get(x).setTime(0f);
-    }
-}*/
-
-
-/**THE OLD PATHS**/
-
-/*
- Vector2 position = new Vector2();
- //Makes enemy travel along path.
- for(int x = 0; x < activeEnemy.size; x++){
-
- if (!activeEnemy.get(x).isDead()) {
- time = activeEnemy.get(x).getRate() + activeEnemy.get(x).getTime();
- activeEnemy.get(x).setTime(time);
-
- path.getPath().get(activeEnemy.get(x).getChosenPath()).valueAt(position, time);
- activeEnemy.get(x).goTo(new Vector2(position.x, position.y));
- activeEnemy.get(x).move();
- activeEnemy.get(x).draw(batch);
- activeEnemy.get(x).updateMessage();
- activeEnemy.get(x).label.draw(batch, 1);
-
- //If enemy reached end, it starts path over.
- if(activeEnemy.get(x).getTime() >= 1f)
- activeEnemy.get(x).setTime(0f);
- }
-
-}
- * */
