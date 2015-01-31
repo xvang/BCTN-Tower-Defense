@@ -208,8 +208,8 @@ public class UIManager implements InputProcessor{
         nameLabel.setText("Name: " + t.getID());
         String w = t.getWeakAgainst().get(0).substring(0, t.getWeakAgainst().get(0).length() - 4);
         String s = t.getStrongAgainst().get(0).substring(0, t.getStrongAgainst().get(0).length() - 4);
-        weakLabel.setText("Weak: " + w );
-        strongLabel.setText("Strong: " + s );
+        weakLabel.setText("Weak against: " + w );
+        strongLabel.setText("Strong against: " + s );
 
 
     }
@@ -415,12 +415,13 @@ public class UIManager implements InputProcessor{
 
 
         statsTable.add(nameLabel).row();
+        statsTable.add(weakLabel).row();
+        statsTable.add(strongLabel).row();
         statsTable.add(attackLabel).row();
         statsTable.add(rangeLabel).row();
         statsTable.add(costLabel).row();
         statsTable.add(levelLabel).row();
-        statsTable.add(weakLabel).row();
-        statsTable.add(strongLabel).row();
+
 
         statsTable.setVisible(false);
 
@@ -520,14 +521,14 @@ public class UIManager implements InputProcessor{
                 if(game.gameMusic.isPlaying()){
 
                     mute.setText("Un-Mute");
-                    game.gameMusic.pause();
+                   //game.gameMusic.pause();
                 }
 
 
 
                 else{
                     mute.setText("Mute");
-                    game.gameMusic.play();
+                    //game.gameMusic.play();
                 }
 
 

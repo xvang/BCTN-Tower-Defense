@@ -46,9 +46,9 @@ public class Splash extends ScreenAdapter {
         sprite.draw( padi.assets.batch);
         padi.assets.batch.end();
 
-        if (Gdx.input.justTouched()){
+       /* if (Gdx.input.justTouched()){
             padi.setScreen(padi.main_menu);
-        }
+        }*/
 
     }
 

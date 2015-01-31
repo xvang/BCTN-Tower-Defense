@@ -30,7 +30,7 @@ public class GreenTower extends Tower {
         setID("GREEN");
         setBulletSprite(bullet);
         setBulletRate(0.08f);
-        setWeakAgainst("violetball");
+        setWeakAgainst("armyball");
         setStrongAgainst("greenball");
 
     }

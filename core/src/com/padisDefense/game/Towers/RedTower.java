@@ -28,7 +28,7 @@ public class RedTower extends Tower {
         setBulletSprite(bullet);
         setBulletRate(0.10f);
         setCustomArc(40f);
-        setWeakAgainst("orangeball");
+        setWeakAgainst("violetball");
         setStrongAgainst("redball");
     }
 

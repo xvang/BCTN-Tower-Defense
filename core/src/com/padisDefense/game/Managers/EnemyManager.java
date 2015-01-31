@@ -43,6 +43,8 @@ public class EnemyManager {
     private int enhanceBoss =  0;//counts the number of enemies that reached the end.
     public Sprite end;
 
+    private Vector2 endPosition;
+
 
     //TODO: find out why a high arc value makes the bullet disappear.
     public float time = 0;
@@ -58,8 +60,10 @@ public class EnemyManager {
 
         batch = new SpriteBatch();
         storage = new PathStorage();
-        end = new Sprite(new Texture("enemies/balls/rainbowball.png"));
+
+        end = new Sprite(padi.assets.skin_balls.getSprite("rainbowball"));
         end.setSize(150f, 150f);
+        endPosition = new Vector2();
 
 
     }
@@ -73,7 +77,7 @@ public class EnemyManager {
         if(storage == null)
             System.out.println("null storage");
 
-        Vector2 endPosition = new Vector2();
+
         switch(p){
 
             case(1):
@@ -96,6 +100,7 @@ public class EnemyManager {
         //getting the location for the end of the path.
         path.get(path.size - 1).valueAt(endPosition, 0.9f);
 
+        end.setSize(150f, 150f);
         end.setCenterX(endPosition.x);
         end.setCenterY(endPosition.y);
         //end.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
@@ -369,7 +374,14 @@ public class EnemyManager {
     //Change the giant ball at the end to correspond with the current spawn.
     //It is called in UIManager.
     public void changeEndImage(String newBall){
-        System.out.println("Giant ball should change to: " + newBall);
+
+        System.out.println("change to: " + newBall);
+
+        end = new Sprite(padi.assets.skin_balls.getSprite(newBall));
+
+        end.setSize(150f, 150f);
+        end.setCenterX(endPosition.x);
+        end.setCenterY(endPosition.y);
     }
 
 

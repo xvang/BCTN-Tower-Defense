@@ -78,7 +78,7 @@ public class Assets {
         bulletAtlas = new TextureAtlas("bullets/bullet.pack");
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
         skin3 = new Skin(new TextureAtlas("symbolsandtext.pack"));
-        skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
+        skin_balls = new Skin(new TextureAtlas("enemies/balls/ball.pack"));
         bubbleUI = new Skin(Gdx.files.internal("bubbleUI.json"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         towerButtons = new Skin(Gdx.files.internal("towers/towerButtons/towerbuttons.json"));

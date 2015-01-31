@@ -1,7 +1,5 @@
 package com.padisDefense.game.Items;
 
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,11 +12,9 @@ import com.padisDefense.game.Towers.Tower;
  * Every item overrides the update() method.
  * In that method will be calls to other methods that will change the towers' stats.(?)
  * I think that's what I was trying to do.
- * TODO: make sure stacking is for original stat, not the changed stat!
- * for example, original is 100. +10%, +10% should end up at 120, NOT 121.
  *
  *
- * TODO: put all the image for items into one spritesheet. We can totally do this. we've done it before....ish.
+ *
  * **/
 public class ItemStorage {
 
@@ -46,7 +42,7 @@ public class ItemStorage {
         size++;
 
         //shield
-        MainItem item2 = new MainItem("shield.png") {
+        MainItem item2 = new MainItem("items/shield.png") {
             @Override
             public void update(Tower t) {
                 changeRange(t, 1.1f);
@@ -265,6 +261,5 @@ public class ItemStorage {
 
     public void updateSeeker(){
         seeker.setCost(padi.player.getMoney()+1);
-
     }
 }

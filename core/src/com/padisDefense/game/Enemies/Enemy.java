@@ -248,6 +248,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
 
         float percentage = health/originalHealth;
 
+
         if(percentage <= 0f)
             healthGreen.setSize(0, healthGreen.getHeight());
         else if(percentage <= 1f)
@@ -258,8 +259,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
             healthGreen.setPosition(getX() + currentFrame.getRegionWidth()/3, getY()+ currentFrame.getRegionHeight() - 5f);
 
         }catch(Exception e){ // if enemy is just a circle, the healthbars should depend on the circle's size.
-            healthRed.setPosition(getX() + this.getWait()/3, getY() + this.getHeight() - 5f);
-            healthGreen.setPosition(getX() + this.getWait()/3, getY() + this.getHeight() - 5f);
+            healthRed.setPosition(getX() + this.getWidth()/3, getY() + this.getHeight() - 5f);
+            healthGreen.setPosition(getX() + this.getWidth()/3, getY() + this.getHeight() - 5f);
         }
 
         healthRed.draw(batch, 1);
@@ -294,7 +295,16 @@ public class Enemy extends Sprite implements Pool.Poolable{
         rate = originalRate;
         currentPath = 0;
         time = 0f;
-        alive = false;
+        alive = true;
+
+        //size of enemy will be from 25f to 35f
+        float r = (float)(Math.random()*10f) + 25f;
+        this.setSize(r, r);
+
+        healthGreen.setSize(this.getWidth()+5f, 4f);
+        healthRed.setSize(this.getWidth()+5f, 4f);
+
+
     }
 
 

@@ -109,18 +109,9 @@ public class SpawnManager {
             else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("violetball");
             else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
 
-
-            //else e = padi.assets.enemyCustomPoolL.obtain("mage");
             else e = padi.assets.enemyCustomPoolL.obtain("orangeball");
 
-            e.init(-100f, 0);
-            e.setTime(0f);
-            e.setCurrentPath(0);
-            e.setHealth(e.getOriginalHealth());
-            e.setArmor(e.getOriginalArmor());
-
-            e.alive = true;
-
+            e.reset();
 
             enemy.getActiveEnemy().add(e);
 
@@ -131,7 +122,6 @@ public class SpawnManager {
 
             gatherTowerData();
             if(data.size() == 0){
-
                 Enemy e = spawnRandom();
                 e.reset();
                 enemy.getActiveEnemy().add(e);
@@ -139,10 +129,7 @@ public class SpawnManager {
             else{
                 Enemy e = spawnResponse();
                 e.reset();
-                //System.out.println("Spawning type: " + e.getName());
                 enemy.getActiveEnemy().add(e);
-
-
             }
 
         }
@@ -239,10 +226,13 @@ public class SpawnManager {
                 //change giant ball at the end to original image: rainbowball.png .
                 //As long as the amount of dominant tower is >3, this else statement is always executed.
                 //So the 'duckTime' boolean exists so changeEndImage() is not called
-                //every time the else statement is entered.
+                //every time the else statement is entered. It is toggled to "false" after the if-statement.
                 //Also, reset the all the enemies's defense ONCE.
                 if(duckTime){
-                    game.enemy.changeEndImage("rainbow");
+
+                    //rainbow is the default.
+                    game.enemy.changeEndImage("rainbowball");
+
                     //duck time is over, reset all the increased armor.
                     for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
                         Enemy e = game.enemy.getActiveEnemy().get(s);

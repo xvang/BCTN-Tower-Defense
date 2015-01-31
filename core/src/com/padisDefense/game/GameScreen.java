@@ -81,7 +81,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             gameMusic = padi.assets.east;
         }
 
-        gameMusic.play();
+        //gameMusic.play();
     }
 
     public int playLevel, limit;
