@@ -120,23 +120,14 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(!UI.PAUSED){
-            //background.draw(padi.batch);
+
             oldEnemyCount = enemy.getEnemyCounter();
 
-
-           // batch.begin();
-           // background.draw(batch);
-            //batch.end();
-
             tower.drawCircles();
-
-
             enemy.startEnemy();
-
             tower.startTowers();
 
             if(!GAME_OVER) {
-
 
                 gatherCharge();
                 if(enemy.getCountDownTimer() <= 0f){//game clock starts when countdown ends.
@@ -144,7 +135,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                     UI.updateTimerMessage();
                 }
             }
-
             newEnemyCount = enemy.getEnemyCounter();
 
             calcMoney();
@@ -152,7 +142,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
             UI.getStage().draw();
 
             //checks if game ended.
-
 
             if(((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once)
                     || gameStatus.equals("lose")){

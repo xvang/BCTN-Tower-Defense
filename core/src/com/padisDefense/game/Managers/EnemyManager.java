@@ -364,25 +364,19 @@ public class EnemyManager {
 
     }
 
+
+    //TODO: implement changeEndImage!
+    //Change the giant ball at the end to correspond with the current spawn.
+    //It is called in UIManager.
+    public void changeEndImage(String newBall){
+        System.out.println("Giant ball should change to: " + newBall);
+    }
+
+
     public float getCountDownTimer(){return countDownTimer;}
     public void setCountDownTimer(float t){countDownTimer = t;}
 
-    /**
-     * private Array<Path<Vector2>> path;
-     private PathStorage storage;
-     private int spawnsLeft;
-     private int enemyCounter = 0;
-     ImmediateModeRenderer20 renderer;
-     private float spawnPause = 0f;
 
-     protected Array<Enemy>  activeEnemy;
-
-
-     //TODO: find out why a high arc value makes the bullet disappear.
-     public float time = 0;
-     public float countDownTimer = 10f;
-     SpriteBatch batch;
-     * */
     public void dispose(){
         renderer.dispose();
         batch.dispose();
@@ -391,20 +385,14 @@ public class EnemyManager {
         activeEnemy.clear();
         storage.dispose();
         path.clear();
-
     }
 
     public void reset(){
-
-
-
         padi.assets.enemyCustomPoolL.freeAll(activeEnemy);
         activeEnemy.clear();
         padi.assets.enemyCustomPoolL.clear();
 
-
         countDownTimer  = 15f;
         enhanceBoss = 0;
-
     }
 }

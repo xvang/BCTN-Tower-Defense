@@ -81,7 +81,7 @@ public class Assets {
         skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
         bubbleUI = new Skin(Gdx.files.internal("bubbleUI.json"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
-        towerButtons = new Skin(Gdx.files.internal("miscellaneous/towerbuttons.json"));
+        towerButtons = new Skin(Gdx.files.internal("towers/towerButtons/towerbuttons.json"));
 
         background = new Sprite(new Texture("badlogic.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

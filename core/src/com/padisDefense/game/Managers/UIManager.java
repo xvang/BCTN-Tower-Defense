@@ -52,14 +52,10 @@ public class UIManager implements InputProcessor{
 
     private Table dragTowers;//table containing towers that can be dragged to build.
 
-
-
-
     //charging meter.
     public Image loadingHidden;
     private Image loadingFrame;
     public Actor loadingBar;
-
 
     //optionMenu, when clicked.
     private Table clickedOptionTable;

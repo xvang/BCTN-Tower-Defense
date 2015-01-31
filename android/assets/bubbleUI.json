@@ -39,8 +39,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     red: {
         down: green_rectangle,
         up: red_rectangle,
-        font: default-font,
-        fontColor: white
+        	    font: default-font,
+        	    fontColor: white
     }
 },
 

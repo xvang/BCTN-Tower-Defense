@@ -1,0 +1,83 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: { default-font: { file: pack2f.fnt } },
+
+com.badlogic.gdx.graphics.Color: {
+	green: { a: 1, b: 0, g: 1, r: 0 },
+	white: { a: 1, b: 1, g: 1, r: 1 },
+	red: { a: 1, b: 0, g: 0, r: 1 },
+	black: { a: 1, b: 0, g: 0, r: 0 }
+},
+
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	green: {
+	    down: green,
+	    up: green,
+	    font: default-font,
+	    fontColor: white
+	},
+
+    yellow: {
+    	down: yellow,
+    	up: yellow,
+    	font: default-font,
+    	fontColor: white
+    },
+
+    red: {
+        down: red,
+        up: red,
+        font: default-font,
+        fontColor: white
+    },
+
+    blue:{
+        down: blue,
+        up: blue,
+        font: default-font,
+        fontColor: white
+
+    },
+
+    violet: {
+
+        down:violet,
+        up: violet,
+        font: default-font,
+        fontColor: white
+    },
+
+    purple: {
+
+        down: purple,
+        up: purple,
+        font: default-font,
+        fontColor: white
+
+    },
+
+    pink: {
+
+        down: pink,
+        up: pink,
+        font: default-font,
+        fontColor: white
+    },
+
+    orange: {
+
+        down: orange,
+        up: orange,
+        font: default-font,
+        fontColor: white
+    },
+
+    army: {
+
+        down: army,
+        up: army,
+        font: default-font,
+        fontColor: white
+    }
+}
+
+}

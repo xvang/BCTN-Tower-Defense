@@ -61,6 +61,7 @@ public class SpawnManager {
     Array<String> weak;
     Array<Tower> mostType;//Array of least and most frequent type towers.
     Array<Tower> leastType;
+    String oldMosttype = "";
 
 
     public SpawnManager(GameScreen g, Padi p){
@@ -198,6 +199,7 @@ public class SpawnManager {
             //spawns either the duck, or a bull rush spawn.
             if(mostValue < 3){
                 duckTimer++;
+                duckTime = true;
 
                 //every 8 spawns, every active enemy has a chance to have increased armor,
                 //up to a maximum of 300% of the intial armor value.
@@ -219,37 +221,61 @@ public class SpawnManager {
                 }
                 if(!spawnedDuck){//The duck should only spawn once to signify the start of bullrushing.
                     newEnemy = new Duck();
-                    // System.out.println("Watch out its' the duck!");
+
                     spawnedDuck = true;
                     chosenEnemyType = (int)(Math.random()*allEnemies.size);
-                    //System.out.println("SPAWNING TYPE: " + allEnemies.get(chosenEnemyType));
+
+                    // changing the giant ball at the end.
+                    game.enemy.changeEndImage(allEnemies.get(chosenEnemyType));
                     return newEnemy;
                 }
-                else return spawnBullRush();
+                else{//Duck already spawned, it's time to spawn the rush.
+                    return spawnBullRush();
+                }
 
             }
             else{
-                duckTime = true;
+
+                //change giant ball at the end to original image: rainbowball.png .
+                //As long as the amount of dominant tower is >3, this else statement is always executed.
+                //So the 'duckTime' boolean exists so changeEndImage() is not called
+                //every time the else statement is entered.
+                //Also, reset the all the enemies's defense ONCE.
+                if(duckTime){
+                    game.enemy.changeEndImage("rainbow");
+                    //duck time is over, reset all the increased armor.
+                    for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
+                        Enemy e = game.enemy.getActiveEnemy().get(s);
+                        e.setArmor(e.getOriginalArmor());
+                    }
+                    //resetting the enemy that was in pool when duck time ended.
+                    Array<Enemy> temp = padi.assets.enemyCustomPoolL.returnPool();
+                    for(int w = 0; w < temp.size; w++){
+                        temp.get(w).setArmor(temp.get(w).getOriginalArmor());
+                    }
+                }
+
+
+                duckTime = false;
                 spawnedDuck = false;
                 //mostType = new Array<Tower>();
                 //leastType = new Array<Tower>();
 
 
-                //duck time is over, reset all the increased armor.
-                for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
-                    Enemy e = game.enemy.getActiveEnemy().get(s);
-                    e.setArmor(e.getOriginalArmor());
-                }
-                //resetting the enemy that was in pool when duck time ended.
-                Array<Enemy> temp = padi.assets.enemyCustomPoolL.returnPool();
-                for(int w = 0; w < temp.size; w++){
-                    temp.get(w).setArmor(temp.get(w).getOriginalArmor());
-                }
-
                 for(Map.Entry<Tower, Integer> k: data.entrySet()){
                     if(k.getValue().equals(mostValue)) mostType.add(k.getKey());
                     else if(k.getValue().equals(leastValue)) leastType.add(k.getKey());
                 }
+
+
+                //We don't want changeEndImage() to be called every time,
+                //So below prevents that. If  the old type is not equal, then
+                //we need to change the giant ball. If not, then we dont need to call the function.
+                if(!oldMosttype.equals(mostType.get(0).getWeakAgainst().first())){
+                    game.enemy.changeEndImage(mostType.get(0).getWeakAgainst().get(0));
+                }
+
+                oldMosttype = mostType.get(0).getWeakAgainst().first();
 
                 double x = Math.random()*100;
 
@@ -260,12 +286,14 @@ public class SpawnManager {
                     //System.out.println("spawn Random()");
                 }
                 else{
+
                     newEnemy = spawnCustom(mostType);
+
                     //System.out.println("spawn Custom()");
                 }
             }
         }
-        else{
+        else{//If difficulty < 50, spawn random enemy.
             newEnemy = spawnRandom();
         }
 

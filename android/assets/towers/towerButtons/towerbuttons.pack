@@ -1,0 +1,68 @@
+
+towerbuttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+army
+  rotate: false
+  xy: 1, 53
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+blue
+  rotate: false
+  xy: 1, 1
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+green
+  rotate: false
+  xy: 153, 53
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+orange
+  rotate: false
+  xy: 153, 1
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+pink
+  rotate: false
+  xy: 305, 53
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+purple
+  rotate: false
+  xy: 305, 1
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+red
+  rotate: false
+  xy: 457, 53
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+violet
+  rotate: false
+  xy: 457, 1
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+yellow
+  rotate: false
+  xy: 609, 53
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1

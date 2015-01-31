@@ -175,9 +175,13 @@ public class Setting extends ScreenAdapter {
     //Save settings into assets.
     //The '0' and '2' values are just arbitrary right now.
     public void saveSettings(){
-        padi.assets.setDifficulty((int)slider.get(0).getVisualValue());
+        int sound = (int)slider.get(0).getVisualValue();
+        padi.assets.setDifficulty(sound);
         padi.assets.setSoundLevel((int)slider.get(1).getVisualValue());
         padi.assets.setOriginalSoundLevel((int)slider.get(1).getVisualValue());
+
+        padi.assets.rain.setVolume((float)sound/100f);
+
     }
 
     public void updateValues(){
