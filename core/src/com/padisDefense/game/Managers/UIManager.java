@@ -95,7 +95,8 @@ public class UIManager implements InputProcessor{
 
     //displays tower stats in mastertable.
     public Table statsTable;
-    private Label attackLabel, rangeLabel, costLabel, levelLabel, nameLabel, lifeLabel;
+    private Label attackLabel, rangeLabel, costLabel, levelLabel,
+            nameLabel, lifeLabel, weakLabel, strongLabel;
 
 
     public UIManager(GameScreen g, Padi p){
@@ -201,6 +202,7 @@ public class UIManager implements InputProcessor{
         }
     }
 
+
     public void updateStatsTable(Tower t){
 
         attackLabel.setText("Attack: " + String.valueOf((int)t.getAttack()));
@@ -208,6 +210,10 @@ public class UIManager implements InputProcessor{
         costLabel.setText("Upgrade Cost: $" + String.valueOf((int)t.getCost()));
         levelLabel.setText("Level: " + String.valueOf(t.getLevel()));
         nameLabel.setText("Name: " + t.getID());
+        String w = t.getWeakAgainst().get(0).substring(0, t.getWeakAgainst().get(0).length() - 4);
+        String s = t.getStrongAgainst().get(0).substring(0, t.getStrongAgainst().get(0).length() - 4);
+        weakLabel.setText("Weak: " + w );
+        strongLabel.setText("Strong: " + s );
 
 
     }
@@ -284,7 +290,7 @@ public class UIManager implements InputProcessor{
                     checkBorders(currentBuildable, clickedTowerTable);
                     clickedTowerTable.setVisible(true);
 
-                    //System.out.println("clickedTower visible");
+
                 }
                 //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
                 else{
@@ -304,7 +310,7 @@ public class UIManager implements InputProcessor{
 
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
-        //System.out.println("gdx.graphics.getWidth() = " + w + " ... assets.width = " + padi.assets.getScreenWidth());
+
         Rectangle bsRec, towerRec, tRec, top, bottom, left, right;
         bsRec = new Rectangle(b.getX(), b.getY(), b.getWidth(), b.getHeight());
 
@@ -403,12 +409,13 @@ public class UIManager implements InputProcessor{
     public void createStatsTable(){
         statsTable = new Table();
 
-        nameLabel = new Label("\n", padi.assets.someUIskin);
-        attackLabel = new Label("\n", padi.assets.someUIskin);
-        rangeLabel = new Label("\n", padi.assets.someUIskin);
-        costLabel = new Label("\n", padi.assets.someUIskin);
-        levelLabel = new Label("\n", padi.assets.someUIskin);
-
+        nameLabel = new Label("\n", padi.assets.someUIskin, "black");
+        attackLabel = new Label("\n", padi.assets.someUIskin, "black");
+        rangeLabel = new Label("\n", padi.assets.someUIskin, "black");
+        costLabel = new Label("\n", padi.assets.someUIskin, "black");
+        levelLabel = new Label("\n", padi.assets.someUIskin, "black");
+        weakLabel = new Label("\n", padi.assets.someUIskin, "black");
+        strongLabel = new Label("\n", padi.assets.someUIskin, "black");
 
 
         statsTable.add(nameLabel).row();
@@ -416,6 +423,8 @@ public class UIManager implements InputProcessor{
         statsTable.add(rangeLabel).row();
         statsTable.add(costLabel).row();
         statsTable.add(levelLabel).row();
+        statsTable.add(weakLabel).row();
+        statsTable.add(strongLabel).row();
 
         statsTable.setVisible(false);
 
@@ -454,11 +463,13 @@ public class UIManager implements InputProcessor{
 
         //creating the background for  the table.
         TextureRegionDrawable background = new TextureRegionDrawable(
-                new TextureRegion(new Texture("uitablebackground.png")));
+                new TextureRegion(new Texture("limegreen.png")));
 
         //masterTable.add(countDownTable).row();
+        masterTable.setBackground(background);
         masterTable.add(statsTable).row();
         masterTable.add(dragTowers).row();
+
 
     }
 
@@ -672,17 +683,22 @@ public class UIManager implements InputProcessor{
         clickedTowerTable.setName("clickedTowerTable");
         towerOptions = new Array<TextButton>();
 
-        String[] names = {"yellow", "red", "green",
-                          "pink", "blue", "purple",
-                          "army", "violet", "orange"};
+        String[] names = {"army", "blue", "green","orange",
+                          "pink", "purple", "red","violet", "yellow"};
 
 
-        for(String s: names){
-            TextButton t = new TextButton(s, padi.assets.bubbleUI, "green");
+        for(int x = 0; x < game.limit; x++){
+            TextButton t = new TextButton(names[x], padi.assets.towerButtons, names[x]);
+            t.setSize(60f, 35f);
+            t.setName(names[x]);
+            towerOptions.add(t);
+        }
+        /*for(String s: names){
+            TextButton t = new TextButton(s, padi.assets.towerButtons, s);
             t.setSize(60f, 35f);
             t.setName(s);
             towerOptions.add(t);
-        }
+        }*/
 
         //adding listeners to the towers.
         for(int x = 0; x < towerOptions.size; x++){
@@ -700,7 +716,7 @@ public class UIManager implements InputProcessor{
 
         //creating the images and adding them to the table.
         //table should be 3 to a row.
-        for(int x = 0; x < names.length; x++) {
+        for(int x = 0; x < game.limit; x++) {
 
             if(x % 3 == 0 && x != 0) clickedTowerTable.row();
 
@@ -783,24 +799,23 @@ public class UIManager implements InputProcessor{
         army.setName("ARMY");
 
         //adding the images to the images array.
+        image.add(army);
+        image.add(blue);
+        image.add(green);
+        image.add(orange);
         image.add(purple);
         image.add(pink);
         image.add(red);
-        image.add(blue);
-        image.add(yellow);
-        image.add(green);
-        image.add(orange);
         image.add(violet);
-        image.add(army);
+        image.add(yellow);
 
         dragTowers.clear();
-        for(int w = 0; w < image.size; w++){
+        for(int w = 0; w < game.limit; w++){
             if(w % 2 == 0 && w != 0)
                 dragTowers.row();
             dragTowers.add(image.get(w)).width(50f).height(50f).pad(10f);
-
-
         }
+
         dragTowers.setOrigin(0,0);
 
         for(int s = 0; s < image.size; s++){
@@ -820,7 +835,7 @@ public class UIManager implements InputProcessor{
                     checkTheDrop(new Rectangle(a.x, a.y, image.get(ss).getWidth(), image.get(ss).getHeight()), image.get(ss).getName());
 
                     dragTowers.clear();
-                    for(int w = 0; w < image.size; w++) {
+                    for(int w = 0; w < game.limit; w++) {
                         if (w % 2 == 0 && w != 0) dragTowers.row();
                         dragTowers.add(image.get(w)).width(50f).height(50f).pad(10f);
                     }

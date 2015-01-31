@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.TransitionScreens.Splash;
 
 
 /**
@@ -76,9 +77,10 @@ public class WorldMap implements Screen {
                             /*padi.assets.gameScreen.assignLevel(g);
                             padi.assets.gameScreen.reset();
                             padi.setScreen(padi.assets.gameScreen);*/
-                            padi.gameScreen.reset();
                             padi.gameScreen.setLevel(g);
-                            padi.setScreen(padi.gameScreen);
+                            padi.gameScreen.reset();
+                            padi.setScreen(new Splash(padi, padi.gameScreen));
+                            //padi.setScreen(padi.gameScreen);
                         }
                         else{
                             System.out.println("No No No! No Bueno!");

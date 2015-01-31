@@ -10,6 +10,7 @@ import com.padisDefense.game.Enemies.BlueImp;
 import com.padisDefense.game.Enemies.BlueSpider;
 import com.padisDefense.game.Enemies.Cobra;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.Enemies.Golem;
 import com.padisDefense.game.Enemies.IronSpider;
 import com.padisDefense.game.Enemies.RedSpider;
 import com.padisDefense.game.GameScreen;
@@ -53,6 +54,9 @@ public class LevelManager {
 
 
         bssStorage = new BuildableSpotSpawnStorage();
+
+
+
     }
 
 
@@ -89,10 +93,21 @@ public class LevelManager {
                 boss = new BipedalDragon();
                 break;
 
-            default:
+            case (6):
                 path = 6;
                 enemyAmount = 500;
                 boss = new BlueImp();
+                break;
+            case (7):
+                path = 7;
+                enemyAmount = 500;
+                boss = new Golem();
+                break;
+
+            default:
+                path = 1;
+                enemyAmount = 100;
+                boss = new RedSpider();
                 break;
         }
     }

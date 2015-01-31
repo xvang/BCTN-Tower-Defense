@@ -96,17 +96,17 @@ public class SpawnManager {
         if(first50 < 50){
 
             Enemy e;
-            int r = (int)(Math.random()*10);
+            int r = (int)(Math.random()*(game.limit));
 
             if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("armyball");
             else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("blueball");
-            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
-            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("violetball");
-            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
-            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("greenball");
-            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
-            else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
-            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("redball");
+            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("greenball");
+            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
+            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
+            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
+            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redball");
+            else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("violetball");
+            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
 
 
             //else e = padi.assets.enemyCustomPoolL.obtain("mage");
@@ -304,16 +304,17 @@ public class SpawnManager {
     //spawns a random enemy.
     private Enemy spawnRandom() {
 
-        int x = (int)(Math.random()*8);
+        int x = (int)(Math.random()*(game.limit));
 
-        if(x == 0) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
-        else if (x == 1) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
-        else if (x == 2) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
-        else if (x == 3) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
-        else if (x == 4) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
-        else if (x == 5) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
-        else if (x == 6) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
-        else if (x == 7) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+        if (x == 0) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
+        else if (x == 1) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
+        else if (x == 2) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
+        else if (x == 3) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
+        else if (x == 4) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
+        else if (x == 5) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
+        else if (x == 6) return new Ball("red", padi.assets.skin_balls.getSprite("redball"));
+        else if (x == 7) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
+        else if (x == 8) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
 
 
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));

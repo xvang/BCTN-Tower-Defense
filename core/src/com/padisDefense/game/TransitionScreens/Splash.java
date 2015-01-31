@@ -4,6 +4,7 @@ package com.padisDefense.game.TransitionScreens;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,11 +28,12 @@ public class Splash extends ScreenAdapter {
     private Sprite sprite;
     private Padi padi;
     private TweenManager tweenManager;
-
+    Screen newScreen;
 
     //Constructor
-    public Splash(Padi p){
+    public Splash(Padi p, Screen s){
         padi = p;
+        newScreen = s;
     }
 
     @Override
@@ -64,11 +66,11 @@ public class Splash extends ScreenAdapter {
 
         //Fading splash screen.
         Tween.set(sprite, FadeSprite.ALPHA).target(0).start(tweenManager);
-        Tween.to(sprite, FadeSprite.ALPHA, 1).target(1).repeatYoyo(1,1).setCallback(
+        Tween.to(sprite, FadeSprite.ALPHA, 0).target(1).repeatYoyo(1,1).setCallback(
                 new TweenCallback(){
                     @Override
                 public void onEvent(int type, BaseTween<?> source){
-                        padi.setScreen(padi.main_menu);
+                        padi.setScreen(newScreen);
                     }
                 }).start(tweenManager);
 

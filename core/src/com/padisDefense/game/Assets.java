@@ -44,7 +44,7 @@ public class Assets {
     public Sprite background;
     public TweenManager tweenManager;
 
-    public Skin skin3, someUIskin, skin_balls, bubbleUI;
+    public Skin skin3, someUIskin, skin_balls, bubbleUI, towerButtons;
     public TextureAtlas towerAtlas, bulletAtlas;
     public CustomPool<Enemy> enemyCustomPoolL;
     public TowerPool towerCustomPool;
@@ -71,6 +71,8 @@ public class Assets {
         skin_balls = new Skin(new TextureAtlas("enemies/balls/balls.pack"));
         bubbleUI = new Skin(Gdx.files.internal("bubbleUI.json"));
         skin = new Skin(Gdx.files.internal("uiskin.json"));
+        towerButtons = new Skin(Gdx.files.internal("miscellaneous/towerbuttons.json"));
+
         background = new Sprite(new Texture("badlogic.jpg"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();
@@ -91,7 +93,7 @@ public class Assets {
                 else if(type.equals("cobra")) return new Cobra();
                 else if(type.equals("bipedaldragon")) return new BipedalDragon();
                 else if(type.equals("blueimp")) return new BlueImp();*/
-                if(type.equals("armyball")) return new Ball("orange", skin_balls.getSprite("orangeball"));
+                if(type.equals("armyball")) return new Ball("army", skin_balls.getSprite("armyball"));
                 else if(type.equals("blueball")) return new Ball("blue", skin_balls.getSprite("blueball"));
                 else if(type.equals("greenball")) return new Ball("green", skin_balls.getSprite("greenball"));
                 else if(type.equals("orangeball")) return new Ball("orange", skin_balls.getSprite("orangeball"));

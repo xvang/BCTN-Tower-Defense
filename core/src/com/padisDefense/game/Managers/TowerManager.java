@@ -44,7 +44,7 @@ public class TowerManager{
         batch = new SpriteBatch();
         arbitraryPoint = new Vector2();
         shape = new ShapeRenderer();
-        //populateTowerPool();
+        populateTowerPool();
     }
 
 
@@ -52,7 +52,7 @@ public class TowerManager{
         //creating some instances of the towers to be released into tower pool.
         //3 of each type. currently, 6 towers, so 18 total.
         Array<Tower> tempStorage = new Array<Tower>();
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < 2; x++){
             Tower t = padi.assets.towerCustomPool.obtain("PURPLE", 1, new Vector2(-50f, -50f));
             Tower t2 = padi.assets.towerCustomPool.obtain("PINK", 1, new Vector2(-50f, -50f));
             Tower t3 = padi.assets.towerCustomPool.obtain("BLUE", 1, new Vector2(-50f, -50f));
@@ -425,17 +425,10 @@ public class TowerManager{
 
     public void reset(){
 
-
-        //resetting all the images to level 1
-        /*for(int x = 0; x < towerArray.size; x++){
-            towerArray.get(x).reset();
-            Sprite sprite = padi.assets.towerAtlas.createSprite(towerArray.get(x).getID(), 1);
-            towerArray.get(x).set(sprite);
-        }*/
-
         padi.assets.towerCustomPool.freeAll(towerArray);
         towerArray.clear();
         padi.assets.towerCustomPool.clear();
+
 
         //resetting pointer in buildablespot.
         for(int x = 0; x < buildableArray.size; x++)

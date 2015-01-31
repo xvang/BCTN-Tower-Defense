@@ -184,7 +184,7 @@ public class PathStorage {
 
 
 
-        //TODO: only the above paths are have corresponding maps. make more maps.
+
         Array<Path<Vector2>> path7 = new Array<Path<Vector2>>();
         path7.add(new Bezier<Vector2>(new Vector2(-100f, h/10), new Vector2(w/5, h/10)));
         path7.add(new Bezier<Vector2>(new Vector2(w/5, h/10), new Vector2(w/3, h/10),

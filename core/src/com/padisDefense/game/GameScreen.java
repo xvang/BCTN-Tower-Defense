@@ -74,9 +74,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     }
 
-    int playLevel;
+    public int playLevel, limit;
+    //example: if level 1, then 'limit' limits the towers and enemies to 3.
+    //if level 2, then 'limit' limits the towers and enemies to 4.
     public void setLevel(int L){
         playLevel = L;
+        limit = L + 2;
+
     }
 
     //enemy amount and path is stored in enemy.
@@ -250,7 +254,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         enemy.reset();
         tower.reset();
         bullet.reset();
-        UI.reset();
+
+        UI = new UIManager(this, padi);
         level.reset();
         spawn.reset();
         damage.reset();
