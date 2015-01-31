@@ -22,28 +22,26 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	},
 
     yellow: {
-    	    down: gray_rectangle,
-    	    up: yellow_rectangle,
-    	    font: default-font,
-    	    fontColor: white
+    	down: gray_rectangle,
+    	up: yellow_rectangle,
+    	font: default-font,
+    	fontColor: white
     },
 
 
     gray: {
-    	    down: gray_rectangle,
-    	    up: green_rectangle,
-    	    font: default-font,
-    	    fontColor: white
+    	down: gray_rectangle,
+    	up: green_rectangle,
+    	font: default-font,
+    	fontColor: white
     },
 
     red: {
-        	    down: green_rectangle,
-        	    up: red_rectangle,
-        	    font: default-font,
-        	    fontColor: white
+        down: green_rectangle,
+        up: red_rectangle,
+        font: default-font,
+        fontColor: white
     }
-
-
 },
 
 com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle:{

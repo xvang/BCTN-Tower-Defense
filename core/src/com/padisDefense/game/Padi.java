@@ -41,8 +41,9 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void create(){
 
+
+
         assets = new Assets(this);
-        //assets.initGameScreen();
         gameScreen = new GameScreen(this);
         main_menu = new MainMenu(this);
         setting = new Setting(this);
@@ -54,7 +55,9 @@ public class Padi extends Game implements ApplicationListener{
         player = loadsave.loadPlayer();
         credit = new Credit(this);
 
+
         this.setScreen(new Splash(this, main_menu));
+
         //this.setScreen(new ItemTest());
         //this.setScreen(credit);
         //this.setScreen(new LocalSaveTest());
@@ -96,6 +99,10 @@ public class Padi extends Game implements ApplicationListener{
     @Override
     public void dispose(){
         super.dispose();
+        assets.dispose();
+        //the dispose() function in Asset is not called automatically, so we need to call it.
+        //the other objects are screens, and their dispose() function is called automatically.
+
     }
 
     @Override

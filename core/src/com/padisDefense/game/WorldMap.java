@@ -42,6 +42,8 @@ public class WorldMap implements Screen {
     @Override
     public void show(){
 
+        if(!padi.assets.rain.isPlaying())
+            padi.assets.rain.play();
         batch = padi.assets.batch;
         background_texture = new Texture("worldmap.png");
         buttons = new Array<TextButton>();
@@ -77,6 +79,9 @@ public class WorldMap implements Screen {
                             /*padi.assets.gameScreen.assignLevel(g);
                             padi.assets.gameScreen.reset();
                             padi.setScreen(padi.assets.gameScreen);*/
+                            padi.assets.rain.stop();
+
+
                             padi.gameScreen.setLevel(g);
                             padi.gameScreen.reset();
                             padi.setScreen(new Splash(padi, padi.gameScreen));

@@ -305,13 +305,26 @@ public class Credit extends ScreenAdapter {
                 "\t@CamTatz\n" +
                 "\t\n" +
                 "----------------------------------------", padi.assets.someUIskin);
+        Label label12 = new Label("\n" +
+                "Title:\n" +
+                "\tOpen Bundle\n" +
+                "\t\n" +
+                "URL:\n" +
+                "\thttp://open.commonly.cc/\n" +
+                "\t\n" +
+                "License(s):\n" +
+                "\t* CC0 ( http://creativecommons.org/publicdomain/zero/1.0/legalcode )\n" +
+                "\t\n" +
+                "----------------------------------------", padi.assets.someUIskin);
+
+
         Table s = new Table();
         s.add(label1).row();         s.add(label2).row();
         s.add(label3).row();         s.add(label4).row();
         s.add(label5).row();         s.add(label6).row();
         s.add(label7).row();         s.add(label8).row();
         s.add(label9).row();         s.add(label10).row();
-        s.add(label11).row();
+        s.add(label11).row();        s.add(label12).row();
 
         final ScrollPane scroll = new ScrollPane(s);
 

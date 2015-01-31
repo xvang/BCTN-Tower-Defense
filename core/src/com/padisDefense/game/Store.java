@@ -56,6 +56,7 @@ public class Store extends ScreenAdapter{
     @Override
     public void show(){
 
+
         stage = new Stage();
         imageList = new Array<Image>();
         itemStorage = new ItemStorage(padi);

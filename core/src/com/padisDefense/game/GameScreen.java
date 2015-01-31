@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,6 +45,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //but it never hurts to have,  right?
     public InputMultiplexer multi;
 
+    public Music gameMusic;
 
     public GameScreen(Padi p){
         padi = p;
@@ -71,7 +73,15 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         Gdx.input.setInputProcessor(multi);
         gameStatus = "";
 
+        int x = (int)(Math.random()*10);
+        if(x % 2 == 0){
+           gameMusic =  padi.assets.star;
+        }
+        else{
+            gameMusic = padi.assets.east;
+        }
 
+        gameMusic.play();
     }
 
     public int playLevel, limit;
@@ -79,7 +89,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     //if level 2, then 'limit' limits the towers and enemies to 4.
     public void setLevel(int L){
         playLevel = L;
-        limit = L + 2;
+        limit = L*3;
+
+        if(limit > 9)
+            limit = 9;
 
     }
 
@@ -281,7 +294,12 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     }
 
     @Override
-    public void hide(){this.reset();}
+    public void hide(){
+        this.reset();
+        padi.assets.star.stop();
+        padi.assets.east.stop();
+
+    }
     @Override
     public void pause(){}
 

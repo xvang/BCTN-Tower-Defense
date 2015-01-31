@@ -2,6 +2,7 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,13 +32,13 @@ import com.badlogic.gdx.utils.Array;
 public class Setting extends ScreenAdapter {
 
 
-
+    final int AMOUNT = 2;
     final Padi padi;
     private Stage stage;
 
     public Array<Slider> slider;
-    public Array<TextureRegion> textures;//SOUND, DIFFICULTY, SPEED.
-    public Array<Image> images;//SOUND, DIFFICULTY, SPEED.
+
+    public Array<Label> names;
     public Array<Label> values;
 
 
@@ -45,20 +46,20 @@ public class Setting extends ScreenAdapter {
     public Rectangle top, bottom, left, right;
 
 
-
-    //TODO: get rid of random pictures here.
-    //It will be stored in this array.
-    Array<String> names;
-    //Name of pictures for textures. Currently, random pictures are assigned.
-
-
     public Setting(Padi p){
         padi = p;
     }
+
+
     @Override
     public void show(){
+
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
+
+
+        //Rectangles are used for the wandering() function.
+        //It's more for cosmetic than functionality.
         top = new Rectangle();
         bottom = new Rectangle();
         left = new Rectangle();
@@ -83,25 +84,17 @@ public class Setting extends ScreenAdapter {
         background = new Group();
         foreground = new Group();
 
-        TextureRegionDrawable textureBar;
-        ProgressBar.ProgressBarStyle bar_style;
-        textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("limegreen.png"))));
-        bar_style = new ProgressBar.ProgressBarStyle(padi.assets.skin.newDrawable("white", Color.CYAN), textureBar);
         slider = new Array<Slider>();
-        textures = new Array<TextureRegion>();
-        images = new Array<Image>();
+
+        names = new Array<Label>();
         values = new Array<Label>();
 
-
-        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
-        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
-        textures.add(padi.assets.skin3.getRegion("SYMB_VOLUME"));
         //slider[0] corresponds with texture[0] and images[0], etc.
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < AMOUNT; x++){
             slider.add(new Slider(1,100,1,false,padi.assets.skin));
 
-            images.add(new Image(textures.get(x)));
-            values.add(new Label("stuff", padi.assets.skin));
+            names.add(new Label("", padi.assets.someUIskin));
+            values.add(new Label("", padi.assets.someUIskin));
 
             slider.get(x).setSize(250f,60f);
 
@@ -109,9 +102,12 @@ public class Setting extends ScreenAdapter {
             if(x == 0) slider.get(x).setValue(padi.assets.getDifficulty());
             else if (x == 1) slider.get(x).setValue(padi.assets.getSoundLevel());
 
-            images.get(x).setSize(150f,60f);
+            names.get(x).setSize(150f,60f);
             values.get(x).setSize(50f, 30f);
         }
+
+        names.get(0).setText("Difficulty");
+        names.get(1).setText("Sound");
 
 
         //'return to menu' button
@@ -129,18 +125,18 @@ public class Setting extends ScreenAdapter {
 
 
         //First slider is at set position. Proceeding sliders are located based on previous one.
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < AMOUNT; x++){
             if (x == 0) {//first one. image is to the left. value output is to the right.
                 slider.get(x).setPosition(Gdx.graphics.getWidth() / 2 - 75f, Gdx.graphics.getHeight()*2 / 3);
-                images.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
-                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
+                names.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
+                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(names.get(x).getHeight()/2-values.get(x).getHeight()/2));
             }
             else {//the other two.
                 slider.get(x).setPosition(slider.get(x - 1).getX(),
                         slider.get(x - 1).getY() - slider.get(x - 1).getHeight() - 40f);
 
-                images.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
-                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
+                names.get(x).setPosition(slider.get(x).getX() - 160f, slider.get(x).getY());
+                values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(names.get(x).getHeight()/2-values.get(x).getHeight()/2));
 
             }
         }
@@ -155,9 +151,9 @@ public class Setting extends ScreenAdapter {
         stage.addActor(background);
         stage.addActor(foreground);
 
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < AMOUNT; x++){
             foreground.addActor(slider.get(x));
-            foreground.addActor(images.get(x));
+            foreground.addActor(names.get(x));
             foreground.addActor(values.get(x));
         }
 
@@ -179,9 +175,9 @@ public class Setting extends ScreenAdapter {
     //Save settings into assets.
     //The '0' and '2' values are just arbitrary right now.
     public void saveSettings(){
-        padi.assets.setDifficulty((int)slider.get(2).getVisualValue());
-        padi.assets.setSoundLevel((int)slider.get(0).getVisualValue());
-        padi.assets.setOriginalSoundLevel((int)slider.get(0).getVisualValue());
+        padi.assets.setDifficulty((int)slider.get(0).getVisualValue());
+        padi.assets.setSoundLevel((int)slider.get(1).getVisualValue());
+        padi.assets.setOriginalSoundLevel((int)slider.get(1).getVisualValue());
     }
 
     public void updateValues(){
@@ -214,11 +210,11 @@ public class Setting extends ScreenAdapter {
 
         Array<Rectangle> covers = new Array<Rectangle>();
 
-        for(int x = 0; x < 3; x++){
+        for(int x = 0; x < AMOUNT; x++){
 
             //new Rectangle(x-coord, y-coord, width, height).
-            covers.add(new Rectangle(images.get(x).getX(), images.get(x).getY(),
-            images.get(x).getWidth() + 50f + slider.get(x).getWidth(), images.get(x).getHeight()));
+            covers.add(new Rectangle(names.get(x).getX(), names.get(x).getY(),
+                    names.get(x).getWidth() + 50f + slider.get(x).getWidth(), names.get(x).getHeight()));
 
             //Testing if covers overlaps any border rectangles.
             int temp = touched(covers.get(x));
@@ -239,10 +235,10 @@ public class Setting extends ScreenAdapter {
             if (temp == 4){slider.get(x).moveBy(-((float)(Math.random()*1 + 0.5f)), ((float)(Math.random()*1)) - 0.5f);}
 
             //Wherever sliders are, corresponding images should be 50f to the left.
-            images.get(x).setPosition(slider.get(x).getX() - 50f - images.get(x).getWidth(),
+            names.get(x).setPosition(slider.get(x).getX() - 50f - names.get(x).getWidth(),
                     slider.get(x).getY());
 
-            values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(images.get(x).getHeight()/2-values.get(x).getHeight()/2));
+            values.get(x).setPosition(slider.get(x).getRight() + 20f, slider.get(x).getY()+(names.get(x).getHeight()/2-values.get(x).getHeight()/2));
 
         }//End for-loop.
 

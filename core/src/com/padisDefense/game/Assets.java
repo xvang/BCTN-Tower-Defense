@@ -1,5 +1,7 @@
 package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,7 +51,7 @@ public class Assets {
     public CustomPool<Enemy> enemyCustomPoolL;
     public TowerPool towerCustomPool;
 
-
+    public Music star, rain, east;
     public Assets(Padi p){
 
         padi = p;
@@ -62,6 +64,14 @@ public class Assets {
         splash_Pages.add("limegreen.png");
 
         splash_Pages.add("badlogic.jpg");
+
+        star = Gdx.audio.newMusic(Gdx.files.internal("sound/Following_Your_Star.mp3"));
+        rain = Gdx.audio.newMusic(Gdx.files.internal("sound/Raindrops_of_a_Dream.mp3"));
+        east = Gdx.audio.newMusic(Gdx.files.internal("sound/Travels_to_the_East.mp3"));
+        star.setLooping(true);
+        rain.setLooping(true);
+        east.setLooping(true);
+
 
         batch = new SpriteBatch();
         towerAtlas = new TextureAtlas("towers/tower.pack");
@@ -85,14 +95,6 @@ public class Assets {
             @Override
             protected Enemy newObject(String type) {
 
-                /*if(type.equals("bluespider")) return new BlueSpider();
-                else if(type.equals("ironspider")) return new IronSpider();
-                else if (type.equals("redspider")) return new RedSpider();
-                else if(type.equals("mage")) return new Mage();
-                else if(type.equals("golem")) return new Golem();
-                else if(type.equals("cobra")) return new Cobra();
-                else if(type.equals("bipedaldragon")) return new BipedalDragon();
-                else if(type.equals("blueimp")) return new BlueImp();*/
                 if(type.equals("armyball")) return new Ball("army", skin_balls.getSprite("armyball"));
                 else if(type.equals("blueball")) return new Ball("blue", skin_balls.getSprite("blueball"));
                 else if(type.equals("greenball")) return new Ball("green", skin_balls.getSprite("greenball"));
@@ -197,11 +199,21 @@ public class Assets {
     public int getDifficulty(){return DIFFICULTY;}
 
 
-
-
-
     public void dispose(){
-
+        batch.dispose();
+        skin.dispose();
+        skin3.dispose();
+        someUIskin.dispose();
+        skin_balls.dispose();
+        bubbleUI.dispose();
+        towerButtons.dispose();
+        towerAtlas.dispose();
+        bulletAtlas.dispose();
+        enemyCustomPoolL.clear();
+        towerCustomPool.clear();
+        star.dispose();
+        rain.dispose();
+        east.dispose();
     }
 
 }

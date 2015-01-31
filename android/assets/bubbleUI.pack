@@ -108,6 +108,13 @@ upgrade_up
   orig: 80, 80
   offset: 0, 0
   index: -1
+music_mute
+  rotate: false
+  xy: 785, 743
+  size: 41, 42
+  orig: 41, 42
+  offset: 0, 0
+  index: -1
 
 bubbleUI2.png
 format: RGBA8888

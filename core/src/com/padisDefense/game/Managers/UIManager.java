@@ -520,15 +520,20 @@ public class UIManager implements InputProcessor{
         mute.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent e, float x, float y){
-                if(padi.assets.getSoundLevel() == 0){
-                    padi.assets.setSoundLevel(padi.assets.getOriginalSoundLevel());
-                    mute.setText("Mute");
+
+                if(game.gameMusic.isPlaying()){
+
+                    mute.setText("Un-Mute");
+                    game.gameMusic.pause();
                 }
 
+
+
                 else{
-                    padi.assets.setSoundLevel(0);
-                    mute.setText("Un-Mute");
+                    mute.setText("Mute");
+                    game.gameMusic.play();
                 }
+
 
 
             }

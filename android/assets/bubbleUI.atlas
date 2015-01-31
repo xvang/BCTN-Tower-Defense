@@ -94,18 +94,25 @@ unlocked
   orig: 80, 80
   offset: 0, 0
   index: -1
-upgrade_up
+upgrade_down
   rotate: false
   xy: 165, 165
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
-upgrade_down
+upgrade_up
   rotate: false
   xy: 703, 623
   size: 80, 80
   orig: 80, 80
+  offset: 0, 0
+  index: -1
+music_mute
+  rotate: false
+  xy: 785, 743
+  size: 41, 42
+  orig: 41, 42
   offset: 0, 0
   index: -1
 
