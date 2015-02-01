@@ -97,7 +97,7 @@ public class TowerManager{
             //the goal of the check___() functions is to toggle the hasTarget boolean
             if(currentTower.hasTarget) checkForDead(currentTower);
             if(currentTower.hasTarget) checkRange(currentTower);
-            if(currentTower.hasTarget) checkSpecialConditions(currentTower);
+            //if(currentTower.hasTarget) checkSpecialConditions(currentTower);
 
 
             if(!currentTower.hasTarget) assignTargets(game.enemy, currentTower);
@@ -106,10 +106,10 @@ public class TowerManager{
                     currentTower.getTarget());
 
 
-            //checking for dead and range again.
+            /*//checking for dead and range again.
             if(currentTower.hasTarget) checkForDead(currentTower);
             if(currentTower.hasTarget) checkRange(currentTower);
-            if(currentTower.hasTarget) checkSpecialConditions(currentTower);
+            if(currentTower.hasTarget) checkSpecialConditions(currentTower);*/
 
             if(currentTower.hasTarget){
                 calcRotate(currentTower, currentTower.getTarget());
@@ -124,6 +124,7 @@ public class TowerManager{
             //TODO: implement explosions?
             //explosion animation for when the bullet hits enemy.
             //the nested if-statement checks if animation is finished.
+            //Currently, every tower's 'explode' boolean is set to false.
             if(currentTower.explode){
                 currentTower.explosion.animate(batch);
                 if(currentTower.explosion.finished()){
@@ -137,6 +138,8 @@ public class TowerManager{
                 ((PurpleTower)currentTower).flower.draw(batch);
                 currentTower.spin();
             }
+
+
             currentTower.draw(batch);
 
 
@@ -216,7 +219,6 @@ public class TowerManager{
         //System.out.println("assigning targets");
         if(t.pause >= 0f || stillActiveBullets(t)){
             t.pause -= Gdx.graphics.getDeltaTime();
-
         }
         else{
 
@@ -229,6 +231,7 @@ public class TowerManager{
                 if(currentMin < previousMin){
                     temp = enemy.getActiveEnemy().get(x);
                     previousMin = currentMin;
+
                 }
             }
 
@@ -425,12 +428,18 @@ public class TowerManager{
 
     public void reset(){
 
+        for(int x = 0 ;x < towerArray.size; x++){
+            Tower t = towerArray.get(x);
+            Sprite sprite = padi.assets.towerAtlas.createSprite(t.getID(), 1);
+            t.set(sprite);//resets the image back to lvl 1.
+            t.reset();//resets the stats back to original.
+        }
         padi.assets.towerCustomPool.freeAll(towerArray);
         towerArray.clear();
-        padi.assets.towerCustomPool.clear();
 
 
-        //resetting pointer in buildablespot.
+
+        //resetting tower pointer in buildablespot.
         for(int x = 0; x < buildableArray.size; x++)
             buildableArray.get(x).setCurrentTower(null);
 

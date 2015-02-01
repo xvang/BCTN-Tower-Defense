@@ -34,22 +34,12 @@ public class LevelManager {
     private int path = 0;
     private int enemyAmount = 0;
     private int level = 0;
-    private Array<String> bgPics;
+
     BuildableSpotSpawnStorage bssStorage;
-    private Enemy boss;
 
     public LevelManager(GameScreen g, Padi p){
         game = g;
         padi = p;
-
-        bgPics = new Array<String>();
-
-        bgPics.add("tiles/path1.png");
-        bgPics.add("tiles/path2.png");
-        bgPics.add("tiles/path3.png");
-        bgPics.add("tiles/path4.png");
-        bgPics.add("tiles/path5.png");
-        bgPics.add("tiles/path6.png");
 
 
 
@@ -69,45 +59,37 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 10000;
-                boss = new RedSpider();
+                enemyAmount = 200;
                 break;
             case (2):
                 path = 2;
                 enemyAmount = 400;
-                boss = new BlueSpider();
                 break;
             case (3):
                 path = 3;
                 enemyAmount = 200;
-                boss = new IronSpider();
                 break;
             case (4):
                 path = 4;
                 enemyAmount = 200;
-                boss = new Cobra();
                 break;
             case (5):
                 path = 5;
                 enemyAmount = 100;
-                boss = new BipedalDragon();
                 break;
 
             case (6):
                 path = 6;
                 enemyAmount = 500;
-                boss = new BlueImp();
                 break;
             case (7):
                 path = 7;
                 enemyAmount = 500;
-                boss = new Golem();
                 break;
 
             default:
                 path = 1;
                 enemyAmount = 100;
-                boss = new RedSpider();
                 break;
         }
     }
@@ -118,10 +100,26 @@ public class LevelManager {
     public void setLevel(int l){level = l;}
 
 
-    public Enemy getBoss(){return boss;}
+    public Enemy getBoss(){
 
-    public Sprite getBackground(){
-        return new Sprite(new Texture(bgPics.get(level-1)));
+        switch(level) {
+            case (1):
+                return new RedSpider();
+            case (2):
+                return new BlueSpider();
+            case (3):
+                return new IronSpider();
+            case (4):
+                return new Cobra();
+            case (5):
+                return new BipedalDragon();
+            case (6):
+                return new BlueImp();
+            case (7):
+                return new Golem();
+            default:
+                return new RedSpider();
+        }
     }
 
     public void spawnBuildableSpots(TowerManager tower, int level){

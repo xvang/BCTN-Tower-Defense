@@ -10,7 +10,7 @@ public class ArmyTower extends Tower {
     public ArmyTower(Vector2 position, Sprite picture, int level, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
 
-        super(picture, 15, 0.025f, 150f, 60, 1f);
+        super(picture, 80f, 0.025f, 150f, 60, 1f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 

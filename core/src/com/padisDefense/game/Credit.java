@@ -3,22 +3,13 @@ package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
-
 
 public class Credit extends ScreenAdapter {
 
@@ -67,6 +58,9 @@ public class Credit extends ScreenAdapter {
         stage = new Stage();
         stage.addActor(scrollWrap);
 */
+        Label label0 = new Label("Most of the art is open-sourced.  I found them on opengameart.org. \n" +
+                "The framework used for development is LibGDX.\n" +
+                "------------------------------------------------", padi.assets.someUIskin);
 
         Label label1 = new Label("Title:\n" +
                 "    Animated particle effects #2\n" +
@@ -319,6 +313,7 @@ public class Credit extends ScreenAdapter {
 
 
         Table s = new Table();
+        s.add(label0).row();
         s.add(label1).row();         s.add(label2).row();
         s.add(label3).row();         s.add(label4).row();
         s.add(label5).row();         s.add(label6).row();

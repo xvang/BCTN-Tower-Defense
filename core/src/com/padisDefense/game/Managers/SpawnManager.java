@@ -52,8 +52,9 @@ public class SpawnManager {
     private boolean duckTime = true, spawnedDuck = false;//spawns one duck to signify start of bullrushing.
     private float duckTimer = 0f;
 
-
+    //TODO: Maybe get rid of allEnemies?
     private Array<String> allEnemies;//list of all enemies.
+    private Array<String> levelEnemies;//list of available enemies for current Level.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
 
 
@@ -68,24 +69,31 @@ public class SpawnManager {
         game = g;
         padi = p;
 
-
-
-
         data = new HashMap<Tower, Integer>();
         allEnemies = new Array<String>();
+        levelEnemies = new Array<String>();
 
         //ADD ENEMIES HERE.
         allEnemies.add("armyball");         allEnemies.add("blueball");
-        allEnemies.add("yellowball");       allEnemies.add("violetball");
         allEnemies.add("greenball");        allEnemies.add("orangeball");
         allEnemies.add("pinkball");         allEnemies.add("purpleball");
-        allEnemies.add("redball");
+        allEnemies.add("redball");          allEnemies.add("violetball");
+        allEnemies.add("yellowball");
+
 
 
 
         weak = new Array<String>();
         mostType = new Array<Tower>();
         leastType = new Array<Tower>();
+    }
+
+    public void initEnemy(){
+        levelEnemies.clear();
+
+        for(int x = 0; x < game.limit; x++){
+            levelEnemies.add(allEnemies.get(x));
+        }
     }
 
 
@@ -144,7 +152,7 @@ public class SpawnManager {
 
     // Counts how many of each  tower there are.
     public void gatherTowerData(){
-        //TODO: check the case where user has no towers.
+
         for(int x = 0; x < game.tower.getTowerArray().size; x++){
             Tower temp = game.tower.getTowerArray().get(x);
 
@@ -189,7 +197,7 @@ public class SpawnManager {
                 duckTime = true;
 
                 //every 8 spawns, every active enemy has a chance to have increased armor,
-                //up to a maximum of 300% of the intial armor value.
+                //up to a maximum of 500% of the intial armor value.
                 //the chance is based on the difficulty level.
                 if(duckTimer >= 8){
                     duckTimer = 0;
@@ -199,24 +207,24 @@ public class SpawnManager {
                         for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
                             Enemy e = game.enemy.getActiveEnemy().get(s);
 
-                            if(e.getArmor() < e.getOriginalArmor()*4)
-                                e.setArmor(e.getArmor()*1.1f);
+                            if(e.getArmor() < e.getOriginalArmor()*5)
+                                e.setArmor(e.getArmor()*1.25f);
                         }
-
-
+                        //System.out.println("Armoring up: " + game.enemy.getActiveEnemy().get(1).getArmor());
                     }
                 }
                 if(!spawnedDuck){//The duck should only spawn once to signify the start of bullrushing.
                     newEnemy = new Duck();
 
                     spawnedDuck = true;
-                    chosenEnemyType = (int)(Math.random()*allEnemies.size);
+                    chosenEnemyType = (int)(Math.random()*levelEnemies.size);
 
                     // changing the giant ball at the end.
-                    game.enemy.changeEndImage(allEnemies.get(chosenEnemyType));
+                    game.enemy.changeEndImage(levelEnemies.get(chosenEnemyType));
                     return newEnemy;
                 }
                 else{//Duck already spawned, it's time to spawn the rush.
+                    //System.out.println("Spawning type: " + levelEnemies.get(chosenEnemyType));
                     return spawnBullRush();
                 }
 
@@ -495,6 +503,10 @@ public class SpawnManager {
     public void reset(){
         data.clear();
         first50 = 0;
+
+
+
+
     }
 }
 

@@ -4,8 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.padisDefense.game.Tests.ItemTest;
-import com.padisDefense.game.Tests.LocalSaveTest;
 import com.padisDefense.game.TransitionScreens.Splash;
 
 /**
@@ -110,6 +108,3 @@ public class Padi extends Game implements ApplicationListener{
         super.resume();
     }
 }
-
-
-//TODO: Leaderboard Screen, Login Screen, StoreScreen, .... a lot of screens. maybe too many screens.

@@ -3,13 +3,9 @@ package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 
 public class CreditAnimation extends Image  {
@@ -20,7 +16,7 @@ public class CreditAnimation extends Image  {
     public Animation animation;          // #3
     Texture walkSheet;              // #4
     TextureRegion[] walkFrames;             // #5
-    TextureRegion currentFrame;           // #7
+    //TextureRegion currentFrame;           // #7
     float stateTime;                                        // #8
     Vector2 loc, locInTable;
 
@@ -53,17 +49,17 @@ public class CreditAnimation extends Image  {
 
 
 
-
-    public void draw(Batch batch, float x, float y, float width, float height) {
+    //Not needed right now, maybe later.
+    //This runs an animation for the Credit class.
+    /*public void draw(Batch batch, float x, float y, float width, float height) {
 
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, true);
 
-
         //batch.draw(currentFrame, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch.draw(currentFrame, loc.x, loc.y);
 
-    }
+    }*/
 
 
 }

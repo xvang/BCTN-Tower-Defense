@@ -5,12 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,7 +42,7 @@ public class Store extends ScreenAdapter{
     private MainItem clickedItem = null;//pointer to the item.
     private Label affects;//displays all the affected towers.
     //private Label money;//displays the user's money
-    private TextButton money, dollarSign;
+    private TextButton money;
     private Label message;//Prints out a message: item unlocked, not enough money, no item selected.
 
 
@@ -108,7 +105,7 @@ public class Store extends ScreenAdapter{
 
 
         String amount = String.valueOf(padi.player.getMoney());
-        dollarSign = new TextButton("", padi.assets.someUIskin, "dollarSign");
+        TextButton dollarSign = new TextButton("", padi.assets.someUIskin, "dollarSign");
         money = new TextButton(amount, padi.assets.someUIskin, "default");
         name = new Label("\n", padi.assets.someUIskin, "default");
         info = new Label("\n", padi.assets.someUIskin, "default");

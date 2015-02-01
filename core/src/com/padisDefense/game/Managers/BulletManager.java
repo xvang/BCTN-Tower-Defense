@@ -24,7 +24,6 @@ public class BulletManager {
 
     Padi padi;
     GameScreen game;
-    private float spawnTimer = 0;
 
     //Constructor
     public BulletManager(GameScreen g, Padi p){game = g;padi = p;}
@@ -124,11 +123,6 @@ public class BulletManager {
         //System.out.println("after shooting bullet size : " + t.getActiveBullets().size);
     }// end shooting();
 
-    //todo: laser shots?
-    public void laserShot(SpriteBatch batch, Vector2 enemy, Vector2 tower){
-
-
-    }
     //TODO: work 'arc' into the midpoint formula.
     //midpoint formula.
     //something about private access prevents me from just putting
@@ -140,18 +134,15 @@ public class BulletManager {
 
 
     public double findDistance(Vector2 a, Vector2 b){
-
         double x2x1 = a.x - b.x;
         double y2y1 = a.y - b.y;
         return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
     }
 
     public void dispose(){
-
     }
 
     public void reset(){
-
     }
 }
 

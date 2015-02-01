@@ -1,7 +1,6 @@
 package com.padisDefense.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -114,9 +113,6 @@ public class Assets {
         };
 
 
-
-
-        //TODO: find a way to combine these two functions in pool declaration.
         //right now they use two different pools.
         towerCustomPool = new TowerPool() {
             @Override
@@ -195,7 +191,7 @@ public class Assets {
     public float getScreenWidth(){return w;}
     public float getScreenHeight(){return h;}
     public int getSoundLevel(){return SOUND_LEVEL;}
-    public int getOriginalSoundLevel(){return SOUND_LEVEL_ORIGINAL;}
+    //public int getOriginalSoundLevel(){return SOUND_LEVEL_ORIGINAL;}
     public int getDifficulty(){return DIFFICULTY;}
 
 

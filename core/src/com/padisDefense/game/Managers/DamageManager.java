@@ -46,6 +46,7 @@ public class DamageManager {
         }*/
 
         if(t.getID().equals("GREEN")){
+
             aoeHit((GreenTower) t, e);
         }
 
@@ -73,16 +74,9 @@ public class DamageManager {
                    // temp.affectRate(0, 5f);
                     fourLimit++;
                 }
-
-
             }
         }
-
-
-    }
-
-
-
+    }//End iceHit();
 
     //All enemies within a certain range will take damage.
     //damage proportional to distance from targeted enemy.
@@ -91,6 +85,7 @@ public class DamageManager {
     public void aoeHit(GreenTower t, Enemy e) {
         double distance;
         Enemy temp;
+
         for (int x = 0; x < game.enemy.getActiveEnemy().size; x++) {
             temp = game.enemy.getActiveEnemy().get(x);
 
@@ -107,19 +102,18 @@ public class DamageManager {
                     float z = (float) distance / t.getRangeAOE();
                     float damage = (1 - z)*t.getAttack();
 
-                    if(t.isStrongAgainst(e.getName())){
-                        e.originalHit(damage);//bypasses increased armor.
+                    if(t.isStrongAgainst(temp.getName())){
+                        temp.originalHit(damage*2f);//bypasses increased armor.
                     }
-                    //if tower is weak against enemy, its attack is reduced to 10%
-                    else if(t.isWeakAgainst(e.getName())){
-                        e.hit(damage);
+                    //if tower is weak against enemy, its attack is reduced to 20%
+                    else if(t.isWeakAgainst(temp.getName())){
+                        temp.hit(damage*0.2f);
                     }
                     else{
-                        e.hit(damage);
+                        temp.hit(damage);
                     }
                 }
             }//end if(!temp.equals(e)).
-
         }//end for-loop.
     }//end aoeHit()
 

@@ -58,6 +58,9 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public float stateTime = 0;//determines when to switch to next frame.
     public Vector2 oldPosition, newPosition;//determines which direction enemy is going, and what animation should play.
 
+
+    public boolean isBoss = false;
+
     protected Enemy(float h, float a, String picture){
         //super(new Texture(picture));
         health = h;
@@ -77,6 +80,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
         healthRed.setSize(20f, 2f);
         oldPosition = new Vector2();
         newPosition = new Vector2();
+
 
 
 

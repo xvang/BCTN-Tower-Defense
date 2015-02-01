@@ -29,7 +29,7 @@ public class Player {
 
     //Constructor
     public Player(){
-        //TODO: lock the levels.
+
         //only the first level is unlocked.
         for(int x = 0; x < levels.length; x++){
             if(x == 0)

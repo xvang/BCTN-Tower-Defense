@@ -376,17 +376,6 @@ public class Tower extends Sprite implements  Pool.Poolable{
         return new Vector2(x,y);
     }
 
-    public void customRotate(){
-        if(getRotation() != rotateDestination){
-            if( getRotation() + 2 <= rotateDestination){
-                rotate(2);
-
-            }
-            else if(getRotation() - 2 >= rotateDestination) {
-                rotate(-2);
-            }
-        }
-    }
 
     public void update() {
         // if you want to free dead bullets, returning them to the pool:
@@ -415,6 +404,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
     @Override
     public void reset(){
+
         lockedOnTarget = false;
         hasTarget = false;
         clicked = false;
@@ -434,10 +424,11 @@ public class Tower extends Sprite implements  Pool.Poolable{
         activeBullets.clear();
     }
 
+    //subclasses override these.
     public void userReset(){}
     public void spin(){}
     public void dispose(){
-        //getTexture().dispose();
+
         activeBullets.clear();
         pool.clear();
     }
@@ -447,14 +438,3 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 }
 
-
-
-//TODO: make spinning useful, somehow.  It's too cool to not have.
-    /*private int degrees = 1;
-    public void spinning(){
-        degrees += 1;
-        if (degrees % 360 == 0)
-            degrees = 1;
-
-        this.rotate(degrees);
-    }*/

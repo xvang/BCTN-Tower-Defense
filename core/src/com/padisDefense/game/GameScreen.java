@@ -6,8 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.padisDefense.game.Managers.BulletManager;
 import com.padisDefense.game.Managers.DamageManager;
 import com.padisDefense.game.Managers.EnemyManager;
@@ -93,7 +91,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         if(limit > 9)
             limit = 9;
-
     }
 
     //enemy amount and path is stored in enemy.
@@ -110,6 +107,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         level.spawnBuildableSpots(tower, playLevel);//getting locations for buildableSpots.
 
+        spawn.initEnemy();//all the enemies that can spawn on a level is stored in an array.
     }
 
 
@@ -183,11 +181,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
                 padi.loadsave.savePlayer(padi.player);
 
-
-
-
-
-
             }
             else if (GAME_OVER){
 
@@ -195,15 +188,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                     endGameAnimation.run();
 
                 }
-
-
                 UI.endStage.draw();
             }
             UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
-
-
         }
-
 
         //PAUSED
         else{
@@ -215,7 +203,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 
 
-    //TODO: make different types of enemies worth differently.
+
     public void calcMoney(){
         tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 2));
         oldEnemyCount = newEnemyCount;
@@ -255,12 +243,13 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         endGameAnimation.reset();
         enemy.reset();
         tower.reset();
-        bullet.reset();
+        bullet.reset(); //currently nothing.
+        tower.populateTowerPool();
 
         UI = new UIManager(this, padi);
-        level.reset();
-        spawn.reset();
-        damage.reset();
+        level.reset(); //currently nothing.
+        spawn.reset(); //currently nothing.
+        damage.reset(); //currently nothing.
 
         GAME_OVER = false;
         enemy.setEnemyAmount(level.getEnemyAmount());

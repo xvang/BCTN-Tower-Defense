@@ -17,7 +17,7 @@ public class IronSpider extends Enemy{
         super(100,1,  "pizza.png");
         setName("ironspider");
         setRate(0.16f + (float)Math.random()*0.08f);
-
+        isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }

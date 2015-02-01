@@ -4,9 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Enemies.Enemy;
 
-/**
- * Created by Toog on 1/25/2015.
- */
+
+
 public class VioletTower extends Tower {
 
     public VioletTower(Vector2 position, Sprite picture, int level, Sprite bullet){

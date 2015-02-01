@@ -16,7 +16,7 @@ public class BlueImp extends Enemy{
         super(100, 1, "bestgoblin.png");
         setName("golem");
         setRate(0.08f + (float)Math.random()*0.035f);
-
+        isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
     }

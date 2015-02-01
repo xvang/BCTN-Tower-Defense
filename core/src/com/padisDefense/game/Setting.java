@@ -144,10 +144,6 @@ public class Setting extends ScreenAdapter {
         back_button.setPosition(Gdx.graphics.getWidth() / 2 - 75f, 30f);
         back_button.setSize(250f, 60f);
 
-
-
-
-
         stage.addActor(background);
         stage.addActor(foreground);
 
@@ -164,12 +160,6 @@ public class Setting extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
 
     }//end show();
-
-
-    /*@Override
-    public void show(){
-        Gdx.input.setInputProcessor(stage);
-    }*/
 
 
     //Save settings into assets.
@@ -264,10 +254,6 @@ public class Setting extends ScreenAdapter {
 
     }
 
-    public void bounce(){
-        Array<Rectangle> covers = new Array<Rectangle>();
-
-    }
     @Override
     public void dispose(){
     }

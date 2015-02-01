@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -76,14 +75,11 @@ public class WorldMap implements Screen {
                     public void clicked(InputEvent e, float a, float b) {
 
                         if(padi.player.isLevelUnlocked(g)){
-                            /*padi.assets.gameScreen.assignLevel(g);
-                            padi.assets.gameScreen.reset();
-                            padi.setScreen(padi.assets.gameScreen);*/
                             padi.assets.rain.stop();
-
 
                             padi.gameScreen.setLevel(g);
                             padi.gameScreen.reset();
+
                             padi.setScreen(new Splash(padi, padi.gameScreen));
                             //padi.setScreen(padi.gameScreen);
                             Gdx.input.setInputProcessor(null);
@@ -115,10 +111,9 @@ public class WorldMap implements Screen {
                 });
             }
 
-
             //This sets the dimensions and color of the buttons.
             buttons.get(x).setSize(100f, 50f);
-            //buttons.get(x).setColor(0.2f,0.3f, 0.8f, 0.8f);
+
         }//end for-loop
 
         //TODO: Get rid of hard code

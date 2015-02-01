@@ -324,10 +324,17 @@ public class EnemyManager {
 
                 }
 
+                if(e.isBoss){//If boss, don't return to pool.
+                    activeEnemy.removeValue(e, true);//'true', because why not? removes all occurences in array.
+                    System.out.println("Removing the boss!");
+                }
+                else{
+                    activeEnemy.removeValue(e, false);
+                    //game.spawn.enemyPool.free(e);
+                    padi.assets.enemyCustomPoolL.free(e);
+                }
                 enemyCounter--;
-                activeEnemy.removeValue(e, false);
-                //game.spawn.enemyPool.free(e);
-                padi.assets.enemyCustomPoolL.free(e);
+
 
             }
 
@@ -370,7 +377,6 @@ public class EnemyManager {
     }
 
 
-    //TODO: implement changeEndImage!
     //Change the giant ball at the end to correspond with the current spawn.
     //It is called in UIManager.
     public void changeEndImage(String newBall){
@@ -400,11 +406,20 @@ public class EnemyManager {
     }
 
     public void reset(){
+
+        System.out.println("enemyManager.java called! ::: " + activeEnemy.size);
+        for(int x = 0; x < activeEnemy.size; x++){
+            Enemy e = activeEnemy.get(x);
+            e.reset();
+            System.out.println(x);
+
+        }
+
         padi.assets.enemyCustomPoolL.freeAll(activeEnemy);
         activeEnemy.clear();
-        padi.assets.enemyCustomPoolL.clear();
 
-        countDownTimer  = 15f;
+
+        countDownTimer = 15f;
         enhanceBoss = 0;
     }
 }
