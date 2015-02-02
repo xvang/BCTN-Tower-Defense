@@ -100,20 +100,75 @@ public class UIManager implements InputProcessor{
         padi = p;
         stage = new Stage();
 
-        createPauseTable();
-        createDragTowers();
-        createCountDownTable();
-        createTowerTable();
-        createEndGameTable();
-        createChargeMeter();
-        createOptionTable();
-        createMessageTable();
+        //pause table.
+        pauseButtonTable = new Table();
+        pauseTable = new Table();
+        pauseStage = new Stage();
 
-        createStatsTable();
-        createMasterTable();
+        shapeRenderer = new ShapeRenderer();
 
-        //button to hide the UI
+        countDownTable = new Table();
+        endGameTable = new Table();
+
+        clickedTowerTable = new Table();
+        towerOptions = new Array<TextButton>();
+
+        endStage = new Stage();
+        endGameTable = new Table();
+        winMessage = new Label("You Won!", padi.assets.someUIskin, "default");
+        loseMessage = new Label("You Lost!", padi.assets.someUIskin, "default");
+        endGameTimeMessage = new Label("Time: ", padi.assets.someUIskin, "default");
+        clickedOptionTable = new Table();
+
+        masterTable = new Table();
+
+        //message table.
+        messageTable = new Table();
+        moneyMessage = new Label("Bank: $ ", padi.assets.someUIskin);
+        enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
+        timeMessage = new Label("Total time: " + String.valueOf(TIMER), padi.assets.someUIskin);
+        lifeLabel = new Label("\n", padi.assets.someUIskin);
+
+
+        //stats table
+        statsTable = new Table();
+        nameLabel = new Label("\n", padi.assets.someUIskin, "black");
+        attackLabel = new Label("\n", padi.assets.someUIskin, "black");
+        rangeLabel = new Label("\n", padi.assets.someUIskin, "black");
+        costLabel = new Label("\n", padi.assets.someUIskin, "black");
+        levelLabel = new Label("\n", padi.assets.someUIskin, "black");
+        weakLabel = new Label("\n", padi.assets.someUIskin, "black");
+        strongLabel = new Label("\n", padi.assets.someUIskin, "black");
+
+
+        pauseTable = new Table();
+        dragTowers = new Table();
+        endGameTable = new Table();
+
+        //charge meter.
+        loadingHidden = new Image(new Texture("progressbarempty.png"));
+        loadingBar = new Image(new Texture("progressbar.png"));
+        loadingFrame = new Image(new Texture("progressbarbackground.png"));
+
+
+        //the table on the right side.
+        //displays drag options, tower stats.
+        masterTable = new Table();
+
+        //hide button
         hideButton = new TextButton("Hide", padi.assets.bubbleUI, "yellow");
+
+        TIMER = 0f;
+        GAME_OVER = false;
+        stopUpdatingChargeMeter = false;
+        PAUSED = false;
+        updateTimerMessage();
+        hideButton.setText("Hide");
+        lifepoints = 20;
+
+        loadingBar.setSize(0, loadingBar.getHeight());
+        currentCharge = 0;
+
         hideButton.setSize(80f, 50f);
         hideButton.setPosition(Gdx.graphics.getWidth()-hideButton.getWidth() - 10f, 10f);
         hideButton.addListener(new ClickListener(){
@@ -133,8 +188,6 @@ public class UIManager implements InputProcessor{
             }
         });
 
-
-
         stage.addActor(loadingFrame);
         stage.addActor(loadingHidden);
         stage.addActor(loadingBar);
@@ -146,6 +199,34 @@ public class UIManager implements InputProcessor{
         stage.addActor(messageTable);
         stage.addActor(countDownTable);
 
+    }
+
+    public void initUI(){
+
+        createPauseTable();
+        createDragTowers();
+        createCountDownTable();
+        createTowerTable();
+        createEndGameTable();
+        createChargeMeter();
+        createOptionTable();
+        createMessageTable();
+
+        createStatsTable();
+        createMasterTable();
+    }
+
+    public void clearTables(){
+        clickedOptionTable.reset();
+        masterTable.reset();
+        clickedTowerTable.reset(); towerOptions.clear();
+        pauseButtonTable.reset();
+        pauseTable.reset();
+        messageTable.reset();
+        countDownTable.reset();
+        endGameTable.reset();
+        statsTable.reset();
+        dragTowers.reset();
     }
 
     public void setGame(GameScreen g){
@@ -268,12 +349,12 @@ public class UIManager implements InputProcessor{
                 b = !b;
 
                 //updating the 'charge' button message.
-                try{
+                /*try{
                     charge.setText(currentBuildable.getCurrentTower().getMessage());
                 }catch(Exception e){
 
                     //charge.setText(tower.getBuildableArray().get(s).getMessage());
-                }
+                }*/
 
 
 
@@ -283,14 +364,16 @@ public class UIManager implements InputProcessor{
 
                 //if buildable is empty, choices of towers to build should pop up.
                 if(currentBuildable.emptyCurrentTower()){
-                    checkBorders(currentBuildable, clickedTowerTable);
+                    //checkBorders(currentBuildable, clickedTowerTable);
+
+                    clickedTowerTable.setPosition(currentBuildable.getCenterX(), currentBuildable.getCenterY() - 40f);
                     clickedTowerTable.setVisible(true);
-
-
                 }
                 //else, the option table containing 'shoot', 'upgrade', 'sell' should pop up.
                 else{
-                    checkBorders(currentBuildable, clickedOptionTable);
+
+                    //checkBorders(currentBuildable, clickedOptionTable);
+                    clickedOptionTable.setPosition(currentBuildable.getCenterX(), currentBuildable.getCenterY() - 40f);
                     clickedOptionTable.setVisible(true);
                     currentBuildable.getCurrentTower().clicked = true;
                 }
@@ -301,8 +384,10 @@ public class UIManager implements InputProcessor{
     }
 
 
-    //TODO: update checkBorders(). do something. its horrible. we failed. we are judged on our worst functions, xeng.
     public void checkBorders(BuildableSpot b, Table t){
+
+        if(t == null)
+            System.out.println("t = null!");
 
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
@@ -403,16 +488,6 @@ public class UIManager implements InputProcessor{
 
 
     public void createStatsTable(){
-        statsTable = new Table();
-
-        nameLabel = new Label("\n", padi.assets.someUIskin, "black");
-        attackLabel = new Label("\n", padi.assets.someUIskin, "black");
-        rangeLabel = new Label("\n", padi.assets.someUIskin, "black");
-        costLabel = new Label("\n", padi.assets.someUIskin, "black");
-        levelLabel = new Label("\n", padi.assets.someUIskin, "black");
-        weakLabel = new Label("\n", padi.assets.someUIskin, "black");
-        strongLabel = new Label("\n", padi.assets.someUIskin, "black");
-
 
         statsTable.add(nameLabel).row();
         statsTable.add(weakLabel).row();
@@ -427,15 +502,6 @@ public class UIManager implements InputProcessor{
 
     }
     public void createMessageTable(){
-        moneyMessage = new Label("Bank: $ ", padi.assets.someUIskin);
-        enemyMessage = new Label("Enemies left: ", padi.assets.someUIskin);
-        timeMessage = new Label("Total time: " + String.valueOf(TIMER), padi.assets.someUIskin);
-        lifeLabel = new Label("\n", padi.assets.someUIskin);
-
-        //making table for messages.
-        messageTable = new Table();
-
-
         // messageTable.setSize(200f, Gdx.graphics.getHeight());
         // messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
 
@@ -452,7 +518,7 @@ public class UIManager implements InputProcessor{
 
 
     public void createMasterTable(){
-        masterTable = new Table();
+
         masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
         masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
 
@@ -486,8 +552,7 @@ public class UIManager implements InputProcessor{
 
 
 
-        pauseTable = new Table();
-        pauseStage = new Stage();
+
 
         final TextButton resume = new TextButton("Resume", padi.assets.bubbleUI, "green");
         final TextButton quit = new TextButton("Quit", padi.assets.bubbleUI, "green");
@@ -542,7 +607,7 @@ public class UIManager implements InputProcessor{
                 game.reset();
             }
         });
-        pauseButtonTable = new Table();
+
         pauseButtonTable.add(pauseButton).width(Gdx.graphics.getWidth()/30).height(Gdx.graphics.getHeight()/20f);
         pauseButtonTable.setPosition(20f, Gdx.graphics.getHeight() - 20f );
 
@@ -555,10 +620,6 @@ public class UIManager implements InputProcessor{
         pauseStage.addActor(pauseTable);
     }
     public void createChargeMeter(){
-        loadingHidden = new Image(new Texture("progressbarempty.png"));
-        loadingBar = new Image(new Texture("progressbar.png"));
-        loadingFrame = new Image(new Texture("progressbarbackground.png"));
-
         loadingFrame.setSize(padi.assets.getScreenWidth()/3, padi.assets.getScreenHeight()/40);
         loadingHidden.setSize(loadingFrame.getWidth()-10f, loadingFrame.getHeight()-10f);
 
@@ -569,7 +630,7 @@ public class UIManager implements InputProcessor{
         loadingBar.setSize(0, 0);
     }
     public void createCountDownTable(){
-        countDownTable = new Table();
+
         final TextButton startButton = new TextButton("start", padi.assets.bubbleUI, "red");
         startButton.addListener(new ClickListener(){
             @Override
@@ -595,15 +656,15 @@ public class UIManager implements InputProcessor{
     }
 
     public void createOptionTable(){
-        clickedOptionTable = new Table();
+
         clickedOptionTable.setName("clickedOptionTable");
 
         ImageButton charge = new ImageButton(padi.assets.bubbleUI, "charge");
         ImageButton upgrade = new ImageButton(padi.assets.bubbleUI, "upgrade");
         ImageButton sell = new ImageButton(padi.assets.bubbleUI, "trash");
-        clickedOptionTable.add(charge).width(45f).height(45f).pad(35f);
-        clickedOptionTable.add(upgrade).width(45f).height(45f).pad(35f);
-        clickedOptionTable.add(sell).width(45f).height(45f).pad(35f);
+        clickedOptionTable.add(charge).width(55f).height(55f).pad(35f);
+        clickedOptionTable.add(upgrade).width(55f).height(55f).pad(35f);
+        clickedOptionTable.add(sell).width(55f).height(55f).pad(35f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
 
@@ -681,9 +742,8 @@ public class UIManager implements InputProcessor{
 
     public void createTowerTable(){
         //tower option table. it shows up with all the towers the user can make.
-        clickedTowerTable = new Table();
         clickedTowerTable.setName("clickedTowerTable");
-        towerOptions = new Array<TextButton>();
+
 
         String[] names = {"army", "blue", "green","orange",
                           "pink", "purple", "red","violet", "yellow"};
@@ -734,11 +794,6 @@ public class UIManager implements InputProcessor{
 
     public void createEndGameTable(){
 
-        endStage = new Stage();
-        endGameTable = new Table();
-        winMessage = new Label("You Won!", padi.assets.someUIskin, "default");
-        loseMessage = new Label("You Lost!", padi.assets.someUIskin, "default");
-        endGameTimeMessage = new Label("Time: ", padi.assets.someUIskin, "default");
         final TextButton returnButton = new TextButton(" World Map ", padi.assets.bubbleUI, "red");
         final TextButton retryButton = new TextButton("Try Level Again", padi.assets.bubbleUI, "red");
 
@@ -772,10 +827,7 @@ public class UIManager implements InputProcessor{
 
     public void createDragTowers(){
 
-        final Array<Image> image;
-        dragTowers = new Table();
-        image = new Array<Image>();
-        shapeRenderer = new ShapeRenderer();
+        final Array<Image> image = new Array<Image>();
 
         //Creating the images for the towers.
 
@@ -891,33 +943,33 @@ public class UIManager implements InputProcessor{
         stage.dispose();
         endStage.dispose();
         masterTable.clearChildren();
-        masterTable.clear();
+        masterTable.reset();
         hideButton.clear();
         messageTable.clearChildren();
-        messageTable.clear();
+        messageTable.reset();
         moneyMessage.clear();
         enemyMessage.clear();
         timeMessage.clear();
         dragTowers.clearChildren();
-        dragTowers.clear();
+        dragTowers.reset();
 
 
 
         loadingHidden.clear();
         loadingBar.clear();
-        clickedOptionTable.clear();
+        clickedOptionTable.reset();
         charge.clear();
         upgrade.clear();
-        clickedTowerTable.clear();
+        clickedTowerTable.reset();
 
         shapeRenderer.dispose();
-        countDownTable.clear();
+        countDownTable.reset();
         countDownMessage2.clear();
-        endGameTable.clear();
+        endGameTable.reset();
         endGameTimeMessage.clear();
         pauseButton.getImage().clear();
         pauseButton.clear();
-        pauseTable.clear();
+        pauseTable.reset();
         pauseStage.dispose();
 
         for(int x = 0; x < towerOptions.size; x++)
@@ -930,23 +982,29 @@ public class UIManager implements InputProcessor{
     public void reset(){
 
         countDownTable.setVisible(true);
+
+
         endGameTable.setVisible(false);
+
+
         clickedTowerTable.setVisible(false);
+
+
         clickedOptionTable.setVisible(false);
+
         statsTable.setVisible(false);
+
         masterTable.setVisible(true);
         TIMER = 0f;
         GAME_OVER = false;
         stopUpdatingChargeMeter = false;
         PAUSED = false;
-        updateTimerMessage();
+        //updateTimerMessage();
         hideButton.setText("Hide");
         lifepoints = 20;
 
         loadingBar.setSize(0, loadingBar.getHeight());
         currentCharge = 0;
-
-
     }
 }
 

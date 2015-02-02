@@ -407,12 +407,10 @@ public class EnemyManager {
 
     public void reset(){
 
-        System.out.println("enemyManager.java called! ::: " + activeEnemy.size);
+
         for(int x = 0; x < activeEnemy.size; x++){
             Enemy e = activeEnemy.get(x);
             e.reset();
-            System.out.println(x);
-
         }
 
         padi.assets.enemyCustomPoolL.freeAll(activeEnemy);

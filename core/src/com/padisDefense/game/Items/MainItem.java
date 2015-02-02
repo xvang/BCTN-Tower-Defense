@@ -45,24 +45,15 @@ public class MainItem extends Sprite{
     private String displayStats;
     private Array<String> targets;
     private String name;
-    private String pic;
+    private Sprite pic;
 
     //2 constructors.
     //If picture is a single, then name of picture is passed in.
     //If picture is part of a group(spritesheet..?), then sprite containing desired area is passed in.
-    public MainItem(String pic){
-        super(new Texture(pic));
-        this.pic = pic;
-        targets = new Array<String>();
-        displayStats = "";
-        name = "";
-        cost = 1;
-    }
-
 
     public MainItem(Sprite sprite){
         super(sprite);
-        this.pic = pic;
+        this.pic = sprite;
         targets = new Array<String>();
         displayStats = "";
         name = "";
@@ -74,7 +65,7 @@ public class MainItem extends Sprite{
     public String getDisplayStats(){return displayStats;}
     public Array<String> getTargets(){return targets;}
     public String getName(){return name;}
-    public String getPic(){return pic;}
+    public Sprite getPic(){return pic;}
 
 
     public void setCost(int c){cost = c;}

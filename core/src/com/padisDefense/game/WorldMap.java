@@ -77,8 +77,7 @@ public class WorldMap implements Screen {
                         if(padi.player.isLevelUnlocked(g)){
                             padi.assets.rain.stop();
 
-                            padi.gameScreen.setLevel(g);
-                            padi.gameScreen.reset();
+                            padi.gameScreen.initLevel(g);
 
                             padi.setScreen(new Splash(padi, padi.gameScreen));
                             //padi.setScreen(padi.gameScreen);
@@ -90,7 +89,6 @@ public class WorldMap implements Screen {
 
                     }
                 });
-
             }
             else if(x == padi.player.getNumberOfLevels()) {
                 buttons.add(new TextButton(" menu ", padi.assets.bubbleUI, "yellow"));

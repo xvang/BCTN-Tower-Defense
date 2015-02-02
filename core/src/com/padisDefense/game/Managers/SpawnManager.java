@@ -52,7 +52,7 @@ public class SpawnManager {
     private boolean duckTime = true, spawnedDuck = false;//spawns one duck to signify start of bullrushing.
     private float duckTimer = 0f;
 
-    //TODO: Maybe get rid of allEnemies?
+
     private Array<String> allEnemies;//list of all enemies.
     private Array<String> levelEnemies;//list of available enemies for current Level.
     private int chosenEnemyType;//the index of type of enemy chosen to spawn when bullrushing.
@@ -73,12 +73,6 @@ public class SpawnManager {
         allEnemies = new Array<String>();
         levelEnemies = new Array<String>();
 
-        //ADD ENEMIES HERE.
-        allEnemies.add("armyball");         allEnemies.add("blueball");
-        allEnemies.add("greenball");        allEnemies.add("orangeball");
-        allEnemies.add("pinkball");         allEnemies.add("purpleball");
-        allEnemies.add("redball");          allEnemies.add("violetball");
-        allEnemies.add("yellowball");
 
 
 
@@ -88,7 +82,15 @@ public class SpawnManager {
         leastType = new Array<Tower>();
     }
 
-    public void initEnemy(){
+    public void initSpawn(){
+        //ADD ENEMIES HERE.
+        allEnemies.add("armyball");         allEnemies.add("blueball");
+        allEnemies.add("greenball");        allEnemies.add("orangeball");
+        allEnemies.add("pinkball");         allEnemies.add("purpleball");
+        allEnemies.add("redball");          allEnemies.add("violetball");
+        allEnemies.add("yellowball");
+
+
         levelEnemies.clear();
 
         for(int x = 0; x < game.limit; x++){
@@ -500,7 +502,23 @@ public class SpawnManager {
         allEnemies.clear();
     }
 
+
     public void reset(){
+        duckTime = true;
+        spawnedDuck = false;
+        duckTimer = 0f;
+
+        allEnemies.clear();
+        levelEnemies.clear();
+        weak.clear();
+        mostType.clear();
+        leastType.clear();
+        oldMosttype = "";
+
+        //rainbow is the default.
+        game.enemy.changeEndImage("rainbowball");
+
+
         data.clear();
         first50 = 0;
 

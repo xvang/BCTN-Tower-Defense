@@ -2,6 +2,7 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.padisDefense.game.Items.MainItem;
@@ -34,7 +35,7 @@ public class LoadSaveGame {
         public String displayStats;
         public Array<String> targets = new Array<String>();
         public String name;
-        public String pic;
+        public Sprite pic;
     }
 
 

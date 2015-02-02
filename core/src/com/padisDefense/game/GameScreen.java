@@ -62,8 +62,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void show(){
 
-        assignLevel();
-        tower.populateTowerPool();
         multi.clear();
         multi.addProcessor(UI.getStage());
         multi.addProcessor(UI);
@@ -72,43 +70,40 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         gameStatus = "";
 
         int x = (int)(Math.random()*10);
-        if(x % 2 == 0){
-           gameMusic =  padi.assets.star;
-        }
-        else{
-            gameMusic = padi.assets.east;
-        }
+
+        if(x % 2 == 0) gameMusic =  padi.assets.star;
+        else gameMusic = padi.assets.east;
 
         //gameMusic.play();
     }
 
     public int playLevel, limit;
     //example: if level 1, then 'limit' limits the towers and enemies to 3.
-    //if level 2, then 'limit' limits the towers and enemies to 4.
-    public void setLevel(int L){
+    //if level 2, then 'limit' limits the towers and enemies to 6.
+    public void initLevel(int L){
+        this.reset();
         playLevel = L;
         limit = L*3;
 
         if(limit > 9)
             limit = 9;
-    }
 
-    //enemy amount and path is stored in enemy.
-    //information about those things are stored in levelManager.
-    public void assignLevel(){
+        UI.clearTables();
+        UI.initUI();
 
-        level.setLevel(playLevel);
-        level.determineLevelSettings();//determines how many enemies to spawn, pathing, etc.
+        level.determineLevelSettings(L);//stores level and determines how many enemies to spawn, pathing, etc.
 
         enemy.setEnemyAmount(level.getEnemyAmount());//telling enemyManager how many enemy to spawn.
-
 
         enemy.setPath(level.getPath());//setting the path where all enemy will travel.
 
         level.spawnBuildableSpots(tower, playLevel);//getting locations for buildableSpots.
 
-        spawn.initEnemy();//all the enemies that can spawn on a level is stored in an array.
+        spawn.initSpawn();//types of enemies that can spawn on a level is stored in an array.
+
+        tower.populateTowerPool();//creating some towers in advance.
     }
+
 
 
     boolean do_once = true;
@@ -139,8 +134,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
             UI.getStage().draw();
 
-            //checks if game ended.
-
+            //checks if end-game conditions are met.
             if(((enemy.noMoreEnemy() || UI.fullChargeMeter()) && do_once)
                     || gameStatus.equals("lose")){
 
@@ -218,7 +212,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         for(int x = 0; x < tower.getTowerArray().size; x++){
             if(!tower.getTowerArray().get(x).state)
                 temp += tower.getTowerArray().get(x).getChargeRate();
-
         }
 
         UI.updateChargeMeter(temp);
@@ -232,11 +225,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         tower.dispose();
         bullet.dispose();
         UI.dispose();
-
         spawn.dispose();
         damage.dispose();
-
         multi.getProcessors().clear();
+
     }
 
     public void reset(){
@@ -246,7 +238,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         bullet.reset(); //currently nothing.
         tower.populateTowerPool();
 
-        UI = new UIManager(this, padi);
+        UI.reset();
         level.reset(); //currently nothing.
         spawn.reset(); //currently nothing.
         damage.reset(); //currently nothing.
@@ -256,7 +248,6 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         do_once = true;
         oldEnemyCount = 0;
         newEnemyCount = 0;
-
 
         //below is probably unecessary. doesn't hurt to have?
         multi.clear();
@@ -274,8 +265,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
     @Override
     public void hide(){
         this.reset();
-        padi.assets.star.stop();
-        padi.assets.east.stop();
+        //pause the ingame music
+        gameMusic.stop();
 
     }
     @Override

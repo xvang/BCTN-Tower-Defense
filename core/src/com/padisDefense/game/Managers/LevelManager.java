@@ -55,7 +55,8 @@ public class LevelManager {
     public int getPath(){return path;}
 
     /**'level' is set by the game screen before this function runs.*/
-    public void determineLevelSettings(){
+    public void determineLevelSettings(int l){
+        level = l;
         switch(level) {
             case (1):
                 path = 1;
@@ -94,12 +95,6 @@ public class LevelManager {
         }
     }
 
-
-
-
-    public void setLevel(int l){level = l;}
-
-
     public Enemy getBoss(){
 
         switch(level) {
@@ -122,6 +117,8 @@ public class LevelManager {
         }
     }
 
+    //Spawns buildable spots.
+    //the locations of the buildable spots are stored the buildableSpotStorage object.
     public void spawnBuildableSpots(TowerManager tower, int level){
 
         Array<Vector2> positions = bssStorage.getBuildableLocations(level);
@@ -132,10 +129,10 @@ public class LevelManager {
         }
         tower.getBuildableArray().clear();
 
+        //add in new buildable spots.
         for(int x = 0; x < positions.size; x++){
             tower.addBuildableSpots(positions.get(x));
         }
-
     }
 
     public void dispose(){
