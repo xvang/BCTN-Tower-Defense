@@ -32,12 +32,10 @@ public class YellowTower extends Tower {
         setCustomArc(50f);
         setWeakAgainst("redball");
         setStrongAgainst("yellowball");
-
         setRotateRate(5f);
 
     }
 
     public float getRangeAOE(){return rangeAOE;}
-
 
 }

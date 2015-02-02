@@ -59,7 +59,9 @@ public class Credit extends ScreenAdapter {
         stage.addActor(scrollWrap);
 */
         Label label0 = new Label("Most of the art is open-sourced.  I found them on opengameart.org. \n" +
+                "I didn't even do the credits. opengameart.org generated it for me.\n" +
                 "The framework used for development is LibGDX.\n" +
+
                 "------------------------------------------------", padi.assets.someUIskin);
 
         Label label1 = new Label("Title:\n" +

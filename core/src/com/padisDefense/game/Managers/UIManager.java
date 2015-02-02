@@ -608,7 +608,7 @@ public class UIManager implements InputProcessor{
             }
         });
 
-        pauseButtonTable.add(pauseButton).width(Gdx.graphics.getWidth()/30).height(Gdx.graphics.getHeight()/20f);
+        pauseButtonTable.add(pauseButton).width(30f).height(30f);
         pauseButtonTable.setPosition(20f, Gdx.graphics.getHeight() - 20f );
 
         pauseTable.add(quit).width(150f).height(60f).pad(30f);

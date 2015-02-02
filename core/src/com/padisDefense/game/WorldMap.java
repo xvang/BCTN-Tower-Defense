@@ -24,10 +24,6 @@ public class WorldMap implements Screen {
 
     private Padi padi;
 
-
-
-    Texture background_texture;
-
     Array<TextButton> buttons;
     Array<Image> lockedStatus;
 
@@ -44,7 +40,7 @@ public class WorldMap implements Screen {
         /*if(!padi.assets.rain.isPlaying())
             padi.assets.rain.play();*/
         batch = padi.assets.batch;
-        background_texture = new Texture("worldmap.png");
+
         buttons = new Array<TextButton>();
         lockedStatus = new Array<Image>();
 
@@ -206,8 +202,6 @@ public class WorldMap implements Screen {
 
     @Override
     public void dispose(){
-
         stage.dispose();
-        background_texture.dispose();
     }
 }

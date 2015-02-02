@@ -28,7 +28,7 @@ public class ItemStorage {
         padi = p;
         itemArray = new Array<MainItem>();
 
-        MainItem item1 = new MainItem(new Sprite(new Texture("items/coffee.png"))) {
+        MainItem item1 = new MainItem("items/coffee.png") {
             @Override
             public void update(Tower t) {
                 changeRange(t, 1.1f);
@@ -42,7 +42,7 @@ public class ItemStorage {
         size++;
 
         //shield
-        MainItem item2 = new MainItem(new Sprite(new Texture("items/shield.png"))) {
+        MainItem item2 = new MainItem("items/shield.png") {
             @Override
             public void update(Tower t) {
                 changeRange(t, 1.1f);
@@ -55,7 +55,7 @@ public class ItemStorage {
         size++;
 
         //seeker.
-        seeker = new MainItem(new Sprite(new Texture("items/seeker.png"))) {
+        seeker = new MainItem("items/seeker.png") {
             @Override
             public void update(Tower t) {
                 changeRange(t, 1.1f);

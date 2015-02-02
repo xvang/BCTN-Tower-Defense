@@ -17,8 +17,6 @@ public class LoadSaveGame {
 
     }
 
-    //todo: statsssssssssssssssssss
-
     public static class Playa{
 
         public static int numberOfLevels = 8;
@@ -35,7 +33,6 @@ public class LoadSaveGame {
         public String displayStats;
         public Array<String> targets = new Array<String>();
         public String name;
-        public Sprite pic;
     }
 
 
@@ -79,7 +76,6 @@ public class LoadSaveGame {
 
             i.cost = item.getCost();
             i.name = item.getName();
-            i.pic = item.getPic();
             i.displayStats = item.getDisplayStats();
 
 
@@ -113,6 +109,7 @@ public class LoadSaveGame {
 
 
         if(!save.isEmpty()){
+
             Json json = new Json();
             Playa playa = json.fromJson(Playa.class, save);
 
@@ -132,7 +129,7 @@ public class LoadSaveGame {
 
                 for(int x = 0; x < playa.itemsUnlocked.size; x++){
                     Itemer i = playa.itemsUnlocked.get(x);
-                    MainItem item = new MainItem(i.pic);
+                    MainItem item = new MainItem();
 
                     item.setCost(i.cost);
                     item.setName(i.name);

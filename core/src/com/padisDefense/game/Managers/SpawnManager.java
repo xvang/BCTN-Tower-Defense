@@ -522,9 +522,6 @@ public class SpawnManager {
         data.clear();
         first50 = 0;
 
-
-
-
     }
 }
 

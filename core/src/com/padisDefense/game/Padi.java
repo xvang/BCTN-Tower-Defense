@@ -75,8 +75,6 @@ public class Padi extends Game implements ApplicationListener{
 
     }
 
-
-
     @Override
     public void render(){
         Gdx.gl.glClearColor(1, 1, 1, 1);

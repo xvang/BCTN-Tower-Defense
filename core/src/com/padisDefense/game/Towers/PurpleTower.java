@@ -29,7 +29,7 @@ public class PurpleTower extends Tower {
         setFireRate(0.3f);
         setBulletRate(0.08f);
         setCustomArc(120f);
-        setWeakAgainst("ornageball");
+        setWeakAgainst("orangeball");
         setStrongAgainst("purpleball");
     }
 
