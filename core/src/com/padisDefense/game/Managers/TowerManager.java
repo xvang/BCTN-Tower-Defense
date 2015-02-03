@@ -12,7 +12,6 @@ import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
 import com.padisDefense.game.Towers.BuildableSpot;
-import com.padisDefense.game.Towers.PurpleTower;
 import com.padisDefense.game.Towers.Tower;
 
 /**
@@ -130,12 +129,7 @@ public class TowerManager{
 
 
         }
-
-
         batch.end();
-
-
-
     }
 
 
@@ -227,7 +221,7 @@ public class TowerManager{
                 //if the tower is a strength tower, then one extra condition
                 //needs to be checked.
                 //else, tower's target is set and we are good to go.
-                //the nullpointer warnings are not errors.
+                //if this if-statement is executed, temp.getRate() shouldn't be null.
                 if(t.getID().equals("YELLOW")){//strength stops attacking after enemy's speed = 0
                     if(temp.getRate() >= 0f){   //strength's ability is to make enemy's speed = 0
                         t.setTarget(temp);

@@ -97,7 +97,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
         enemy.setPath(level.getPath());//setting the path where all enemy will travel.
 
-        level.spawnBuildableSpots(tower, playLevel);//getting locations for buildableSpots.
+        level.spawnBuildableSpots(tower, playLevel - 1);//getting locations for buildableSpots.
 
         spawn.initSpawn();//types of enemies that can spawn on a level is stored in an array.
 

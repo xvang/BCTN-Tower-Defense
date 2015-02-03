@@ -19,7 +19,7 @@ public class LoadSaveGame {
 
     public static class Playa{
 
-        public static int numberOfLevels = 8;
+        public static int numberOfLevels = 7;
         public String name;
         public int money, wins, loss, gamesPlayed, kills;
         public Array<Itemer> itemsUnlocked = new Array<Itemer>();

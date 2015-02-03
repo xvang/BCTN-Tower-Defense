@@ -13,7 +13,7 @@ import com.padisDefense.game.Items.MainItem;
  * */
 public class Player {
 
-    public static int numberOfLevels = 8;
+    public static int numberOfLevels = 7;
     public String name;
     public int money, wins, loss, gamesPlayed, kills;
 
@@ -32,11 +32,11 @@ public class Player {
 
         //only the first level is unlocked.
         for(int x = 0; x < levels.length; x++){
-            if(x == 0)
+           /* if(x == 0)
                 levels[x] = true;
             else
-                levels[x] = false;
-            //levels[x] = true;
+                levels[x] = false;*/
+            levels[x] = true;
         }
         money = 1000;
         wins = 0;

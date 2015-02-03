@@ -79,7 +79,7 @@ public class TowerStorage  {
         t.setRotateRate(4);
         t.setBulletLimit(1);
         t.setCost(80);
-        t.setAttack(200f);
+        t.setAttack(80f);
         t.setRange(200f);
         t.setChargeRate(0.53f);
         t.setIncomeRate(4f);
@@ -109,7 +109,7 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(60);
-        t.setAttack(50f);
+        t.setAttack(80f);
         t.setRange(200f);
         t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
@@ -139,7 +139,7 @@ public class TowerStorage  {
         t.setBulletLimit(1);
         t.setCost(50);
         t.setRange(200f);
-        t.setAttack(50f);
+        t.setAttack(80f);
         t.setChargeRate(0.02f);
         t.setIncomeRate(4f);
         t.setOriginalCost(50);
@@ -266,7 +266,7 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(70);
-        t.setAttack( 80f);
+        t.setAttack(80f);
         t.setRange(200f);
         t.setChargeRate(0.01f);
         t.setIncomeRate(4f);

@@ -92,12 +92,26 @@ public class BuildableSpotSpawnStorage {
         //path6.png
         Array<Vector2> six = new Array<Vector2>();
 
-        six.add(new Vector2(w*15, h*27));
-        six.add(new Vector2(w*27, h*57));
-        six.add(new Vector2(w*38, h*49));
-        six.add(new Vector2(w*49, h*26));
-        six.add(new Vector2(w*65, h*26));
-        six.add(new Vector2(w*66, h*75));
+        six.add(new Vector2(w*10, h*75));
+        six.add(new Vector2(w*20, h*25));
+        six.add(new Vector2(w*35, h*55));
+        six.add(new Vector2(w*55, h*75));
+        six.add(new Vector2(w*70, h*40));
+        six.add(new Vector2(w*70, h*65));
+
+
+        Array<Vector2> seven = new Array<Vector2>();
+        seven.add(new Vector2(w*15, h*30));
+        seven.add(new Vector2(w*15, h*65));
+        seven.add(new Vector2(w*50, h*70));
+        seven.add(new Vector2(w*50, h*50));
+        seven.add(new Vector2(w*50, h*30));
+        seven.add(new Vector2(w*80, h*55));
+
+
+
+        Array<Vector2> eight = new Array<Vector2>();
+
 
 
 
@@ -110,10 +124,12 @@ public class BuildableSpotSpawnStorage {
         locations.add(four);
         locations.add(five);
         locations.add(six);
+        locations.add(seven);
+        locations.add(eight);
     }
 
 
     public Array<Vector2> getBuildableLocations(int level){
-        return locations.get(level - 1);
+        return locations.get(level);
     }
 }

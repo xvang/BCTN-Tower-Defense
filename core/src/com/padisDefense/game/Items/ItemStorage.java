@@ -51,7 +51,7 @@ public class ItemStorage {
         item2.setCost(50);
         item2.addTargets("ALL");
         item2.setDisplayStats("+ 5% Range\n + 15% Attack\n");
-        item2.setName("Shield");
+        item2.setName("Badge");
         size++;
 
         //seeker.
@@ -125,7 +125,7 @@ public class ItemStorage {
         item6.setCost(50);
         item6.addTargets("ORANGE");
         item6.setDisplayStats("+ 5% Range\n - 5% Attack\n");
-        item6.setName("Wooden Shield");
+        item6.setName("Shield");
         size++;
 
         //ring

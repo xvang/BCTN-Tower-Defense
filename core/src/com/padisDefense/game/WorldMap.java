@@ -110,23 +110,26 @@ public class WorldMap implements Screen {
 
         }//end for-loop
 
-        //TODO: Get rid of hard code
+
         //This is to position the buttons. Each button is 50f lower than the previous one.
-        buttons.get(0).setPosition(10f, 10f);
-        buttons.get(1).setPosition(110f, 80f);
-        buttons.get(2).setPosition(210f, 150f);
-        buttons.get(3).setPosition(310f, 220f);
-        buttons.get(4).setPosition(410f, 290f);
-        buttons.get(5).setPosition(510f, 360f);
-        buttons.get(6).setPosition(610f, 430f);
-        buttons.get(7).setPosition(710f, 540f);
-        buttons.get(8).setPosition(500f, 10f);//menu button
-        buttons.get(9).setPosition(650f, 10f);//store button
+        float xC = 20f, yC = 20f;
+        for(int x = 0; x < buttons.size; x++){
 
+            if(x < buttons.size - 2){
+                buttons.get(x).setPosition(xC, yC);
+                xC += 100f;
+                yC += 70f;
+            }
+            //the last two buttons are menu and store buttons.
+            else if (x < buttons.size - 1){
+                buttons.get(x).setPosition(500f, 10f);
+            }
+            else if(x < buttons.size){
+                buttons.get(x).setPosition(650f, 10f);
+            }
 
+        }
 
-        //displays the locked/unlocked symbol next to level button.
-        //'buttons' contains all the buttons, so
         //the -2 is for the menu button and store button. Those don't need locked/unlocked status.
         for(int x = 0; x < buttons.size - 2; x++){
 
