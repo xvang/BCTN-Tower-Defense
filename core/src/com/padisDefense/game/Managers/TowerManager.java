@@ -52,16 +52,16 @@ public class TowerManager{
         //creating some instances of the towers to be released into tower pool.
         //3 of each type. currently, 6 towers, so 18 total.
         Array<Tower> tempStorage = new Array<Tower>();
-        for(int x = 0; x < 2; x++){
-            Tower t = padi.assets.towerCustomPool.obtain("PURPLE", 1, new Vector2(-50f, -50f));
-            Tower t2 = padi.assets.towerCustomPool.obtain("PINK", 1, new Vector2(-50f, -50f));
-            Tower t3 = padi.assets.towerCustomPool.obtain("BLUE", 1, new Vector2(-50f, -50f));
-            Tower t4 = padi.assets.towerCustomPool.obtain("YELLOW", 1, new Vector2(-50f, -50f));
-            Tower t5 = padi.assets.towerCustomPool.obtain("GREEN", 1, new Vector2(-50f, -50f));
-            Tower t6 = padi.assets.towerCustomPool.obtain("RED", 1, new Vector2(-50f, -50f));
-            Tower t7 = padi.assets.towerCustomPool.obtain("ORANGE", 1, new Vector2(-50f, -50f));
-            Tower t8 = padi.assets.towerCustomPool.obtain("VIOLET", 1, new Vector2(-50f, -50f));
-            Tower t9 = padi.assets.towerCustomPool.obtain("ARMY", 1, new Vector2(-50f, -50f));
+        for(int x = 0; x < 6; x++){
+            Tower t = padi.assets.towerCustomPool.obtain("PURPLE");
+            Tower t2 = padi.assets.towerCustomPool.obtain("PINK");
+            Tower t3 = padi.assets.towerCustomPool.obtain("BLUE");
+            Tower t4 = padi.assets.towerCustomPool.obtain("YELLOW");
+            Tower t5 = padi.assets.towerCustomPool.obtain("GREEN");
+            Tower t6 = padi.assets.towerCustomPool.obtain("RED");
+            Tower t7 = padi.assets.towerCustomPool.obtain("ORANGE");
+            Tower t8 = padi.assets.towerCustomPool.obtain("VIOLET");
+            Tower t9 = padi.assets.towerCustomPool.obtain("ARMY");
 
             tempStorage.add(t);     tempStorage.add(t2);
             tempStorage.add(t3);    tempStorage.add(t4);
@@ -436,6 +436,9 @@ public class TowerManager{
         }
         padi.assets.towerCustomPool.freeAll(towerArray);
         towerArray.clear();
+        //padi.assets.towerCustomPool.clear();
+
+        System.out.println("towerPool.size = " + padi.assets.towerCustomPool.getFree());
 
 
 

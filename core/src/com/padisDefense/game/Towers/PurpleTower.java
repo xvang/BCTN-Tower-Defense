@@ -11,7 +11,7 @@ import com.padisDefense.game.Enemies.Enemy;
 public class PurpleTower extends Tower {
 
     public Sprite flower; // only rogue tower uses this. for now.
-    public PurpleTower(Vector2 position, Sprite picture, int level, Sprite bullet){
+    public PurpleTower(Vector2 position, Sprite picture, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 20f, 0.021f, 150f, 25, 4f);
         setBulletSprite(bullet);
@@ -24,7 +24,7 @@ public class PurpleTower extends Tower {
         setRange(200f);
         setIncomeRate(4f);
         setChargeRate(0.021f);
-        setLevel(level);
+        setLevel(1);
         setBulletLimit(1);
         setFireRate(0.3f);
         setBulletRate(0.08f);

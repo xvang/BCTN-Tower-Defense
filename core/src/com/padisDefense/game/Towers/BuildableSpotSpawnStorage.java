@@ -25,7 +25,7 @@ public class BuildableSpotSpawnStorage {
 
 
 
-
+    //TODO: add level  7 and level 8.
     public void init(){
 
         final float w = Gdx.graphics.getWidth()/100;
@@ -116,5 +116,4 @@ public class BuildableSpotSpawnStorage {
     public Array<Vector2> getBuildableLocations(int level){
         return locations.get(level - 1);
     }
-
 }

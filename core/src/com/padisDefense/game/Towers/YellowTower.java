@@ -11,13 +11,13 @@ public class YellowTower extends Tower {
 
 
     private float rangeAOE = 80f;
-    public YellowTower(Vector2 position, Sprite picture, int level, Sprite bullet){
+    public YellowTower(Vector2 position, Sprite picture, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 60f, 0.001f, 150f, 70, 4f);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setLevel(level);
+        setLevel(1);
         setBulletLimit(1);
         setCost(70);
         setAttack( 80f);

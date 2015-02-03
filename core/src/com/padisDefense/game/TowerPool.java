@@ -39,12 +39,24 @@ abstract public class TowerPool {
         this.max = max;
     }
 
-    abstract protected Tower newObject (String type, int level, Vector2 spawnPosition);
+    abstract protected Tower newObject (String type);
 
-    public Tower obtain (String type, int level, Vector2 spawnPosition) {
+    //Not sure why level is a parameter.
+    //Everything should be level 1.
+    public Tower obtain (String type) {
 
-        if(freeObjects.size == 0){
-            return newObject(type, level, spawnPosition);
+       for(int x = 0; x < freeObjects.size; x++){
+           Tower t  = freeObjects.get(x);
+
+           if(t.getID().equals(type)){
+               freeObjects.removeIndex(x);
+               return t;
+           }
+       }
+
+       return newObject(type);
+       /* if(freeObjects.size == 0){
+            return newObject(type, 1, spawnPosition);
         }
         else{//check to see if desired tower is in pool.
 
@@ -60,7 +72,7 @@ abstract public class TowerPool {
                 return newObject(type, level, spawnPosition);
             }
 
-        }
+        }*/
         // return freeObjects.size == 0 ? newObject(type, level, spawnPosition) : freeObjects.pop();
     }
 

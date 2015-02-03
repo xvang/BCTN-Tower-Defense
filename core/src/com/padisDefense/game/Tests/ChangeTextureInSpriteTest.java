@@ -36,9 +36,9 @@ public class ChangeTextureInSpriteTest extends ScreenAdapter {
         Sprite bullet2 = bulletAtlas.createSprite("red_bullet");
 
         strength = new YellowTower(new Vector2(Gdx.graphics.getWidth()/2 - 100f, Gdx.graphics.getHeight()/2 - 100f),
-                sprite2, 3, bullet1);
+                sprite2,bullet1);
         sniper = new BlueTower(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2),
-                sprite, 3, bullet2);
+                sprite, bullet2);
 
 
         strength.setAttack(123f);

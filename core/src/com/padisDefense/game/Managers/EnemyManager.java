@@ -407,12 +407,11 @@ public class EnemyManager {
             Enemy e = activeEnemy.get(x);
             e.reset();
         }
-
-        //padi.assets.enemyPool.freeAll(activeEnemy);
-
         System.out.println("enemyPool.size = " + padi.assets.enemyPool.getFree());
+        padi.assets.enemyPool.freeAll(activeEnemy);
         activeEnemy.clear();
 
+        padi.assets.enemyPool.clear();
 
         countDownTimer = 15f;
         enhanceBoss = 0;

@@ -116,51 +116,52 @@ public class Assets {
         //right now they use two different pools.
         towerCustomPool = new TowerPool() {
             @Override
-            protected Tower newObject(String type, int level, Vector2 spawnPosition) {
+            protected Tower newObject(String type) {
 
 
-                Sprite picture = padi.assets.towerAtlas.createSprite(type, level);
+                Sprite picture = padi.assets.towerAtlas.createSprite(type);
+                Vector2 spawnPosition = new Vector2(-50f, -50f);//arbitrary spot. idk why this isn't removed.
 
                 if(type.equals("PURPLE")){
                     Sprite bullet = bulletAtlas.createSprite("purple_bullet");
-                    return new PurpleTower(spawnPosition, picture, level, bullet);
+                    return new PurpleTower(spawnPosition, picture, bullet);
                 }
                 else if(type.equals("BLUE")){
                     Sprite bullet = bulletAtlas.createSprite("blue_bullet");
-                    return new BlueTower(spawnPosition, picture, level, bullet);
+                    return new BlueTower(spawnPosition, picture,  bullet);
                 }
                 else if(type.equals("YELLOW")){
                     Sprite bullet = bulletAtlas.createSprite("yellow_bullet");
-                    return new YellowTower(spawnPosition, picture, level, bullet);
+                    return new YellowTower(spawnPosition, picture,  bullet);
                 }
                 else if(type.equals("PINK")){
                     Sprite bullet = bulletAtlas.createSprite("pink_bullet");
-                    return new PinkTower(spawnPosition, picture, level, bullet);
+                    return new PinkTower(spawnPosition, picture, bullet);
                 }
                 else if(type.equals("GREEN")){
                     Sprite bullet = bulletAtlas.createSprite("green_bullet");
-                    return new GreenTower(spawnPosition, picture, level, bullet);
+                    return new GreenTower(spawnPosition, picture,  bullet);
                 }
                 else if(type.equals("RED")){
                     Sprite bullet = bulletAtlas.createSprite("red_bullet");
-                    return new RedTower(spawnPosition, picture, level, bullet);
+                    return new RedTower(spawnPosition, picture, bullet);
                 }
                 else if(type.equals("ARMY")){
                     Sprite bullet = bulletAtlas.createSprite("army_bullet");
-                    return new ArmyTower(spawnPosition, picture, level, bullet);
+                    return new ArmyTower(spawnPosition, picture, bullet);
                 }
 
                 else if(type.equals("VIOLET")){
                     Sprite bullet = bulletAtlas.createSprite("violet_bullet");
-                    return new VioletTower(spawnPosition, picture, level, bullet);
+                    return new VioletTower(spawnPosition, picture, bullet);
                 }
                 else if(type.equals("ORANGE")){
                     Sprite bullet = bulletAtlas.createSprite("orange_bullet");
-                    return new OrangeTower(spawnPosition, picture, level, bullet);
+                    return new OrangeTower(spawnPosition, picture,  bullet);
                 }
                 else{
                     Sprite bullet = bulletAtlas.createSprite("purple_bullet");
-                    return new PurpleTower(spawnPosition, picture, 1, bullet);
+                    return new PurpleTower(spawnPosition, picture, bullet);
                 }
             }
         };

@@ -11,13 +11,13 @@ public class GreenTower extends Tower {
 
 
 
-    public GreenTower(Vector2 position, Sprite picture, int level, Sprite bullet){
+    public GreenTower(Vector2 position, Sprite picture, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 100f, 0.53f, 150f, 80, 4f);
 
         setTarget(new Enemy());
         setPosition(position.x, position.y);
-        setLevel(level);
+        setLevel(1);
         setRotateRate(4);
         setBulletLimit(1);
         setCost(80);

@@ -41,7 +41,7 @@ public class RotateTest extends ScreenAdapter {
     public RotateTest(){
         Sprite bullet2 = new Sprite(new Texture("red_bullet.png"));
         tower = new PurpleTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4),
-                new Sprite(new Texture("towers/SNIPER_3.png")), 1, bullet2);
+                new Sprite(new Texture("towers/SNIPER_3.png")), bullet2);
         //tower = new Sprite(new Texture("towers/strength_level_three.png"));
         //bullet = new Sprite(new Texture("redbullet.png"));
         bullet = new Bullet(new Vector2(tower.getBulletSpawnLocation()), new Sprite(new Texture("redbullet.png")));

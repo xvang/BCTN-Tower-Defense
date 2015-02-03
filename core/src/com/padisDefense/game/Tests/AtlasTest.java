@@ -45,7 +45,7 @@ public class AtlasTest extends ScreenAdapter {
         bulletAtlas = new TextureAtlas("bullets/bullet.pack");
         Sprite bullet1 = bulletAtlas.createSprite("blue_bullet");
 
-        snipe = new BlueTower(new Vector2(w/2, h/2), sprite, 1, bullet1);
+        snipe = new BlueTower(new Vector2(w/2, h/2), sprite, bullet1);
 
         snipe.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         batch = new SpriteBatch();

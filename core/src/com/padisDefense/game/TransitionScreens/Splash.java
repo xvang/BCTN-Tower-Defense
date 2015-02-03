@@ -36,21 +36,6 @@ public class Splash extends ScreenAdapter {
         newScreen = s;
     }
 
-    @Override
-    public void render(float delta){
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tweenManager.update(delta);
-
-        //Begin rendering.
-        padi.assets.batch.begin();
-        sprite.draw( padi.assets.batch);
-        padi.assets.batch.end();
-
-       /* if (Gdx.input.justTouched()){
-            padi.setScreen(padi.main_menu);
-        }*/
-
-    }
 
     @Override
     public void show(){
@@ -70,6 +55,11 @@ public class Splash extends ScreenAdapter {
                 new TweenCallback(){
                     @Override
                 public void onEvent(int type, BaseTween<?> source){
+                        try{
+                            Thread.sleep(1000);
+                        }catch(Exception e){
+                           System.out.println("Will never need try-catch because I'm using a single thread.");
+                        }
                         padi.setScreen(newScreen);
                     }
                 }).start(tweenManager);
@@ -77,6 +67,23 @@ public class Splash extends ScreenAdapter {
 
 
         Gdx.input.setInputProcessor(null);
+    }
+
+
+    @Override
+    public void render(float delta){
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        tweenManager.update(delta);
+
+        //Begin rendering.
+        padi.assets.batch.begin();
+        sprite.draw( padi.assets.batch);
+        padi.assets.batch.end();
+
+       /* if (Gdx.input.justTouched()){
+            padi.setScreen(padi.main_menu);
+        }*/
+
     }
 
 

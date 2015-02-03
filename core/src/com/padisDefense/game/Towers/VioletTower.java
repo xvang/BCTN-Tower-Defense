@@ -8,14 +8,14 @@ import com.padisDefense.game.Enemies.Enemy;
 
 public class VioletTower extends Tower {
 
-    public VioletTower(Vector2 position, Sprite picture, int level, Sprite bullet){
+    public VioletTower(Vector2 position, Sprite picture, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
 
         super(picture, 15, 0.025f, 150f, 60, 1f);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
 
-        setLevel(level);
+        setLevel(1);
         setBulletLimit(1);
         setCost(60);
         setAttack(80f);

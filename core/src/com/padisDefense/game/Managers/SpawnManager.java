@@ -330,8 +330,6 @@ public class SpawnManager {
     private Enemy spawnRandom() {
 
         int x = (int)(Math.random()*(game.limit));
-
-        System.out.println("SpawningRandom type: " + levelEnemies.get(x));
         return padi.assets.enemyPool.obtain(levelEnemies.get(x));
 
 
@@ -352,7 +350,6 @@ public class SpawnManager {
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-        System.out.println("SpawningCTE type: " + type);
 
         try{
             return padi.assets.enemyPool.obtain(type);
@@ -419,7 +416,6 @@ public class SpawnManager {
 
                 ((PurpleTower)(localTower)).flower = padi.assets.towerAtlas.createSprite("roguespin");
                 ((PurpleTower)(localTower)).flower.setCenter(localTower.getCenterX(), localTower.getCenterY());
-                System.out.println(localTower.getLocation());
             }
 
         }
@@ -442,9 +438,8 @@ public class SpawnManager {
         Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
                 b.getY() + (b.getHeight() / 8));
 
-        Tower newTower = padi.assets.towerCustomPool.obtain(type, level, spawnPosition);
+        Tower newTower = padi.assets.towerCustomPool.obtain(type);
         newTower.setPosition(spawnPosition.x, spawnPosition.y);
-
 
 
         //updating level.
