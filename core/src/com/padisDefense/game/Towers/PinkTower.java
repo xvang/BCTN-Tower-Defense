@@ -30,10 +30,5 @@ public class PinkTower extends Tower {
         setStrongAgainst("pinkball");
     }
 
-    public PinkTower(int level){
-        setLevel(level);
-    }
-
-
 
 }

@@ -2,17 +2,12 @@ package com.padisDefense.game;
 
 
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Towers.Tower;
 
 
-/**The reason for a TowerPool (instead of using EnemyPool)
- * is so I can check the level of the tower. I tried implementing
- * the tower pool like the enemy pool, but the towers were all messed up,
- * and the levels were disregarded. For example, if I initially pool 3 of
- * each tower, there should be 3*[6 towers * 3 levels per] 24 total. But
- * only 6 was created. I don't know. I hope this way works.
+/**
+ * Every tower is just a tower. The stats and picture is changed accordingly.
  *
  * */
 abstract public class TowerPool {
@@ -39,41 +34,12 @@ abstract public class TowerPool {
         this.max = max;
     }
 
-    abstract protected Tower newObject (String type);
+    abstract protected Tower newObject ();
 
     //Not sure why level is a parameter.
     //Everything should be level 1.
-    public Tower obtain (String type) {
-
-       for(int x = 0; x < freeObjects.size; x++){
-           Tower t  = freeObjects.get(x);
-
-           if(t.getID().equals(type)){
-               freeObjects.removeIndex(x);
-               return t;
-           }
-       }
-
-       return newObject(type);
-       /* if(freeObjects.size == 0){
-            return newObject(type, 1, spawnPosition);
-        }
-        else{//check to see if desired tower is in pool.
-
-
-            int i = inPool(type, level);
-            if(i >= 0){//if i > 0, then it is in pool.
-                Tower temp = freeObjects.get(i);
-                temp.setPosition(spawnPosition.x, spawnPosition.y);
-                freeObjects.removeIndex(i);
-                return temp;
-            }
-            else{//not in pool.
-                return newObject(type, level, spawnPosition);
-            }
-
-        }*/
-        // return freeObjects.size == 0 ? newObject(type, level, spawnPosition) : freeObjects.pop();
+    public Tower obtain () {
+        return freeObjects.size == 0 ? newObject() : freeObjects.pop();
     }
 
 
@@ -83,7 +49,7 @@ abstract public class TowerPool {
             freeObjects.add(object);
             peak = Math.max(peak, freeObjects.size);
         }
-        if (object instanceof Poolable) ((Poolable)object).reset();
+        if (object instanceof Poolable) (object).reset();
     }
 
     public void freeAll (Array<Tower> objects) {
@@ -112,23 +78,5 @@ abstract public class TowerPool {
     static public interface Poolable {
         /** Resets the object for reuse. Object references should be nulled and fields may be set to default values. */
         public void reset ();
-    }
-
-
-    //checks if a requested tower is already in pool.
-    //checks the name and level.
-    //returns the position of the tower already in pool, or -1.
-    private int inPool(String type, int level){
-
-        for(int x = 0; x < freeObjects.size; x++){
-            if(freeObjects.get(x).getID().equals(type)){
-                return x;
-                //for now the level is not tested.
-                /*if(freeObjects.get(x).getLevel() == level){
-                    return x;
-                }*/
-            }
-        }
-        return -1;
     }
 }

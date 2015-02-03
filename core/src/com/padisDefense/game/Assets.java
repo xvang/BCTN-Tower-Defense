@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.ArmyTower;
@@ -17,6 +18,7 @@ import com.padisDefense.game.Towers.OrangeTower;
 import com.padisDefense.game.Towers.RedTower;
 import com.padisDefense.game.Towers.PurpleTower;
 import com.padisDefense.game.Towers.PinkTower;
+import com.padisDefense.game.Towers.TowerStorage;
 import com.padisDefense.game.Towers.VioletTower;
 import com.padisDefense.game.Towers.YellowTower;
 import com.padisDefense.game.Towers.Tower;
@@ -44,6 +46,7 @@ public class Assets {
     public Skin skin;
     public Sprite background;
     public TweenManager tweenManager;
+    public TowerStorage towerStorage;
 
     public Skin skin3, someUIskin, skin_balls, bubbleUI, towerButtons;
     public TextureAtlas towerAtlas, bulletAtlas;
@@ -73,6 +76,8 @@ public class Assets {
 
 
         batch = new SpriteBatch();
+        towerStorage = new TowerStorage();
+
         towerAtlas = new TextureAtlas("towers/tower.pack");
         bulletAtlas = new TextureAtlas("bullets/bullet.pack");
         someUIskin = new Skin(Gdx.files.internal("someUI.json"));
@@ -116,10 +121,10 @@ public class Assets {
         //right now they use two different pools.
         towerCustomPool = new TowerPool() {
             @Override
-            protected Tower newObject(String type) {
+            protected Tower newObject() {
 
-
-                Sprite picture = padi.assets.towerAtlas.createSprite(type);
+                return new Tower();
+               /* Sprite picture = padi.assets.towerAtlas.createSprite(type);
                 Vector2 spawnPosition = new Vector2(-50f, -50f);//arbitrary spot. idk why this isn't removed.
 
                 if(type.equals("PURPLE")){
@@ -162,8 +167,10 @@ public class Assets {
                 else{
                     Sprite bullet = bulletAtlas.createSprite("purple_bullet");
                     return new PurpleTower(spawnPosition, picture, bullet);
-                }
+                }*/
+
             }
+
         };
 
 

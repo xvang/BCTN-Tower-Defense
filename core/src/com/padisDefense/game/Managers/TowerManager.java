@@ -49,25 +49,11 @@ public class TowerManager{
 
 
     public void populateTowerPool(){
-        //creating some instances of the towers to be released into tower pool.
-        //3 of each type. currently, 6 towers, so 18 total.
+        //creating 15 towers into the pool.
         Array<Tower> tempStorage = new Array<Tower>();
-        for(int x = 0; x < 6; x++){
-            Tower t = padi.assets.towerCustomPool.obtain("PURPLE");
-            Tower t2 = padi.assets.towerCustomPool.obtain("PINK");
-            Tower t3 = padi.assets.towerCustomPool.obtain("BLUE");
-            Tower t4 = padi.assets.towerCustomPool.obtain("YELLOW");
-            Tower t5 = padi.assets.towerCustomPool.obtain("GREEN");
-            Tower t6 = padi.assets.towerCustomPool.obtain("RED");
-            Tower t7 = padi.assets.towerCustomPool.obtain("ORANGE");
-            Tower t8 = padi.assets.towerCustomPool.obtain("VIOLET");
-            Tower t9 = padi.assets.towerCustomPool.obtain("ARMY");
-
-            tempStorage.add(t);     tempStorage.add(t2);
-            tempStorage.add(t3);    tempStorage.add(t4);
-            tempStorage.add(t5);    tempStorage.add(t6);
-            tempStorage.add(t7);    tempStorage.add(t8);
-            tempStorage.add(t9);
+        for(int x = 0; x < 15; x++){
+            Tower t = padi.assets.towerCustomPool.obtain();
+            tempStorage.add(t);
         }
 
         //freeing all towers into pool.
@@ -135,7 +121,7 @@ public class TowerManager{
 
 
             if(currentTower.getID().equals("PURPLE") && currentTower.getLevel() == 3){
-                ((PurpleTower)currentTower).flower.draw(batch);
+                currentTower.flower.draw(batch);
                 currentTower.spin();
             }
 

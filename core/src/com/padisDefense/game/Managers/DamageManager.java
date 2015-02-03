@@ -47,7 +47,7 @@ public class DamageManager {
 
         if(t.getID().equals("GREEN")){
 
-            aoeHit((GreenTower) t, e);
+            aoeHit( t, e);
         }
 
     }
@@ -82,7 +82,7 @@ public class DamageManager {
     //damage proportional to distance from targeted enemy.
     //Pretty much the same as iceHit(), except damage is taken instead of rate changes.
     //Will keep separate for now. Might be useful later.
-    public void aoeHit(GreenTower t, Enemy e) {
+    public void aoeHit(Tower t, Enemy e) {
         double distance;
         Enemy temp;
 

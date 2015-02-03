@@ -64,6 +64,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     public boolean lockedOnTarget = false;
     public float radius = this.getHeight()/2;
     private float rotateRate;
+    public Sprite flower; // only rogue tower uses this. for now.
 
 
     //pooling the towers.
@@ -78,7 +79,9 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
     public boolean clicked = false;//used to display the range circle.
 
-    public String originalSprite;
+    //For use by green tower.
+    public float getRangeAOE(){return 100f;}
+
     //Constructor #1
     public Tower(Texture picture){
         super(picture);
@@ -107,9 +110,13 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
         hasTarget = false;
         ID = "";
-        activeBullets = new Array<Bullet>();
         customArc = 25f;
         oldTargetPosition = new Vector2();
+        activeBullets = new Array<Bullet>();
+
+        weakAgainst = new Array<String>();
+        strongAgainst = new Array<String>();
+
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
@@ -117,9 +124,8 @@ public class Tower extends Sprite implements  Pool.Poolable{
             }
         };
 
-
         sparkle = new IceSparkle();
-        rotateRate = 3.5f;
+        rotateRate = 6f;
     }
 
     public Tower( Sprite sprite){
@@ -182,11 +188,17 @@ public class Tower extends Sprite implements  Pool.Poolable{
     }
 
     public void setCost(int newCost){cost = newCost;}
+    public void setOriginalCost(int c){originalAttack = c;}
     public void setAttack(float newAttack){attack = newAttack;}
+    public void setOriginalAttack(float o){originalAttack = o;}
     public void setRange(float newRange){range = newRange;}
+    public void setOriginalRange(float r){originalRange = r;}
     public void setChargeRate(float newCharge){chargeRate = newCharge;}
+    public void setOriginalChargeRate(float n){originalChargeRate = n;}
     public void setIncomeRate(float newIncome) {incomeRate = newIncome;}
+    public void setOriginalIncomeRate(float i){originalIncomeRate = i;}
     public void setFireRate(float newFire){fireRate = newFire;}
+
     public void setTarget(Enemy newE){target = newE;}
 
     public void setID(String id){
@@ -220,10 +232,15 @@ public class Tower extends Sprite implements  Pool.Poolable{
     }
 
     public float getCost(){return cost;}
+    public float getOriginalCost(){return originalCost;}
     public float getAttack(){return attack;}
+    public float getOriginalAttack(){return originalAttack;}
     public float getRange(){return range;}
+    public float getOriginalRange(){return originalRange;}
     public float getChargeRate(){return chargeRate;}
+    public float getOriginalChargeRate(){return originalChargeRate;}
     public float getIncomeRate() {return incomeRate;}
+    public float getOriginalIncomeRate(){return originalIncomeRate;}
 
     public float getFireRate(){return fireRate;}
     public Enemy getTarget(){return target;}
