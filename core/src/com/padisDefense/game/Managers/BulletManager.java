@@ -136,6 +136,7 @@ public class BulletManager {
     public double findDistance(Vector2 a, Vector2 b){
         double x2x1 = a.x - b.x;
         double y2y1 = a.y - b.y;
+
         return Math.sqrt((x2x1 * x2x1) + (y2y1 * y2y1));
     }
 

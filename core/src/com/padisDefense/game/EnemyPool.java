@@ -4,46 +4,62 @@ package com.padisDefense.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Enemies.Enemy;
 
 /** A pool of objects that can be reused to avoid allocation.
  * @author Nathan Sweet */
-abstract public class CustomPool<T> {
+abstract public class EnemyPool {
     /** The maximum number of objects that will be pooled. */
     public final int max;
     /** The highest number of free objects. Can be reset any time. */
     public int peak;
 
-    private final Array<T> freeObjects;
+    private final Array<Enemy> freeObjects;
 
-    public Array<T> returnPool(){return freeObjects;}
+    public Array<Enemy> returnPool(){return freeObjects;}
 
     /** Creates a pool with an initial capacity of 16 and no maximum. */
-    public CustomPool () {
+    public EnemyPool() {
         this(16, Integer.MAX_VALUE);
     }
 
     /** Creates a pool with the specified initial capacity and no maximum. */
-    public CustomPool (int initialCapacity) {
+    public EnemyPool(int initialCapacity) {
         this(initialCapacity, Integer.MAX_VALUE);
     }
 
     /** @param max The maximum number of free objects to store in this pool. */
-    public CustomPool(int initialCapacity, int max) {
+    public EnemyPool(int initialCapacity, int max) {
         freeObjects = new Array(false, initialCapacity);
         this.max = max;
     }
 
-    abstract protected T newObject (String type);
-    abstract protected T newObject (String type, int level, Vector2 spawnPosition);
+    abstract protected Enemy newObject (String type);
+    abstract protected Enemy newObject (String type, int level, Vector2 spawnPosition);
 
-    /** Returns an object from this pool. The object may be new (from {@link #newObject(String type)}) or reused (previously
-     * {@link #free(Object) freed}). */
-    public T obtain (String type) {
-        return freeObjects.size == 0 ? newObject(type) : freeObjects.pop();
+
+    public Enemy obtain (String type) {
+
+        for(int x = 0; x < freeObjects.size; x++){
+            Enemy e = freeObjects.get(x);
+
+            if( e.getName().equals(type)){
+                freeObjects.removeIndex(x);
+
+                return e;
+            }
+
+        }
+
+        //if no balloon of the requested type was found, create new one.
+        return newObject(type);
+
+
+       //return freeObjects.pop();//pop() always returns the last. we don't want the last.
+       // return freeObjects.size == 0 ? newObject(type) : freeObjects.pop();
     }
 
-
-    public T obtain (String type, int level, Vector2 spawnPosition) {
+    public Enemy obtain (String type, int level, Vector2 spawnPosition) {
 
         if(freeObjects.size == 0){
             return newObject(type, level, spawnPosition);
@@ -56,7 +72,7 @@ abstract public class CustomPool<T> {
 
     /** Puts the specified object in the pool, making it eligible to be returned by {@link #obtain(String type)}. If the pool already contains
      * {@link #max} free objects, the specified object is reset but not added to the pool. */
-    public void free (T object) {
+    public void free (Enemy object) {
         if (object == null) throw new IllegalArgumentException("object cannot be null.");
         if (freeObjects.size < max) {
             freeObjects.add(object);
@@ -65,14 +81,13 @@ abstract public class CustomPool<T> {
         if (object instanceof Poolable) ((Poolable)object).reset();
     }
 
-    /** Puts the specified objects in the pool. Null objects within the array are silently ignored.
-     * @see #free(Object) */
-    public void freeAll (Array<T> objects) {
+
+    public void freeAll (Array<Enemy> objects) {
         if (objects == null) throw new IllegalArgumentException("object cannot be null.");
-        Array<T> freeObjects = this.freeObjects;
+        Array<Enemy> freeObjects = this.freeObjects;
         int max = this.max;
         for (int i = 0; i < objects.size; i++) {
-            T object = objects.get(i);
+            Enemy object = objects.get(i);
             if (object == null) continue;
             if (freeObjects.size < max) freeObjects.add(object);
             if (object instanceof Poolable) ((Poolable)object).reset();
@@ -90,7 +105,7 @@ abstract public class CustomPool<T> {
         return freeObjects.size;
     }
 
-    /** Objects implementing this interface will have {@link #reset()} called when passed to {@link #free(Object)}. */
+
     static public interface Poolable {
         /** Resets the object for reuse. Object references should be nulled and fields may be set to default values. */
         public void reset ();

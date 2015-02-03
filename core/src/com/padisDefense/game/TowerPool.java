@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Towers.Tower;
 
 
-/**The reason for a TowerPool (instead of using CustomPool)
+/**The reason for a TowerPool (instead of using EnemyPool)
  * is so I can check the level of the tower. I tried implementing
  * the tower pool like the enemy pool, but the towers were all messed up,
  * and the levels were disregarded. For example, if I initially pool 3 of

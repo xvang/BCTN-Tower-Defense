@@ -1,11 +1,9 @@
 package com.padisDefense.game.Managers;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
@@ -84,6 +82,7 @@ public class SpawnManager {
 
     public void initSpawn(){
         //ADD ENEMIES HERE.
+        allEnemies.clear();
         allEnemies.add("armyball");         allEnemies.add("blueball");
         allEnemies.add("greenball");        allEnemies.add("orangeball");
         allEnemies.add("pinkball");         allEnemies.add("purpleball");
@@ -109,17 +108,17 @@ public class SpawnManager {
             Enemy e;
             int r = (int)(Math.random()*(game.limit));
 
-            if(r == 0) e = padi.assets.enemyCustomPoolL.obtain("armyball");
-            else if(r == 1) e = padi.assets.enemyCustomPoolL.obtain("blueball");
-            else if(r == 2) e = padi.assets.enemyCustomPoolL.obtain("greenball");
-            else if(r == 3) e = padi.assets.enemyCustomPoolL.obtain("orangeball");
-            else if(r == 4) e = padi.assets.enemyCustomPoolL.obtain("pinkball");
-            else if(r == 5) e = padi.assets.enemyCustomPoolL.obtain("purpleball");
-            else if(r == 6) e = padi.assets.enemyCustomPoolL.obtain("redball");
-            else if(r == 7) e = padi.assets.enemyCustomPoolL.obtain("violetball");
-            else if(r == 8) e = padi.assets.enemyCustomPoolL.obtain("yellowball");
+            if(r == 0) e = padi.assets.enemyPool.obtain("armyball");
+            else if(r == 1) e = padi.assets.enemyPool.obtain("blueball");
+            else if(r == 2) e = padi.assets.enemyPool.obtain("greenball");
+            else if(r == 3) e = padi.assets.enemyPool.obtain("orangeball");
+            else if(r == 4) e = padi.assets.enemyPool.obtain("pinkball");
+            else if(r == 5) e = padi.assets.enemyPool.obtain("purpleball");
+            else if(r == 6) e = padi.assets.enemyPool.obtain("redball");
+            else if(r == 7) e = padi.assets.enemyPool.obtain("violetball");
+            else if(r == 8) e = padi.assets.enemyPool.obtain("yellowball");
 
-            else e = padi.assets.enemyCustomPoolL.obtain("orangeball");
+            else e = padi.assets.enemyPool.obtain("orangeball");
 
             e.reset();
 
@@ -249,7 +248,7 @@ public class SpawnManager {
                         e.setArmor(e.getOriginalArmor());
                     }
                     //resetting the enemy that was in pool when duck time ended.
-                    Array<Enemy> temp = padi.assets.enemyCustomPoolL.returnPool();
+                    Array<Enemy> temp = padi.assets.enemyPool.returnPool();
                     for(int w = 0; w < temp.size; w++){
                         temp.get(w).setArmor(temp.get(w).getOriginalArmor());
                     }
@@ -286,9 +285,7 @@ public class SpawnManager {
                     //System.out.println("spawn Random()");
                 }
                 else{
-
                     newEnemy = spawnCustom(mostType);
-
                     //System.out.println("spawn Custom()");
                 }
             }
@@ -334,7 +331,11 @@ public class SpawnManager {
 
         int x = (int)(Math.random()*(game.limit));
 
-        if (x == 0) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
+        System.out.println("SpawningRandom type: " + levelEnemies.get(x));
+        return padi.assets.enemyPool.obtain(levelEnemies.get(x));
+
+
+       /* if (x == 0) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
         else if (x == 1) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
         else if (x == 2) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
         else if (x == 3) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
@@ -346,14 +347,20 @@ public class SpawnManager {
 
 
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-
+*/
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
-       // System.out.println("Spawning type: " + type);
+        System.out.println("SpawningCTE type: " + type);
 
-        if(type.equals("orangeball")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
+        try{
+            return padi.assets.enemyPool.obtain(type);
+
+        }catch(Exception e){
+            System.out.println("convertToEnemy() in spawnManager.java dammit Xeng you made error.");
+        }
+        /**if(type.equals("orangeball")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
         else if (type.equals("pinkball")) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
         else if (type.equals("purpleball")) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
         else if (type.equals("armyball")) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
@@ -364,8 +371,10 @@ public class SpawnManager {
 
 
         else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
+*/
 
-
+        System.out.println("convertToEnemy(). You done messed up xeng.");
+        return null;
     }
 
 /************FOR BUILDABLE SPOTS***********************************************************/
@@ -508,8 +517,7 @@ public class SpawnManager {
         spawnedDuck = false;
         duckTimer = 0f;
 
-        allEnemies.clear();
-        levelEnemies.clear();
+        initSpawn();
         weak.clear();
         mostType.clear();
         leastType.clear();

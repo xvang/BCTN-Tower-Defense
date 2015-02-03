@@ -55,7 +55,7 @@ public class Padi extends Game implements ApplicationListener{
 
 
         this.setScreen(new Splash(this, main_menu));
-
+       // this.setScreen(new Test1());
         //this.setScreen(new ItemTest());
         //this.setScreen(credit);
         //this.setScreen(new LocalSaveTest());

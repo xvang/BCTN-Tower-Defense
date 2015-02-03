@@ -1,8 +1,6 @@
 package com.padisDefense.game.Managers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
@@ -10,7 +8,6 @@ import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Bullets.Bullet;
-import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
 import com.padisDefense.game.Padi;
@@ -154,7 +151,6 @@ public class EnemyManager {
                                 boss.setArmor(boss.getArmor()*1.05f);
                             }
 
-                            System.out.println("boss def: " + boss.getArmor());
                             boss.alive = true;
                             activeEnemy.add(boss);
                             spawnsLeft--;
@@ -326,12 +322,11 @@ public class EnemyManager {
 
                 if(e.isBoss){//If boss, don't return to pool.
                     activeEnemy.removeValue(e, true);//'true', because why not? removes all occurences in array.
-                    System.out.println("Removing the boss!");
                 }
                 else{
                     activeEnemy.removeValue(e, false);
                     //game.spawn.enemyPool.free(e);
-                    padi.assets.enemyCustomPoolL.free(e);
+                    padi.assets.enemyPool.free(e);
                 }
                 enemyCounter--;
 
@@ -371,7 +366,7 @@ public class EnemyManager {
             Enemy e = activeEnemy.get(x);
 
             activeEnemy.removeIndex(x);
-            padi.assets.enemyCustomPoolL.free(e);
+            padi.assets.enemyPool.free(e);
         }
 
     }
@@ -381,7 +376,7 @@ public class EnemyManager {
     //It is called in UIManager.
     public void changeEndImage(String newBall){
 
-        System.out.println("change to: " + newBall);
+        //System.out.println("change to: " + newBall);
 
         end = new Sprite(padi.assets.skin_balls.getSprite(newBall));
 
@@ -413,7 +408,9 @@ public class EnemyManager {
             e.reset();
         }
 
-        padi.assets.enemyCustomPoolL.freeAll(activeEnemy);
+        //padi.assets.enemyPool.freeAll(activeEnemy);
+
+        System.out.println("enemyPool.size = " + padi.assets.enemyPool.getFree());
         activeEnemy.clear();
 
 

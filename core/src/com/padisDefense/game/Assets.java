@@ -47,7 +47,7 @@ public class Assets {
 
     public Skin skin3, someUIskin, skin_balls, bubbleUI, towerButtons;
     public TextureAtlas towerAtlas, bulletAtlas;
-    public CustomPool<Enemy> enemyCustomPoolL;
+    public EnemyPool enemyPool;
     public TowerPool towerCustomPool;
 
     public Music star, rain, east;
@@ -90,7 +90,7 @@ public class Assets {
 
 
         //createEnemyPool();
-        enemyCustomPoolL = new CustomPool<Enemy>() {
+        enemyPool = new EnemyPool() {
             @Override
             protected Enemy newObject(String type) {
 
@@ -205,7 +205,7 @@ public class Assets {
         towerButtons.dispose();
         towerAtlas.dispose();
         bulletAtlas.dispose();
-        enemyCustomPoolL.clear();
+        enemyPool.clear();
         towerCustomPool.clear();
         star.dispose();
         rain.dispose();
