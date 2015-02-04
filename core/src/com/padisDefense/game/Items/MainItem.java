@@ -111,7 +111,6 @@ public class MainItem extends Sprite{
         t.setBulletLimit(t.getBulletLimit() + amount);
     }
 
-    public void update(Tower t){
-    }
+    public void update(Tower t){System.out.println("It is not updating");}
 
 }

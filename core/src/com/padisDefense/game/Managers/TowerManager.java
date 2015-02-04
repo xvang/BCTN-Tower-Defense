@@ -29,7 +29,7 @@ public class TowerManager{
     GameScreen game;
     private Array<Tower> towerArray;
     private Array<BuildableSpot> buildableArray;
-    private int inGameMoney = 100000;
+    public int inGameMoney;
     SpriteBatch batch;
     Vector2 arbitraryPoint;
     ShapeRenderer shape;
@@ -48,15 +48,15 @@ public class TowerManager{
 
 
     public void populateTowerPool(){
-        //creating 15 towers into the pool.
+        //creating 12 towers into the pool.
         Array<Tower> tempStorage = new Array<Tower>();
-        for(int x = 0; x < 15; x++){
-            Tower t = padi.assets.towerCustomPool.obtain();
+        for(int x = 0; x < 12; x++){
+            Tower t = padi.assets.towerPool.obtain();
             tempStorage.add(t);
         }
 
         //freeing all towers into pool.
-        padi.assets.towerCustomPool.freeAll(tempStorage);
+        padi.assets.towerPool.freeAll(tempStorage);
     }
 
     /**
@@ -278,7 +278,7 @@ public class TowerManager{
 
 
             //return to pool.
-            padi.assets.towerCustomPool.free(pointer);
+            padi.assets.towerPool.free(pointer);
             t.setCurrentTower(null);
             t.setHasTower(false);
         }
@@ -414,11 +414,11 @@ public class TowerManager{
             t.set(sprite);//resets the image back to lvl 1.
             t.reset();//resets the stats back to original.
         }
-        padi.assets.towerCustomPool.freeAll(towerArray);
+        padi.assets.towerPool.freeAll(towerArray);
         towerArray.clear();
         //padi.assets.towerCustomPool.clear();
 
-        System.out.println("towerPool.size = " + padi.assets.towerCustomPool.getFree());
+        System.out.println("towerPool.size = " + padi.assets.towerPool.getFree());
 
 
 
@@ -428,7 +428,7 @@ public class TowerManager{
 
 
 
-        inGameMoney = 10000;
+        inGameMoney = game.level.getInitialMoney();
     }
 
 }

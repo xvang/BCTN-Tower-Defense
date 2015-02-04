@@ -4,6 +4,8 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.padisDefense.game.Enemies.Ball;
+import com.padisDefense.game.Enemies.BallStorage;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.GameScreen;
@@ -64,6 +66,8 @@ public class SpawnManager {
     String oldMosttype = "";
 
 
+    private BallStorage ballStorage;
+
     public SpawnManager(GameScreen g, Padi p){
         game = g;
         padi = p;
@@ -73,7 +77,7 @@ public class SpawnManager {
         levelEnemies = new Array<String>();
 
 
-
+        ballStorage = new BallStorage(padi);
 
 
         weak = new Array<String>();
@@ -106,20 +110,13 @@ public class SpawnManager {
 
         if(first50 < 50){
 
-            Enemy e;
             int r = (int)(Math.random()*(game.limit));
 
-            if(r == 0) e = padi.assets.enemyPool.obtain("armyball");
-            else if(r == 1) e = padi.assets.enemyPool.obtain("blueball");
-            else if(r == 2) e = padi.assets.enemyPool.obtain("greenball");
-            else if(r == 3) e = padi.assets.enemyPool.obtain("orangeball");
-            else if(r == 4) e = padi.assets.enemyPool.obtain("pinkball");
-            else if(r == 5) e = padi.assets.enemyPool.obtain("purpleball");
-            else if(r == 6) e = padi.assets.enemyPool.obtain("redball");
-            else if(r == 7) e = padi.assets.enemyPool.obtain("violetball");
-            else if(r == 8) e = padi.assets.enemyPool.obtain("yellowball");
 
-            else e = padi.assets.enemyPool.obtain("orangeball");
+            //'levelEnemies' contains the allowed color balls in a level
+            //'r' is the index of random ball in 'levelEnemies'.
+            Enemy e = padi.assets.enemyPool.obtain();
+            ballStorage.createBall(levelEnemies.get(r), (Ball)e);
 
             e.reset();
 
@@ -211,6 +208,9 @@ public class SpawnManager {
 
                             if(e.getArmor() < e.getOriginalArmor()*5)
                                 e.setArmor(e.getArmor()*1.25f);
+
+                            if(e.getRate() < e.getOriginalRate()*2)
+                                e.setRate(e.getRate()*1.1f);
                         }
                         //System.out.println("Armoring up: " + game.enemy.getActiveEnemy().get(1).getArmor());
                     }
@@ -247,12 +247,28 @@ public class SpawnManager {
                     for(int s = 0; s < game.enemy.getActiveEnemy().size;s++){
                         Enemy e = game.enemy.getActiveEnemy().get(s);
                         e.setArmor(e.getOriginalArmor());
+                        e.setRate(e.getOriginalRate());
                     }
-                    //resetting the enemy that was in pool when duck time ended.
-                    Array<Enemy> temp = padi.assets.enemyPool.returnPool();
+
+                    //Some enemies will have died while their stats were boosted,
+                    //and are in the pool when it should be reset.
+                    //To do so, we have to fetch all the objects in the pool.
+                    Array<Enemy> temp = new Array<Enemy>();
+
+                    while(padi.assets.enemyPool.getFree() > 0){
+                        temp.add(padi.assets.enemyPool.obtain());
+                    }
+
+                    //resetting armor and rate
                     for(int w = 0; w < temp.size; w++){
                         temp.get(w).setArmor(temp.get(w).getOriginalArmor());
+                        temp.get(w).setRate(temp.get(w).getOriginalRate());
                     }
+
+                    //returning objects back into pool.
+                    padi.assets.enemyPool.freeAll(temp);
+
+                    System.out.println("enemyPool.size = " + padi.assets.enemyPool.getFree());
                 }
 
 
@@ -331,47 +347,18 @@ public class SpawnManager {
     private Enemy spawnRandom() {
 
         int x = (int)(Math.random()*(game.limit));
-        return padi.assets.enemyPool.obtain(levelEnemies.get(x));
+        Enemy e = padi.assets.enemyPool.obtain();
 
-
-       /* if (x == 0) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
-        else if (x == 1) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
-        else if (x == 2) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
-        else if (x == 3) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
-        else if (x == 4) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
-        else if (x == 5) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
-        else if (x == 6) return new Ball("red", padi.assets.skin_balls.getSprite("redball"));
-        else if (x == 7) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
-        else if (x == 8) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-
-
-        else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-*/
+        ballStorage.createBall(levelEnemies.get(x), (Ball)e);
+        return e;
     }
 
     //TODO: add more enemies.
     private Enemy convertToEnemy(String type){
 
-        try{
-            return padi.assets.enemyPool.obtain(type);
+        Enemy e = padi.assets.enemyPool.obtain();
 
-        }catch(Exception e){
-            System.out.println("convertToEnemy() in spawnManager.java dammit Xeng you made error.");
-        }
-        /**if(type.equals("orangeball")) return new Ball("orange", padi.assets.skin_balls.getSprite("orangeball"));
-        else if (type.equals("pinkball")) return new Ball("pink", padi.assets.skin_balls.getSprite("pinkball"));
-        else if (type.equals("purpleball")) return new Ball("purple", padi.assets.skin_balls.getSprite("purpleball"));
-        else if (type.equals("armyball")) return new Ball("army", padi.assets.skin_balls.getSprite("armyball"));
-        else if (type.equals("greenball")) return new Ball("green", padi.assets.skin_balls.getSprite("greenball"));
-        else if (type.equals("violetball")) return new Ball("violet", padi.assets.skin_balls.getSprite("violetball"));
-        else if (type.equals("blueball")) return new Ball("blue", padi.assets.skin_balls.getSprite("blueball"));
-        else if (type.equals("yellowball")) return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-
-
-        else return new Ball("yellow", padi.assets.skin_balls.getSprite("yellowball"));
-*/
-
-        System.out.println("convertToEnemy(). You done messed up xeng.");
+        ballStorage.createBall(type, (Ball)e);
         return null;
     }
 
@@ -407,10 +394,10 @@ public class SpawnManager {
             //TODO: also upgrade tower abilities. freeze, aoe, etc.
             //The stat upgrades should go here.
             localTower.setLevel(localTower.getLevel() + 1);
-            localTower.setAttack(localTower.getAttack()*1.10f); // + 10% attack.
-            localTower.setRange(localTower.getRange() * 1.05f); // + 5% range.
-            localTower.setCost((int)((double)(localTower.getCost())*1.20)); // + 20% cost. might be overkill with the castings.
-            localTower.setChargeRate(localTower.getChargeRate()*1.2f); // + 20% charge
+            localTower.setAttack(localTower.getAttack()*2f); // + 50% attack.
+            localTower.setRange(localTower.getRange() * 1.15f); // + 15% range.
+            localTower.setCost((int)((double)(localTower.getCost())*1.50)); // + 50% cost. might be overkill with the castings.
+            localTower.setChargeRate(localTower.getChargeRate()*1.1f); // + 10% charge
             localTower.set(sprite);
 
             if(localTower.getID().equals("PURPLE") && localTower.getLevel() == 3){
@@ -442,7 +429,7 @@ public class SpawnManager {
         Vector2 spawnPosition = new Vector2(b.getX() + (b.getWidth() / 8),
                 b.getY() + (b.getHeight() / 8));
 
-        Tower newTower = padi.assets.towerCustomPool.obtain();
+        Tower newTower = padi.assets.towerPool.obtain();
         Sprite picture = padi.assets.towerAtlas.createSprite(type);
 
         if(newTower == null)
@@ -512,7 +499,7 @@ public class SpawnManager {
 
             Tower pointer = b.getCurrentTower();
             game.tower.getTowerArray().removeValue(b.getCurrentTower(), false);
-            padi.assets.towerCustomPool.free(pointer);
+            padi.assets.towerPool.free(pointer);
             b.setCurrentTower(null);
 
 
@@ -532,18 +519,14 @@ public class SpawnManager {
 
             for(int y = 0; y < p.getItemsUnlocked().get(x).getTargets().size; y++){
                 String target = p.getItemsUnlocked().get(x).getTargets().get(y);//will point to every element in item's tower target list.
-                System.out.print("Name: " + p.getItemsUnlocked().get(x).getName() + ",  target: " + p.getItemsUnlocked().get(x).getTargets().get(y));
-                System.out.println();
+
                 //if the ID of the newly built tower matches the Name of the item,
                 //item will change the stats of the newly built tower.
-                //update() is declared in ItemStorage.
+
                 if(target.equals("ALL")){
-                    System.out.println("t.originalAtk: " + t.getAttack());
                     p.getItemsUnlocked().get(x).update(t);
-                    System.out.println("t.afterAtk: " + t.getAttack());
                 }
                 else if(target.equals(t.getID())){
-                    System.out.println("changing" + t.getID());
                     p.getItemsUnlocked().get(x).update(t);
                 }
             }

@@ -32,11 +32,11 @@ public class Player {
 
         //only the first level is unlocked.
         for(int x = 0; x < levels.length; x++){
-           /* if(x == 0)
+            if(x == 0)
                 levels[x] = true;
             else
-                levels[x] = false;*/
-            levels[x] = true;
+                levels[x] = false;
+            //levels[x] = true;
         }
         money = 1000;
         wins = 0;
@@ -46,7 +46,6 @@ public class Player {
         //name = "Guest" +  (int)(Math.random()*1000);
         name = "";
         itemsUnlocked = new Array<MainItem>();
-
 
     }
 

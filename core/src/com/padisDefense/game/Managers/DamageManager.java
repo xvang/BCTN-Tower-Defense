@@ -23,12 +23,12 @@ public class DamageManager {
 
         float attack;
 
-        //if tower is strong against enemy, its attack is increased 100%
+        //if tower is strong against enemy, its attack is increased.
         if(t.isStrongAgainst(e.getName())){
-            attack = t.getAttack()*2f;
+            attack = t.getAttack()*1f;
             e.originalHit(attack);//bypasses increased armor.
         }
-        //if tower is weak against enemy, its attack is reduced to 10%
+        //if tower is weak against enemy, its attack is reduced.
         else if(t.isWeakAgainst(e.getName())){
             attack = t.getAttack()*0.5f;
             e.hit(attack);
@@ -103,7 +103,7 @@ public class DamageManager {
                     float damage = (1 - z)*t.getAttack();
 
                     if(t.isStrongAgainst(temp.getName())){
-                        temp.originalHit(damage*2f);//bypasses increased armor.
+                        temp.originalHit(damage);//bypasses increased armor.
                     }
                     //if tower is weak against enemy, its attack is reduced to 20%
                     else if(t.isWeakAgainst(temp.getName())){

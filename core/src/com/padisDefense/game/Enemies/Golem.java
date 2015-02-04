@@ -12,9 +12,10 @@ public class Golem extends Enemy{
 
     public Golem(){
         //health, armor, texture
-        super(100, 1, "bestgoblin.png");
+        super(1000, 40, "bestgoblin.png");
         setName("golem");
-        setRate(0.08f + (float)Math.random()*0.035f);
+        setRate(0.05f + (float)Math.random()*0.035f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

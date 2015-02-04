@@ -13,9 +13,10 @@ public class Mage extends Enemy {
 
     public Mage(){
         //health, armor, texture
-        super(100, 1, "bestgoblin.png");
+        super(500, 42, "bestgoblin.png");
         setName("mage");
-        setRate(0.26f + (float)Math.random()*0.045f);
+        setRate(0.11f + (float)Math.random()*0.045f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

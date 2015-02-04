@@ -13,9 +13,10 @@ public class BlueImp extends Enemy{
     public BlueImp(){
         //todo: delete texture parameter.
         //health, armor, texture
-        super(100, 1, "bestgoblin.png");
+        super(750, 50, "bestgoblin.png");
         setName("golem");
-        setRate(0.08f + (float)Math.random()*0.035f);
+        setRate(0.07f + (float)Math.random()*0.035f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());
@@ -23,7 +24,7 @@ public class BlueImp extends Enemy{
 
     public void initMovement(){
 
-        texture = new Texture("enemies/blue_walk_updated.png");
+        texture = new Texture("enemies/blue_walk.png");
 
         int w = texture.getWidth();
         int h = texture.getHeight();

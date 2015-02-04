@@ -149,7 +149,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
 
         sparkle = new IceSparkle();
-        rotateRate = 6f;
+        rotateRate = 9f;
     }
 
     public Tower(Sprite sprite, float attack, float chargeRate, float range, float cost, float incomeRate){
@@ -439,11 +439,12 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
         pool.freeAll(activeBullets);
         activeBullets.clear();
+        pool.clear();
     }
 
     //subclasses override these.
     public void userReset(){}
-    public void spin(){}
+    public void spin(){flower.rotate(1);}
     public void dispose(){
 
         activeBullets.clear();

@@ -35,7 +35,7 @@ public class PurpleTower extends Tower {
 
 
     public void spin(){
-        flower.rotate(1);
+
     }
 
 

@@ -38,7 +38,7 @@ public class UIManager implements InputProcessor{
     Stage stage;
     public Table masterTable;
     public TextButton hideButton;
-    public int lifepoints = 20;
+    public int lifepoints = 50;
 
 
     //prints money and enemy left.
@@ -177,11 +177,9 @@ public class UIManager implements InputProcessor{
                 if(masterTable.isVisible()){
                     hideButton.setText("Show");
                     masterTable.setVisible(false);
-                    //hideButton.setPosition(Gdx.graphics.getWidth()-hideButton.getWidth() - 10f, 10f);
                 }
                 else{
                     hideButton.setText("Hide");
-                    //hideButton.setPosition(Gdx.graphics.getWidth()-masterTable.getWidth(), 10f);
                     masterTable.setVisible(true);
                 }
 
@@ -198,7 +196,6 @@ public class UIManager implements InputProcessor{
         stage.addActor(pauseButtonTable);
         stage.addActor(messageTable);
         stage.addActor(countDownTable);
-
     }
 
     public void initUI(){
@@ -211,7 +208,6 @@ public class UIManager implements InputProcessor{
         createChargeMeter();
         createOptionTable();
         createMessageTable();
-
         createStatsTable();
         createMasterTable();
     }
@@ -347,16 +343,6 @@ public class UIManager implements InputProcessor{
 
             if(rec1.overlaps(currentBuildable.getBoundingRectangle())){
                 b = !b;
-
-                //updating the 'charge' button message.
-                /*try{
-                    charge.setText(currentBuildable.getCurrentTower().getMessage());
-                }catch(Exception e){
-
-                    //charge.setText(tower.getBuildableArray().get(s).getMessage());
-                }*/
-
-
 
                 //'currentBuildable' is local to this function.
                 //'currentBS' is global in this class.
@@ -502,16 +488,13 @@ public class UIManager implements InputProcessor{
 
     }
     public void createMessageTable(){
-        // messageTable.setSize(200f, Gdx.graphics.getHeight());
-        // messageTable.setPosition(Gdx.graphics.getWidth() - 250f, 0);
 
         messageTable.add(enemyMessage).padRight(30f);
         messageTable.add(moneyMessage).padRight(30f);
         messageTable.add(timeMessage).padRight(30f);
         messageTable.add(lifeLabel).padRight(30f);
-        //messageTable.setSize(300f, 30f);
         messageTable.setPosition(400f, Gdx.graphics.getHeight() - 20f);
-       // messageTable.setPosition(0,0);
+
 
     }
 
@@ -521,8 +504,6 @@ public class UIManager implements InputProcessor{
 
         masterTable.setSize(Gdx.graphics.getWidth()*5/16, Gdx.graphics.getHeight());
         masterTable.setPosition(Gdx.graphics.getWidth() - Gdx.graphics.getWidth()*5/16,0);
-
-
 
         //creating the background for  the table.
         TextureRegionDrawable background = new TextureRegionDrawable(
@@ -549,10 +530,6 @@ public class UIManager implements InputProcessor{
             }
         });
         //pauseButton.scaleBy(0.2f);
-
-
-
-
 
         final TextButton resume = new TextButton("Resume", padi.assets.bubbleUI, "green");
         final TextButton quit = new TextButton("Quit", padi.assets.bubbleUI, "green");
@@ -584,20 +561,14 @@ public class UIManager implements InputProcessor{
             public void clicked(InputEvent e, float x, float y){
 
                 if(game.gameMusic.isPlaying()){
-
                     mute.setText("Un-Mute");
-                   //game.gameMusic.pause();
+                   game.gameMusic.pause();
                 }
-
-
 
                 else{
                     mute.setText("Mute");
-                    //game.gameMusic.play();
+                    game.gameMusic.play();
                 }
-
-
-
             }
         });
 
@@ -646,19 +617,15 @@ public class UIManager implements InputProcessor{
         countDownMessage2 = new Label("Time Left: " + String.valueOf((int)temp),
                 padi.assets.someUIskin, "default");
 
-
         countDownTable.add(startButton).width(120f).height(50f).row().pad(5f);
         countDownTable.add(countDownMessage1).row().pad(5f);
         countDownTable.add(countDownMessage2).row().pad(5f);
         countDownTable.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-
-
     }
 
     public void createOptionTable(){
 
         clickedOptionTable.setName("clickedOptionTable");
-
         ImageButton charge = new ImageButton(padi.assets.bubbleUI, "charge");
         ImageButton upgrade = new ImageButton(padi.assets.bubbleUI, "upgrade");
         ImageButton sell = new ImageButton(padi.assets.bubbleUI, "trash");
@@ -667,8 +634,6 @@ public class UIManager implements InputProcessor{
         clickedOptionTable.add(sell).width(55f).height(55f).pad(35f);
         //clickedOptionTable.setSize(50f, 50f);
         clickedOptionTable.setVisible(false);
-
-
 
         //adding clicklisteners for option table.
 
@@ -755,12 +720,6 @@ public class UIManager implements InputProcessor{
             t.setName(names[x]);
             towerOptions.add(t);
         }
-        /*for(String s: names){
-            TextButton t = new TextButton(s, padi.assets.towerButtons, s);
-            t.setSize(60f, 35f);
-            t.setName(s);
-            towerOptions.add(t);
-        }*/
 
         //adding listeners to the towers.
         for(int x = 0; x < towerOptions.size; x++){
@@ -785,10 +744,6 @@ public class UIManager implements InputProcessor{
             clickedTowerTable.add(towerOptions.get(x)).width(100f).height(45f).pad(4f);
             clickedTowerTable.pad(5f);
         }
-
-
-
-
         clickedTowerTable.setVisible(false);
     }
 
@@ -802,6 +757,11 @@ public class UIManager implements InputProcessor{
             public void clicked(InputEvent e, float x, float y){
 
                 padi.setScreen(padi.worldmap);
+                try{
+                    Thread.sleep(1000);
+                }catch(Exception ee){
+                    System.out.println("Will never need try-catch because I'm using a single thread.");
+                }
                 //game.dispose();
             }
         });
@@ -813,7 +773,6 @@ public class UIManager implements InputProcessor{
                 game.reset();
             }
         });
-
 
         endGameTable.add(winMessage).row().pad(15f);
         endGameTable.add(loseMessage).row().pad(15f);
@@ -831,7 +790,6 @@ public class UIManager implements InputProcessor{
         final Array<Image> image = new Array<Image>();
 
         //Creating the images for the towers.
-
         final Image purple = new Image(padi.assets.towerAtlas.findRegion("PURPLE", 1));
         final Image pink = new Image(padi.assets.towerAtlas.findRegion("PINK", 1));
         final Image red = new Image(padi.assets.towerAtlas.findRegion("RED", 1));
@@ -896,11 +854,8 @@ public class UIManager implements InputProcessor{
                     }
                 }
             });
-
         }
     }
-
-
 
     @Override
     public boolean keyDown(int keycode) {return false;}
@@ -923,8 +878,8 @@ public class UIManager implements InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
-        return false;}
+        return false;
+    }
 
 
 
@@ -954,8 +909,6 @@ public class UIManager implements InputProcessor{
         dragTowers.clearChildren();
         dragTowers.reset();
 
-
-
         loadingHidden.clear();
         loadingBar.clear();
         clickedOptionTable.reset();
@@ -975,21 +928,15 @@ public class UIManager implements InputProcessor{
 
         for(int x = 0; x < towerOptions.size; x++)
             towerOptions.get(x).clear();
-
-        //for(int x = 0; x < image.size; x++)
-        //    image.get(x).clear();
     }
 
     public void reset(){
 
         countDownTable.setVisible(true);
 
-
         endGameTable.setVisible(false);
 
-
         clickedTowerTable.setVisible(false);
-
 
         clickedOptionTable.setVisible(false);
 
@@ -1002,15 +949,9 @@ public class UIManager implements InputProcessor{
         PAUSED = false;
         //updateTimerMessage();
         hideButton.setText("Hide");
-        lifepoints = 20;
+        lifepoints = 50;
 
         loadingBar.setSize(0, loadingBar.getHeight());
         currentCharge = 0;
     }
 }
-
-/**http://stackoverflow.com/questions/18075414/getting-stage-coordinates-of-actor-in-table-in-libgdx
- *
- *
- *
- * */

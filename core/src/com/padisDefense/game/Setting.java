@@ -170,7 +170,9 @@ public class Setting extends ScreenAdapter {
         padi.assets.setSoundLevel((int)slider.get(1).getVisualValue());
         padi.assets.setOriginalSoundLevel((int)slider.get(1).getVisualValue());
 
-        padi.assets.rain.setVolume((float)sound/100f);
+        padi.assets.star.setVolume(padi.assets.SOUND_LEVEL/100f);
+        padi.assets.rain.setVolume(padi.assets.SOUND_LEVEL/100f);
+        padi.assets.east.setVolume(padi.assets.SOUND_LEVEL/100f);
 
     }
 

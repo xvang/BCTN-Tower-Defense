@@ -12,9 +12,10 @@ public class Cobra extends Enemy {
 
     public Cobra(){
         //health, armor, texture
-        super(100, 1, "");
+        super(400, 50, "");
         setName("cobra");
         setRate(0.15f + (float)Math.random()*0.039f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

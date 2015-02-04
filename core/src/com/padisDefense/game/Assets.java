@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Ball;
 import com.padisDefense.game.Enemies.Enemy;
@@ -33,12 +34,12 @@ public class Assets {
     public static final int h = 600;
 
 
-    public static int SOUND_LEVEL = 20;
-    public static int SOUND_LEVEL_ORIGINAL = 20;
-    //if user mutes in game, SOUND_LEVEL is set to zero, but SOUND_LEVEL_ORIGINAL
+    public static int SOUND_LEVEL = 25;
+    public static int SOUND_LEVEL_ORIGINAL = 25;
+    //if user mutes in game, SOUND_LEVEL is set to 1, but SOUND_LEVEL_ORIGINAL
     //should still have the original value if user wishes to un-mute.
 
-    public static int DIFFICULTY = 99;
+    public static int DIFFICULTY = 25;
 
     public Array<String> splash_Pages;
 
@@ -50,22 +51,25 @@ public class Assets {
 
     public Skin skin3, someUIskin, skin_balls, bubbleUI, towerButtons;
     public TextureAtlas towerAtlas, bulletAtlas;
-    public EnemyPool enemyPool;
-    public TowerPool towerCustomPool;
+   // public EnemyPool enemyPool;
+   // public TowerPool towerCustomPool;
+
+    public Pool<Enemy> enemyPool;
+    public Pool<Tower> towerPool;
+
 
     public Music star, rain, east;
     public Assets(Padi p){
 
         padi = p;
 
-        background = new Sprite(new Texture("badlogic.jpg"));
         //test_comment
         splash_Pages = new Array<String>();
 
         //ADD MORE SPLASH SCREENS HERE
         splash_Pages.add("limegreen.png");
 
-        splash_Pages.add("badlogic.jpg");
+        //splash_Pages.add("allballs.png");
 
         star = Gdx.audio.newMusic(Gdx.files.internal("sound/Following_Your_Star.mp3"));
         rain = Gdx.audio.newMusic(Gdx.files.internal("sound/Raindrops_of_a_Dream.mp3"));
@@ -73,6 +77,10 @@ public class Assets {
         star.setLooping(true);
         rain.setLooping(true);
         east.setLooping(true);
+        star.setVolume(SOUND_LEVEL/100f);
+        rain.setVolume(SOUND_LEVEL/100f);
+        east.setVolume(SOUND_LEVEL/100f);
+
 
 
         batch = new SpriteBatch();
@@ -87,92 +95,26 @@ public class Assets {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         towerButtons = new Skin(Gdx.files.internal("towers/towerButtons/towerbuttons.json"));
 
-        background = new Sprite(new Texture("badlogic.jpg"));
+        background = new Sprite(new Texture("limegreen.png"));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         tweenManager = new TweenManager();
 
 
 
 
-        //createEnemyPool();
-        enemyPool = new EnemyPool() {
+        enemyPool = new Pool<Enemy>() {
             @Override
-            protected Enemy newObject(String type) {
-
-                if(type.equals("armyball")) return new Ball("army", skin_balls.getSprite("armyball"));
-                else if(type.equals("blueball")) return new Ball("blue", skin_balls.getSprite("blueball"));
-                else if(type.equals("greenball")) return new Ball("green", skin_balls.getSprite("greenball"));
-                else if(type.equals("orangeball")) return new Ball("orange", skin_balls.getSprite("orangeball"));
-                else if(type.equals("pinkball")) return new Ball("pink", skin_balls.getSprite("pinkball"));
-                else if(type.equals("purpleball")) return new Ball("purple", skin_balls.getSprite("purpleball"));
-                else if(type.equals("violetball")) return new Ball("violet", skin_balls.getSprite("violetball"));
-                else if(type.equals("yellowball")) return new Ball("yellow", skin_balls.getSprite("yellowball"));
-                else if (type.equals("redball")) return new Ball("red", skin_balls.getSprite("redball"));
-
-                System.out.println("RETURNING NULL");
-                return null;
+            protected Enemy newObject() {
+                return new Ball();
             }
-
-            @Override
-            protected Enemy newObject(String type, int level, Vector2 spawnPosition){return null;}
         };
 
-
-        //right now they use two different pools.
-        towerCustomPool = new TowerPool() {
+        towerPool = new Pool<Tower>() {
             @Override
             protected Tower newObject() {
-
                 return new Tower();
-               /* Sprite picture = padi.assets.towerAtlas.createSprite(type);
-                Vector2 spawnPosition = new Vector2(-50f, -50f);//arbitrary spot. idk why this isn't removed.
-
-                if(type.equals("PURPLE")){
-                    Sprite bullet = bulletAtlas.createSprite("purple_bullet");
-                    return new PurpleTower(spawnPosition, picture, bullet);
-                }
-                else if(type.equals("BLUE")){
-                    Sprite bullet = bulletAtlas.createSprite("blue_bullet");
-                    return new BlueTower(spawnPosition, picture,  bullet);
-                }
-                else if(type.equals("YELLOW")){
-                    Sprite bullet = bulletAtlas.createSprite("yellow_bullet");
-                    return new YellowTower(spawnPosition, picture,  bullet);
-                }
-                else if(type.equals("PINK")){
-                    Sprite bullet = bulletAtlas.createSprite("pink_bullet");
-                    return new PinkTower(spawnPosition, picture, bullet);
-                }
-                else if(type.equals("GREEN")){
-                    Sprite bullet = bulletAtlas.createSprite("green_bullet");
-                    return new GreenTower(spawnPosition, picture,  bullet);
-                }
-                else if(type.equals("RED")){
-                    Sprite bullet = bulletAtlas.createSprite("red_bullet");
-                    return new RedTower(spawnPosition, picture, bullet);
-                }
-                else if(type.equals("ARMY")){
-                    Sprite bullet = bulletAtlas.createSprite("army_bullet");
-                    return new ArmyTower(spawnPosition, picture, bullet);
-                }
-
-                else if(type.equals("VIOLET")){
-                    Sprite bullet = bulletAtlas.createSprite("violet_bullet");
-                    return new VioletTower(spawnPosition, picture, bullet);
-                }
-                else if(type.equals("ORANGE")){
-                    Sprite bullet = bulletAtlas.createSprite("orange_bullet");
-                    return new OrangeTower(spawnPosition, picture,  bullet);
-                }
-                else{
-                    Sprite bullet = bulletAtlas.createSprite("purple_bullet");
-                    return new PurpleTower(spawnPosition, picture, bullet);
-                }*/
-
             }
-
         };
-
 
     }
 
@@ -214,7 +156,7 @@ public class Assets {
         towerAtlas.dispose();
         bulletAtlas.dispose();
         enemyPool.clear();
-        towerCustomPool.clear();
+        towerPool.clear();
         star.dispose();
         rain.dispose();
         east.dispose();

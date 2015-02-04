@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Ball;
+import com.padisDefense.game.Enemies.BallStorage;
 import com.padisDefense.game.Pathing.PathStorage;
 import com.padisDefense.game.Towers.BuildableSpot;
 import com.padisDefense.game.Towers.BuildableSpotSpawnStorage;
@@ -26,6 +27,7 @@ public class BuildableSpotSpawnTest extends ScreenAdapter {
 
     Array<BuildableSpot> billy;
     BuildableSpotSpawnStorage storage;
+    BallStorage ballStorage;
 
 
     private PathStorage pathStorage;
@@ -44,9 +46,11 @@ public class BuildableSpotSpawnTest extends ScreenAdapter {
         currentPath = pathStorage.getPath(level);
         //to get the corresponding bs spots, go to addBS() and change parameter accordingly.
 
-
+        ballStorage = new BallStorage();
         skin_balls = new Skin(new TextureAtlas("enemies/balls/ball.pack"));
-        ball = new Ball("green", skin_balls.getSprite("greenball"));
+
+        ball = new Ball();
+        ballStorage.createBall("redball", ball);
         ball.setSize(40f, 40f);
 
 

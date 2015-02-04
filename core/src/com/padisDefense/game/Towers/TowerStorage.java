@@ -6,9 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
 
-//TODO: this is happening, Xeng. Accept it. We screwed up. You can do this.
+
 public class TowerStorage  {
 
+
+    //All these functions should still work if they were void functions.
+    //any changes to the parameter 't' should be saved in the actual tower...?
     public Tower ArmyTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
@@ -20,8 +23,8 @@ public class TowerStorage  {
         t.setBulletLimit(1);
         t.setCost(60);
         t.setOriginalCost(60);
-        t.setAttack(80f);
-        t.setOriginalAttack(80f);
+        t.setAttack(20f);
+        t.setOriginalAttack(20f);
         t.setRange(200f);
         t.setOriginalRange(200f);
         t.setChargeRate(0.025f);
@@ -50,12 +53,12 @@ public class TowerStorage  {
         t.setBulletLimit(1);
         t.setCost(100);
         t.setOriginalCost(100);
-        t.setAttack(80f);
-        t.setOriginalAttack(80f);
+        t.setAttack(20f);
+        t.setOriginalAttack(20f);
         t.setRange(200f);
         t.setOriginalRange(200f);
-        t.setChargeRate(0.04f);
-        t.setOriginalChargeRate(0.04f);
+        t.setChargeRate(0.025f);
+        t.setOriginalChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalIncomeRate(4f);
         t.state = true;
@@ -79,14 +82,14 @@ public class TowerStorage  {
         t.setRotateRate(4);
         t.setBulletLimit(1);
         t.setCost(80);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
-        t.setChargeRate(0.53f);
+        t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalCost(80);
-        t.setOriginalAttack(200f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
-        t.setOriginalChargeRate(0.53f);
+        t.setOriginalChargeRate(0.025f);
         t.setOriginalIncomeRate(4f);
         t.state = true;
         t.setFireRate(0.1f);
@@ -109,12 +112,12 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(60);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
         t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalCost(60);
-        t.setOriginalAttack(50f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
         t.setOriginalChargeRate(0.025f);
         t.setOriginalIncomeRate(4f);
@@ -139,12 +142,12 @@ public class TowerStorage  {
         t.setBulletLimit(1);
         t.setCost(50);
         t.setRange(200f);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setChargeRate(0.02f);
         t.setIncomeRate(4f);
         t.setOriginalCost(50);
         t.setOriginalRange(200f);
-        t.setOriginalAttack(50f);
+        t.setOriginalAttack(20f);
         t.setOriginalChargeRate(0.02f);
         t.setOriginalIncomeRate(4f);
         t.state = true;
@@ -161,11 +164,6 @@ public class TowerStorage  {
 
     public Tower PurpleTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
 
-        /*final Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f){
-            public void spin(){
-                this.flower.rotate(1);
-            }
-        };*/
         t.set(sprite);
         t.setBulletSprite(bullet);
         t.setTarget(new Enemy());
@@ -173,15 +171,15 @@ public class TowerStorage  {
         t.state = true;
         t.setID("PURPLE");
         t.setCost(25);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
         t.setIncomeRate(4f);
-        t.setChargeRate(0.021f);
+        t.setChargeRate(0.025f);
         t.setOriginalCost(25);
-        t.setOriginalAttack(80f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
         t.setOriginalIncomeRate(4f);
-        t.setOriginalChargeRate(0.021f);
+        t.setOriginalChargeRate(0.03f);
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setFireRate(0.3f);
@@ -204,12 +202,12 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(60);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
         t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalCost(60);
-        t.setOriginalAttack(80f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
         t.setOriginalChargeRate(0.025f);
         t.setOriginalIncomeRate(4f);
@@ -236,12 +234,12 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(60);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
         t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalCost(60);
-        t.setOriginalAttack(80f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
         t.setOriginalChargeRate(0.025f);
         t.setOriginalIncomeRate(4f);
@@ -266,12 +264,12 @@ public class TowerStorage  {
         t.setLevel(1);
         t.setBulletLimit(1);
         t.setCost(70);
-        t.setAttack(80f);
+        t.setAttack(20f);
         t.setRange(200f);
-        t.setChargeRate(0.01f);
+        t.setChargeRate(0.025f);
         t.setIncomeRate(4f);
         t.setOriginalCost(70);
-        t.setOriginalAttack( 80f);
+        t.setOriginalAttack(20f);
         t.setOriginalRange(200f);
         t.setOriginalChargeRate(0.01f);
         t.setOriginalIncomeRate(4f);

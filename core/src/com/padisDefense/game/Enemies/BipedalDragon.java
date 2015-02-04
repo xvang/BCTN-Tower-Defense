@@ -12,9 +12,10 @@ public class BipedalDragon extends Enemy{
 
     public BipedalDragon(){
         //health, armor, texture
-        super(100, 1, "bestgoblin.png");
+        super(600, 40, "bestgoblin.png");
         setName("bipedaldragon");
-        setRate(0.13f + (float)Math.random()*0.039f);
+        setRate(0.13f + (float)Math.random()*0.031f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

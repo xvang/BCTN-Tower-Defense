@@ -37,8 +37,8 @@ public class WorldMap implements Screen {
     @Override
     public void show(){
 
-        /*if(!padi.assets.rain.isPlaying())
-            padi.assets.rain.play();*/
+        if(!padi.assets.rain.isPlaying())
+            padi.assets.rain.play();
         batch = padi.assets.batch;
 
         buttons = new Array<TextButton>();

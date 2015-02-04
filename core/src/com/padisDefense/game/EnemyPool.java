@@ -1,13 +1,12 @@
 package com.padisDefense.game;
 
 
-
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Enemy;
 
-/** A pool of objects that can be reused to avoid allocation.
- * @author Nathan Sweet */
+
+
+//TODO: No need for two pools. Get rid of them and use the regular pool.
 abstract public class EnemyPool {
     /** The maximum number of objects that will be pooled. */
     public final int max;
@@ -34,51 +33,21 @@ abstract public class EnemyPool {
         this.max = max;
     }
 
-    abstract protected Enemy newObject (String type);
-    abstract protected Enemy newObject (String type, int level, Vector2 spawnPosition);
+    abstract protected Enemy newObject ();
 
+    public Enemy obtain () {
 
-    public Enemy obtain (String type) {
-
-        for(int x = 0; x < freeObjects.size; x++){
-            Enemy e = freeObjects.get(x);
-
-            if( e.getName().equals(type)){
-                freeObjects.removeIndex(x);
-
-                return e;
-            }
-
-        }
-
-        //if no balloon of the requested type was found, create new one.
-        return newObject(type);
-
-
-       //return freeObjects.pop();//pop() always returns the last. we don't want the last.
-       // return freeObjects.size == 0 ? newObject(type) : freeObjects.pop();
+        return freeObjects.size == 0 ? newObject() : freeObjects.pop();
     }
 
-    public Enemy obtain (String type, int level, Vector2 spawnPosition) {
 
-        if(freeObjects.size == 0){
-            return newObject(type, level, spawnPosition);
-        }
-        else{
-            return freeObjects.pop();
-        }
-       // return freeObjects.size == 0 ? newObject(type, level, spawnPosition) : freeObjects.pop();
-    }
-
-    /** Puts the specified object in the pool, making it eligible to be returned by {@link #obtain(String type)}. If the pool already contains
-     * {@link #max} free objects, the specified object is reset but not added to the pool. */
     public void free (Enemy object) {
         if (object == null) throw new IllegalArgumentException("object cannot be null.");
         if (freeObjects.size < max) {
             freeObjects.add(object);
             peak = Math.max(peak, freeObjects.size);
         }
-        if (object instanceof Poolable) ((Poolable)object).reset();
+        if (object instanceof Poolable) (object).reset();
     }
 
 
@@ -90,7 +59,7 @@ abstract public class EnemyPool {
             Enemy object = objects.get(i);
             if (object == null) continue;
             if (freeObjects.size < max) freeObjects.add(object);
-            if (object instanceof Poolable) ((Poolable)object).reset();
+            if (object instanceof Poolable) (object).reset();
         }
         peak = Math.max(peak, freeObjects.size);
     }

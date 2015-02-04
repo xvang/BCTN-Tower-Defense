@@ -43,7 +43,6 @@ public class EnemyManager {
     private Vector2 endPosition;
 
 
-    //TODO: find out why a high arc value makes the bullet disappear.
     public float time = 0;
     public float countDownTimer = 10f;
     SpriteBatch batch;
@@ -89,8 +88,17 @@ public class EnemyManager {
             case(4):
                 path = storage.getPath(3);
                 break;
-            default:
+            case(5):
                 path = storage.getPath(4);
+                break;
+            case(6):
+                path = storage.getPath(5);
+                break;
+            case(7):
+                path = storage.getPath(6);
+                break;
+            default:
+                path = storage.getPath(0);
                 break;
         }
 
@@ -127,13 +135,10 @@ public class EnemyManager {
             //Calculating if spawning is necessary.
 
 
-            if(activeEnemy.size < 50 && spawnsLeft > 0 && spawnPause >= 1.0f){
+            if(activeEnemy.size < 30 && spawnsLeft > 0 && spawnPause >= 1.0f){
                 //Every second, 1 to 4 enemies will spawn.
                 //if the number of enemies left is less, then the # of enemies minus one will spawn instead.
                 //And then in the next iteration, the boss will spawn.
-                //TODO:once game.reset() is called, boss will be thrown into enemy pool.
-                // It should never be created, but it's still in there. Remove it somehow?
-
 
                 spawnPause = 0f;
 
@@ -194,7 +199,7 @@ public class EnemyManager {
         float time;
         Enemy currentEnemy;
 
-       /* if(activeEnemy.size == 1){
+       /* if(activeEnemy.size == 1 && spawnsLeft == 0){
             System.out.println("One left: " + activeEnemy.get(0).getLocation() + "      enemyCounter = " +
                     enemyCounter + "    spawnsLeft = "  + spawnsLeft +
                     " , Time = " + activeEnemy.get(0).getTime() +
@@ -261,7 +266,7 @@ public class EnemyManager {
                     else{
                         if(enhanceBoss < 10)
                             enhanceBoss++;
-                        //game.UI.lifepoints--;//once this gets to zero, game is over.
+                        game.UI.lifepoints--;//once this gets to zero, game is over.
                         currentEnemy.setCurrentPath(0);
                         currentEnemy.stateTime = 0f;
                         currentEnemy.oldPosition.set(0,0);
@@ -325,7 +330,6 @@ public class EnemyManager {
                 }
                 else{
                     activeEnemy.removeValue(e, false);
-                    //game.spawn.enemyPool.free(e);
                     padi.assets.enemyPool.free(e);
                 }
                 enemyCounter--;
@@ -402,16 +406,30 @@ public class EnemyManager {
 
     public void reset(){
 
+        //I don't think there is a way to iterate through the enemyPool,
+        //so I retrieve all the objects in the pool.
 
+
+        while(padi.assets.enemyPool.getFree() > 0){
+            activeEnemy.add(padi.assets.enemyPool.obtain());
+        }
+
+        //reset the enemies, and remove the boss.
         for(int x = 0; x < activeEnemy.size; x++){
             Enemy e = activeEnemy.get(x);
-            e.reset();
+
+            if(e.isBoss)
+                activeEnemy.removeIndex(x);
+
+            else
+                e.reset();
         }
-        System.out.println("enemyPool.size = " + padi.assets.enemyPool.getFree());
+
         padi.assets.enemyPool.freeAll(activeEnemy);
         activeEnemy.clear();
 
-        padi.assets.enemyPool.clear();
+        System.out.println("enemyPool.size = " + padi.assets.enemyPool.getFree());
+        //padi.assets.enemyPool.clear();
 
         countDownTimer = 15f;
         enhanceBoss = 0;

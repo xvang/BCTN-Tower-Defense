@@ -132,7 +132,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
         armor = a;
         originalArmor = a;
         alive = true;
-        rate = (float)(Math.random() % 0.001f );
+       // rate = (float)(Math.random() % 0.001f );
+
 
         healthGreen = new Sprite(new Texture("healthbargreen.png"));
         healthRed = new Sprite(new Texture("healthbarred.png"));
@@ -154,7 +155,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public void setName(String n){name = n;}
     public void setArmor(float newArmor){armor = newArmor;}
     public void setOriginalArmor(float a){originalArmor = a; armor = a;}
-    public void setRate(float r){rate = r;originalRate = r;}
+    public void setRate(float r){rate = r;}
+    public void setOriginalRate(float o){originalRate = o;}
     public void setAlive(Boolean newAlive){alive = newAlive;}
     public void setTime(float t){time = t;}
     public void userSetSize(Vector2 size){this.setSize(size.x, size.y);}
@@ -172,6 +174,7 @@ public class Enemy extends Sprite implements Pool.Poolable{
     public float getArmor(){return armor;}
     public float getOriginalArmor(){return originalArmor;}
     public float  getRate(){return rate;}
+    public float getOriginalRate(){return originalRate;}
     public float getTime(){return time;}
     public Boolean getAlive(){return alive;}
     public int getCurrentPath(){return currentPath;}
@@ -301,8 +304,8 @@ public class Enemy extends Sprite implements Pool.Poolable{
         time = 0f;
         alive = true;
 
-        //size of enemy will be from 25f to 35f
-        float r = (float)(Math.random()*10f) + 25f;
+        //size of enemy will be from 25f to 50f
+        float r = (float)(Math.random()*10f) + 40f;
         this.setSize(r, r);
 
         healthGreen.setSize(this.getWidth()+5f, 4f);

@@ -12,9 +12,10 @@ public class RedSpider extends Enemy{
 
     public RedSpider(){
         //health, armor, texture
-        super(300, 50, "bestgoblin.png");
+        super(550, 45, "bestgoblin.png");
         setName("redspider");
-        setRate(0.11f + (float)Math.random()*0.035f);
+        setRate(0.08f + (float)Math.random()*0.035f);
+        setOriginalRate(getRate());
         isBoss = true;
         initMovement();
         this.setSize(currentFrame.getRegionWidth(), currentFrame.getRegionHeight());

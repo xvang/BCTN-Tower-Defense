@@ -228,23 +228,6 @@ public class PathStorage {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void dispose(){
 
         for(int x = 0; x < allPaths.size; x++){

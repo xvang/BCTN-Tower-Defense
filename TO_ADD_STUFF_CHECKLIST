@@ -1,0 +1,31 @@
+Tower:
+
+towerStorage.java
+assets.java
+spawnManager.java
+
+
+Enemy:
+
+Either extend the enemy class, OR
+add to ball.java
+
+assets.java
+spawnManager.java
+
+Item:
+
+loadSaveGame.java
+itemstorage.java
+
+
+Add Path:
+UPDATE THE NUMBER_OF_LEVELS in player.java!!!!!!
+pathStorage.java
+levelmanager.java
+
+make corresponding buildablespots.
+stored in buildablespotstorage.java
+
+
+

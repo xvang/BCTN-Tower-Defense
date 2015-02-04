@@ -33,6 +33,7 @@ public class LevelManager {
     GameScreen game;
     private int path = 0;
     private int enemyAmount = 0;
+    private int initialMoney = 0;
     private int level = 0;
 
     BuildableSpotSpawnStorage bssStorage;
@@ -60,37 +61,45 @@ public class LevelManager {
         switch(level) {
             case (1):
                 path = 1;
-                enemyAmount = 500;
+                enemyAmount = 200;
+                initialMoney = 1000;
                 break;
             case (2):
                 path = 2;
-                enemyAmount = 400;
+                enemyAmount = 300;
+                initialMoney = 1100;
                 break;
             case (3):
                 path = 3;
-                enemyAmount = 200;
+                enemyAmount = 310;
+                initialMoney = 1500;
                 break;
             case (4):
                 path = 4;
-                enemyAmount = 200;
+                enemyAmount = 330;
+                initialMoney = 1500;
                 break;
             case (5):
                 path = 5;
-                enemyAmount = 100;
+                enemyAmount = 350;
+                initialMoney = 1800;
                 break;
 
             case (6):
                 path = 6;
-                enemyAmount = 500;
+                enemyAmount = 400;
+                initialMoney = 2000;
                 break;
             case (7):
                 path = 7;
-                enemyAmount = 500;
+                enemyAmount = 555;
+                initialMoney = 2000;
                 break;
 
             default:
                 path = 1;
                 enemyAmount = 100;
+                initialMoney = 500;
                 break;
         }
     }
@@ -116,6 +125,8 @@ public class LevelManager {
                 return new RedSpider();
         }
     }
+
+    public int getInitialMoney(){return initialMoney;}
 
     //Spawns buildable spots.
     //the locations of the buildable spots are stored the buildableSpotStorage object.

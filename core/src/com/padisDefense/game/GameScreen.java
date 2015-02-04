@@ -49,8 +49,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         padi = p;
 
         endGameAnimation = new EndGameAnimation();
-        tower = new TowerManager(this, padi);
         level = new LevelManager(this, padi);
+        tower = new TowerManager(this, padi);
         enemy = new EnemyManager(this, padi);
         spawn = new SpawnManager(this, padi);
         UI = new UIManager(this, padi);
@@ -74,7 +74,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         if(x % 2 == 0) gameMusic =  padi.assets.star;
         else gameMusic = padi.assets.east;
 
-        //gameMusic.play();
+        gameMusic.play();
     }
 
     public int playLevel, limit;
@@ -102,6 +102,8 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         spawn.initSpawn();//types of enemies that can spawn on a level is stored in an array.
 
         tower.populateTowerPool();//creating some towers in advance.
+
+        tower.inGameMoney = level.getInitialMoney();
     }
 
 
@@ -199,7 +201,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
 
     public void calcMoney(){
-        tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 2));
+        tower.updateInGameMoney((int) (Math.abs(oldEnemyCount - newEnemyCount) * 5));
         oldEnemyCount = newEnemyCount;
     }
 

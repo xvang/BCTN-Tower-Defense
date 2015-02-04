@@ -32,10 +32,10 @@ public class ItemStorage {
             @Override
             public void update(Tower t) {
                 changeRange(t, 1.1f);
-                changeAttack(t, 1.1f);
+                changeAttack(t, 0.95f);
             }
         };
-        item1.setCost(150);
+        item1.setCost(800);
         item1.addTargets("ALL");
         item1.setDisplayStats("+ 10% Range\n - 5% Attack\n");
         item1.setName("Coffee");
@@ -45,12 +45,14 @@ public class ItemStorage {
         MainItem item2 = new MainItem("items/shield.png") {
             @Override
             public void update(Tower t) {
+                //System.out.println("update() called");
+                changeAttack(t, 1.3f);
                 changeRange(t, 1.1f);
             }
         };
-        item2.setCost(50);
+        item2.setCost(1000);
         item2.addTargets("ALL");
-        item2.setDisplayStats("+ 5% Range\n + 15% Attack\n");
+        item2.setDisplayStats("+ 10% Range\n + 30% Attack\n");
         item2.setName("Badge");
         size++;
 
@@ -58,7 +60,7 @@ public class ItemStorage {
         seeker = new MainItem("items/seeker.png") {
             @Override
             public void update(Tower t) {
-                changeRange(t, 1.1f);
+                changeAttack(t, 10f);
             }
         };
         seeker.setCost(p.player.getMoney() + 1);
@@ -80,12 +82,13 @@ public class ItemStorage {
         MainItem item3 = new MainItem(new Sprite(sp[0])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item3.setCost(50);
+        item3.setCost(100);
         item3.addTargets("ARMY");
-        item3.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item3.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item3.setName("Body Armor");
         size++;
 
@@ -93,12 +96,13 @@ public class ItemStorage {
         MainItem item4 = new MainItem(new Sprite(sp[1])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item4.setCost(50);
+        item4.setCost(100);
         item4.addTargets("BLUE");
-        item4.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item4.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item4.setName("Bow/Arrow");
         size++;
 
@@ -106,12 +110,13 @@ public class ItemStorage {
         MainItem item5 = new MainItem(new Sprite(sp[2])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item5.setCost(50);
+        item5.setCost(100);
         item5.addTargets("GREEN");
-        item5.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item5.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item5.setName("Shoe");
         size++;
 
@@ -119,12 +124,13 @@ public class ItemStorage {
         MainItem item6 = new MainItem(new Sprite(sp[3])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item6.setCost(50);
+        item6.setCost(100);
         item6.addTargets("ORANGE");
-        item6.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item6.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item6.setName("Shield");
         size++;
 
@@ -132,12 +138,13 @@ public class ItemStorage {
         MainItem item7 = new MainItem(new Sprite(sp[4])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item7.setCost(50);
+        item7.setCost(100);
         item7.addTargets("PINK");
-        item7.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item7.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item7.setName("Ring");
         size++;
 
@@ -145,12 +152,13 @@ public class ItemStorage {
         MainItem item8 = new MainItem(new Sprite(sp[5])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item8.setCost(50);
+        item8.setCost(100);
         item8.addTargets("PURPLE");
-        item8.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item8.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item8.setName("Herbs");
         size++;
 
@@ -158,12 +166,13 @@ public class ItemStorage {
         MainItem item9 = new MainItem(new Sprite(sp[6])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item9.setCost(50);
+        item9.setCost(100);
         item9.addTargets("RED");
-        item9.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item9.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item9.setName("Chest");
         size++;
 
@@ -171,12 +180,13 @@ public class ItemStorage {
         MainItem item10 = new MainItem(new Sprite(sp[7])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item10.setCost(50);
+        item10.setCost(100);
         item10.addTargets("VIOLET");
-        item10.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item10.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item10.setName("Sword");
         size++;
 
@@ -184,12 +194,13 @@ public class ItemStorage {
         MainItem item11 = new MainItem(new Sprite(sp[8])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item11.setCost(50);
+        item11.setCost(100);
         item11.addTargets("YELLOW");
-        item11.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item11.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item11.setName("Helmet");
         size++;
 
@@ -198,13 +209,14 @@ public class ItemStorage {
         MainItem item12 = new MainItem(new Sprite(sp[9])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item12.setCost(50);
+        item12.setCost(100);
         item12.addTargets("ARMY");
         item12.addTargets("BLUE");
-        item12.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item12.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item12.setName("Staff");
         size++;
 
@@ -212,14 +224,15 @@ public class ItemStorage {
         MainItem item13 = new MainItem(new Sprite(sp[10])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item13.setCost(50);
+        item13.setCost(100);
         item13.addTargets("RED");
         item13.addTargets("PURPLE");
         item13.addTargets("VIOLET");
-        item13.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item13.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item13.setName("Book");
         size++;
 
@@ -227,14 +240,15 @@ public class ItemStorage {
         MainItem item14 = new MainItem(new Sprite(sp[11])){
             @Override
             public void update(Tower t){
-
+                changeRange(t, 1.05f);
+                changeAttack(t, 1.05f);
             }
         };
-        item14.setCost(50);
+        item14.setCost(100);
         item14.addTargets("BLUE");
         item14.addTargets("ARMY");
         item14.addTargets("GREEN");
-        item14.setDisplayStats("+ 5% Range\n - 5% Attack\n");
+        item14.setDisplayStats("+ 5% Range\n + 5% Attack\n");
         item14.setName("Potion");
         size++;
 

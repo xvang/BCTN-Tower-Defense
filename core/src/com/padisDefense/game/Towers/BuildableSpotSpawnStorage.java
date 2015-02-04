@@ -47,9 +47,9 @@ public class BuildableSpotSpawnStorage {
 
         two.add(new Vector2(w*14, h*90));
         two.add(new Vector2(w*30, h*16));
-        two.add(new Vector2(w*33, h*63));
+        two.add(new Vector2(w*30, h*68));
         two.add(new Vector2(w*40, h*32));
-        two.add(new Vector2(w*44, h*63));
+        two.add(new Vector2(w*48, h*60));
         two.add(new Vector2(w*49, h*16));
         two.add(new Vector2(w*61, h*89));
         two.add(new Vector2(w*74, h*65));

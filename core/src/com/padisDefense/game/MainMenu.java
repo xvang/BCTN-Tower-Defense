@@ -40,7 +40,7 @@ public class MainMenu extends ScreenAdapter {
     @Override
     public void show(){
 
-        //padi.assets.rain.play();
+        padi.assets.rain.play();
         final float w = Gdx.graphics.getWidth();
         final float h = Gdx.graphics.getHeight();
 
