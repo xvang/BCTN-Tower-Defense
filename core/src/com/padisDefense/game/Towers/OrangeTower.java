@@ -25,7 +25,7 @@ public class OrangeTower extends Tower {
         state = true;
         setFireRate(0.08f);
         setID("ORANGE");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.10f);
         setCustomArc(40f);
         setWeakAgainst("pinkball");

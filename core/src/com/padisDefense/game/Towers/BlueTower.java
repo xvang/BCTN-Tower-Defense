@@ -23,7 +23,7 @@ public class BlueTower extends Tower {
         state = true;
         setFireRate(0.2f);
         setID("BLUE");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.07f);
         setWeakAgainst("greenball");
         setStrongAgainst("blueball");

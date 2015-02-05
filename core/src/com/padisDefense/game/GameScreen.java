@@ -57,15 +57,16 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         damage = new DamageManager(this, padi);
         bullet = new BulletManager(this, padi);
         multi = new InputMultiplexer();
+
+        multi.addProcessor(UI.getStage());
+        multi.addProcessor(UI);
+        multi.addProcessor(this);
+
     }
 
     @Override
     public void show(){
 
-        multi.clear();
-        multi.addProcessor(UI.getStage());
-        multi.addProcessor(UI);
-        multi.addProcessor(this);
         Gdx.input.setInputProcessor(multi);
         gameStatus = "";
 
@@ -164,14 +165,15 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
                 UI.updateUIStuff(enemy.getEnemyCounter(), tower.getInGameMoney());
 
                 UI.gameOver();
-                multi.clear();
-                multi.addProcessor(UI.endStage);
+
+                //multi.addProcessor(UI.endStage);
+                Gdx.input.setInputProcessor(UI.endStage);
                 UI.endGameTable.setVisible(true);
                 UI.endStage.draw();
                 UI.masterTable.setVisible(false);
                 UI.hideButton.setPosition(Gdx.graphics.getWidth()-UI.hideButton.getWidth() - 10f, 10f);
 
-                enemy.reset();//clears all the remaining enemy.
+                //enemy.reset();//clears all the remaining enemy.
                 if(playLevel < padi.player.getNumberOfLevels())
                     padi.player.setLevelsUnlocked(playLevel);
 
@@ -229,7 +231,10 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         UI.dispose();
         spawn.dispose();
         damage.dispose();
+
+        //Not sure what this really does.
         multi.getProcessors().clear();
+        multi.clear();
 
     }
 
@@ -251,12 +256,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
         oldEnemyCount = 0;
         newEnemyCount = 0;
 
-        //below is probably unecessary. doesn't hurt to have?
-        multi.clear();
-        multi.addProcessor(UI.getStage());
-        multi.addProcessor(UI);
-        multi.addProcessor(this);
-        Gdx.input.setInputProcessor(multi);
+        //Gdx.input.setInputProcessor(multi);
         gameStatus = "";
     }
     @Override
@@ -266,7 +266,7 @@ public class GameScreen extends ScreenAdapter implements InputProcessor {
 
     @Override
     public void hide(){
-        this.reset();
+        //this.reset();
         //pause the ingame music
         gameMusic.stop();
 

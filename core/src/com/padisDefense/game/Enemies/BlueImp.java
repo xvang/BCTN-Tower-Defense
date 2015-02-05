@@ -13,7 +13,7 @@ public class BlueImp extends Enemy{
     public BlueImp(){
         //todo: delete texture parameter.
         //health, armor, texture
-        super(750, 50, "bestgoblin.png");
+        super(800, 100, "bestgoblin.png");
         setName("golem");
         setRate(0.07f + (float)Math.random()*0.035f);
         setOriginalRate(getRate());

@@ -12,7 +12,7 @@ public class RedSpider extends Enemy{
 
     public RedSpider(){
         //health, armor, texture
-        super(550, 45, "bestgoblin.png");
+        super(550, 35, "bestgoblin.png");
         setName("redspider");
         setRate(0.08f + (float)Math.random()*0.035f);
         setOriginalRate(getRate());

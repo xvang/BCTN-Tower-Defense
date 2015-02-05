@@ -25,7 +25,7 @@ public class VioletTower extends Tower {
         state = true;
         setFireRate(0.08f);
         setID("VIOLET");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.10f);
         setCustomArc(40f);
         setWeakAgainst("yellowball");

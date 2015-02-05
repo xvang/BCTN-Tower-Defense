@@ -7,22 +7,27 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Duck;
 import com.padisDefense.game.Enemies.Enemy;
 import com.padisDefense.game.Towers.PurpleTower;
 
 import com.padisDefense.game.Towers.Tower;
+import com.padisDefense.game.Towers.TowerStorage;
 
 public class RotateTest extends ScreenAdapter {
 
     final float w = Gdx.graphics.getWidth();
     final float h = Gdx.graphics.getHeight();
     Tower tower;
+
     Bullet bullet;
 
     Duck duck;
@@ -37,14 +42,26 @@ public class RotateTest extends ScreenAdapter {
     double  radius;
 
     ShapeRenderer shape;
+    TextureAtlas bulletAtlas;
+    TextureAtlas towerAtlas;
 
     public RotateTest(){
-        Sprite bullet2 = new Sprite(new Texture("red_bullet.png"));
-        tower = new PurpleTower(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight()*3/4),
-                new Sprite(new Texture("towers/SNIPER_3.png")), bullet2);
-        //tower = new Sprite(new Texture("towers/strength_level_three.png"));
-        //bullet = new Sprite(new Texture("redbullet.png"));
-        bullet = new Bullet(new Vector2(tower.getBulletSpawnLocation()), new Sprite(new Texture("redbullet.png")));
+        towerAtlas = new TextureAtlas("towers/tower.pack");
+        bulletAtlas = new TextureAtlas("bullets/bullet.pack");
+
+
+
+        tower = new Tower();
+        tower.setID("GREEN");
+        TextureRegion r = towerAtlas.findRegion(tower.getID());
+        tower.setRegion(r);
+        tower.setBounds(tower.getX(), tower.getY(), 80, 80);
+        tower.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        tower.setOriginCenter();
+        tower.setRange(250f);
+
+
+        bullet = new Bullet(new Vector2(tower.getBulletSpawnLocation()), new TextureRegion(bulletAtlas.findRegion("green_bullet")));
         duck = new Duck();
         batch = new SpriteBatch();
         duck.setRate(0.003f);
@@ -81,7 +98,7 @@ public class RotateTest extends ScreenAdapter {
 
 
         shape = new ShapeRenderer();
-        System.out.println("Tower's Range = " + tower.getRange());
+        //System.out.println("Tower's Range = " + tower.getRange());
     }
 
 

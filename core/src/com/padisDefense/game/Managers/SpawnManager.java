@@ -2,6 +2,7 @@ package com.padisDefense.game.Managers;
 
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.padisDefense.game.Enemies.Ball;
@@ -353,7 +354,7 @@ public class SpawnManager {
         return e;
     }
 
-    //TODO: add more enemies.
+
     private Enemy convertToEnemy(String type){
 
         Enemy e = padi.assets.enemyPool.obtain();
@@ -383,13 +384,10 @@ public class SpawnManager {
 
             Tower localTower = b.getCurrentTower();
 
-            Sprite sprite = padi.assets.towerAtlas.createSprite(localTower.getID() , (localTower.getLevel()+1));
+            TextureRegion region = padi.assets.towerAtlas.findRegion(localTower.getID(), localTower.getLevel() + 1);
 
-            Vector2 location = new Vector2(localTower.getX(), localTower.getY());
-            sprite.setPosition(location.x, location.y);
-
-            sprite.setRotation(localTower.getRotation());
-
+            localTower.setRegion(region);
+            localTower.setBounds(localTower.getX(), localTower.getY(), region.getRegionWidth(), region.getRegionHeight());
 
             //TODO: also upgrade tower abilities. freeze, aoe, etc.
             //The stat upgrades should go here.
@@ -398,7 +396,7 @@ public class SpawnManager {
             localTower.setRange(localTower.getRange() * 1.15f); // + 15% range.
             localTower.setCost((int)((double)(localTower.getCost())*1.50)); // + 50% cost. might be overkill with the castings.
             localTower.setChargeRate(localTower.getChargeRate()*1.1f); // + 10% charge
-            localTower.set(sprite);
+
 
             if(localTower.getID().equals("PURPLE") && localTower.getLevel() == 3){
 
@@ -430,57 +428,56 @@ public class SpawnManager {
                 b.getY() + (b.getHeight() / 8));
 
         Tower newTower = padi.assets.towerPool.obtain();
-        Sprite picture = padi.assets.towerAtlas.createSprite(type);
+
 
         if(newTower == null)
             System.out.println("newTower is null!");
 
         if(type.equals("PURPLE")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("purple_bullet");
-            newTower = padi.assets.towerStorage.PurpleTower(spawnPosition, picture, bullet, newTower);
+            padi.assets.towerStorage.PurpleTower(spawnPosition, newTower);
         }
         else if(type.equals("BLUE")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("blue_bullet");
-            newTower = padi.assets.towerStorage.BlueTower(spawnPosition, picture,  bullet, newTower);
+
+            padi.assets.towerStorage.BlueTower(spawnPosition, newTower);
         }
         else if(type.equals("YELLOW")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("yellow_bullet");
-            newTower = padi.assets.towerStorage.YellowTower(spawnPosition, picture,  bullet, newTower);
+
+            padi.assets.towerStorage.YellowTower(spawnPosition, newTower);
         }
         else if(type.equals("PINK")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("pink_bullet");
-            newTower = padi.assets.towerStorage.PinkTower(spawnPosition, picture, bullet, newTower);
+
+            padi.assets.towerStorage.PinkTower(spawnPosition, newTower);
         }
         else if(type.equals("GREEN")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("green_bullet");
-            newTower = padi.assets.towerStorage.GreenTower(spawnPosition, picture,  bullet, newTower);
+
+            padi.assets.towerStorage.GreenTower(spawnPosition, newTower);
         }
         else if(type.equals("RED")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("red_bullet");
-            newTower = padi.assets.towerStorage.RedTower(spawnPosition, picture, bullet, newTower);
+
+            padi.assets.towerStorage.RedTower(spawnPosition,newTower);
         }
         else if(type.equals("ARMY")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("army_bullet");
-            newTower = padi.assets.towerStorage.ArmyTower(spawnPosition, picture, bullet, newTower);
+
+            padi.assets.towerStorage.ArmyTower(spawnPosition,newTower);
         }
 
         else if(type.equals("VIOLET")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("violet_bullet");
-            newTower = padi.assets.towerStorage.VioletTower(spawnPosition, picture, bullet, newTower);
+
+            padi.assets.towerStorage.VioletTower(spawnPosition, newTower);
         }
         else if(type.equals("ORANGE")){
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("orange_bullet");
-            newTower = padi.assets.towerStorage.OrangeTower(spawnPosition, picture,  bullet, newTower);
+
+            padi.assets.towerStorage.OrangeTower(spawnPosition, newTower);
         }
         else{
-            Sprite bullet = padi.assets.bulletAtlas.createSprite("purple_bullet");
-            newTower = padi.assets.towerStorage.PurpleTower(spawnPosition, picture, bullet, newTower);
+
+            padi.assets.towerStorage.PurpleTower(spawnPosition,newTower);
         }
 
 
 
 
-        //updating level.
+        //updating level. It should never be null.
         newTower.setLevel(level);
 
         if(action.equals("build")){

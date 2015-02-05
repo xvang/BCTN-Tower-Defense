@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.padisDefense.game.Tests.BuildableSpotSpawnTest;
+import com.padisDefense.game.Tests.RotateTest;
 import com.padisDefense.game.TransitionScreens.Splash;
 
 /**

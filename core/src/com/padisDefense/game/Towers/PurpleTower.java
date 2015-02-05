@@ -14,7 +14,7 @@ public class PurpleTower extends Tower {
     public PurpleTower(Vector2 position, Sprite picture, Sprite bullet){
         //Sprite sprite, int attack, int chargeRate, int range, int cost, int incomeRate
         super(picture, 20f, 0.021f, 150f, 25, 4f);
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setTarget(new Enemy());
         setPosition(position.x, position.y);
         state = true;

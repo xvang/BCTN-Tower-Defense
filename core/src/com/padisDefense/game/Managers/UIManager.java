@@ -27,7 +27,7 @@ import com.padisDefense.game.Towers.Tower;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-
+//TODO: look over the code one more time...
 public class UIManager implements InputProcessor{
 
 
@@ -525,8 +525,9 @@ public class UIManager implements InputProcessor{
             public void clicked(InputEvent e, float x, float y){
 
                 PAUSED = true;
-                game.multi.clear();
-                game.multi.addProcessor(pauseStage);
+                //game.multi.clear();
+                Gdx.input.setInputProcessor(pauseStage);
+                //game.multi.addProcessor(pauseStage);
             }
         });
         //pauseButton.scaleBy(0.2f);
@@ -541,10 +542,12 @@ public class UIManager implements InputProcessor{
             @Override
             public void clicked(InputEvent e, float x, float y){
                 PAUSED = false;
-                game.multi.clear();
+                /*game.multi.clear();
                 game.multi.addProcessor(game.UI.getStage());
                 game.multi.addProcessor(game.UI);
-                game.multi.addProcessor(game);
+                game.multi.addProcessor(game);*/
+
+                Gdx.input.setInputProcessor(game.multi);
             }
         });
 

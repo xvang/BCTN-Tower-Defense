@@ -11,7 +11,7 @@ public class BlueSpider extends Enemy{
 
     public BlueSpider(){
         //health, armor, texture
-        super(400,50, "biggergoblin.png");
+        super(400,40, "biggergoblin.png");
         setName("bluespider");
         isBoss = true;
         setRate(0.09f + (float)Math.random()*0.17f);

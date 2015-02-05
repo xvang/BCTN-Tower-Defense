@@ -13,7 +13,7 @@ public class Mage extends Enemy {
 
     public Mage(){
         //health, armor, texture
-        super(500, 42, "bestgoblin.png");
+        super(500, 35, "bestgoblin.png");
         setName("mage");
         setRate(0.11f + (float)Math.random()*0.045f);
         setOriginalRate(getRate());

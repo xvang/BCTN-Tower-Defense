@@ -24,7 +24,7 @@ public class PinkTower extends Tower {
         state = true;
         setFireRate(0.001f);
         setID("PINK");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.12f);
         setWeakAgainst("purpleball");
         setStrongAgainst("pinkball");

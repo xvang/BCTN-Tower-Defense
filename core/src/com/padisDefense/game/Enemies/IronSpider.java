@@ -14,7 +14,7 @@ public class IronSpider extends Enemy{
     public IronSpider(){
 
         //health, armor, texture.
-        super(600,40,  "pizza.png");
+        super(600,35,  "pizza.png");
         setName("ironspider");
         setRate(0.08f + (float)Math.random()*0.08f);
         setOriginalRate(getRate());

@@ -28,7 +28,7 @@ public class GreenTower extends Tower {
         state = true;
         setFireRate(0.1f);
         setID("GREEN");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.08f);
         setWeakAgainst("armyball");
         setStrongAgainst("greenball");

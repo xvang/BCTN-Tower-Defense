@@ -66,7 +66,7 @@ public class Splash extends ScreenAdapter {
 
 
 
-        Gdx.input.setInputProcessor(null);
+       // Gdx.input.setInputProcessor(null);
     }
 
 

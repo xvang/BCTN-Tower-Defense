@@ -2,20 +2,24 @@ package com.padisDefense.game.Towers;
 
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.padisDefense.game.Bullets.Bullet;
 import com.padisDefense.game.Enemies.Enemy;
+import com.padisDefense.game.Padi;
 
 
 public class TowerStorage  {
 
-
+    Padi padi;
+    public TowerStorage(Padi p){
+        padi = p;
+    }
     //All these functions should still work if they were void functions.
     //any changes to the parameter 't' should be saved in the actual tower...?
-    public Tower ArmyTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void ArmyTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
 
@@ -34,19 +38,28 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.08f);
         t.setID("ARMY");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.10f);
         t.setCustomArc(40f);
         t.setWeakAgainst("blueball");
         t.setStrongAgainst("armyball");
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("army_bullet");
+        t.setBulletTextureRegion(b);
+
+
+
     }
 
-    public Tower BlueTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void BlueTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
         t.setLevel(1);
@@ -64,18 +77,25 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.2f);
         t.setID("BLUE");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.07f);
         t.setWeakAgainst("greenball");
         t.setStrongAgainst("blueball");
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("blue_bullet");
+        t.setBulletTextureRegion(b);
+
     }
 
-    public Tower GreenTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void GreenTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
         t.setLevel(1);
@@ -94,18 +114,25 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.1f);
         t.setID("GREEN");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.08f);
         t.setWeakAgainst("armyball");
         t.setStrongAgainst("greenball");
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("green_bullet");
+        t.setBulletTextureRegion(b);
+
+
     }
 
-    public Tower OrangeTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void OrangeTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
 
@@ -124,18 +151,26 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.08f);
         t.setID("ORANGE");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.10f);
         t.setCustomArc(40f);
         t.setWeakAgainst("pinkball");
         t.setStrongAgainst("orangeball");
-        return t;
+
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("orange_bullet");
+        t.setBulletTextureRegion(b);
+
+
     }
 
-    public Tower PinkTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void PinkTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
         t.setLevel(1);
@@ -153,19 +188,27 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.001f);
         t.setID("PINK");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.12f);
         t.setWeakAgainst("purpleball");
         t.setStrongAgainst("pinkball");
 
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("pink_bullet");
+        t.setBulletTextureRegion(b);
+
+
     }
 
-    public Tower PurpleTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void PurpleTower(Vector2 position,Tower t){
 
-        t.set(sprite);
-        t.setBulletSprite(bullet);
+        //t.set(sprite);
+        //t.setBulletTextureRegion(bullet);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
         t.state = true;
@@ -188,14 +231,21 @@ public class TowerStorage  {
         t.setWeakAgainst("orangeball");
         t.setStrongAgainst("purpleball");
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("purple_bullet");
+        t.setBulletTextureRegion(b);
+
     }
 
 
-    public Tower RedTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void RedTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
 
@@ -214,20 +264,28 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.08f);
         t.setID("RED");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.10f);
         t.setCustomArc(40f);
         t.setWeakAgainst("violetball");
         t.setStrongAgainst("redball");
 
-        return t;
+
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("red_bullet");
+        t.setBulletTextureRegion(b);
+
     }
 
 
-    public Tower VioletTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void VioletTower(Vector2 position,Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+        //t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
 
@@ -246,19 +304,25 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.08f);
         t.setID("VIOLET");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.10f);
         t.setCustomArc(40f);
         t.setWeakAgainst("yellowball");
         t.setStrongAgainst("violetball");
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("violet_bullet");
+        t.setBulletTextureRegion(b);
     }
 
-    public Tower YellowTower(Vector2 position, Sprite sprite, Sprite bullet, Tower t){
+    public void YellowTower(Vector2 position, Tower t){
 
         //Tower t = new Tower(sprite, 80f, 0.025f, 150f, 60, 1f);
-        t.set(sprite);
+       // t.set(sprite);
         t.setTarget(new Enemy());
         t.setPosition(position.x, position.y);
         t.setLevel(1);
@@ -276,14 +340,20 @@ public class TowerStorage  {
         t.state = true;
         t.setFireRate(0.4f);
         t.setID("YELLOW");
-        t.setBulletSprite(bullet);
+        //t.setBulletTextureRegion(bullet);
         t.setBulletRate(0.08f);
         t.setCustomArc(50f);
         t.setWeakAgainst("redball");
         t.setStrongAgainst("yellowball");
         t.setRotateRate(5f);
 
-        return t;
+        TextureRegion r = padi.assets.towerAtlas.findRegion(t.getID());
+        t.setRegion(r);
+        t.setBounds(t.getX(), t.getY(), r.getRegionWidth(), r.getRegionHeight());
+        t.setOriginCenter();
+
+        TextureRegion b = padi.assets.bulletAtlas.findRegion("yellow_bullet");
+        t.setBulletTextureRegion(b);
     }
 
 

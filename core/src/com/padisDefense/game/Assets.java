@@ -51,8 +51,8 @@ public class Assets {
 
     public Skin skin3, someUIskin, skin_balls, bubbleUI, towerButtons;
     public TextureAtlas towerAtlas, bulletAtlas;
-   // public EnemyPool enemyPool;
-   // public TowerPool towerCustomPool;
+
+
 
     public Pool<Enemy> enemyPool;
     public Pool<Tower> towerPool;
@@ -84,7 +84,7 @@ public class Assets {
 
 
         batch = new SpriteBatch();
-        towerStorage = new TowerStorage();
+        towerStorage = new TowerStorage(padi);
 
         towerAtlas = new TextureAtlas("towers/tower.pack");
         bulletAtlas = new TextureAtlas("bullets/bullet.pack");

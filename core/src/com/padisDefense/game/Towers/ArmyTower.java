@@ -24,7 +24,7 @@ public class ArmyTower extends Tower {
         state = true;
         setFireRate(0.08f);
         setID("ARMY");
-        setBulletSprite(bullet);
+        //setBulletSprite(bullet);
         setBulletRate(0.10f);
         setCustomArc(40f);
         setWeakAgainst("blueball");

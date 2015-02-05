@@ -2,6 +2,7 @@ package com.padisDefense.game.Towers;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -37,7 +38,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     private Array<String> weakAgainst;
     private Array<String> strongAgainst;
 
-    private Sprite bulletSprite;
+    private TextureRegion bulletTexture;
     private float bulletRate;//How fast a bullet travels.
     public float pause = 0.2f;
     private int level = 1;
@@ -62,7 +63,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
 
     public float rotateDestination;
     public boolean lockedOnTarget = false;
-    public float radius = this.getHeight()/2;
+    public float radius;
     private float rotateRate;
     public Sprite flower; // only rogue tower uses this. for now.
 
@@ -97,7 +98,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletSprite);
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
 
@@ -120,7 +121,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletSprite);
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
 
@@ -143,7 +144,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletSprite);
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
 
@@ -178,7 +179,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         pool = new Pool<Bullet>() {
             @Override
             protected Bullet newObject() {
-                return new Bullet(new Vector2(getLocation()), bulletSprite);
+                return new Bullet(new Vector2(getLocation()), bulletTexture);
             }
         };
 
@@ -205,7 +206,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
         ID = id;
     }
     public void setBulletLimit(int b){bulletLimit = b;}
-    public void setBulletSprite(Sprite t){bulletSprite = t;}
+    public void setBulletTextureRegion(TextureRegion t){bulletTexture = t;}
     public void setBulletRate(float r){bulletRate = r;}
     public void setCustomArc(float c){customArc = c;}
     public void setOldTargetPosition(Vector2 d){oldTargetPosition = d;}
@@ -249,7 +250,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
     public int getBulletLimit(){return bulletLimit;}
     public Array<Bullet> getActiveBullets(){return activeBullets;}
     public String getID(){return ID;}
-    public Sprite getBulletSprite(){return bulletSprite;}
+    public TextureRegion getBulletTextureRegion(){return bulletTexture;}
     public float getBulletRate(){return bulletRate;}
     public float getCustomArc(){return customArc;}
     public Vector2 getOldTargetPosition(){return oldTargetPosition;}
@@ -282,24 +283,38 @@ public class Tower extends Sprite implements  Pool.Poolable{
     public Vector2 getBulletSpawnLocation(){
 
         float x, y, deltaX = 0, deltaY = 0;
+        radius = getHeight()/2;
 
+        //currentRotation is modulus'd by 90.
+        //convertedRotation converts the rotation to positive if it is negative.
         double currentRotation, convertedRotation;
 
         if(getRotation() < 0){
+
             currentRotation = getRotation() % 90;
             convertedRotation = 360 - (Math.abs(getRotation())) % 360;
         }
 
+
+
         else{
             currentRotation = getRotation() % 90;
             convertedRotation = Math.abs(getRotation()) % 360;
+
         }
+
+
+
 
         currentRotation = Math.toRadians(currentRotation);
 
+
+
+
         //Assuming origin of the coordinate system is located at center of tower,
         //the if-elseif-else below checks if bullet should be quadrant II, III, IV, or I (in that order)
-        //the cases where the rotation equals 90, 180, 270, and 360 are checked first.
+        //the cases where the rotation equals 90, 180, and 270 are checked first.
+
         if(convertedRotation == 0){
 
             deltaX = 0;
@@ -311,8 +326,8 @@ public class Tower extends Sprite implements  Pool.Poolable{
                 deltaX = - radius;
                 deltaY = 0;
             }
-            else {
-                deltaX = -radius;
+            else{
+                deltaX = - radius;
                 deltaY = 0;
             }
         }
@@ -325,6 +340,7 @@ public class Tower extends Sprite implements  Pool.Poolable{
                 deltaX = 0;
                 deltaY = -radius;
             }
+
         }
 
         else if(convertedRotation == 270){
@@ -336,11 +352,12 @@ public class Tower extends Sprite implements  Pool.Poolable{
                 deltaX = radius;
                 deltaY = 0;
             }
+
         }
 
         else if(convertedRotation == 360){
             deltaX = 0;
-            deltaY = radius;
+            deltaY =  radius;
         }
         else if(convertedRotation < 90){
 
@@ -352,6 +369,8 @@ public class Tower extends Sprite implements  Pool.Poolable{
                 deltaX = - (float)(Math.cos(currentRotation)*radius);
                 deltaY = -(float)(Math.sin(currentRotation)*radius);
             }
+
+
         }
 
         else if( convertedRotation < 180){
@@ -362,9 +381,11 @@ public class Tower extends Sprite implements  Pool.Poolable{
             else{
                 deltaX = (float)(Math.sin(currentRotation)*radius);
                 deltaY =  - (float)(Math.cos(currentRotation)*radius);
-            }
-        }
 
+            }
+
+
+        }
         else if ( convertedRotation < 270){
             if(currentRotation > 0){
                 deltaX =  (float)(Math.sin(currentRotation)*radius);
@@ -374,23 +395,28 @@ public class Tower extends Sprite implements  Pool.Poolable{
                 deltaX = (float)(Math.cos(currentRotation)*radius);
                 deltaY =   (float)(Math.sin(currentRotation)*radius);
             }
+
         }
 
         else if( convertedRotation < 360){
+
             if(currentRotation > 0){
                 deltaX = (float)(Math.cos(currentRotation)*radius);
                 deltaY = (float)(Math.sin(currentRotation)*radius);
             }
+
             else{
                 deltaX = -(float)(Math.sin(currentRotation)*radius);
                 deltaY = (float)(Math.cos(currentRotation)*radius);
             }
+
         }
 
         x = getCenterX() + deltaX;
         y = getCenterY() + deltaY;
 
         return new Vector2(x,y);
+
     }
 
 
@@ -428,7 +454,8 @@ public class Tower extends Sprite implements  Pool.Poolable{
         explode = false;
         state = true;
         alive = true;
-        target = new Enemy(new Vector2(10f, 5000f));//dummy pointer.
+        //target = new Enemy(new Vector2(10f, 5000f));//dummy pointer.
+        target = null;
         attack = originalAttack;
         range = originalRange;
         cost = originalCost;

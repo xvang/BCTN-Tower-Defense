@@ -3,6 +3,7 @@ package com.padisDefense.game.Managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Path;
 import com.badlogic.gdx.math.Vector2;
@@ -382,7 +383,12 @@ public class EnemyManager {
 
         //System.out.println("change to: " + newBall);
 
-        end = new Sprite(padi.assets.skin_balls.getSprite(newBall));
+        TextureRegion r = padi.assets.skin_balls.getRegion(newBall);
+
+        end.setRegion(r);
+        end.setBounds(end.getX(), end.getY(), r.getRegionWidth(), r.getRegionHeight());
+
+        //end = new Sprite(padi.assets.skin_balls.getSprite(newBall));
 
         end.setSize(150f, 150f);
         end.setCenterX(endPosition.x);

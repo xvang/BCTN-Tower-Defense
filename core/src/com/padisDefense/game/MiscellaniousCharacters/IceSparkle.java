@@ -12,16 +12,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class IceSparkle{
 
-    Animation walkAnimation;
+    public Animation walkAnimation;
     TextureRegion currentFrame;
-
+    public Texture walkSheet;
     public float stateTime;
 
     public IceSparkle(){
         final int        FRAME_ROWS = 8;
         final int        FRAME_COLS = 8;
 
-        Texture walkSheet = new Texture(Gdx.files.internal("animation/particlefx_07.png")); // #9
+        walkSheet = new Texture(Gdx.files.internal("animation/particlefx_07.png")); // #9
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, walkSheet.getHeight()/FRAME_ROWS);              // #10
 
         //walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS*2];

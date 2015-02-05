@@ -12,7 +12,7 @@ public class BipedalDragon extends Enemy{
 
     public BipedalDragon(){
         //health, armor, texture
-        super(600, 40, "bestgoblin.png");
+        super(950, 40, "bestgoblin.png");
         setName("bipedaldragon");
         setRate(0.13f + (float)Math.random()*0.031f);
         setOriginalRate(getRate());

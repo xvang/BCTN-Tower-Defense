@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -57,6 +58,7 @@ public class TowerManager{
 
         //freeing all towers into pool.
         padi.assets.towerPool.freeAll(tempStorage);
+        tempStorage.clear();
     }
 
     /**
@@ -271,8 +273,12 @@ public class TowerManager{
             pointer.reset();
 
             //reset the picture.
-            Sprite sprite = padi.assets.towerAtlas.createSprite(pointer.getID(), 1);
-            pointer.set(sprite);
+
+            TextureRegion r = padi.assets.towerAtlas.findRegion(pointer.getID(), 1);
+            pointer.setRegion(r);
+            pointer.setBounds(pointer.getX(), pointer.getY(), r.getRegionWidth(), r.getRegionHeight());
+           // Sprite sprite = padi.assets.towerAtlas.createSprite(pointer.getID(), 1);
+            //pointer.set(sprite);
 
 
 
@@ -410,8 +416,14 @@ public class TowerManager{
 
         for(int x = 0 ;x < towerArray.size; x++){
             Tower t = towerArray.get(x);
-            Sprite sprite = padi.assets.towerAtlas.createSprite(t.getID(), 1);
-            t.set(sprite);//resets the image back to lvl 1.
+            //Sprite sprite = padi.assets.towerAtlas.createSprite(t.getID(), 1);
+            //t.set(sprite);//resets the image back to lvl 1.
+
+            TextureRegion region = padi.assets.towerAtlas.findRegion(t.getID(), 1);
+            t.setRegion(region);
+            t.setBounds(t.getX(), t.getY(), region.getRegionWidth(), region.getRegionHeight());
+
+
             t.reset();//resets the stats back to original.
         }
         padi.assets.towerPool.freeAll(towerArray);

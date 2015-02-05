@@ -50,7 +50,7 @@ public class BulletManager {
             //Here is where the different firing towers are implemented...?
             if(t.getID().equals(/*"RED"*/"")){
 
-                //System.out.println("FIRIN MA LASER");
+                //System.out.println("FIRIN LASER");
                 //laserShot(batch,enemyLocation, towerLocation);
             }
             else{
@@ -67,7 +67,7 @@ public class BulletManager {
                 if(t.getActiveBullets().size < t.getBulletLimit() && t.hasTarget && t.lockedOnTarget /*&& t.explosion.stateTime == 0*/){
 
                     Bullet item = t.getPool().obtain();
-                    item.init(t.getBulletSpawnLocation());
+                    item.init(towerLocation);
 
                     item.setTime(0);
 
@@ -78,6 +78,7 @@ public class BulletManager {
                 for(int x = 0;x < t.getActiveBullets().size; x++){
 
                     Bullet currentBullet = t.getActiveBullets().get(x);
+
                     //time is from the bullet
                     float time = (currentBullet.getTime() + t.getBulletRate());
 

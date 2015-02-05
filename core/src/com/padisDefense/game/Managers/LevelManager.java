@@ -62,44 +62,44 @@ public class LevelManager {
             case (1):
                 path = 1;
                 enemyAmount = 200;
-                initialMoney = 1000;
+                initialMoney = 10000;
                 break;
             case (2):
                 path = 2;
                 enemyAmount = 300;
-                initialMoney = 1100;
+                initialMoney = 11000;
                 break;
             case (3):
                 path = 3;
                 enemyAmount = 310;
-                initialMoney = 1500;
+                initialMoney = 15000;
                 break;
             case (4):
                 path = 4;
                 enemyAmount = 330;
-                initialMoney = 1500;
+                initialMoney = 15000;
                 break;
             case (5):
                 path = 5;
                 enemyAmount = 350;
-                initialMoney = 1800;
+                initialMoney = 18000;
                 break;
 
             case (6):
                 path = 6;
                 enemyAmount = 400;
-                initialMoney = 2000;
+                initialMoney = 20000;
                 break;
             case (7):
                 path = 7;
                 enemyAmount = 555;
-                initialMoney = 2000;
+                initialMoney = 20000;
                 break;
 
             default:
                 path = 1;
                 enemyAmount = 100;
-                initialMoney = 500;
+                initialMoney = 5000;
                 break;
         }
     }
